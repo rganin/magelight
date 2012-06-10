@@ -1,0 +1,16 @@
+<!-- 
+{[a-zA-Z0-9_\-]*}
+-->
+
+<routes>
+    <module name="Ws\Core">
+        <route match="user/{id}" controller="user" action="profile" rank="1" />
+        <route match="user/edit/{id}" controller="user" action="edit" rank="1" />
+        
+    </module>
+    <module name="Admin">
+        <route match="admin" controller="admin">
+            
+        </route>
+    </module>
+</routes>

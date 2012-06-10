@@ -15,17 +15,31 @@
  * This file is a part of a framework. Please, do not modify it unless you discard
  * further updates.
  * 
+ * @version $$version_placeholder_notice$$
+ * @uthor $$author_placeholder_notice$$
  * @copyright Copyright (c) 2012 rganin (rganin@gmail.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-define('PS', PATH_SEPARATOR);
-define('DS', DIRECTORY_SEPARATOR);
-define('DEVELOPER_MODE', true);
+namespace Bike;
 
-function autoload($className)
+class Router
 {
-    require_once 'components' . DS . $className . '.php';
+    const DEFAULT_ROUTE = '/';
+    
+    const DEFAULT_ACTION = 'index';
+    
+    private $routes = array();
+    
+    public function getCurrentRoute()
+    {
+        
+    }
+    
+    public function parseRoutes($file)
+    {
+        $xml = simplexml_load_file($file);
+        
+        var_export($xml->children()->attributes());
+    }
 }
-
-spl_autoload_register('autoload');

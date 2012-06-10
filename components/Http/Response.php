@@ -15,17 +15,31 @@
  * This file is a part of a framework. Please, do not modify it unless you discard
  * further updates.
  * 
+ * @version $$version_placeholder_notice$$
+ * @uthor $$author_placeholder_notice$$
  * @copyright Copyright (c) 2012 rganin (rganin@gmail.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-define('PS', PATH_SEPARATOR);
-define('DS', DIRECTORY_SEPARATOR);
-define('DEVELOPER_MODE', true);
 
-function autoload($className)
+namespace Http;
+
+class Response
 {
-    require_once 'components' . DS . $className . '.php';
+    private $_headers = array();
+    
+    public function __construct()
+    {
+        
+    }
+    
+    public function setHeader($name, $value)
+    {
+        $this->_headers[$name] = $value;
+    }
+    
+    public function send()
+    {
+        
+    }
 }
-
-spl_autoload_register('autoload');
