@@ -25,7 +25,7 @@ define('DEVELOPER_MODE', true);
 
 function autoload($className)
 {
-    require_once 'components' . DS . $className . '.php';
+    require_once $className . '.php';
 }
 
 spl_autoload_register('autoload');

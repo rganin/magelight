@@ -1,16 +1,15 @@
 <!-- 
-{[a-zA-Z0-9_\-]*}
--->
-
+Default mask is {[a-zA-Z0-9_\-]+}
+-->        
 <routes>
-    <module name="Ws\Core">
-        <route match="user/{id}" controller="user" action="profile" rank="1" />
-        <route match="user/edit/{id}" controller="user" action="edit" rank="1" />
-        
-    </module>
-    <module name="Admin">
+    <Admin>
+        <route match="" controller="index" action="index" />
         <route match="admin" controller="admin">
-            
+            <route match="user/{id}" controller="user" rank="1">
+                <route match="list" action="list" />
+                <route match="edit" action="edit" />
+                <route match="save" action="save" />    
+            </route>
         </route>
-    </module>
+    </Admin>
 </routes>

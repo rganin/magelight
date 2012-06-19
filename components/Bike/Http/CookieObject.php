@@ -22,7 +22,7 @@
  */
 
 
-namespace Http;
+namespace Bike\Http;
 /**
  * @method CookieObject setTtl(int $ttl)
  * @method CookieObject setKey(string $key)

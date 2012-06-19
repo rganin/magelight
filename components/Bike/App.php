@@ -32,27 +32,59 @@ class App
      */
     protected $_documents = array();
     
+    protected $_errors = array();
+    
+    protected $_config = array();
+    
+    protected $_modules = array();
+    
     /**
      * Get document
      * 
      * @param string $index
-     * @return \Html\Document
+     * @return \Bike\Html\Document
      */
     public function document($index = 'default')
     {
         if (!isset($this->_documents[$index])) {
-            $this->_documents[$index] = new \Html\Document();
+            $this->_documents[$index] = new \Bike\Html\Document();
         }
         return $this->_documents[$index];
     }
     
-    public function router()
+    public function loadModules($modulesXmlFilename)
     {
+        $xml = simplexml_load_file($modulesXmlFilename);
+        if ($xml->getName() === 'modules') {
+            $this->_config = \Bike\Helpers\XmlHelper::xmlToBikeArray($xml);
+            var_dump($this->_config);
+        } else {
+            throw new \Bike\Exception('Config file ' . $modulesXmlFilename . ' is broken!');
+        }
+        return $this;
+    }
+    
+    public function addModule(\Bike\Module $module)
+    {
+        $this->_modules[$module->getName()] = $module;
+    }
+    
+    public function loadConfig($filename)
+    {
+        
         
     }
     
+    
+    
     public function run()
     {
-        
+        try {
+            $request = new \Bike\Http\Request();
+        } catch (\Bike\Exception $e) {
+            
+        } catch (\Exception $e) {
+            
+        }
     }
 }

@@ -23,7 +23,7 @@
 
 
 
-namespace Html;
+namespace Bike\Html;
 
 class Body extends Tag
 {

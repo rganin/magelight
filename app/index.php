@@ -23,7 +23,6 @@
 
 
 require '../core.php';
-ini_set('include_path', ini_get('include_path') . PATH_SEPARATOR . '..' . PATH_SEPARATOR . '../components');
+ini_set('include_path', ini_get('include_path') . PS . './modules' . PS . '../components');
 
-$r = new Bike\Router();
-$r->parseRoutes('modules/Admin\config/routes.xml');
+Bike::app()->loadConfig('config.xml')->run();

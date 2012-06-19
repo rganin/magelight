@@ -22,7 +22,7 @@
  */
 
 
-namespace Http;
+namespace Bike\Http;
 
 class Request
 {
@@ -30,6 +30,13 @@ class Request
      * Default request merging order
      */
     const DEFAULT_REQUEST_MERGE_ORDER = 'GP';
+    
+    /**
+     * Request method
+     * 
+     * @var string
+     */
+    private $_method = 'GET';
     
     /**
      * GET params
@@ -53,6 +60,13 @@ class Request
     private $_request;
     
     /**
+     * Request path
+     * 
+     * @var string
+     */
+    private $_requestRoute = '/';
+       
+    /**
      * Constructor
      * 
      * @param array $get
@@ -61,6 +75,17 @@ class Request
      */
     public function __construct($get = array(), $post = array(), $requestOrder = self::DEFAULT_REQUEST_MERGE_ORDER)
     {
+        if (isset($_SERVER['REQUEST_METHOD'])) {
+            $this->_method = $_SERVER['REQUEST_METHOD'];
+        }
+        
+        if (isset($_SERVER['REQUEST_URI'])) {
+            $request = explode('?', $_SERVER['REQUEST_URI']);
+            if (isset($request[0])) {
+                $this->_requestRoute = $request[0];
+            }
+        }
+        
         if (empty($get)) {
             $this->_get = &$_GET;
         } else {
@@ -78,8 +103,10 @@ class Request
         } else {
             $this->_request = $this->mergeRequest($get, $post);
         }
+        
+        var_dump($this);
     }
-    
+       
     /**
      * Merge request var
      * 
@@ -130,6 +157,27 @@ class Request
     public function getPost($key, $default = null)
     {
         return isset($this->_post[$key]) ? $this->_post[$key] : $default;
+    }
+    
+    /**
+     * Append to get array
+     * 
+     * @param array $appendArray
+     */
+    public function appendGet($appendArray = array())
+    {
+        $this->_get = array_merge($this->_get, $appendArray);
+        $this->_request = array_merge($this->_get, $this->_post);
+    }
+    
+    /**
+     * Get request method
+     * 
+     * @return string
+     */
+    public function getMethod()
+    {
+        return $this->_method;
     }
     
     /**

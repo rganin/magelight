@@ -22,7 +22,7 @@
  */
 
 
-namespace Http;
+namespace Bike\Http;
 
 class Cookies
 {
