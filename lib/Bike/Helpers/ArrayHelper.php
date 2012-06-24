@@ -21,9 +21,36 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Bike;
+namespace Helpers;
 
-class Log
+class ArrayHelper
 {
+    /**
+     * Insert to array
+     * 
+     * @param array $array
+     * @param string $key
+     * @param mixed $value
+     * @param string $after
+     * @return array
+     */
+    public static function insertToArray($array, $key, $value, $after = null)
+    {
+        if (empty($after)) {
+            $array[$key] = $value; 
+            return $array;
+        }
+        $tmp = array();
+        foreach (array_keys($array) as $pkey) {
+            $tmp[$pkey] = $array[$pkey];  
+            if ($pkey === $after) {
+                $tmp[$key] = $value;
+            }
+        }
+        $array = $tmp;
+        return $array;
+    }
+    
+  
 
 }

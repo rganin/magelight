@@ -23,6 +23,6 @@
 
 
 require '../core.php';
-ini_set('include_path', ini_get('include_path') . PS . './modules' . PS . '../components');
+ini_set('include_path', ini_get('include_path') . PS . './modules' . PS . '../lib');
 
-Bike::app()->loadConfig('config.xml')->run();
+Bike::app()->setAppDir(dirname(dirname(__FILE__)))->run(false);

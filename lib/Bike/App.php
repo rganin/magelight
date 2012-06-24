@@ -32,11 +32,48 @@ class App
      */
     protected $_documents = array();
     
-    protected $_errors = array();
+    /**
+     * Application directory
+     * 
+     * @var string
+     */
+    protected $_appDir = './';
     
+    /**
+     * Configuration
+     * 
+     * @var array
+     */
     protected $_config = array();
     
+    /**
+     * Modules collection
+     * 
+     * @var array
+     */
     protected $_modules = array();
+    
+    /**
+     * Get application directory
+     * 
+     * @return string
+     */
+    public function getAppDir()
+    {
+        return $this->_appDir;
+    }
+    
+    /**
+     * Set application directory
+     * 
+     * @param $directory
+     * @return App
+     */
+    public function setAppDir($directory)
+    {
+        $this->_appDir = $directory . DIRECTORY_SEPARATOR;
+        return $this;
+    }
     
     /**
      * Get document
@@ -52,39 +89,46 @@ class App
         return $this->_documents[$index];
     }
     
+    /**
+     * Load modules from file
+     * 
+     * @param $modulesXmlFilename
+     * @return \Bike\App
+     */
     public function loadModules($modulesXmlFilename)
     {
         $xml = simplexml_load_file($modulesXmlFilename);
-        if ($xml->getName() === 'modules') {
-            $this->_config = \Bike\Helpers\XmlHelper::xmlToBikeArray($xml);
-            var_dump($this->_config);
-        } else {
-            throw new \Bike\Exception('Config file ' . $modulesXmlFilename . ' is broken!');
-        }
+        $modulesLoader = new \Bike\Loaders\Modules($xml);
+        $this->_modules = $modulesLoader->getActiveModules();
+        var_dump($this->_modules);
+        unset($modulesLoader);
         return $this;
     }
     
-    public function addModule(\Bike\Module $module)
-    {
-        $this->_modules[$module->getName()] = $module;
-    }
     
     public function loadConfig($filename)
     {
-        
+        return $this;
         
     }
     
     
     
-    public function run()
+    public function run($muteExceptions = true)
     {
         try {
+            $this->loadModules('modules.xml');
             $request = new \Bike\Http\Request();
+            var_dump($this);
         } catch (\Bike\Exception $e) {
-            
+            \Bike\Log::add($e->getMessage()); 
+            if (!$muteExceptions) {
+                throw $e;
+            }
         } catch (\Exception $e) {
-            
+            if (!$muteExceptions) {
+                throw $e;
+            }
         }
     }
 }

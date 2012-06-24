@@ -21,34 +21,25 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Helpers;
+namespace Bike;
 
-class ArrayHelper
+class Log
 {
     /**
-     * Insert to array
+     * Add message to application log
      * 
-     * @param array $array
-     * @param string $key
-     * @param mixed $value
-     * @param string $after
-     * @return array
+     * @static
+     * @param $logMessage
+     * @param string $logFile
      */
-    public static function insertToArray($array, $key, $value, $after = null)
+    public static function add($logMessage, $logFile = 'error.log')
     {
-        if (empty($after)) {
-            $array[$key] = $value; 
-            return $array;
-        }
-        $tmp = array();
-        foreach (array_keys($array) as $pkey) {
-            $tmp[$pkey] = $array[$pkey];  
-            if ($pkey === $after) {
-                $tmp[$key] = $value;
-            }
-        }
-        $array = $tmp;
-        return $array;
+        $time = date('d-m-Y H:i:s', time());
+        $message = "{$time} - {$logMessage}";
+        $f = fopen($logFile, 'a+');
+        flock($f, LOCK_EX);
+        fwrite($f, $message . PHP_EOL);
+        flock($f, LOCK_UN);
+        fclose($f);
     }
-
 }
