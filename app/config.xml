@@ -1,0 +1,6 @@
+<config>
+    <merge_js>0</merge_js>
+    <merge_css>0</merge_css>
+    <minify_js>0</minify_js>
+    <minify_css>0</minify_css>
+</config>
