@@ -64,6 +64,13 @@ class App
      * @var array
      */
     protected $_modules = array();
+
+    /**
+     * Is app in developer mode
+     *
+     * @var bool
+     */
+    protected $_developerMode = false;
     
     /**
      * Get application directory
@@ -73,6 +80,28 @@ class App
     public function getAppDir()
     {
         return $this->_appDir;
+    }
+
+    /**
+     * Set application dev mode
+     *
+     * @param bool $value
+     * @return App
+     */
+    public function setDeveloperMode($value = true)
+    {
+        $this->_developerMode = (bool) $value;
+        return $this;
+    }
+
+    /**
+     * Is app in developer mode
+     *
+     * @return bool
+     */
+    public function isInDeveloperMode()
+    {
+        return $this->_developerMode;
     }
     
     /**
