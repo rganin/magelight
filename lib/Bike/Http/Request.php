@@ -103,8 +103,16 @@ class Request
         } else {
             $this->_request = $this->mergeRequest($get, $post);
         }
-        
-        var_dump($this);
+    }
+    
+    /**
+     * Get request route
+     * 
+     * @return string
+     */
+    public function getRequestRoute()
+    {
+        return $this->_requestRoute;    
     }
        
     /**

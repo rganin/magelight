@@ -25,4 +25,4 @@
 require '../core.php';
 ini_set('include_path', ini_get('include_path') . PS . './modules' . PS . '../lib');
 
-Bike::app()->setAppDir(dirname(dirname(__FILE__)))->run(false);
+Bike::app()->setAppDir(dirname(__FILE__))->run();

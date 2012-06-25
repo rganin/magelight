@@ -142,9 +142,9 @@ final class Modules
     public function getActiveModules()
     {
         $modules = array();
-        foreach ($this->_modules as $module) {
+        foreach ($this->_modules as $name => $module) {
             if ($module['active']) {
-                $modules[] = $module;
+                $modules[$name] = $module;
             }
         }
         return $modules;

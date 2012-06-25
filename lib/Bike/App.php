@@ -26,11 +26,23 @@ namespace Bike;
 class App
 {
     /**
+     * Default scope
+     */
+    const DEFAULT_SCOPE = 'default';
+    
+    /**
      * Documents array
      * 
      * @var array[\Html\Document]
      */
     protected $_documents = array();
+    
+    /**
+     * Application routers
+     * 
+     * @var array
+     */
+    protected $_routers = array();
     
     /**
      * Application directory
@@ -81,12 +93,26 @@ class App
      * @param string $index
      * @return \Bike\Html\Document
      */
-    public function document($index = 'default')
+    public function document($index = self::DEFAULT_SCOPE)
     {
         if (!isset($this->_documents[$index])) {
             $this->_documents[$index] = new \Bike\Html\Document();
         }
         return $this->_documents[$index];
+    }
+    
+    /**
+     * Get router
+     * 
+     * @param string $index
+     * @return \Bike\Router
+     */
+    public function router($index = self::DEFAULT_SCOPE)
+    {
+        if (!isset($this->_routers[$index])) {
+            $this->_routers[$index] = new \Bike\Router();
+        }
+        return $this->_routers[$index];
     }
     
     /**
@@ -100,11 +126,24 @@ class App
         $xml = simplexml_load_file($modulesXmlFilename);
         $modulesLoader = new \Bike\Loaders\Modules($xml);
         $this->_modules = $modulesLoader->getActiveModules();
-        var_dump($this->_modules);
         unset($modulesLoader);
         return $this;
     }
     
+    /**
+     * Load routes by modules
+     * 
+     * @return App
+     */
+    public function loadRoutes()
+    {
+        $routesLoader = new \Bike\Loaders\Routes();
+        foreach (array_keys($this->_modules) as $moduleName) {
+            $routesLoader->parseRoutes($this->getAppDir() . 'modules' . DS . $moduleName . DS . 'config' . DS . 'routes.xml');
+        }
+        $this->router()->setRoutes($routesLoader->getRoutes());
+        return $this;
+    }
     
     public function loadConfig($filename)
     {
@@ -114,12 +153,14 @@ class App
     
     
     
-    public function run($muteExceptions = true)
+    public function run($scope = self::DEFAULT_SCOPE, $muteExceptions = true)
     {
         try {
-            $this->loadModules('modules.xml');
+            $this->loadModules('modules.xml')->loadRoutes();
             $request = new \Bike\Http\Request();
-            var_dump($this);
+            $action = $this->router($scope)->getAction((string) $request->getRequestRoute());
+            $request->appendGet($action['arguments']);
+            $this->dispatchAction($action, $request);
         } catch (\Bike\Exception $e) {
             \Bike\Log::add($e->getMessage()); 
             if (!$muteExceptions) {
@@ -130,5 +171,18 @@ class App
                 throw $e;
             }
         }
+    }
+    
+    protected function dispatchAction($action, $request)
+    {
+//        var_dump($action);
+        $controllerName = $action['module'] . '\\Controllers\\' . ucfirst($action['controller']);
+        $controllerMethod = $action['action'] . 'Action';
+        $controller = new $controllerName($request, $this);
+        /* @var $controller \Bike\Controller*/
+        $controller->beforeExec();
+        $controller->$controllerMethod();
+        $controller->afterExec();
+        return $this;
     }
 }

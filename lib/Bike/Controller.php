@@ -25,10 +25,75 @@ namespace Bike;
 
 abstract class Controller
 {
-    protected $request = null;
+    /**
+     * Request
+     * 
+     * @var Http\Request|null
+     */
+    protected $_request = null;
     
-    public function init()
+    protected $_app = null;
+    
+    /**
+     * Constructor
+     * 
+     * @param Http\Request $request
+     * @param \Bike\App $app
+     */
+    public function __construct(\Bike\Http\Request $request, \Bike\App $app)
     {
-            
+        $this->_request = $request;
+        $this->_app = $app;
+    }
+    
+    /**
+     * Get app
+     * 
+     * @return App|null
+     */
+    public function app()
+    {
+        return $this->_app;
+    }
+    
+    /**
+     * Get application document
+     * 
+     * @param string $scope
+     * @return Html\Document
+     */
+    public function document($scope = \Bike\App::DEFAULT_SCOPE)
+    {
+        return $this->app()->document($scope);    
+    }
+    
+    /**
+     * Get request
+     * 
+     * @return Http\Request|null
+     */
+    protected function request()
+    {
+        return $this->_request;
+    }
+    
+    /**
+     * Before execution
+     * 
+     * @return void
+     */
+    public function beforeExec()
+    {
+        return;
+    }
+    
+    /**
+     * After execution
+     * 
+     * @return void
+     */
+    public function afterExec()
+    {
+        return;
     }
 }

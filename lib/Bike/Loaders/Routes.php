@@ -25,5 +25,224 @@ namespace Bike\Loaders;
 
 class Routes
 {
+    /**
+     * Default route
+     */
+    const DEFAULT_ROUTE = '/';
     
+    /**
+     * Default action
+     */
+    const DEFAULT_ACTION = 'index';
+    
+    /**
+     * Default controller
+     */
+    const DEFAULT_CONTROLLER = 'index';
+    
+    /**
+     * Default route rank
+     */
+    const DEFAULT_RANK = 0;
+    
+    /**
+     * Default route var regexp
+     */
+    const DEFAULT_REGEX = 'a-zA-Z0-9_\-';
+    
+    /**
+     * Routes
+     * 
+     * @var array
+     */
+    private $_routes = array();
+    
+    /**
+     * Parse routes from file
+     * 
+     * @param $file
+     * @return Routes
+     */
+    public function parseRoutes($file)
+    {
+        $xml = simplexml_load_file($file);
+        return $this->parseXmlModules($xml);
+    }
+    
+    /**
+     * Get loaded routes
+     * 
+     * @return array
+     */
+    public function getRoutes()
+    {
+        return $this->_routes;
+    }
+    
+    /**
+     * Parse modules from xml
+     * 
+     * @param \SimpleXMLElement $xmlObject
+     * @return Routes
+     */
+    public function parseXmlModules(\SimpleXMLElement $xmlObject)
+    {
+        foreach ($xmlObject->children() as $module) {
+            $this->parseModuleRoutes($module);
+        }
+        return $this;
+    }
+    
+    /**
+     * Parse module routes from xml
+     * 
+     * @param \SimpleXMLElement $moduleRoutesXml
+     * @return Routes
+     */
+    public function parseModuleRoutes(\SimpleXMLElement $moduleRoutesXml)
+    {
+        $moduleName = $moduleRoutesXml->getName();
+        foreach ($moduleRoutesXml->children() as $child) {
+            $this->parseRoute($child, $moduleName);
+        }
+        return $this;
+    }
+    
+    /**
+     * Parse routes XML recursively
+     * 
+     * @param \SimpleXMLElement $routeXml
+     * @param string $moduleName
+     * @param null $parentRoute
+     * @return Routes
+     * @throws \Bike\Exception
+     */
+    public function parseRoute(\SimpleXMLElement $routeXml, $moduleName, $parentRoute = null)
+    {
+        if ($routeXml->getName() === 'route') {
+            $route['module'] = $moduleName;
+            $route['match'] = (isset($parentRoute['match']) ? $parentRoute['match'] : '' ) 
+                . '/' 
+                . ltrim($routeXml->attributes()->match, '/');
+            
+            if (is_null($route['match'])) {
+                throw new \Bike\Exception('Route without match in module ' . $moduleName);
+            } else {
+                
+                $rank = (isset($routeXml->attributes()->rank)) ? (int) $routeXml->attributes()->rank : self::DEFAULT_RANK;
+                if ($this->canOverrideRoute($moduleName, $route['match'], $rank)) {
+                    
+                    $route['arguments'] = array();
+                    $route['rank'] = $rank;
+                    $route['regex'] = $this->isRegex($route['match']);
+                    $route['headers'] = $this->getRouteHeaders($routeXml);
+        
+                    $routeKey = $route['regex'] ? $this->matchToRegex($route['match']) : $route['match'];
+                    
+                    if (is_null($routeXml->attributes()->controller)) {
+                        $route['controller'] = 
+                            isset($parentRoute['controller']) 
+                                ? $parentRoute['controller'] 
+                                : self::DEFAULT_CONTROLLER;
+                    } else {
+                        $route['controller'] = (string) $routeXml->attributes()->controller;
+                    }
+                    
+                    if (is_null($routeXml->attributes()->action)) {
+                        $route['action'] = 
+                            isset($parentRoute['action']) 
+                            ? $parentRoute['action'] 
+                            : self::DEFAULT_ACTION;
+                    } else {
+                        $route['action'] = (string) $routeXml->attributes()->action;
+                    }
+                    $this->_routes[$routeKey] = $route;
+                }
+            }
+            
+            foreach ($routeXml->children() as $childRouteXml) {
+                $this->parseRoute($childRouteXml, $moduleName, $route);
+            }
+        }
+        return $this;
+    }
+    
+    /**
+     * Get route headers
+     * 
+     * @param \SimpleXMLElement $routeXml
+     * @return array
+     */
+    public function getRouteHeaders(\SimpleXMLElement $routeXml)
+    {
+        $headers = array();
+        foreach ($routeXml->children() as $header) {
+            /* @var $header \SimpleXMLElement*/
+            if ($header->getName() === 'header') {
+                $headers[] = (string) $header;
+            }
+        }
+        return $headers;
+    }
+    
+    /**
+     * Check if route can override existing one
+     * 
+     * @param $moduleName
+     * @param $match
+     * @param $rank
+     * @return bool
+     * @throws \Bike\Exception
+     */
+    public function canOverrideRoute($moduleName, $match, $rank)
+    {
+        if (isset($this->_routes[$match]['rank'])) {
+            if ($this->_routes[$match]['rank'] === $rank) {
+                throw new \Bike\Exception(
+                    'Routes with same match (' 
+                    . $match 
+                    . ') and rank (' 
+                    . $rank 
+                    . ') in modules ' 
+                    . $moduleName 
+                    . ' and ' 
+                    . $this->_routes[$match]['module']
+                );    
+            } elseif ($this->_routes[$match]['rank'] > $rank) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    /**
+     * Convert match to regular expression
+     * 
+     * @param $matchKey
+     * @return mixed
+     */
+    public function matchToRegex($matchKey)
+    {
+        if (preg_match_all("/\{(?P<name>([a-z]+))(\:(?P<regex>(.*)))*\}/iU", $matchKey, $matches, PREG_SET_ORDER)) {
+            foreach ($matches as $match) {
+                $name = $match['name'];
+                $mask = isset($match['regex']) ? $match['regex'] : self::DEFAULT_REGEX;
+                $matchKey = preg_replace("/(\{$name([^\}]*)\})/i", "(?P<$name>([$mask]*))", $matchKey);
+            }
+        }
+        $matchKey = preg_replace("/(\/)/i", "\\/", $matchKey);
+        $matchKey = '#^' . $matchKey . '[\/]*$#suU';
+        return $matchKey;
+    }
+    
+    /**
+     * Is route requires a regex
+     * 
+     * @param $match
+     * @return bool
+     */
+    public function isRegex($match)
+    {
+        return strpos($match, '{') !== false; // strict comparison required
+    }
 }

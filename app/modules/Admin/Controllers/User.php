@@ -25,8 +25,5 @@ namespace Admin\Controllers;
 
 class User extends \Bike\Controller
 {
-    public function __construct()
-    {
-        echo __NAMESPACE__;
-    }
+
 }
