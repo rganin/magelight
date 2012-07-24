@@ -30,27 +30,27 @@ class Tag
      * 
      * @var string
      */
-    private $_name = 'div';
+    protected $_name = 'div';
     
     /**
      * Tag attributes
      * 
      * @var array
      */
-    private $_attributes = array();
+    protected $_attributes = array();
     
     /**
      * Tag inner content
      * 
      * @var null
      */
-    private $_content = null;
+    protected $_content = null;
     
     /**
      * Is short tag (enclosed)
      * @var bool
      */
-    private $_short = false;
+    protected $_short = false;
     
     /**
      * Constructor
