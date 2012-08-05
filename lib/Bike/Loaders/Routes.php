@@ -26,6 +26,11 @@ namespace Bike\Loaders;
 class Routes
 {
     /**
+     * Regular expression for routes matching
+     */
+    const MATCH_REGEX = "/\{(?P<name>([a-z0-9\-_]+))(\:(?P<regex>(.*)))*\}/iU"; 
+    
+    /**
      * Default route
      */
     const DEFAULT_ROUTE = '/';
@@ -230,7 +235,7 @@ class Routes
      */
     public function matchToRegex($matchKey)
     {
-        if (preg_match_all("/\{(?P<name>([a-z0-9\-_]+))(\:(?P<regex>(.*)))*\}/iU", $matchKey, $matches, PREG_SET_ORDER)) {
+        if (preg_match_all(self::MATCH_REGEX, $matchKey, $matches, PREG_SET_ORDER)) {
             foreach ($matches as $match) {
                 $name = $match['name'];
                 $mask = isset($match['regex']) ? $match['regex'] : self::DEFAULT_REGEX;

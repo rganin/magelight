@@ -126,7 +126,7 @@ class UrlHelper extends \Bike\Prototypes\Singleton
      */
     protected function checkParamsWithPlaceholderMask($match, $params) 
     {
-        if (preg_match_all("/\{(?P<name>([a-z0-9\-_]+))(\:(?P<regex>(.*)))*\}/iU", $match, $matches, PREG_SET_ORDER)) {
+        if (preg_match_all( \Bike\Loaders\Routes::MATCH_REGEX, $match, $matches, PREG_SET_ORDER)) {
             foreach ($matches as $match) {
                 $name = $match['name'];
                 $mask = isset($match['regex']) ? $match['regex'] : \Bike\Loaders\Routes::DEFAULT_REGEX;
