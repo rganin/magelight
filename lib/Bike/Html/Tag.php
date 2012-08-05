@@ -63,13 +63,13 @@ class Tag
     }
     
     /**
-     * Add tag attribute
+     * Set tag attribute
      * 
      * @param string $name
      * @param string $value
      * @return Tag
      */
-    public function addAttribute($name, $value)
+    public function setAttribute($name, $value)
     {
         $this->_attributes[$name] = $value;
         return $this;

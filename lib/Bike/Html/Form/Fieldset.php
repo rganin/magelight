@@ -28,3 +28,7 @@
 
 namespace Bike\Html\Form;
 
+class Fieldset extends \Bike\Html\Tag
+{
+    
+}

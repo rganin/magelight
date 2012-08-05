@@ -27,6 +27,8 @@ class Index extends \Bike\Controller
 {
     public function indexAction()
     {
-        
+        $urlHelper = \Bike::helper('url');
+        /* @var \Bike\Helpers\UrlHelper $urlHelper*/
+        echo $urlHelper->getBaseUrl();
     }
 }

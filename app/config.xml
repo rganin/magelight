@@ -1,6 +1,9 @@
 <config>
-    <merge_js>0</merge_js>
-    <merge_css>0</merge_css>
-    <minify_js>0</minify_js>
-    <minify_css>0</minify_css>
+    <global>
+        <merge_js>0</merge_js>
+        <merge_css>0</merge_css>
+        <minify_js>0</minify_js>
+        <minify_css>0</minify_css>
+        <!--<base_domain rank="4">fwapp.loc</base_domain>-->
+    </global>
 </config>

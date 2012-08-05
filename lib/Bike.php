@@ -43,4 +43,38 @@ final class Bike
         }
         return self::$_app;
     }
+
+    /**
+     * Get helper by name
+     * @static
+     * 
+     * @param $name
+     *
+     * @return mixed
+     * @throws Bike\Exception
+     */
+    public static function helper($name)
+    {
+        $name = ucfirst($name);
+        try {
+            $helper = call_user_func(array('\\Bike\\Helpers\\' . $name . 'Helper', 'getInstance'));    
+        } catch (Exception $e) {
+            throw new \Bike\Exception($e->getMessage());
+        }
+        return $helper;
+    }
+
+    /**
+     * Dump variable to STD or SOCKET output
+     * 
+     * @static
+     *
+     * @param $var
+     */
+    public static function dump($var)
+    {
+        echo '<pre>';
+        print_r($var);
+        echo '</pre>';
+    }
 }

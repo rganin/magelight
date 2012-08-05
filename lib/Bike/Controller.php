@@ -80,20 +80,20 @@ abstract class Controller
     /**
      * Before execution
      * 
-     * @return void
+     * @return \Bike\Controller
      */
     public function beforeExec()
     {
-        return;
+        return $this;
     }
     
     /**
      * After execution
      * 
-     * @return void
+     * @return \Bike\Controller
      */
     public function afterExec()
     {
-        return;
+        return $this;
     }
 }

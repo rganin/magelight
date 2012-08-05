@@ -1,0 +1,5 @@
+<config>
+    <global>
+        <merge_js>1</merge_js>
+    </global>
+</config>

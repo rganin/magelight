@@ -24,4 +24,4 @@
 require '../core.php';
 ini_set('include_path', ini_get('include_path') . PS . './modules' . PS . '../lib');
 
-Bike::app()->setAppDir(dirname(__FILE__))->setDeveloperMode(true)->run();
+Bike::app()->setAppDir(dirname(__FILE__))->setDeveloperMode(true)->init()->run();

@@ -23,7 +23,7 @@
 
 namespace Helpers;
 
-class ArrayHelper
+class ArrayHelper extends \Bike\Prototypes\Singleton
 {
     /**
      * Insert to array

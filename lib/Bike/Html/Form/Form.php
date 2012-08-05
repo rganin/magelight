@@ -28,7 +28,7 @@
 
 namespace Bike\Html\Form;
 
-class AbstractForm extends \Bike\Html\Tag
+class Form extends \Bike\Html\Tag
 {
     /**
      * Tag name
@@ -37,13 +37,13 @@ class AbstractForm extends \Bike\Html\Tag
      */
     protected $_name = 'form';
 
-    protected $_type = null;
-
-    protected $_action = null;
-
     protected $_isAjax = false;
+    
+    protected $_ajaxResultFieldId = null;
 
     protected $_children = array();
+    
+    protected $_formData = array();
 
     public function setMultipartType()
     {
@@ -54,10 +54,15 @@ class AbstractForm extends \Bike\Html\Tag
     {
         $this->setAttribute('type', $type);
     }
+   
+    public function setId($id)
+    {
+        $this->setAttribute('id', $id);        
+    }
 
     public function setAction($action)
     {
-        $this->_action = $action;
+        $this->setAttribute('action', $action);
     }
 
     public function setIsAjax($value = true)
@@ -65,8 +70,15 @@ class AbstractForm extends \Bike\Html\Tag
         $this->_isAjax = $value;
     }
 
-    public function addFieldset(Fieldset $fieldset)
+    public function addFieldset(\Bike\Html\Form\Fieldset $fieldset)
     {
 
+    }
+    
+    public function render()
+    {
+        if ($this->_isAjax && is_null($this->_ajaxResultFieldId)) {
+            throw new \Bike\Exception('Ajax form if field is not set!');
+        }
     }
 }

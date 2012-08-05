@@ -1,0 +1,5 @@
+<config>
+    <admin>
+        <auth>1</auth>
+    </admin>
+</config>

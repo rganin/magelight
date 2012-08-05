@@ -21,9 +21,50 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Bike;
+namespace Bike\Loaders;
 
 class Config
 {
-    
+    /**
+     * Configuration
+     * 
+     * @var array
+     */
+    protected $_config = array();
+
+    /**
+     * Load configuration and merge it
+     * 
+     * @param $filename
+     *
+     * @return Config
+     */
+    public function loadConfig($filename)
+    {
+        $xmlHelper = \Bike::helper('xml');
+        /* @var \Bike\Helpers\XmlHelper $xmlHelper*/
+        $this->_config = array_replace_recursive(
+            $this->_config, 
+            $xmlHelper->xmlToArray(new \SimpleXMLIterator(file_get_contents($filename)))
+        );
+        return $this;
+    }
+
+    /**
+     * Get loaded Configuration
+     * 
+     * @return array
+     */
+    public function getConfig()
+    {
+        return $this->_config;
+    }
+
+    /**
+     * Destructor
+     */
+    public function __destruct()
+    {
+        unset($this->_config);
+    }
 }

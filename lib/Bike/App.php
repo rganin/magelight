@@ -57,6 +57,13 @@ class App
      * @var array
      */
     protected $_config = array();
+
+    /**
+     * Config elements by path
+     * 
+     * @var array
+     */
+    protected $_configPaths = array();
     
     /**
      * Modules collection
@@ -168,43 +175,168 @@ class App
     {
         $routesLoader = new \Bike\Loaders\Routes();
         foreach (array_keys($this->_modules) as $moduleName) {
-            $routesLoader->parseRoutes($this->getAppDir() . 'modules' . DS . $moduleName . DS . 'config' . DS . 'routes.xml');
+            $filename = $this->getAppDir() . 'modules' . DS . $moduleName . DS . 'etc' . DS . 'routes.xml';
+            if (file_exists($filename)) {
+                $routesLoader->parseRoutes($filename);
+            }
         }
         $this->router()->setRoutes($routesLoader->getRoutes());
+        unset($routesLoader);
         return $this;
     }
-    
-    public function loadConfig($filename)
+
+    /**
+     * Load configuration
+     * 
+     * @return App
+     */
+    public function loadConfig()
     {
+        $configLoader = new \Bike\Loaders\Config();
+        $configLoader->loadConfig($this->getAppDir() . 'config.xml');
+        foreach (array_keys($this->_modules) as $moduleName) {
+            $filename = $this->getAppDir() . 'modules' . DS . $moduleName . DS . 'etc' . DS . 'config.xml';
+            if (file_exists($filename)) {
+                $configLoader->loadConfig($filename);
+            }
+        }
+        $this->_config = $configLoader->getConfig();
+        unset($configLoader);
         return $this;
-        
     }
-    
-    
-    
+
+    /**
+     * Get configuration element by path (similar to xpath)
+     * 
+     * @param      $path
+     * @param null $default
+     *
+     * @return array|null
+     */
+    public function getConfig($path, $default = null)
+    {
+        return $this->getConfigByPath($path, null, $default);
+    }
+
+    /**
+     * Get configuration element attribute by path
+     * 
+     * @param      $path
+     * @param      $attribute
+     * @param null $default
+     *
+     * @return array|null
+     */
+    public function getConfigAttribute($path, $attribute, $default = null)
+    {
+        return $this->getConfigByPath($path, $attribute, $default);
+    }
+
+    /**
+     * Build config attribute
+     * 
+     * @param      $path
+     * @param null $attribute
+     *
+     * @return array
+     */
+    protected function buildConfigArrayPath($path, $attribute = null) 
+    {
+        
+        $pathArray = explode('/', $path);
+        $return = array();
+        foreach ($pathArray as $pathItem) {
+            array_push($return, $pathItem, \Bike\Helpers\XmlHelper::INDEX_CONTENT);
+        }
+        if (!empty($attribute)) {
+            array_pop($return);
+            array_push($return, \Bike\Helpers\XmlHelper::INDEX_ATTRIBUTES, $attribute);
+        }
+        return array_reverse($return);
+    }
+
+    /**
+     * Get config element or attribute by path
+     * 
+     * @param      $path
+     * @param null $attribute
+     * @param null $default
+     *
+     * @return array|null
+     */
+    protected function getConfigByPath($path, $attribute = null, $default = null)
+    {
+        $path = trim($path, ' \\/');
+        $cacheIndex = !empty($attribute) 
+            ? \Bike\Helpers\XmlHelper::INDEX_ATTRIBUTES 
+            : \Bike\Helpers\XmlHelper::INDEX_CONTENT;
+        $pathArray = $this->buildConfigArrayPath($path, $attribute);
+        
+        $config = $this->_config;
+        
+        while (!empty($pathArray)) {
+            $pathPart = array_pop($pathArray);
+            if (isset($config[$pathPart])) {
+                $config = $config[$pathPart];
+            } else {
+                return $default;
+            }
+        }
+       
+        $this->_configPaths[$cacheIndex][$path] = $config;
+        return $config;
+    }
+
+    /**
+     * Initialize application
+     * 
+     * @return App
+     */
+    public function init()
+    {
+        $this->loadModules('modules.xml')->loadRoutes()->loadConfig();
+        return $this;
+    }
+
+    /**
+     * Run application
+     * 
+     * @param string $scope
+     * @param bool   $muteExceptions
+     *
+     * @throws Exception
+     * @throws \Exception
+     */
     public function run($scope = self::DEFAULT_SCOPE, $muteExceptions = true)
     {
         try {
-            $this->loadModules('modules.xml')->loadRoutes();
             $request = new \Bike\Http\Request();
             $action = $this->router($scope)->getAction((string) $request->getRequestRoute());
             $request->appendGet($action['arguments']);
             $this->dispatchAction($action, $request);
         } catch (\Bike\Exception $e) {
             \Bike\Log::add($e->getMessage()); 
-            if (!$muteExceptions) {
+            if (!$muteExceptions || $this->_developerMode) {
                 throw $e;
             }
         } catch (\Exception $e) {
-            if (!$muteExceptions) {
+            \Bike\Log::add('Generic exception: ' . $e->getMessage()); 
+            if (!$muteExceptions || $this->_developerMode) {
                 throw $e;
             }
         }
     }
-    
+
+    /**
+     * Dispatch action
+     * 
+     * @param $action
+     * @param $request
+     *
+     * @return App
+     */
     protected function dispatchAction($action, $request)
     {
-//        var_dump($action);
         $controllerName = $action['module'] . '\\Controllers\\' . ucfirst($action['controller']);
         $controllerMethod = $action['action'] . 'Action';
         $controller = new $controllerName($request, $this);

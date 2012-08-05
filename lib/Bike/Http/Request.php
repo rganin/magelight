@@ -138,7 +138,7 @@ class Request
      * @param mixed $default
      * @return mixed
      */
-    public function getRequest($key, $default)
+    public function getRequest($key, $default = null)
     {
         return isset($this->_request[$key]) ? $this->_request[$key] : $default;
     }
