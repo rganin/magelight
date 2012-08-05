@@ -25,6 +25,8 @@ namespace Bike;
 
 abstract class Controller
 {
+    const DEFAULT_ACTION = 'index';
+    
     /**
      * Request
      * 

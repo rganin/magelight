@@ -56,6 +56,13 @@ class Routes
      * @var array
      */
     private $_routes = array();
+
+    /**
+     * Routes back index by module/controller/action
+     * 
+     * @var array
+     */
+    private $_routesBackIndex = array();
     
     /**
      * Parse routes from file
@@ -223,7 +230,7 @@ class Routes
      */
     public function matchToRegex($matchKey)
     {
-        if (preg_match_all("/\{(?P<name>([a-z]+))(\:(?P<regex>(.*)))*\}/iU", $matchKey, $matches, PREG_SET_ORDER)) {
+        if (preg_match_all("/\{(?P<name>([a-z0-9\-_]+))(\:(?P<regex>(.*)))*\}/iU", $matchKey, $matches, PREG_SET_ORDER)) {
             foreach ($matches as $match) {
                 $name = $match['name'];
                 $mask = isset($match['regex']) ? $match['regex'] : self::DEFAULT_REGEX;
@@ -244,5 +251,18 @@ class Routes
     public function isRegex($match)
     {
         return strpos($match, '{') !== false; // strict comparison required
+    }
+    
+    public function buildRoutesBackIndex()
+    {
+        foreach ($this->_routes as $route) {
+            $this->_routesBackIndex[$route['module']][$route['controller']][$route['action']] = $route['match'];
+        }
+        return $this;
+    }
+    
+    public function getRoutesBackIndex()
+    {
+        return $this->_routesBackIndex;
     }
 }

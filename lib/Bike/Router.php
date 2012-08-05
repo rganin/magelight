@@ -38,13 +38,22 @@ class Router
     protected $_routes = array();
 
     /**
+     * Routes back index
+     * 
+     * @var array
+     */
+    protected $_routesBackIndex = array();
+
+    /**
      * Set router routes
      * 
      * @param array $routes
+     * @param array $routesBackIndex
      */
-    public function setRoutes($routes = array())
+    public function setRoutes($routes = array(), $routesBackIndex = array())
     {
         $this->_routes = $routes;
+        $this->_routesBackIndex = $routesBackIndex;
     }
     
     /**
@@ -71,6 +80,26 @@ class Router
             }
         }
         return $this->_routes[$notFound];
+    }
+
+    /**
+     * Get routes
+     * 
+     * @return array
+     */
+    public function getRoutes()
+    {
+        return $this->_routes;
+    }
+    
+    /**
+     * Get routes back index
+     * 
+     * @return array
+     */
+    public function getRoutesBackIndex()
+    {
+        return $this->_routesBackIndex;
     }
     
     /**

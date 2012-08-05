@@ -29,6 +29,6 @@ class Index extends \Bike\Controller
     {
         $urlHelper = \Bike::helper('url');
         /* @var \Bike\Helpers\UrlHelper $urlHelper*/
-        echo $urlHelper->getBaseUrl();
+        echo $urlHelper->getUrl('Core', 'user', 'profile', array('id' => 'ajsgh-', 'pass' => 'password'));
     }
 }

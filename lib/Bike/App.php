@@ -180,7 +180,8 @@ class App
                 $routesLoader->parseRoutes($filename);
             }
         }
-        $this->router()->setRoutes($routesLoader->getRoutes());
+        $routesLoader->buildRoutesBackIndex();
+        $this->router()->setRoutes($routesLoader->getRoutes(), $routesLoader->getRoutesBackIndex());
         unset($routesLoader);
         return $this;
     }

@@ -4,6 +4,6 @@
         <route match="404" controller="404" action="index" rank="5">
             <header>HTTP/1.0 404 Not Found</header>
         </route>
-        <route match="user/id{id:a-z0-9}/{pass}/0{rating}" controller="user" action="profile" rank="1" />
+        <route match="user/id{id:a-z0-9\-}/{pass}/0{rating}" controller="user" action="profile" rank="1" />
     </Core>
 </routes>
