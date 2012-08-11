@@ -21,7 +21,7 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Bike;
+namespace Bike\Components;
 
 class Router
 {
@@ -43,6 +43,23 @@ class Router
      * @var array
      */
     protected $_routesBackIndex = array();
+    
+    protected $_app = null;
+    
+    public function __construct(\Bike\App $app)
+    {
+        $this->_app = $app;
+        $loader = new \Bike\Components\Loaders\Routes();
+        foreach (array_keys($app->modules()->getModules()) as $moduleName) {
+            $filename = $app->getAppDir() . 'modules' . DS . $moduleName . DS . 'etc' . DS . 'routes.xml';
+            if (file_exists($filename)) {
+                $loader->parseRoutes($filename);
+            }
+        }
+        $loader->buildRoutesBackIndex();
+        $this->setRoutes($loader->getRoutes(), $loader->getRoutesBackIndex());
+        unset($loader);
+    }
 
     /**
      * Set router routes

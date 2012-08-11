@@ -21,7 +21,7 @@
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Bike\Cache;
+namespace Bike\Components;
 
 class Cache extends \Bike\Prototypes\Singleton
 {
@@ -46,7 +46,7 @@ class Cache extends \Bike\Prototypes\Singleton
     /**
      * Cache adapter
      * 
-     * @var \Bike\Cache\Adapters\AdapterInterface
+     * @var \Bike\Components\CacheAdapters\AdapterInterface
      */
     protected $_adapter = null;
 
@@ -73,9 +73,9 @@ class Cache extends \Bike\Prototypes\Singleton
     )
     {
         try {
-            $adapterName = '\\Bike\\Cache\\Adapters\\' . ucfirst($type);
+            $adapterName = '\\Bike\\Components\\CacheAdapters\\' . ucfirst($type);
             $adapter = new $adapterName();
-            /* @var \Bike\Cache\Adapters\AdapterInterface $adapter*/
+            /* @var \Bike\Components\CacheAdapters\AdapterInterface $adapter*/
             $adapter->init($compression);
             $this->_adapter = $adapter;
             $this->_namespace = $namespace;

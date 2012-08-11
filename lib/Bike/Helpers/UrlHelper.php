@@ -35,15 +35,12 @@ class UrlHelper extends \Bike\Prototypes\Singleton
     const TYPE_HTTP = 'http';
     const TYPE_HTTPS = 'https';
     
-    protected $_app = null;
-
     /**
-     * Constructor
+     * Application
+     * 
+     * @var \Bike\App
      */
-    protected function __construct()
-    {
-        $this->_app = \Bike::app();
-    }
+    protected $_app = null;
 
     /**
      * Get bike base URL
@@ -54,7 +51,7 @@ class UrlHelper extends \Bike\Prototypes\Singleton
      */
     public function getBaseUrl($type = self::TYPE_HTTP)
     {
-        $domain = $this->_app->getConfig('global/base_domain', null);
+        $domain = \Bike::app()->config()->getConfig('global/base_domain', null);
         if (is_null($domain)) {
             $server = \Bike\Http\Server::getInstance();
             /* @var \Bike\Http\Server $server*/
@@ -126,10 +123,10 @@ class UrlHelper extends \Bike\Prototypes\Singleton
      */
     protected function checkParamsWithPlaceholderMask($match, $params) 
     {
-        if (preg_match_all( \Bike\Loaders\Routes::MATCH_REGEX, $match, $matches, PREG_SET_ORDER)) {
+        if (preg_match_all(\Bike\Components\Loaders\Routes::MATCH_REGEX, $match, $matches, PREG_SET_ORDER)) {
             foreach ($matches as $match) {
                 $name = $match['name'];
-                $mask = isset($match['regex']) ? $match['regex'] : \Bike\Loaders\Routes::DEFAULT_REGEX;
+                $mask = isset($match['regex']) ? $match['regex'] : \Bike\Components\Loaders\Routes::DEFAULT_REGEX;
                 if (isset($params[$name])) {
                     if (!preg_match("/^([{$mask}]*)$/", $params[$name])) {
                         return false;

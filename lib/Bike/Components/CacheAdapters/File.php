@@ -21,7 +21,7 @@
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Bike\Cache\Adapters;
+namespace Bike\Components\CacheAdapters;
 
 class File implements AdapterInterface
 {
@@ -37,7 +37,7 @@ class File implements AdapterInterface
      *
      * @return bool
      */
-    public function init($conpression = \Bike\Cache\AbstractCache::COMPRESSION_OFF)
+    public function init($conpression = \Bike\Components\Cache::COMPRESSION_OFF)
     {
         return true;
     }

@@ -26,24 +26,12 @@ namespace Bike;
 class App
 {
     /**
-     * Default scope
-     */
-    const DEFAULT_SCOPE = 'default';
-    
-    /**
-     * Documents array
-     * 
-     * @var array[\Html\Document]
-     */
-    protected $_documents = array();
-    
-    /**
-     * Application routers
+     * Objects registry
      * 
      * @var array
-     */
-    protected $_routers = array();
-    
+     */   
+    protected $_registry = array();
+        
     /**
      * Application directory
      * 
@@ -51,27 +39,6 @@ class App
      */
     protected $_appDir = './';
     
-    /**
-     * Configuration
-     * 
-     * @var array
-     */
-    protected $_config = array();
-
-    /**
-     * Config elements by path
-     * 
-     * @var array
-     */
-    protected $_configPaths = array();
-    
-    /**
-     * Modules collection
-     * 
-     * @var array
-     */
-    protected $_modules = array();
-
     /**
      * Is app in developer mode
      *
@@ -124,168 +91,80 @@ class App
     }
     
     /**
-     * Get document
+     * Get object from app registry
+     * 
+     * @param $index
+     * @return mixed
+     */
+    public function getRegistryObject($index)
+    {
+        if (isset($this->_registry[$index]) && !empty($this->_registry[$index])) {
+            return $this->_registry[$index];
+        }
+        throw new \Bike\Exception('Trying to get undefined object from registry. Index: ' . print_r($index) . print_r(debug_backtrace()));
+    }
+    
+    /**
+     * Set object to registry by index
      * 
      * @param string $index
+     * @param mixed $object
+     * @return App
+     */
+    public function setRegistryObject($index, $object)
+    {
+        $this->_registry[$index] = $object;
+        return $this;
+    }
+    
+    /**
+     * Get document
+     * 
      * @return \Bike\Html\Document
      */
-    public function document($index = self::DEFAULT_SCOPE)
+    public function document()
     {
-        if (!isset($this->_documents[$index])) {
-            $this->_documents[$index] = new \Bike\Html\Document();
-        }
-        return $this->_documents[$index];
+        return $this->getRegistryObject('document');
     }
     
     /**
      * Get router
      * 
-     * @param string $index
-     * @return \Bike\Router
+     * @return \Bike\Components\Router
      */
-    public function router($index = self::DEFAULT_SCOPE)
+    public function router()
     {
-        if (!isset($this->_routers[$index])) {
-            $this->_routers[$index] = new \Bike\Router();
-        }
-        return $this->_routers[$index];
+        return $this->getRegistryObject('router');
     }
     
     /**
-     * Load modules from file
+     * Get application cache
      * 
-     * @param $modulesXmlFilename
-     * @return \Bike\App
+     * @return \Bike\Components\Cache
      */
-    public function loadModules($modulesXmlFilename)
+    public function cache()
     {
-        $xml = simplexml_load_file($modulesXmlFilename);
-        $modulesLoader = new \Bike\Loaders\Modules($xml);
-        $this->_modules = $modulesLoader->getActiveModules();
-        unset($modulesLoader);
-        return $this;
+        return $this->getRegistryObject('cache');
     }
     
     /**
-     * Load routes by modules
+     * Get application modules object
      * 
-     * @return App
+     * @return \Bike\Components\Modules
      */
-    public function loadRoutes()
+    public function modules()
     {
-        $routesLoader = new \Bike\Loaders\Routes();
-        foreach (array_keys($this->_modules) as $moduleName) {
-            $filename = $this->getAppDir() . 'modules' . DS . $moduleName . DS . 'etc' . DS . 'routes.xml';
-            if (file_exists($filename)) {
-                $routesLoader->parseRoutes($filename);
-            }
-        }
-        $routesLoader->buildRoutesBackIndex();
-        $this->router()->setRoutes($routesLoader->getRoutes(), $routesLoader->getRoutesBackIndex());
-        unset($routesLoader);
-        return $this;
+        return $this->getRegistryObject('modules');
     }
-
+    
     /**
-     * Load configuration
+     * Get config object
      * 
-     * @return App
+     * @return \Bike\Components\Config
      */
-    public function loadConfig()
+    public function config()
     {
-        $configLoader = new \Bike\Loaders\Config();
-        $configLoader->loadConfig($this->getAppDir() . 'config.xml');
-        foreach (array_keys($this->_modules) as $moduleName) {
-            $filename = $this->getAppDir() . 'modules' . DS . $moduleName . DS . 'etc' . DS . 'config.xml';
-            if (file_exists($filename)) {
-                $configLoader->loadConfig($filename);
-            }
-        }
-        $this->_config = $configLoader->getConfig();
-        unset($configLoader);
-        return $this;
-    }
-
-    /**
-     * Get configuration element by path (similar to xpath)
-     * 
-     * @param      $path
-     * @param null $default
-     *
-     * @return array|null
-     */
-    public function getConfig($path, $default = null)
-    {
-        return $this->getConfigByPath($path, null, $default);
-    }
-
-    /**
-     * Get configuration element attribute by path
-     * 
-     * @param      $path
-     * @param      $attribute
-     * @param null $default
-     *
-     * @return array|null
-     */
-    public function getConfigAttribute($path, $attribute, $default = null)
-    {
-        return $this->getConfigByPath($path, $attribute, $default);
-    }
-
-    /**
-     * Build config attribute
-     * 
-     * @param      $path
-     * @param null $attribute
-     *
-     * @return array
-     */
-    protected function buildConfigArrayPath($path, $attribute = null) 
-    {
-        
-        $pathArray = explode('/', $path);
-        $return = array();
-        foreach ($pathArray as $pathItem) {
-            array_push($return, $pathItem, \Bike\Helpers\XmlHelper::INDEX_CONTENT);
-        }
-        if (!empty($attribute)) {
-            array_pop($return);
-            array_push($return, \Bike\Helpers\XmlHelper::INDEX_ATTRIBUTES, $attribute);
-        }
-        return array_reverse($return);
-    }
-
-    /**
-     * Get config element or attribute by path
-     * 
-     * @param      $path
-     * @param null $attribute
-     * @param null $default
-     *
-     * @return array|null
-     */
-    protected function getConfigByPath($path, $attribute = null, $default = null)
-    {
-        $path = trim($path, ' \\/');
-        $cacheIndex = !empty($attribute) 
-            ? \Bike\Helpers\XmlHelper::INDEX_ATTRIBUTES 
-            : \Bike\Helpers\XmlHelper::INDEX_CONTENT;
-        $pathArray = $this->buildConfigArrayPath($path, $attribute);
-        
-        $config = $this->_config;
-        
-        while (!empty($pathArray)) {
-            $pathPart = array_pop($pathArray);
-            if (isset($config[$pathPart])) {
-                $config = $config[$pathPart];
-            } else {
-                return $default;
-            }
-        }
-       
-        $this->_configPaths[$cacheIndex][$path] = $config;
-        return $config;
+        return $this->getRegistryObject('config');
     }
 
     /**
@@ -295,24 +174,31 @@ class App
      */
     public function init()
     {
-        $this->loadModules('modules.xml')->loadRoutes()->loadConfig();
+        $cache = \Bike\Components\Cache::getInstance();
+        /* @var \Bike\Components\Cache $cache */
+        $cache->init();
+        
+        $this->setRegistryObject('modules', new \Bike\Components\Modules($this));
+        $this->setRegistryObject('config', new \Bike\Components\Config($this));
+        $this->setRegistryObject('router', new \Bike\Components\Router($this));
+        
         return $this;
     }
+    
+    
 
     /**
      * Run application
      * 
-     * @param string $scope
      * @param bool   $muteExceptions
      *
      * @throws Exception
-     * @throws \Exception
      */
-    public function run($scope = self::DEFAULT_SCOPE, $muteExceptions = true)
+    public function run($muteExceptions = true)
     {
         try {
             $request = new \Bike\Http\Request();
-            $action = $this->router($scope)->getAction((string) $request->getRequestRoute());
+            $action = $this->router()->getAction((string) $request->getRequestRoute());
             $request->appendGet($action['arguments']);
             $this->dispatchAction($action, $request);
         } catch (\Bike\Exception $e) {
