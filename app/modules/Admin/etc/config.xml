@@ -2,4 +2,14 @@
     <admin>
         <auth>1</auth>
     </admin>
+    <global>
+        <classes>
+            <override>
+                <core_models_user>
+                    <class><![CDATA[\Core\Models\User]]></class>
+                    <replace><![CDATA[\Admin\Models\SuperUser]]></replace>
+                </core_models_user>
+            </override>
+        </classes>
+    </global>
 </config>

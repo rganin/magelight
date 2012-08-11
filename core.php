@@ -21,11 +21,5 @@
 
 define('PS', PATH_SEPARATOR);
 define('DS', DIRECTORY_SEPARATOR);
-define('DEVELOPER_MODE', true);
-
-function autoload($className)
-{
-    require_once $className . '.php';
-}
-
-spl_autoload_register('autoload');
+require 'lib' . DS . 'Bike.php';
+spl_autoload_register(array('Bike', 'autoload'));

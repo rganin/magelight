@@ -21,13 +21,9 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Core\Controllers;
+namespace Admin\Models;
 
-class Index extends \Bike\Controller
+class SuperUser extends \Core\Models\User
 {
-    public function indexAction()
-    {
-        $urlHelper = \Bike::helper('url');
-        /* @var \Bike\Helpers\UrlHelper $urlHelper*/
-    }
+    
 }

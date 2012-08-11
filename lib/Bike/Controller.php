@@ -25,6 +25,9 @@ namespace Bike;
 
 abstract class Controller
 {
+    /**
+     * Default controller action
+     */
     const DEFAULT_ACTION = 'index';
     
     /**
@@ -34,6 +37,11 @@ abstract class Controller
      */
     protected $_request = null;
     
+    /**
+     * Application
+     * 
+     * @var App
+     */
     protected $_app = null;
     
     /**
@@ -61,12 +69,11 @@ abstract class Controller
     /**
      * Get application document
      * 
-     * @param string $scope
      * @return Html\Document
      */
-    public function document($scope = \Bike\App::DEFAULT_SCOPE)
+    public function document()
     {
-        return $this->app()->document($scope);    
+        return $this->app()->document();    
     }
     
     /**

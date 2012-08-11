@@ -25,6 +25,8 @@ namespace Bike;
 
 class App
 {
+
+    
     /**
      * Objects registry
      * 
@@ -182,10 +184,10 @@ class App
         $this->setRegistryObject('config', new \Bike\Components\Config($this));
         $this->setRegistryObject('router', new \Bike\Components\Router($this));
         
+        $this->loadClassesOverrides();
+        
         return $this;
     }
-    
-    
 
     /**
      * Run application
@@ -197,20 +199,26 @@ class App
     public function run($muteExceptions = true)
     {
         try {
+            
             $request = new \Bike\Http\Request();
             $action = $this->router()->getAction((string) $request->getRequestRoute());
             $request->appendGet($action['arguments']);
             $this->dispatchAction($action, $request);
+            
         } catch (\Bike\Exception $e) {
+            
             \Bike\Log::add($e->getMessage()); 
             if (!$muteExceptions || $this->_developerMode) {
                 throw $e;
             }
+            
         } catch (\Exception $e) {
+            
             \Bike\Log::add('Generic exception: ' . $e->getMessage()); 
             if (!$muteExceptions || $this->_developerMode) {
                 throw $e;
             }
+            
         }
     }
 
@@ -231,6 +239,29 @@ class App
         $controller->beforeExec();
         $controller->$controllerMethod();
         $controller->afterExec();
+        return $this;
+    }
+    
+    /**
+     * Load classes overrides from configuration
+     * 
+     * @return App
+     */
+    public function loadClassesOverrides()
+    {
+        $overrides = $this->config()->getConfig('global/classes/override');
+        if (!empty($overrides)) {
+            $contentIndex = \Bike\Helpers\XmlHelper::INDEX_CONTENT;
+            foreach($overrides as $override) {
+                if (!empty($override[$contentIndex]['class'][$contentIndex]) 
+                    && !empty($override[$contentIndex]['replace'][$contentIndex])) {
+                    \Bike::addClassOverride(
+                        trim($override[$contentIndex]['class'][$contentIndex], " \\/"),
+                        trim($override[$contentIndex]['replace'][$contentIndex], " \\/")
+                    );
+                }
+            }
+        }
         return $this;
     }
 }
