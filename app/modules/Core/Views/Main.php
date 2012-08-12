@@ -16,27 +16,21 @@
  * further updates.
  *
  * @version $$version_placeholder_notice$$
- * @uthor $$author_placeholder_notice$$
+ * @author $$author_placeholder_notice$$
  * @copyright Copyright (c) 2012 rganin (rganin@gmail.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-/* @var $this \Bike\Html\Block */
-?>
 
-<div class="wrap">
-    <div class="top">
-        <? $this->embed('admin-top'); ?>
-    </div>
-    <div class="left">
-        <? $this->embed(''); ?>
-    </div>
-    <div class="center">
-        
-    </div>
-    <div class="right">
-        
-    </div>
-    <div class="bottom">
-        
-    </div>
-</div>
+namespace Core\Views;
+
+class Main extends \Bike\View
+{
+    protected $_template = 'main.phtml';
+    
+    public function render()
+    {
+        ob_start();
+        include('Core/templates/' .  $this->_template);
+        return ob_get_clean();
+    }
+}

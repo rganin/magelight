@@ -1,4 +1,4 @@
-<?php
+<?php   
 /**
  * $$name_placeholder_notice$$
  *
@@ -16,14 +16,27 @@
  * further updates.
  *
  * @version $$version_placeholder_notice$$
- * @author $$author_placeholder_notice$$
+ * @uthor $$author_placeholder_notice$$
  * @copyright Copyright (c) 2012 rganin (rganin@gmail.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
+/* @var $this \Bike\View */
+?>
 
-namespace Admin\Controllers;
-
-class User extends \Bike\Controller
-{
-
-}
+<div class="wrap">
+    <div class="top">
+        <?php $this->section('top'); ?>
+    </div>
+    <div class="left">
+        <?php $this->section('left-column'); ?>
+    </div>
+    <div class="center">
+        <?php $this->section('center-block'); ?>
+    </div>
+    <div class="right">
+        <?php $this->section('right-column'); ?>
+    </div>
+    <div class="bottom" style="height:50px; background-color:#ddd;">
+        <?php $this->section('bottom'); ?>
+    </div>
+</div>
