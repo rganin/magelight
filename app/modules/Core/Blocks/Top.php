@@ -21,20 +21,14 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Core\Controllers;
+namespace Core\Blocks;
 
-class Index extends \Bike\Controller
+class Top extends \Bike\Block
 {
-    public function beforeExecute()
-    {
-        $this->_view = \Core\Blocks\Body::getInstance();    
-    }
+    protected $_template = 'top.phtml';
     
-    public function indexAction()
+    public function __construct()
     {
-        $urlHelper = \Bike::helper('url');
-        /* @var \Bike\Helpers\UrlHelper $urlHelper*/
-        $view = new \Core\Blocks\News();
-        $view->appendSection('center');
+        $this->appendSection('top');
     }
 }

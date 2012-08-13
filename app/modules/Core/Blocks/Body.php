@@ -21,16 +21,9 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Core\Views;
+namespace Core\Blocks;
 
-class Main extends \Bike\View
+class Body extends \Bike\Block
 {
-    protected $_template = 'main.phtml';
-    
-    public function render()
-    {
-        ob_start();
-        include('Core/templates/' .  $this->_template);
-        return ob_get_clean();
-    }
+
 }

@@ -45,6 +45,13 @@ abstract class Controller
     protected $_app = null;
     
     /**
+     * Rendering perspective
+     * 
+     * @var null
+     */
+    protected $_perspective = null;
+    
+    /**
      * Constructor
      * 
      * @param Http\Request $request

@@ -23,7 +23,7 @@
 
 namespace Bike;
 
-abstract class View
+abstract class Block extends \Bike\Prototypes\Singleton
 {
     /**
      * Template string path
@@ -44,27 +44,82 @@ abstract class View
      * 
      * @var array
      */
-    protected $_sections = array();
+    protected static $_sections = array();
     
-    public function render()
+    /**
+     * Parental blocks
+     * 
+     * @var array
+     */
+    protected static $_parentBlocks = array();
+    
+    /**
+     * Getter
+     * 
+     * @param $variable
+     * @return null
+     */
+    public function __get($variable)
     {
-        
+        if (isset($this->_variables[$variable])) {
+            return $this->_variables[$variable];
+        }
+        return null;
     }
     
+    public function embed(\Bike\Block $block, $section)
+    {
+        $block->appendSection($section);
+    }
+
+    /**
+     * Before to HTML dummy
+     * 
+     * @return Block
+     */
+    protected function beforeToHtml()
+    {
+        return $this;
+    }
+
+    /**
+     * Render block to HTML
+     * 
+     * @return string
+     */
+    public function toHtml()
+    {
+        $this->beforeToHtml();
+        $class = explode('\\', get_called_class());
+        ob_start();
+        include($class[0] . DS . 'templates' . DS . $this->_template);
+        $this->afterToHtml();
+        return ob_get_clean();
+    }
+    
+    /**
+     * After to HTML dummy
+     * 
+     * @return Block
+     */
+    protected function afterToHtml()
+    {
+        return $this;
+    }
     
     /**
      * Append section content with self
      * 
      * @param string $section
      * @throws Exception
-     * @return View
+     * @return Block
      */
     public function appendSection($section)
     {
-        if (!isset($this->_sections[$section])) {
+        if (!isset(self::$_sections[$section])) {
             throw new \Bike\Exception("Section {$section} does not exist in " . get_called_class());
         }
-        $this->_sections[$section][] = $this;
+        self::$_sections[$section][] = $this;
         return $this;
     }
     
@@ -73,16 +128,16 @@ abstract class View
      * 
      * @param string $section
      * @throws Exception
-     * @return View
+     * @return Block
      */
     public function prependSection($section)
     {
-        if (!isset($this->_sections[$section])) {
+        if (!isset(self::$_sections[$section])) {
             throw new \Bike\Exception("Section {$section} does not exist in " . get_called_class());
         }
-        $sections = array_reverse($this->_sections[$section]);
+        $sections = array_reverse(self::$_sections[$section]);
         $sections[] = $this;
-        $this->_sections[$section] = $sections;
+        self::$_sections[$section] = $sections;
         return $this;
     }
     
@@ -91,14 +146,14 @@ abstract class View
      * 
      * @param string $section
      * @throws Exception
-     * @return View
+     * @return Block
      */
     public function replaceSection($section)
     {
-        if (!isset($this->_sections[$section])) {
+        if (!isset(self::$_sections[$section])) {
             throw new \Bike\Exception("Section {$section} does not exist in " . get_called_class());
         }
-        $this->_sections[$section] = array($this);
+        self::$_sections[$section] = array($this);
         return $this;
     }
     
@@ -106,15 +161,30 @@ abstract class View
      * Create section
      * 
      * @param string $sectionName
-     * @return View
+     * @return Block
      * @throws Exception
+     */
+    public function sectionToHtml($sectionName)
+    {
+        $output = '';
+        if (!empty(self::$_sections[$sectionName])) {
+            foreach (self::$_sections[$sectionName] as $sectionBlock) {
+                /* @var Block $sectionBlock */
+                $output .= $sectionBlock->toHtml();                
+            }
+        }
+        return $output;
+    }
+    
+    /**
+     * Render section
+     * 
+     * @param $sectionName
+     * @return Block
      */
     public function section($sectionName)
     {
-        if (isset($this->_sections[$sectionName])) {
-            throw new \Bike\Exception("Section {$sectionName} already exists in " . get_called_class());
-        }
-        $this->_sections[$sectionName] = array();
+        echo $this->sectionToHtml($sectionName);
         return $this;
     }
     
@@ -123,7 +193,7 @@ abstract class View
      * 
      * @param string $varName
      * @param mixed $varValue
-     * @return View
+     * @return Block
      */
     public function set($varName, $varValue)
     {
@@ -136,7 +206,7 @@ abstract class View
      * 
      * @param string $varName
      * @param mixed $varValue
-     * @return View
+     * @return Block
      */
     public function link($varName, &$varValue)
     {
@@ -163,7 +233,7 @@ abstract class View
      * Set template
      * 
      * @param $template
-     * @return View
+     * @return Block
      */
     public function setTemplate($template)
     {
