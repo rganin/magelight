@@ -234,8 +234,9 @@ class App
     {
         $controllerName = $action['module'] . '\\Controllers\\' . ucfirst($action['controller']);
         $controllerMethod = $action['action'] . 'Action';
-        $controller = new $controllerName($request, $this);
+        $controller = call_user_func(array($controllerName, 'create'));
         /* @var $controller \Bike\Controller*/
+        $controller->init($request, $this);
         $controller->beforeExec();
         $controller->$controllerMethod();
         $controller->afterExec();

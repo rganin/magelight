@@ -21,21 +21,18 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Core\Controllers;
+namespace Bike\Prototypes;
 
-class Index extends \Bike\Controller
+abstract class Overridable
 {
-    public function beforeExecute()
+    final protected function __construct()
     {
-        $this->_view = \Core\Blocks\Body::getInstance();    
+        
     }
     
-    public function indexAction()
+    public static function create()
     {
-        $urlHelper = \Bike::helper('url');
-        /* @var \Bike\Helpers\UrlHelper $urlHelper*/
-        $view = \Core\Blocks\News::create();
-        /* @var \Core\Blocks\News $view*/
-//        $view->appendSection('center');
+        $arguments = func_get_args();
+        return new static();
     }
 }

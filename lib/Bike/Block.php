@@ -23,8 +23,8 @@
 
 namespace Bike;
 
-abstract class Block extends \Bike\Prototypes\Singleton
-{
+abstract class Block extends \Bike\Prototypes\SingletonOverridable
+{  
     /**
      * Template string path
      * 
@@ -65,6 +65,11 @@ abstract class Block extends \Bike\Prototypes\Singleton
             return $this->_variables[$variable];
         }
         return null;
+    }
+    
+    public function init()
+    {
+        return $this;
     }
     
     public function embed(\Bike\Block $block, $section)
@@ -210,7 +215,7 @@ abstract class Block extends \Bike\Prototypes\Singleton
      */
     public function link($varName, &$varValue)
     {
-        $this->_variables[(string) $varName] = &$varValue;
+        $this->_variables[(string) $varName] = $varValue;
         return $this;
     }
     

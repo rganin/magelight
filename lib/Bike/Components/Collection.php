@@ -23,7 +23,7 @@
 
 namespace Bike;
 
-class Collection
+abstract class Collection
 {
     /**
      * Current position

@@ -23,7 +23,7 @@
 
 namespace Bike;
 
-abstract class Controller
+abstract class Controller extends \Bike\Prototypes\Overridable
 {
     /**
      * Default controller action
@@ -57,12 +57,12 @@ abstract class Controller
      * @param Http\Request $request
      * @param \Bike\App $app
      */
-    public function __construct(\Bike\Http\Request $request, \Bike\App $app)
+    public function init(\Bike\Http\Request $request, \Bike\App $app)
     {
         $this->_request = $request;
         $this->_app = $app;
     }
-    
+        
     /**
      * Get app
      * 
