@@ -256,7 +256,7 @@ class App
             foreach($overrides as $override) {
                 if (!empty($override[$contentIndex]['class'][$contentIndex]) 
                     && !empty($override[$contentIndex]['replace'][$contentIndex])) {
-                    \Bike::addClassOverride(
+                    \Bike\Prototypes\Overridable::addClassOverride(
                         trim($override[$contentIndex]['class'][$contentIndex], " \\/"),
                         trim($override[$contentIndex]['replace'][$contentIndex], " \\/")
                     );

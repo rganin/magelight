@@ -31,13 +31,6 @@ final class Bike
     protected static $_app = null;
   
     /**
-     * Overriding classes
-     * 
-     * @var array
-     */
-    protected static $_classesOverride = array();
-    
-    /**
      * @static
      * Get application object
      * 
@@ -84,18 +77,6 @@ final class Bike
         print_r($var);
         echo '</pre>';
     }
-
-    /**
-     * Add class to override
-     * 
-     * @static
-     * @param $sourceClassName
-     * @param $replacementClassName
-     */
-    public static function addClassOverride($sourceClassName, $replacementClassName)
-    {
-        self::$_classesOverride[$sourceClassName] = $replacementClassName;
-    }
     
     /**
      * Just autoloader
@@ -105,43 +86,6 @@ final class Bike
      */
     public static function autoload($className)
     {
-        if(isset(self::$_classesOverride[$className])) {
-//            require_once $className . '.php';
-            $className = self::$_classesOverride[$className];
-        }
         require_once $className . '.php';
-    }
-    
-    /**
-     * Create object by class name and constructor params
-     * 
-     * @param $class
-     * @param array $constructorParams
-     * @return mixed
-     */
-    public static function getObject($class, $constructorParams = array())
-    {
-        if(isset(self::$_classesOverride[$class])) {
-            $class = self::$_classesOverride[$class];
-        }
-        if (!is_array($constructorParams)) {
-            $constructorParams = array($constructorParams);
-        }
-        return new $class($constructorParams);
-    }
-    
-    /**
-     * Get singleton instance by class name and constructor params
-     * 
-     * @param $class
-     * @param array $instantiateParams
-     * @return mixed
-     */
-    public static function getSingleton($class, $instantiateParams = array()) 
-    {
-        if (!is_array($instantiateParams)) {
-            $instantiateParams = array($instantiateParams);
-        }
-        return call_user_func_array(array($class, 'getInstance'), $instantiateParams);
     }
 }

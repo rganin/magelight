@@ -23,16 +23,45 @@
 
 namespace Bike\Prototypes;
 
-abstract class SingletonOverridable extends Singleton
+abstract class SingletonOverridable extends Overridable
 {
-    final protected function __construct()
+    /**
+     * Protected cloner
+     */
+    protected function __clone()
     {
         
     }
-    
-    public static function create()
+
+    /**
+     * Protected unserializer
+     */
+    protected function __wakeup()
     {
-        $arguments = func_get_args();
-        return new static();
+        
+    }
+
+    /**
+     * Protected serializer
+     * 
+     * @throws \Bike\Exception
+     */
+    protected function __sleep()
+    {
+        throw new \Bike\Exception('Can not serialize SingletonOverridable instance');
+    }
+
+    /**
+     * Get instance of class
+     * 
+     * @return Singleton
+     */
+    public static function getInstance()
+    {
+        static $instance;
+        if (!$instance instanceof static::getClassName()) {
+            $instance = static::create();
+        }
+        return $instance;
     }
 }

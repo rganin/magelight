@@ -22,8 +22,10 @@
  */
 
 namespace Bike;
-
-abstract class Block extends \Bike\Prototypes\SingletonOverridable
+/**
+ * Block abstract
+ */
+abstract class Block extends \Bike\Prototypes\Overridable
 {  
     /**
      * Template string path
@@ -44,14 +46,7 @@ abstract class Block extends \Bike\Prototypes\SingletonOverridable
      * 
      * @var array
      */
-    protected static $_sections = array();
-    
-    /**
-     * Parental blocks
-     * 
-     * @var array
-     */
-    protected static $_parentBlocks = array();
+    protected $_sections = array();
     
     /**
      * Getter
@@ -66,15 +61,29 @@ abstract class Block extends \Bike\Prototypes\SingletonOverridable
         }
         return null;
     }
-    
+
+    /**
+     * Init dummy
+     * 
+     * @return Block
+     */
     public function init()
     {
         return $this;
     }
-    
-    public function embed(\Bike\Block $block, $section)
+
+    /**
+     * Embed block to section
+     * 
+     * @param string|Block $block
+     * @param string $section
+     *
+     * @return Block
+     */
+    public function embed($block, $section)
     {
-        $block->appendSection($section);
+        $block->_sections[$section] = $block;
+        return $this;
     }
 
     /**
@@ -111,85 +120,25 @@ abstract class Block extends \Bike\Prototypes\SingletonOverridable
     {
         return $this;
     }
-    
+
     /**
-     * Append section content with self
-     * 
-     * @param string $section
-     * @throws Exception
-     * @return Block
-     */
-    public function appendSection($section)
-    {
-        if (!isset(self::$_sections[$section])) {
-            throw new \Bike\Exception("Section {$section} does not exist in " . get_called_class());
-        }
-        self::$_sections[$section][] = $this;
-        return $this;
-    }
-    
-    /**
-     * Prepend section content with self
-     * 
-     * @param string $section
-     * @throws Exception
-     * @return Block
-     */
-    public function prependSection($section)
-    {
-        if (!isset(self::$_sections[$section])) {
-            throw new \Bike\Exception("Section {$section} does not exist in " . get_called_class());
-        }
-        $sections = array_reverse(self::$_sections[$section]);
-        $sections[] = $this;
-        self::$_sections[$section] = $sections;
-        return $this;
-    }
-    
-    /**
-     * Replace section content with self
-     * 
-     * @param string $section
-     * @throws Exception
-     * @return Block
-     */
-    public function replaceSection($section)
-    {
-        if (!isset(self::$_sections[$section])) {
-            throw new \Bike\Exception("Section {$section} does not exist in " . get_called_class());
-        }
-        self::$_sections[$section] = array($this);
-        return $this;
-    }
-    
-    /**
-     * Create section
-     * 
-     * @param string $sectionName
-     * @return Block
-     * @throws Exception
-     */
-    public function sectionToHtml($sectionName)
-    {
-        $output = '';
-        if (!empty(self::$_sections[$sectionName])) {
-            foreach (self::$_sections[$sectionName] as $sectionBlock) {
-                /* @var Block $sectionBlock */
-                $output .= $sectionBlock->toHtml();                
-            }
-        }
-        return $output;
-    }
-    
-    /**
-     * Render section
+     * Render section by name in block
      * 
      * @param $sectionName
+     *
      * @return Block
+     * @throws Exception
      */
     public function section($sectionName)
     {
-        echo $this->sectionToHtml($sectionName);
+        /* @var $this->_sections[$sectionName] \Bike\Block */
+        if (!isset($this->_sections[$sectionName])) {
+            throw new \Bike\Exception("Section {$sectionName} does not exist in block " . get_class($this));
+        }
+        if (is_string($this->_sections[$sectionName])) {
+            $this->_sections[$sectionName] = call_user_func(array($this->_sections[$sectionName], 'create'));
+        }
+        echo (call_user_func(array($this->_sections[$sectionName], 'toHtml')));
         return $this;
     }
     

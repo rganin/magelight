@@ -25,14 +25,48 @@ namespace Bike\Prototypes;
 
 abstract class Overridable
 {
+    protected static $_classOverrides = array();
+    
     final protected function __construct()
     {
         
     }
-    
+
+    /**
+     * Create object with overridable class
+     * 
+     * @static
+     * @return mixed
+     */
     public static function create()
     {
-        $arguments = func_get_args();
-        return new static();
+        $className = static::getClassName();
+        return new $className();
+    }
+
+    /**
+     * Get class name with overrides
+     * 
+     * @static
+     * @return string
+     */
+    final protected static function getClassName()
+    {
+        if (isset(self::$_classOverrides[get_called_class()])) {
+            return self::$_classOverrides[get_called_class()];
+        }
+        return get_called_class();
+    }
+    
+    /**
+     * Add class to override
+     * 
+     * @static
+     * @param $sourceClassName
+     * @param $replacementClassName
+     */
+    final public static function addClassOverride($sourceClassName, $replacementClassName)
+    {
+        self::$_classOverrides[$sourceClassName] = $replacementClassName;
     }
 }

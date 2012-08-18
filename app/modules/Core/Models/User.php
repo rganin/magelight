@@ -23,7 +23,7 @@
 
 namespace Core\Models;
 
-class User
+class User extends \Bike\Prototypes\Overridable
 {
     const USER = 'core';
 }

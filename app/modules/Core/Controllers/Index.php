@@ -32,10 +32,7 @@ class Index extends \Bike\Controller
     
     public function indexAction()
     {
-        $urlHelper = \Bike::helper('url');
-        /* @var \Bike\Helpers\UrlHelper $urlHelper*/
-        $view = \Core\Blocks\News::create();
-        /* @var \Core\Blocks\News $view*/
-//        $view->appendSection('center');
+        $model = \Core\Models\User::create();
+        echo get_class($model);
     }
 }
