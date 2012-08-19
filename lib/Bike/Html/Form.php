@@ -52,22 +52,23 @@ class Form extends \Bike\Html\Tag
 
     public function setType($type = '')
     {
-        $this->setAttribute('type', $type);
+        return $this->setAttribute('type', $type);
     }
    
     public function setId($id)
     {
-        $this->setAttribute('id', $id);        
+        return $this->setAttribute('id', $id);        
     }
 
     public function setAction($action)
     {
-        $this->setAttribute('action', $action);
+        return $this->setAttribute('action', $action);
     }
 
     public function setIsAjax($value = true)
     {
         $this->_isAjax = $value;
+        return $this;
     }
 
     public function addFieldset(\Bike\Html\Form\Fieldset $fieldset)

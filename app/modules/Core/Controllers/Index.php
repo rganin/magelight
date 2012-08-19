@@ -27,12 +27,16 @@ class Index extends \Bike\Controller
 {
     public function beforeExecute()
     {
-        $this->_view = \Core\Blocks\Body::getInstance();    
+   
     }
     
     public function indexAction()
     {
         $model = \Core\Models\User::create();
-        echo get_class($model);
+        $view = \Bike\Html\Document::create();
+        /* @var $view \Bike\Html\Document */
+        $view->head()->setTitle('sdd');
+        $block = \Core\Blocks\Index::create();
+        echo $view->toHtml();
     }
 }

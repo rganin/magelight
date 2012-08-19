@@ -25,9 +25,17 @@ namespace Bike\Prototypes;
 
 abstract class Overridable
 {
+    /**
+     * Classes overrides
+     * 
+     * @var array
+     */
     protected static $_classOverrides = array();
-    
-    final protected function __construct()
+
+    /**
+     * Just closing constructor, be careful to open
+     */
+    protected function __construct()
     {
         
     }

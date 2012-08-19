@@ -21,7 +21,7 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Helpers;
+namespace Bike\Helpers;
 
 class ArrayHelper extends \Bike\Prototypes\Singleton
 {
@@ -50,7 +50,15 @@ class ArrayHelper extends \Bike\Prototypes\Singleton
         $array = $tmp;
         return $array;
     }
-    
-  
 
+    /**
+     * Get instance of array helper
+     * 
+     * @static
+     * @return \Bike\Helpers\ArrayHelper
+     */
+    public static function getInstance()
+    {
+        return parent::getInstance();
+    }
 }

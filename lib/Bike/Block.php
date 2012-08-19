@@ -63,6 +63,32 @@ abstract class Block extends \Bike\Prototypes\Overridable
     }
 
     /**
+     * Set registry object
+     * 
+     * @param $index
+     * @param $object
+     *
+     * @return Block
+     */
+    public function setRegistryObject($index, $object)
+    {
+        \Bike::app()->setRegistryObject($index, $object);
+        return $this;
+    }
+
+    /**
+     * Get registry object
+     * 
+     * @param $index
+     *
+     * @return mixed
+     */
+    public function getRegistryObject($index)
+    {
+        return \Bike::app()->getRegistryObject($index);
+    }
+
+    /**
      * Init dummy
      * 
      * @return Block
@@ -82,7 +108,13 @@ abstract class Block extends \Bike\Prototypes\Overridable
      */
     public function embed($block, $section)
     {
-        $block->_sections[$section] = $block;
+        if (empty($block->_sections[$section])) {
+            $block->_sections[$section] = array($block);
+        } elseif (!is_array($block->_sections[$section])) {
+            $block->_sections[$section] = array($block->_sections[$section]);
+        } else {
+            $block->_sections[$section][] = $block;
+        }
         return $this;
     }
 
@@ -97,16 +129,21 @@ abstract class Block extends \Bike\Prototypes\Overridable
     }
 
     /**
-     * Render block to HTML
+     * Render template
      * 
      * @return string
+     * @throws Exception
      */
     public function toHtml()
     {
+        $class = get_called_class();
+        if (empty($this->_template)) {
+            throw new \Bike\Exception("Undeclared template in block '{$class}'");
+        }
         $this->beforeToHtml();
-        $class = explode('\\', get_called_class());
+        $classArray = explode('\\', $class);
         ob_start();
-        include($class[0] . DS . 'templates' . DS . $this->_template);
+        include($classArray[0] . DS . 'templates' . DS . $this->_template);
         $this->afterToHtml();
         return ob_get_clean();
     }
@@ -131,14 +168,19 @@ abstract class Block extends \Bike\Prototypes\Overridable
      */
     public function section($sectionName)
     {
-        /* @var $this->_sections[$sectionName] \Bike\Block */
         if (!isset($this->_sections[$sectionName])) {
             throw new \Bike\Exception("Section {$sectionName} does not exist in block " . get_class($this));
         }
-        if (is_string($this->_sections[$sectionName])) {
-            $this->_sections[$sectionName] = call_user_func(array($this->_sections[$sectionName], 'create'));
+        if (!is_array($this->_sections[$sectionName])) {
+            $this->_sections[$sectionName] = array ($this->_sections[$sectionName]);
         }
-        echo (call_user_func(array($this->_sections[$sectionName], 'toHtml')));
+        foreach ($this->_sections[$sectionName] as $section) {
+            /* @var $section \Bike\Block */
+            if (is_string($section)) {
+                $section = call_user_func(array($section, 'create'));
+            }
+            echo (call_user_func(array($section, 'toHtml')));
+        }
         return $this;
     }
     
@@ -193,5 +235,62 @@ abstract class Block extends \Bike\Prototypes\Overridable
     {
         $this->_template = $template;
         return $this;
+    }
+    
+    /**
+     * Append section content with self
+     * 
+     * @param string|Block $block
+     * @param string $section
+     * @throws Exception
+     * @return Block
+     */
+    public function appendSection($block, $section)
+    {
+        if (!is_array($this->_sections[$section])) {
+            $this->_sections[$section] = array($this->_sections[$section]);
+        }
+        $this->_sections[$section][] = $block;
+        return $this;
+    }
+    
+    /**
+     * Prepend section content with self
+     * 
+     * @param string|Block $block
+     * @param string $section
+     * @throws Exception
+     * @return Block
+     */
+    public function prependSection($block, $section)
+    {
+        $sections = array_reverse($this->_sections[$section]);
+        $sections[] = $block;
+        $this->_sections[$section] = $sections;
+        return $this;
+    }
+    
+    /**
+     * Replace section content with self
+     * 
+     * @param string|Block $block
+     * @param string $section
+     * @throws Exception
+     * @return Block
+     */
+    public function replaceSection($block, $section)
+    {
+        $this->_sections[$section] = array($block);
+        return $this;
+    }
+
+    /**
+     * Get document object from registry
+     * 
+     * @return \Bike\Html\Document
+     */
+    public function document()
+    {
+        return $this->getRegistryObject(\Bike\Html\Document::DEFAULT_REGISTRY_INDEX);
     }
 }

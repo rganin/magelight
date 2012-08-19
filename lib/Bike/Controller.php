@@ -43,6 +43,13 @@ abstract class Controller extends \Bike\Prototypes\Overridable
      * @var App
      */
     protected $_app = null;
+
+    /**
+     * Response object 
+     * 
+     * @var \Bike\Http\Response
+     */
+    protected $_response = null;
     
     /**
      * Rendering perspective
@@ -61,6 +68,7 @@ abstract class Controller extends \Bike\Prototypes\Overridable
     {
         $this->_request = $request;
         $this->_app = $app;
+        $this->_response = new \Bike\Http\Response();
     }
         
     /**
@@ -74,16 +82,6 @@ abstract class Controller extends \Bike\Prototypes\Overridable
     }
     
     /**
-     * Get application document
-     * 
-     * @return Html\Document
-     */
-    public function document()
-    {
-        return $this->app()->document();    
-    }
-    
-    /**
      * Get request
      * 
      * @return Http\Request|null
@@ -91,6 +89,16 @@ abstract class Controller extends \Bike\Prototypes\Overridable
     protected function request()
     {
         return $this->_request;
+    }
+
+    /**
+     * Get response object
+     * 
+     * @return Http\Response|null
+     */
+    protected function response()
+    {
+        return $this->_response;
     }
     
     /**

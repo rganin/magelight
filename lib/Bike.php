@@ -69,7 +69,7 @@ final class Bike
      * 
      * @static
      *
-     * @param $var
+     * @param mixed $var
      */
     public static function dump($var)
     {
@@ -82,10 +82,22 @@ final class Bike
      * Just autoloader
      * 
      * @static
-     * @param $className
+     * @param string $className
      */
     public static function autoload($className)
     {
         require_once $className . '.php';
+    }
+    
+    /**
+     * Add class to override
+     * 
+     * @static
+     * @param string $sourceClassName
+     * @param string $replacementClassName
+     */
+    final public static function addClassOverride($sourceClassName, $replacementClassName)
+    {
+        
     }
 }

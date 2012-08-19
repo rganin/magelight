@@ -25,8 +25,6 @@ namespace Bike;
 
 class App
 {
-
-    
     /**
      * Objects registry
      * 
@@ -91,12 +89,14 @@ class App
         $this->_appDir = $directory . DIRECTORY_SEPARATOR;
         return $this;
     }
-    
+
     /**
-     * Get object from app registry
+     * Get object from registry
      * 
-     * @param $index
+     * @param string $index
+     *
      * @return mixed
+     * @throws Exception
      */
     public function getRegistryObject($index)
     {
@@ -117,16 +117,6 @@ class App
     {
         $this->_registry[$index] = $object;
         return $this;
-    }
-    
-    /**
-     * Get document
-     * 
-     * @return \Bike\Html\Document
-     */
-    public function document()
-    {
-        return $this->getRegistryObject('document');
     }
     
     /**
@@ -192,33 +182,28 @@ class App
     /**
      * Run application
      * 
-     * @param bool   $muteExceptions
+     * @param bool $muteExceptions
      *
      * @throws Exception
+     * @throws \Exception
      */
     public function run($muteExceptions = true)
     {
         try {
-            
             $request = new \Bike\Http\Request();
             $action = $this->router()->getAction((string) $request->getRequestRoute());
             $request->appendGet($action['arguments']);
             $this->dispatchAction($action, $request);
-            
         } catch (\Bike\Exception $e) {
-            
-            \Bike\Log::add($e->getMessage()); 
             if (!$muteExceptions || $this->_developerMode) {
+                \Bike\Log::add($e->getMessage()); 
                 throw $e;
             }
-            
         } catch (\Exception $e) {
-            
-            \Bike\Log::add('Generic exception: ' . $e->getMessage()); 
             if (!$muteExceptions || $this->_developerMode) {
+                \Bike\Log::add('Generic exception: ' . $e->getMessage());
                 throw $e;
             }
-            
         }
     }
 
