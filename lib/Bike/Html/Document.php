@@ -77,15 +77,14 @@ class Document extends \Bike\Block
      * @var array
      */
     protected $_sections = array(
-        'head' => 'Core\\Blocks\\Head',
-        'body' => 'Core\\Blocks\\Body',
+
     );
     
     protected function __construct()
     {
         $this->_sections = array(
-            'head' => \Bike\Html\Head::create(),
-            'body' => 'Bike\\Html\\Body',
+            'head' => array(\Bike\Html\Head::create()),
+            'body' => array('Bike\\Html\\Body'),
         );
         $this->setRegistryObject(self::DEFAULT_REGISTRY_INDEX, $this);
     }
@@ -104,12 +103,14 @@ class Document extends \Bike\Block
     }
 
     /**
-     * Get head block
+     * Get head object
      * 
-     * @return \Bike\Html\Head 
+     * @param int $index
+     *
+     * @return \Bike\Html\Head
      */
-    public function head()
+    public function head($index = 0)
     {
-        return $this->_sections['head'];
+        return $this->_sections['head'][$index];
     }
 }

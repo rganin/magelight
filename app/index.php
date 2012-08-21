@@ -20,8 +20,10 @@
  * @copyright Copyright (c) 2012 rganin (rganin@gmail.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
+//$t = microtime();
 require '../core.php';
 ini_set('include_path', ini_get('include_path') . PS . './modules' . PS . '../lib');
 define('DEVELOPER_MODE', true);
 
 Bike::app()->setAppDir(dirname(__FILE__))->setDeveloperMode(true)->init()->run();
+//$s = microtime() - $t;

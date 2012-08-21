@@ -21,17 +21,9 @@
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Core\Blocks;
+/* @var $this \Bike\Block */
+?>
 
-class Index extends \Bike\Block
-{
-    protected $_template = 'main.phtml';
+<h1>Page not found</h1>
     
-    protected function __construct()
-    {
-        $this->document()->head()->addJs('modules/Core/static/js/jquery-1.8.0.min.js');
-        $this->appendSection('Core\\Blocks\\Top', 'top');
-        $this->appendSection('Core\\Blocks\\Content', 'content');
-        $this->appendSection('Core\\Blocks\\Bottom', 'bottom');
-    }
-}
+<p>The page you requested was not found.</p>

@@ -47,6 +47,13 @@ abstract class Block extends \Bike\Prototypes\Overridable
      * @var array
      */
     protected $_sections = array();
+
+    /**
+     * Sectiona initialized flag
+     * 
+     * @var bool
+     */
+    private $_sectionsInitialized = false;
     
     /**
      * Getter
@@ -99,26 +106,6 @@ abstract class Block extends \Bike\Prototypes\Overridable
     }
 
     /**
-     * Embed block to section
-     * 
-     * @param string|Block $block
-     * @param string $section
-     *
-     * @return Block
-     */
-    public function embed($block, $section)
-    {
-        if (empty($block->_sections[$section])) {
-            $block->_sections[$section] = array($block);
-        } elseif (!is_array($block->_sections[$section])) {
-            $block->_sections[$section] = array($block->_sections[$section]);
-        } else {
-            $block->_sections[$section][] = $block;
-        }
-        return $this;
-    }
-
-    /**
      * Before to HTML dummy
      * 
      * @return Block
@@ -136,6 +123,9 @@ abstract class Block extends \Bike\Prototypes\Overridable
      */
     public function toHtml()
     {
+        if (!$this->_sectionsInitialized) {
+            $this->initSections();  
+        }
         $class = get_called_class();
         if (empty($this->_template)) {
             throw new \Bike\Exception("Undeclared template in block '{$class}'");
@@ -182,6 +172,41 @@ abstract class Block extends \Bike\Prototypes\Overridable
             echo (call_user_func(array($section, 'toHtml')));
         }
         return $this;
+    }
+
+    /**
+     * Initialize block sections
+     * 
+     * @return \Bike\Block
+     */
+    public function initSections()
+    {
+        foreach ($this->_sections as $sectionName => $section) {
+            if (!is_array($section)) {
+                $section = array($section);
+            }
+            foreach ($section as $key => $sectionBlock) {
+                if (is_string($sectionBlock)) {
+                    $sectionBlock = $this->createBlock($sectionBlock);
+                }
+                $sectionBlock->initSections();
+                $section[$key] = $sectionBlock;
+            }
+            $this->_sections[$sectionName] = $section;
+        }
+        return $this;
+    }
+
+    /**
+     * Create section block
+     * 
+     * @param string $className
+     *
+     * @return \Bike\Block
+     */
+    public function createBlock($className) 
+    {
+        return call_user_func(array($className, 'create'));
     }
     
     /**
@@ -247,10 +272,11 @@ abstract class Block extends \Bike\Prototypes\Overridable
      */
     public function appendSection($block, $section)
     {
-        if (!is_array($this->_sections[$section])) {
+        if (isset($this->_sections[$section]) && !is_array($this->_sections[$section])) {
             $this->_sections[$section] = array($this->_sections[$section]);
         }
         $this->_sections[$section][] = $block;
+        $this->_sectionsInitialized = $this->_sectionsInitialized && ($block instanceof \Bike\Block);
         return $this;
     }
     
@@ -267,6 +293,7 @@ abstract class Block extends \Bike\Prototypes\Overridable
         $sections = array_reverse($this->_sections[$section]);
         $sections[] = $block;
         $this->_sections[$section] = $sections;
+        $this->_sectionsInitialized = $this->_sectionsInitialized && ($block instanceof \Bike\Block);
         return $this;
     }
     
@@ -281,6 +308,7 @@ abstract class Block extends \Bike\Prototypes\Overridable
     public function replaceSection($block, $section)
     {
         $this->_sections[$section] = array($block);
+        $this->_sectionsInitialized = $this->_sectionsInitialized && ($block instanceof \Bike\Block);
         return $this;
     }
 

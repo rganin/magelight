@@ -23,15 +23,7 @@
 
 namespace Core\Blocks;
 
-class Index extends \Bike\Block
+class Bottom extends \Bike\Block
 {
-    protected $_template = 'main.phtml';
-    
-    protected function __construct()
-    {
-        $this->document()->head()->addJs('modules/Core/static/js/jquery-1.8.0.min.js');
-        $this->appendSection('Core\\Blocks\\Top', 'top');
-        $this->appendSection('Core\\Blocks\\Content', 'content');
-        $this->appendSection('Core\\Blocks\\Bottom', 'bottom');
-    }
+    protected $_template = 'bottom.phtml';
 }

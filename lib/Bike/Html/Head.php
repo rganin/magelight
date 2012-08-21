@@ -49,9 +49,9 @@ class Head extends \Bike\Block
     /**
      * Title tag
      * 
-     * @var string
+     * @var Tag
      */
-    protected $_title = '';
+    protected $_title = null;
     
     /**
      * Add JS to head

@@ -52,23 +52,35 @@ abstract class Controller extends \Bike\Prototypes\Overridable
     protected $_response = null;
     
     /**
-     * Rendering perspective
+     * View object
      * 
-     * @var null
+     * @var \Bike\Block|null
      */
-    protected $_perspective = null;
+    protected $_view = 'Bike\\Html\\Document';
     
     /**
      * Constructor
      * 
      * @param Http\Request $request
-     * @param \Bike\App $app
      */
-    public function init(\Bike\Http\Request $request, \Bike\App $app)
+    public function init(\Bike\Http\Request $request)
     {
         $this->_request = $request;
-        $this->_app = $app;
+        $this->_app = \Bike::app();
         $this->_response = new \Bike\Http\Response();
+    }
+
+    /**
+     * Set view object or class name
+     * 
+     * @param Block|string $view
+     *
+     * @return Controller
+     */
+    protected function setView($view)
+    {
+        $this->_view = $view;
+        return $this;
     }
         
     /**
@@ -100,13 +112,37 @@ abstract class Controller extends \Bike\Prototypes\Overridable
     {
         return $this->_response;
     }
+
+    /**
+     * Get view object
+     * 
+     * @return \Bike\Block|null
+     */
+    protected function view()
+    {
+        if (!$this->_view instanceof \Bike\Block && is_string($this->_view)) {
+            $this->_view = call_user_func(array($this->_view, 'create'));
+        }
+        return $this->_view;
+    }
+
+    /**
+     * Render view
+     * 
+     * @return Controller
+     */
+    protected function renderView()
+    {
+        $this->response()->setContent($this->view()->toHtml())->send();
+        return $this;
+    }
     
     /**
      * Before execution
      * 
      * @return \Bike\Controller
      */
-    public function beforeExec()
+    public function beforeExecute()
     {
         return $this;
     }
@@ -116,7 +152,7 @@ abstract class Controller extends \Bike\Prototypes\Overridable
      * 
      * @return \Bike\Controller
      */
-    public function afterExec()
+    public function afterExecute()
     {
         return $this;
     }

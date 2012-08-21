@@ -221,10 +221,10 @@ class App
         $controllerMethod = $action['action'] . 'Action';
         $controller = call_user_func(array($controllerName, 'create'));
         /* @var $controller \Bike\Controller*/
-        $controller->init($request, $this);
-        $controller->beforeExec();
+        $controller->init($request);
+        $controller->beforeExecute();
         $controller->$controllerMethod();
-        $controller->afterExec();
+        $controller->afterExecute();
         return $this;
     }
     
@@ -249,5 +249,25 @@ class App
             }
         }
         return $this;
+    }
+    
+    public function upgrade()
+    {
+        foreach ($this->modules()->getModules() as $module) {
+            $this->upgradeModule($module['name']);
+        }
+    }
+    
+    public function upgradeModule($module)
+    {
+        $file = $this->getAppDir() . '/modules/' . $module . "/upgrade/install.php";
+        if (file_exists($file)) {
+            include $file; 
+                if(rename($file, $file . ".complete")) {
+            echo "renaming $file";
+            } else {
+            echo "error renaming $file";    
+            }
+        }
     }
 }

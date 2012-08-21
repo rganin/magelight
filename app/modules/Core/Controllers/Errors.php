@@ -21,17 +21,15 @@
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Core\Blocks;
+namespace Core\Controllers;
 
-class Index extends \Bike\Block
+class Errors extends \Bike\Controller
 {
-    protected $_template = 'main.phtml';
-    
-    protected function __construct()
+    public function notFoundAction()
     {
-        $this->document()->head()->addJs('modules/Core/static/js/jquery-1.8.0.min.js');
-        $this->appendSection('Core\\Blocks\\Top', 'top');
-        $this->appendSection('Core\\Blocks\\Content', 'content');
-        $this->appendSection('Core\\Blocks\\Bottom', 'bottom');
+        $this->view()->head()->setTitle('Not found');
+        $this->response()->addHeader('HTTP/1.0 404 Not Found');
+        $this->view()->replaceSection('Core\\Blocks\\Errors\\NotFound', 'body');
+        $this->renderView();
     }
 }

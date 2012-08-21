@@ -26,20 +26,39 @@ namespace Bike\Http;
 
 class Response
 {
-    private $_headers = array();
+    protected $_headers = array();
+    
+    protected $_content = null;
     
     public function __construct()
     {
-        
+           
     }
     
-    public function setHeader($name, $value)
+    public function addHeader($name = null, $value = null)
     {
-        $this->_headers[$name] = $value;
+        $this->_headers[] = array('name' => $name, 'value' => $value);
+        return $this;
+    }
+    
+    public function setContent($content = null)
+    {
+        $this->_content = $content;
+        return $this;
     }
     
     public function send()
     {
-        
+        foreach ($this->_headers as $header) {
+            $headerStr = '';
+            if (!empty($header['name'])) {
+                $headerStr .= $header['name'] . ': ';
+            }
+            if (!empty($header['value'])) {
+                $headerStr .= $header['value'];
+            }
+            header($headerStr);
+        }
+        echo $this->_content;
     }
 }

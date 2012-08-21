@@ -21,7 +21,14 @@
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-/* @var $this \Bike\Block */
-?>
+namespace Core\Blocks;
 
-<h1>This is core block Index</h1>
+class Top extends \Bike\Block
+{
+    protected $_template = 'top.phtml';
+    
+    protected function __construct()
+    {
+        $this->document()->head()->setTitle('Top block title override');
+    }
+}

@@ -21,17 +21,14 @@
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Core\Blocks;
+namespace Core\Blocks\Errors;
 
-class Index extends \Bike\Block
+class NotFound extends \Bike\Block
 {
-    protected $_template = 'main.phtml';
+    protected $_template = 'not-found.phtml';
     
     protected function __construct()
     {
-        $this->document()->head()->addJs('modules/Core/static/js/jquery-1.8.0.min.js');
-        $this->appendSection('Core\\Blocks\\Top', 'top');
-        $this->appendSection('Core\\Blocks\\Content', 'content');
-        $this->appendSection('Core\\Blocks\\Bottom', 'bottom');
+        $this->document()->head()->setTitle('Page not found');
     }
 }

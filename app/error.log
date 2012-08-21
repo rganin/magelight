@@ -42,3 +42,8 @@
 19-08-2012 01:30:01 - Undeclared template in block 'Core\Blocks\Body'
 19-08-2012 01:30:01 - Undeclared template in block 'Core\Blocks\Body'
 19-08-2012 01:30:02 - Undeclared template in block 'Core\Blocks\Body'
+20-08-2012 00:11:16 - Section top does not exist in block Core\Blocks\Index
+20-08-2012 00:22:50 - Section center-block does not exist in block Core\Blocks\Index
+20-08-2012 00:23:21 - Section bottom does not exist in block Core\Blocks\Index
+20-08-2012 00:23:22 - Section bottom does not exist in block Core\Blocks\Index
+20-08-2012 00:23:22 - Section bottom does not exist in block Core\Blocks\Index

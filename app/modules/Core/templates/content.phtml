@@ -21,17 +21,14 @@
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Core\Blocks;
+/* @var  \Html\Block */
+?>
 
-class Index extends \Bike\Block
-{
-    protected $_template = 'main.phtml';
+<h2>This is content</h2>
     
-    protected function __construct()
-    {
-        $this->document()->head()->addJs('modules/Core/static/js/jquery-1.8.0.min.js');
-        $this->appendSection('Core\\Blocks\\Top', 'top');
-        $this->appendSection('Core\\Blocks\\Content', 'content');
-        $this->appendSection('Core\\Blocks\\Bottom', 'bottom');
-    }
-}
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna 
+    aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+</p>
