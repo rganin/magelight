@@ -50,10 +50,12 @@ class Router
     {
         $this->_app = $app;
         $loader = new \Bike\Components\Loaders\Routes();
-        foreach (array_keys($app->modules()->getModules()) as $moduleName) {
-            $filename = $app->getAppDir() . 'modules' . DS . $moduleName . DS . 'etc' . DS . 'routes.xml';
-            if (file_exists($filename)) {
-                $loader->parseRoutes($filename);
+        foreach (array($app->getFrameworkDir(), $app->getAppDir()) as $dir) {
+            foreach (array_keys($app->modules()->getModules()) as $moduleName) {
+                $filename = $dir . DS . 'modules' . DS . $moduleName . DS . 'etc' . DS . 'routes.xml';
+                if (file_exists($filename)) {
+                    $loader->parseRoutes($filename);
+                }
             }
         }
         $loader->buildRoutesBackIndex();

@@ -94,7 +94,13 @@ final class Modules
             'active' => (int) $moduleXml->active,
         );
         
-        if (\Bike::app()->isInDeveloperMode() && !file_exists('./modules/' . $module['name'])) {
+        if (\Bike::app()->isInDeveloperMode() &&
+            (
+                !file_exists(\Bike::app()->getAppDir() . DS . 'modules' . DS . $module['name'])
+                &&
+                !file_exists(\Bike::app()->getFrameworkDir() . DS . 'modules' . DS . $module['name'])
+            )
+        ) {
             throw new \Bike\Exception(
                 'Module "' 
                 .  $module['name']

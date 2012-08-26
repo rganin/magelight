@@ -51,12 +51,15 @@ class Config
     {
         $this->_app = $app;
         $loader = new \Bike\Components\Loaders\Config();
+        
         $loader->loadConfig($app->getAppDir() . DS . 'etc' . DS . 'config.xml');
         
-        foreach (array_keys($app->modules()->getModules()) as $moduleName) {
-            $filename = $app->getAppDir() . 'modules' . DS . $moduleName . DS . 'etc' . DS . 'config.xml';
-            if (file_exists($filename)) {
-                $loader->loadConfig($filename);
+        foreach (array($app->getFrameworkDir(), $app->getAppDir()) as $dir) {
+            foreach (array_keys($app->modules()->getModules()) as $moduleName) {
+                $filename = $dir . DS . 'modules' . DS . $moduleName . DS . 'etc' . DS . 'config.xml';
+                if (file_exists($filename)) {
+                    $loader->loadConfig($filename);
+                }
             }
         }
         

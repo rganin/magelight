@@ -45,6 +45,13 @@ class App
     protected $_appDir = './';
     
     /**
+     * Framework directory
+     * 
+     * @var string
+     */
+    protected $_frameworkDir = '../';
+    
+    /**
      * Is app in developer mode
      *
      * @var bool
@@ -86,13 +93,35 @@ class App
     /**
      * Set application directory
      * 
-     * @param $directory
+     * @param string $directory
      * @return App
      */
     public function setAppDir($directory)
     {
-        $this->_appDir = $directory . DIRECTORY_SEPARATOR;
+        $this->_appDir = $directory;
         return $this;
+    }
+    
+    /**
+     * Set framework directory
+     * 
+     * @param string $directory
+     * @return App
+     */
+    public function setFrameworkDir($directory)
+    {
+        $this->_frameworkDir = $directory;
+        return $this;
+    }
+    
+    /**
+     * Get framework directory
+     * 
+     * @return string
+     */
+    public function getFrameworkDir()
+    {
+        return $this->_frameworkDir;
     }
 
     /**
@@ -181,6 +210,16 @@ class App
      */
     public function init()
     {
+        $includePath = explode(PS, ini_get('include_path'));
+        array_unshift(
+            $includePath, 
+            $this->_frameworkDir . DS . 'lib',
+            $this->_frameworkDir . DS . 'modules',
+            $this->_appDir . DS . 'modules'
+        );
+        
+        ini_set('include_path', implode(PS, $includePath));
+        
         $this->setRegistryObject('cache', \Bike\Components\Cache::getInstance());
         $this->cache()->init();
         
