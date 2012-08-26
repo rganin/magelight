@@ -1,16 +1,4 @@
 <modules>
-    <!--
-    <Main>
-        <active>1</active>
-    </Main>
-    -->
-    <!--
-    <Test>
-        <active>1</active>
-        <require>Admin</require>
-        <require>Core</require>
-    </Test>
-    -->
     <Admin>
         <active>1</active>
         <require>Core</require>

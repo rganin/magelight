@@ -25,15 +25,33 @@ namespace Core\Views;
 
 class Document extends \Bike\View
 {
+    /**
+     * Document template
+     * 
+     * @var string
+     */
     protected $_template = 'document.phtml';
     
+    /**
+     * Key to store this document in registry
+     */
     const REGISTRY_KEY = 'core/document';
     
+    /**
+     * Constructor
+     */
     protected function __construct()
     {
         \Bike::app()->setRegistryObject(self::REGISTRY_KEY, $this);
     }
     
+    /**
+     * Add css to head
+     * 
+     * @param string $path
+     * @param string|null $after
+     * @param string $media
+     */
     public function addCss($path, $after = null, $media = 'all')
     {
         $css = $this->get('css', array());
@@ -47,6 +65,13 @@ class Document extends \Bike\View
         $this->set('css', $css);
     }
     
+    /**
+     * Add inline css to head
+     * 
+     * @param string $content
+     * @param string|null $after
+     * @param string $media
+     */
     public function addInlineCss($content, $after = null, $media = 'all')
     {
         $css = $this->get('css', array());
@@ -61,6 +86,12 @@ class Document extends \Bike\View
         $this->set('css', $css);
     }
     
+    /**
+     * Add javascript to head
+     * 
+     * @param string $path
+     * @param string|null $after
+     */
     public function addJs($path, $after = null)
     {
         $js = $this->get('js', array());
@@ -73,6 +104,12 @@ class Document extends \Bike\View
         $this->set('js', $js);
     }
     
+    /**
+     * Add inline javascript to head
+     * 
+     * @param string $content
+     * @param string|null $after
+     */
     public function addInlineJs($content, $after = null)
     {
         $js = $this->get('js', array());
@@ -86,12 +123,24 @@ class Document extends \Bike\View
         $this->set('js', $js);
     }
     
+    /**
+     * Set page title
+     * 
+     * @param string $title
+     * @return Document
+     */
     public function setTitle($title)
     {
         $this->set('title', $title);
         return $this;
     }
     
+    /**
+     * Set document language
+     * 
+     * @param string[2] $lang
+     * @return Document
+     */
     public function setLang($lang)
     {
         $this->set('lang', $lang);
