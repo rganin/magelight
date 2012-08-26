@@ -52,10 +52,10 @@ class Response
         foreach ($this->_headers as $header) {
             $headerStr = '';
             if (!empty($header['name'])) {
-                $headerStr .= $header['name'] . ': ';
+                $headerStr .= $header['name'];
             }
             if (!empty($header['value'])) {
-                $headerStr .= $header['value'];
+                $headerStr .=  ': ' . $header['value'];
             }
             header($headerStr);
         }

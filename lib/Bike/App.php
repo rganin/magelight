@@ -26,6 +26,11 @@ namespace Bike;
 class App
 {
     /**
+     * Session ID cookie name
+     */
+    const SESSION_ID_COOKIE_NAME = 'BIKESSID';
+    
+    /**
      * Objects registry
      * 
      * @var array
@@ -158,6 +163,16 @@ class App
     {
         return $this->getRegistryObject('config');
     }
+    
+    /**
+     * Get session object
+     * 
+     * @return \Bike\Http\Session
+     */
+    public function session()
+    {
+        return $this->getRegistryObject('session');
+    }
 
     /**
      * Initialize application
@@ -166,14 +181,14 @@ class App
      */
     public function init()
     {
-        $cache = \Bike\Components\Cache::getInstance();
-        /* @var \Bike\Components\Cache $cache */
-        $cache->init();
+        $this->setRegistryObject('cache', \Bike\Components\Cache::getInstance());
+        $this->cache()->init();
         
         $this->setRegistryObject('modules', new \Bike\Components\Modules($this));
         $this->setRegistryObject('config', new \Bike\Components\Config($this));
         $this->setRegistryObject('router', new \Bike\Components\Router($this));
-        
+        $this->setRegistryObject('session', \Bike\Http\Session::getInstance());
+        $this->session()->setSessionName(self::SESSION_ID_COOKIE_NAME)->start();
         $this->loadClassesOverrides();
         
         return $this;

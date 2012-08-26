@@ -43,6 +43,17 @@ final class Bike
         }
         return self::$_app;
     }
+    
+    /**
+     * Get session object
+     * 
+     * @static
+     * @return Bike\Http\Session
+     */
+    public static function session()
+    {
+        return \Bike\Http\Session::getInstance();
+    }
 
     /**
      * Get helper by name
@@ -87,17 +98,5 @@ final class Bike
     public static function autoload($className)
     {
         require_once $className . '.php';
-    }
-    
-    /**
-     * Add class to override
-     * 
-     * @static
-     * @param string $sourceClassName
-     * @param string $replacementClassName
-     */
-    final public static function addClassOverride($sourceClassName, $replacementClassName)
-    {
-        
     }
 }

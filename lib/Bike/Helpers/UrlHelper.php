@@ -63,7 +63,7 @@ class UrlHelper extends \Bike\Prototypes\Singleton
     /**
      * Get plain url
      * 
-     * @param        $path
+     * @param string $path
      * @param string $type
      *
      * @return string
@@ -116,8 +116,8 @@ class UrlHelper extends \Bike\Prototypes\Singleton
     /**
      * Check Url params by mask
      * 
-     * @param $match
-     * @param $params
+     * @param string $match
+     * @param array $params
      *
      * @return bool
      */
@@ -140,7 +140,7 @@ class UrlHelper extends \Bike\Prototypes\Singleton
     /**
      * Set url params to match placeholders
      * 
-     * @param       $match
+     * @param string $match
      * @param array $params
      *
      * @return mixed
@@ -153,5 +153,19 @@ class UrlHelper extends \Bike\Prototypes\Singleton
         }
         $match = preg_replace("/(\{[^\}]*\})/", '', $match); //cleaning not used placeholders
         return $match;
+    }
+
+    /**
+     * Get URL for static data
+     * 
+     * @param string $module
+     * @param string $type
+     * @param string $path
+     *
+     * @return string
+     */
+    public function getStaticUrl($module, $type, $path = '')
+    {
+        return $module . '/' . $type . '/' . $path;
     }
 }

@@ -54,7 +54,7 @@ abstract class Controller extends \Bike\Prototypes\Overridable
     /**
      * View object
      * 
-     * @var \Bike\Block|null
+     * @var \Bike\View|null
      */
     protected $_view = 'Bike\\Html\\Document';
     
@@ -73,7 +73,7 @@ abstract class Controller extends \Bike\Prototypes\Overridable
     /**
      * Set view object or class name
      * 
-     * @param Block|string $view
+     * @param \Bike\View|string $view
      *
      * @return Controller
      */
@@ -116,11 +116,11 @@ abstract class Controller extends \Bike\Prototypes\Overridable
     /**
      * Get view object
      * 
-     * @return \Bike\Block|null
+     * @return \Bike\View|null
      */
     protected function view()
     {
-        if (!$this->_view instanceof \Bike\Block && is_string($this->_view)) {
+        if (!$this->_view instanceof \Bike\View && is_string($this->_view)) {
             $this->_view = call_user_func(array($this->_view, 'create'));
         }
         return $this->_view;

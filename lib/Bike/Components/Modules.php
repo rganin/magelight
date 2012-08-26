@@ -47,7 +47,7 @@ class Modules
     public function __construct(\Bike\App $app)
     {
         $this->_app = $app;
-        $this->loadModules('modules.xml');
+        $this->loadModules('etc' . DS . 'modules.xml');
     }
     
     /**

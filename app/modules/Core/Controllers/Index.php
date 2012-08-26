@@ -27,11 +27,13 @@ class Index extends \Bike\Controller
 {
     public function beforeExecute()
     {
-        $this->view()->replaceSection('Core\\Blocks\\Index', 'body');
+        $this->_view = \Core\Views\Document::create();
+        $this->_view->sectionAppend('body', '\\Core\\Views\\Main');
     }
     
     public function indexAction()
     {
+        $this->_view->title = 'Welcome';
         $this->renderView();
     }
 }

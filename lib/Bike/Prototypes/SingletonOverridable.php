@@ -59,7 +59,8 @@ abstract class SingletonOverridable extends Overridable
     public static function getInstance()
     {
         static $instance;
-        if (!$instance instanceof static::getClassName()) {
+        $className = static::getClassName();
+        if (!$instance instanceof $className) {
             $instance = static::create();
         }
         return $instance;

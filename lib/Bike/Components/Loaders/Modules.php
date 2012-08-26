@@ -53,7 +53,9 @@ final class Modules
     {
         if ($modulesXmlConfig->getName() === self::MODULES_NODE_NAME) {
             foreach ($modulesXmlConfig->children() as $module) {
-                $this->enqueue($module);
+                if ($module->active) {
+                    $this->enqueue($module);
+                }
             }
             
             while (!empty($this->_loadQueue)) {
@@ -70,7 +72,7 @@ final class Modules
      * Enqueue module for loading
      * 
      * @param \SimpleXMLElement $moduleXml
-     * @return \Bike\Loaders\Modules
+     * @return \Bike\Components\Loaders\Modules
      */
     private function enqueue(\SimpleXMLElement $moduleXml)
     {
@@ -82,17 +84,17 @@ final class Modules
      * Load module
      * 
      * @param \SimpleXMLElement $moduleXml
-     * @return \Bike\Loaders\Modules
+     * @return \Bike\Components\Loaders\Modules
      * @throws \Bike\Exception
      */
     private function loadModule(\SimpleXMLElement $moduleXml)
     {
         $module = array(
             'name' => $moduleXml->getName(),
-            'active' => (bool) $moduleXml->xpath('active'),
+            'active' => (int) $moduleXml->active,
         );
         
-        if (!file_exists('./modules/' . $module['name'])) {
+        if (\Bike::app()->isInDeveloperMode() && !file_exists('./modules/' . $module['name'])) {
             throw new \Bike\Exception(
                 'Module "' 
                 .  $module['name']
@@ -152,7 +154,7 @@ final class Modules
     
     /**
      * Unset modules and loading queue arrays
-     * @return \Bike\Loaders\Modules
+     * @return \Bike\Components\Loaders\Modules
      */
     public function flushArrays()
     {

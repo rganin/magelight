@@ -1,5 +1,12 @@
 <config>
     <global>
-        <merge_js>1</merge_js>
+        <classes>
+            <override>
+                <core_blocks_body>
+                    <class><![CDATA[\Core\Blocks\Body]]></class>
+                    <replace><![CDATA[\Core\Blocks\Main]]></replace>
+                </core_blocks_body>
+            </override>
+        </classes>
     </global>
 </config>

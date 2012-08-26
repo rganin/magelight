@@ -6,8 +6,8 @@
         <classes>
             <override>
                 <core_models_user>
-                    <class><![CDATA[\Core\Models\User]]></class>
-                    <replace><![CDATA[\Admin\Models\SuperUser]]></replace>
+                    <class><![CDATA[\Core\Blocks\Main]]></class>
+                    <replace><![CDATA[\Core\Blocks\Index]]></replace>
                 </core_models_user>
             </override>
         </classes>

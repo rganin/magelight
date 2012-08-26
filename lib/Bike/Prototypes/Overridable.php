@@ -60,10 +60,11 @@ abstract class Overridable
      */
     final protected static function getClassName()
     {
-        if (isset(self::$_classOverrides[get_called_class()])) {
-            return self::$_classOverrides[get_called_class()];
+        $className = get_called_class();
+        while (!empty(self::$_classOverrides[$className])) {
+            $className = self::$_classOverrides[$className];
         }
-        return get_called_class();
+        return $className;
     }
     
     /**

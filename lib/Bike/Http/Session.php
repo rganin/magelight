@@ -21,3 +21,46 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
+namespace Bike\Http;
+
+class Session extends \Bike\Prototypes\SingletonOverridable
+{
+    public function __get($name)
+    {
+        return isset($_SESSION[$name]) ? $_SESSION[$name] : null;
+    }
+    
+    public function __set($name, $value)
+    {
+        $_SESSION[$name] = $value;
+    }
+    
+    public function start()
+    {
+        session_start();
+        return $this;
+    }
+    
+    public function commit()
+    {
+        session_commit();
+        return $this;
+    }
+    
+    public function close()
+    {
+        session_write_close();
+        return $this;
+    }
+    
+    public function setSessionName($name)
+    {
+        session_name($name);
+        return $this;
+    }
+    
+    public function getSessionId()
+    {
+        return session_id();
+    }
+}
