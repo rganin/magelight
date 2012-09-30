@@ -25,6 +25,10 @@ namespace Magelight;
 
 class Log
 {
+    protected static $_file = 'log.log';
+
+    protected static $_initialized = false;
+
     /**
      * Add message to application log
      * 
@@ -34,6 +38,7 @@ class Log
      */
     public static function add($logMessage, $logFile = 'error.log')
     {
+        self::init();
         $time = date('d-m-Y H:i:s', time());
         $message = "{$time} - {$logMessage}";
         $f = fopen($logFile, 'a+');
@@ -41,5 +46,15 @@ class Log
         fwrite($f, $message . PHP_EOL);
         flock($f, LOCK_UN);
         fclose($f);
+    }
+
+    protected static function init()
+    {
+        self::$_file = \Magelight::app()->config()->getConfigLast(
+            'global/log/file',
+            \Magelight\Components\Config::TYPE_STRING,
+            self::$_file
+        );
+        self::$_initialized = true;
     }
 }
