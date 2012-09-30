@@ -21,25 +21,18 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Core\Controllers;
+namespace Core\Blocks;
 
-class Index extends \Magelight\Controller
+class Main extends \Magelight\Block
 {
-    public function beforeExecute()
-    {
-        $this->_view = \Core\Blocks\Document::forge();
-        $this->_view->sectionAppend('body', \Core\Blocks\Main::forge());
-    }
+    protected $_template = 'modules/Core/templates/main.phtml';
 
-    public function test($a)
+    public function init()
     {
-        return $a;
-    }
-    
-    public function indexAction()
-    {
-        $this->_view->title = 'Welcome';
-        \Core\Blocks\Document::getFromRegistry()->addMeta(array('name' => 'description', 'content' => '123'));
-         $this->renderView();
+        $this->sectionAppend('top', \Core\Blocks\Top::forge());
+        \Core\Blocks\Document::getFromRegistry()->addMeta(array(
+            'name' => 'keywords',
+            'content' => 'welcome app, magelight'
+        ));
     }
 }

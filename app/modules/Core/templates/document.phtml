@@ -1,6 +1,6 @@
 <?php
 /**
- * $$name_placeholder_notice$$
+ * Magelight
  *
  * NOTICE OF LICENSE
  *
@@ -21,12 +21,13 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-/* @var $this \Bike\View */
+/* @var $this \Core\Blocks\Document */
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->get('lang') ?>">
     <head>
-        <title><?php echo $this->title ?></title>
+        <?php echo $this->renderTitle(); ?>
+        <?php echo $this->renderMeta(); ?>
     </head>
     <body>
         <?php echo $this->section('body') ?>

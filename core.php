@@ -1,6 +1,6 @@
 <?php
 /**
- * $$name_placeholder_notice$$
+ * Magelight
  *
  * NOTICE OF LICENSE
  * 
@@ -21,5 +21,5 @@
 
 define('PS', PATH_SEPARATOR);
 define('DS', DIRECTORY_SEPARATOR);
-require 'lib' . DS . 'Bike.php';
-spl_autoload_register(array('Bike', 'autoload'));
+require 'lib' . DS . 'Magelight.php';
+spl_autoload_register(array('Magelight', 'autoload'));

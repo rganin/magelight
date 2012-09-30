@@ -1,15 +1,23 @@
 <config>
-    <admin>
-        <auth>1</auth>
-    </admin>
+    <modules>
+        <Admin>
+            <version>0.1</version>
+        </Admin>
+    </modules>
+
     <global>
-        <classes>
+        <admin>
+            <auth>1</auth>
+        </admin>
+        <forgery>
             <override>
-                <core_models_user>
-                    <class><![CDATA[\Core\Blocks\Main]]></class>
-                    <replace><![CDATA[\Core\Blocks\Index]]></replace>
-                </core_models_user>
+                <old>\Core\Blocks\Top</old>
+                <new>\Admin\Blocks\Top</new>
             </override>
-        </classes>
+            <override>
+                <old>Admin\Blocks\Top</old>
+                <new>\Admin\Blocks\Left</new>
+            </override>
+        </forgery>
     </global>
 </config>

@@ -1,9 +1,22 @@
 <config>
     <global>
-        <merge_js>0</merge_js>
-        <merge_css>0</merge_css>
-        <minify_js>0</minify_js>
-        <minify_css>0</minify_css>
-        <!--<base_domain rank="4">fwapp.loc</base_domain>-->
+        <base_domain>magelight.loc</base_domain>
+        <db>
+            <default>
+                <type>mysql</type>
+                <host>localhost</host>
+                <port>3306</port>
+                <user>root</user>
+                <password>root</password>
+                <charset>UTF-8</charset>
+                <init_connect>SET NAMES utf8 COLLATION utf8_general_ci</init_connect>
+            </default>
+        </db>
+        <forgery>
+            <override>
+                <old>TestClass</old>
+                <new>OverrideTestClass</new>
+            </override>
+        </forgery>
     </global>
 </config>

@@ -15,15 +15,9 @@
  * This file is a part of a framework. Please, do not modify it unless you discard
  * further updates.
  *
- * @version $$version_placeholder_notice$$
- * @author $$author_placeholder_notice$$
+ * @version   $$version_placeholder_notice$$
+ * @author     $$author_placeholder_notice$$
  * @copyright Copyright (c) 2012 rganin (rganin@gmail.com)
- * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Core\Models;
-
-class User extends \Magelight\Forgery\Forgery
-{
-    const USER = 'core';
-}

@@ -1,6 +1,6 @@
 <?php
 /**
- * $$name_placeholder_notice$$
+ * Magelight
  *
  * NOTICE OF LICENSE
  *

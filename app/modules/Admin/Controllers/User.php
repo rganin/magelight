@@ -1,6 +1,6 @@
 <?php
 /**
- * $$name_placeholder_notice$$
+ * Magelight
  *
  * NOTICE OF LICENSE
  *
@@ -23,7 +23,11 @@
 
 namespace Admin\Controllers;
 
-class User extends \Bike\Controller
+class User extends \Magelight\Controller
 {
+    public function indexAction()
+    {
+        //var_dump($this->app()->config()->getConfig('//config/global/forgery'));
 
+    }
 }

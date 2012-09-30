@@ -21,25 +21,9 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Core\Controllers;
+namespace Magelight;
 
-class Index extends \Magelight\Controller
+class Exception extends \Exception
 {
-    public function beforeExecute()
-    {
-        $this->_view = \Core\Blocks\Document::forge();
-        $this->_view->sectionAppend('body', \Core\Blocks\Main::forge());
-    }
-
-    public function test($a)
-    {
-        return $a;
-    }
     
-    public function indexAction()
-    {
-        $this->_view->title = 'Welcome';
-        \Core\Blocks\Document::getFromRegistry()->addMeta(array('name' => 'description', 'content' => '123'));
-         $this->renderView();
-    }
 }
