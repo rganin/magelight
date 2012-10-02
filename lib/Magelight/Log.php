@@ -40,7 +40,10 @@ class Log
         self::init();
         $time = date('d-m-Y H:i:s', time());
         $message = "{$time} - {$logMessage}";
-        $f = fopen(self::$_file, 'a+');
+        $f = @fopen(self::$_file, 'a+');
+        if (!$f) {
+            file_put_contents(\Magelight::app()->getAppDir() . DS . self::$_file, '', FILE_APPEND);
+        }
         flock($f, LOCK_EX);
         fwrite($f, $message . PHP_EOL);
         flock($f, LOCK_UN);

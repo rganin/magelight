@@ -2,15 +2,13 @@
 Default mask is {[a-zA-Z0-9_\-]+}
 -->        
 <routes>
-    <Admin>
-        <route match="/" controller="index" action="index" />
-        <route match="/users" controller="user" />
-        <route match="/admin" controller="admin">
-            <route match="/user/{id}" controller="user" rank="1">
-                <route match="/list" action="list" />
-                <route match="/edit" action="edit" />
-                <route match="/save" action="save" />    
-            </route>
+    <route match="/" controller="index" action="index" />
+    <route match="/users" controller="user" />
+    <route match="/admin" controller="admin">
+        <route match="/user/{id}" controller="user" rank="1">
+            <route match="/list" action="list" />
+            <route match="/edit" action="edit" />
+            <route match="/save" action="save" />
         </route>
-    </Admin>
+    </route>
 </routes>

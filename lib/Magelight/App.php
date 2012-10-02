@@ -29,7 +29,7 @@ class App
      * Session ID cookie name
      */
     const SESSION_ID_COOKIE_NAME = 'MAGELIGHTSSID';
-    
+
     /**
      * Objects registry
      * 
@@ -273,14 +273,9 @@ class App
             $action = $this->router()->getAction((string) $request->getRequestRoute());
             $request->appendGet($action['arguments']);
             $this->dispatchAction($action, $request);
-        } catch (\Magelight\Exception $e) {
-            if (!$muteExceptions || $this->_developerMode) {
-                \Magelight\Log::add($e->getMessage());
-                throw $e;
-            }
         } catch (\Exception $e) {
+            \Magelight\Log::add($e->getMessage());
             if (!$muteExceptions || $this->_developerMode) {
-                \Magelight\Log::add('Generic exception: ' . $e->getMessage());
                 throw $e;
             }
         }

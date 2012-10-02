@@ -25,21 +25,39 @@ namespace Core\Controllers;
 
 class Index extends \Magelight\Controller
 {
+
+    /**
+     * Before execute handler
+     */
     public function beforeExecute()
     {
         $this->_view = \Core\Blocks\Document::forge();
         $this->_view->sectionAppend('body', \Core\Blocks\Main::forge());
     }
 
-    public function test($a)
-    {
-        return $a;
-    }
-    
+    /**
+     * Index action
+     */
     public function indexAction()
     {
-        $this->_view->title = 'Welcome';
+        $this->_view->set('title', 'Welcome');
+        $this->_view->sectionAppend('content', \Core\Blocks\Index::forge());
         \Core\Blocks\Document::getFromRegistry()->addMeta(array('name' => 'description', 'content' => '123'));
          $this->renderView();
+    }
+
+    /**
+     * No route action
+     */
+    public function no_routeAction()
+    {
+        $this->_view->set('title', 'Page not found');
+
+        $block = \Core\Blocks\Error::forge();
+        /* @var $block \Core\Blocks\Error */
+
+        $block->setTemplate(\Core\Blocks\Error::TEMPLATE_404);
+        $this->_view->sectionReplace('content', $block);
+        $this->renderView();
     }
 }

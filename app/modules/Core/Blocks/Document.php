@@ -234,7 +234,7 @@ class Document extends \Magelight\Block
     public function renderCss()
     {
         $style = '';
-        foreach ($this->get('css') as $css) {
+        foreach ($this->get('css', array()) as $css) {
             if (!$css['inline']) {
                 $style .=
                     "<link rel=\"stylesheet\" href=\"{$css['path']}\" type=\"text/css\" media=\"{$css['media']}\" />"
@@ -256,7 +256,7 @@ class Document extends \Magelight\Block
     public function renderJs()
     {
         $scripts = '';
-        foreach ($this->get('js') as $js) {
+        foreach ($this->get('js', array()) as $js) {
             if (!$js['inline']) {
                 $scripts .=
                     "<script type=\"text/javascript\" src=\"{$js['path']}\"></script>" . PHP_EOL;

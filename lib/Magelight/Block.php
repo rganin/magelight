@@ -23,6 +23,9 @@
 
 namespace Magelight;
 
+/**
+ * @static forge() \Magelight\Block
+ */
 class Block extends \Magelight\Forgery\Forgery
 {
     /**
@@ -279,15 +282,24 @@ class Block extends \Magelight\Forgery\Forgery
             $this->initSections();
         }
         if (!isset(self::$_sections[$name]) && \Magelight::app()->isInDeveloperMode()) {
-            throw new \Magelight\Exception("Undefined section call - '{$name}' in " . get_called_class());
-        }
-        if (is_array(self::$_sections[$name])) {
+            trigger_error("Undefined section call - '{$name}' in " . get_called_class(), E_USER_NOTICE);
+        } elseif (is_array(self::$_sections[$name])) {
             foreach (self::$_sections[$name] as $sectionBlock) {
                 /* @var $sectionBlock \Magelight\Block */
                 $html .= $sectionBlock->toHtml();
             }
         }
         return $html;
+    }
+
+    /**
+     * Set block template
+     *
+     * @param $template
+     */
+    public function setTemplate($template)
+    {
+        $this->_template = $template;
     }
 
     /**

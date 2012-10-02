@@ -1,7 +1,7 @@
 <routes>
     <Core>
         <route match="" controller="index" action="index" rank="5" />
-        <route match="404" controller="errors" action="notFound" rank="5" />
+        <route match="404" controller="index" action="no_route" rank="5" />
         <route match="user/id{id:a-z0-9}/{pass}/0{rating}" controller="user" action="profile" rank="1" />
     </Core>
 </routes>

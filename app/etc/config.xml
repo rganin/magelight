@@ -1,7 +1,7 @@
 <config>
     <global>
         <log>
-            <file>var/log/app.log</file>
+            <file>app.log</file>
         </log>
         <base_domain>magelight.loc</base_domain>
         <db>

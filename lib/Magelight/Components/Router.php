@@ -29,7 +29,7 @@ class Router
      * Default route if not found
      */
     const DEFAULT_NOT_FOUND_ROUTE = '/404';
-    
+
     /**
      * Router routes
      * 
