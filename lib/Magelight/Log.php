@@ -34,14 +34,13 @@ class Log
      * 
      * @static
      * @param $logMessage
-     * @param string $logFile
      */
-    public static function add($logMessage, $logFile = 'error.log')
+    public static function add($logMessage)
     {
         self::init();
         $time = date('d-m-Y H:i:s', time());
         $message = "{$time} - {$logMessage}";
-        $f = fopen($logFile, 'a+');
+        $f = fopen(self::$_file, 'a+');
         flock($f, LOCK_EX);
         fwrite($f, $message . PHP_EOL);
         flock($f, LOCK_UN);

@@ -69,7 +69,7 @@ class Document extends \Magelight\Block
     /**
      * Before To HTML
      *
-     * @return \Magelight\View|void
+     * @return \Magelight\Block|void
      */
     public function beforeToHtml()
     {
@@ -224,5 +224,48 @@ class Document extends \Magelight\Block
     public function renderTitle()
     {
         return '<title>' . $this->get('title', '') . '</title>' . PHP_EOL;
+    }
+
+    /**
+     * Render CSS data
+     *
+     * @return string
+     */
+    public function renderCss()
+    {
+        $style = '';
+        foreach ($this->get('css') as $css) {
+            if (!$css['inline']) {
+                $style .=
+                    "<link rel=\"stylesheet\" href=\"{$css['path']}\" type=\"text/css\" media=\"{$css['media']}\" />"
+                    . PHP_EOL;
+            } else {
+                $style .= "<style>
+                {$css['content']}
+                </style>" . PHP_EOL;
+            }
+        }
+        return $style;
+    }
+
+    /**
+     * Render JS data
+     *
+     * @return string
+     */
+    public function renderJs()
+    {
+        $scripts = '';
+        foreach ($this->get('js') as $js) {
+            if (!$js['inline']) {
+                $scripts .=
+                    "<script type=\"text/javascript\" src=\"{$js['path']}\"></script>" . PHP_EOL;
+            } else {
+                $scripts .= "<script type=\"text/javascript\">
+                {$js['content']}
+                </script>" . PHP_EOL;
+            }
+        }
+        return $scripts;
     }
 }

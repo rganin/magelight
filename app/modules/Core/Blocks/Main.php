@@ -30,9 +30,12 @@ class Main extends \Magelight\Block
     public function init()
     {
         $this->sectionAppend('top', \Core\Blocks\Top::forge());
-        \Core\Blocks\Document::getFromRegistry()->addMeta(array(
+        $document = \Core\Blocks\Document::getFromRegistry();
+        $document->addMeta(array(
             'name' => 'keywords',
             'content' => 'welcome app, magelight'
         ));
+        $document->addCss('modules/Core/static/css/core.css');
+        $document->addJs('modules/Core/static/js/jquery-1.8.0.min.js');
     }
 }
