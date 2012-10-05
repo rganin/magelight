@@ -15,11 +15,5 @@
                 <init_connect>SET NAMES utf8 COLLATION utf8_general_ci</init_connect>
             </default>
         </db>
-        <forgery>
-            <override>
-                <old>TestClass</old>
-                <new>OverrideTestClass</new>
-            </override>
-        </forgery>
     </global>
 </config>

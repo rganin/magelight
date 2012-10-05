@@ -324,30 +324,42 @@ class App
     }
 
     /**
-     * Upgrade application
+     * get config element by path
+     *
+     * @param $path
+     * @param null $default
+     * @return array|null
      */
-    public function upgrade()
+    public function getConfig($path, $default = null)
     {
-        foreach ($this->modules()->getActiveModules() as $module) {
-            $this->upgradeModule($module['name']);
-        }
+        return $this->config()->getConfig($path, $default);
     }
 
-    /**
-     * Upgrate module
-     *
-     * @param string $module
-     */
-    public function upgradeModule($module)
-    {
-        $file = $this->getAppDir() . '/modules/' . $module . "/upgrade/install.php";
-        if (file_exists($file)) {
-            include $file; 
-                if(rename($file, $file . ".complete")) {
-            echo "renaming $file";
-            } else {
-            echo "error renaming $file";    
-            }
-        }
-    }
+//    /**
+//     * Upgrade application
+//     */
+//    public function upgrade()
+//    {
+//        foreach ($this->modules()->getActiveModules() as $module) {
+//            $this->upgradeModule($module['name']);
+//        }
+//    }
+//
+//    /**
+//     * Upgrate module
+//     *
+//     * @param string $module
+//     */
+//    public function upgradeModule($module)
+//    {
+//        $file = $this->getAppDir() . '/modules/' . $module . "/upgrade/install.php";
+//        if (file_exists($file)) {
+//            include $file;
+//                if(rename($file, $file . ".complete")) {
+//            echo "renaming $file";
+//            } else {
+//            echo "error renaming $file";
+//            }
+//        }
+//    }
 }
