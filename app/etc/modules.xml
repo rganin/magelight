@@ -1,6 +1,6 @@
 <modules>
     <Admin>
-        <active>1</active>
+        <active>0</active>
         <require>Core</require>
     </Admin>
     <Core>

@@ -12,6 +12,4 @@ namespace Core\Blocks;
 class Top extends \Magelight\Block
 {
     protected $_template = 'modules/Core/templates/top.phtml';
-
-
 }
