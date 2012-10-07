@@ -132,8 +132,8 @@ class Routes
     public function parseRoute(\SimpleXMLElement $routeXml, $moduleName, $parentRoute = null)
     {
         if ($routeXml->getName() === 'route') {
-            $route['module'] = $moduleName;
-            $route['match'] = (isset($parentRoute['match']) ? $parentRoute['match'] : '' ) 
+            $route['module'] =  $moduleName = !empty($routeXml->module) ? (string) $routeXml->module : $moduleName;
+            $route['match'] = (isset($parentRoute['match']) ? $parentRoute['match'] : '' )
                 . '/' 
                 . ltrim($routeXml->attributes()->match, '/');
             
