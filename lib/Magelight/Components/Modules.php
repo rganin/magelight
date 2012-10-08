@@ -47,6 +47,7 @@ class Modules
     public function __construct(\Magelight\App $app)
     {
         $this->_app = $app;
+        //@todo add modules caching just as caching will be implemented
         $this->loadModules('etc' . DS . 'modules.xml');
     }
     

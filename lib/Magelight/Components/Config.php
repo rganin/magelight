@@ -53,7 +53,8 @@ class Config
     public function __construct(\Magelight\App $app)
     {
         $loader = new \Magelight\Components\Loaders\Config();
-        
+
+        //@todo add config caching just as caching will be implemented
         $loader->loadConfig($app->getAppDir() . DS . 'etc' . DS . 'config.xml');
         
         foreach (array($app->getFrameworkDir(), $app->getAppDir()) as $dir) {

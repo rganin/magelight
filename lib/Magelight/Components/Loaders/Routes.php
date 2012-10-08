@@ -63,17 +63,25 @@ class Routes
     private $_routes = array();
 
     /**
-     * Parse routes from file
-     * 
-     * @param $file
+     * Load application routes
+     *
      * @return Routes
      */
-    public function parseRoutes($file)
+    public function loadRoutes()
     {
-        $xml = simplexml_load_file($file);
-        return $this->parseXmlModules($xml);
+        $modules= \Magelight::app()->modules()->getActiveModules();
+
+        foreach (array_keys($modules) as $moduleName) {
+            $filename = 'modules' . DS . $moduleName . DS . 'etc' . DS . 'routes.xml';
+            if (is_readable($filename)) {
+                $xml = simplexml_load_file($filename);
+                $this->parseModuleRoutes($xml, $moduleName);
+            }
+        }
+
+        return $this;
     }
-    
+
     /**
      * Get loaded routes
      * 
@@ -83,30 +91,17 @@ class Routes
     {
         return $this->_routes;
     }
-    
-    /**
-     * Parse modules from xml
-     * 
-     * @param \SimpleXMLElement $xmlObject
-     * @return Routes
-     */
-    public function parseXmlModules(\SimpleXMLElement $xmlObject)
+
+   /**
+    * Parse module routes from XML
+    *
+    * @param \SimpleXMLElement $moduleRoutesXml
+    * @param string $moduleName
+    *
+    * @return Routes
+    */
+    public function parseModuleRoutes(\SimpleXMLElement $moduleRoutesXml, $moduleName)
     {
-        foreach ($xmlObject->children() as $module) {
-            $this->parseModuleRoutes($module);
-        }
-        return $this;
-    }
-    
-    /**
-     * Parse module routes from xml
-     * 
-     * @param \SimpleXMLElement $moduleRoutesXml
-     * @return Routes
-     */
-    public function parseModuleRoutes(\SimpleXMLElement $moduleRoutesXml)
-    {
-        $moduleName = $moduleRoutesXml->getName();
         foreach ($moduleRoutesXml->children() as $child) {
             $this->parseRoute($child, $moduleName);
         }
