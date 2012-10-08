@@ -6,3 +6,18 @@
  * Time: 22:23
  * To change this template use File | Settings | File Templates.
  */
+
+namespace Board\Controllers;
+
+class Index extends \Core\Controllers\Index
+{
+//    public function indexAction()
+//    {
+//
+//    }
+
+    public function newAction()
+    {
+
+    }
+}

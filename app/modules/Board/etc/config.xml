@@ -1,5 +1,10 @@
 <config>
     <global>
-
+        <forgery>
+            <override>
+                <old>\Core\Controllers\Index</old>
+                <new>\Board\Controllers\Index</new>
+            </override>
+        </forgery>
     </global>
 </config>

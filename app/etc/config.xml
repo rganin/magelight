@@ -3,7 +3,7 @@
         <log>
             <file>app.log</file>
         </log>
-        <base_domain>magelight.loc</base_domain>
+        <base_domain>fw.loc</base_domain>
         <db>
             <default>
                 <type>mysql</type>

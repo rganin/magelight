@@ -169,12 +169,33 @@ abstract class Controller extends \Magelight\Forgery\Forgery
     }
 
     /**
-     * Forward controller
+     * Forward action
      *
-     * @param string|Controller $controller
      * @param string $action
+     * @return mixed
      */
-    public function forward($controller, $action)
+    public function forward($action)
+    {
+        $action = $action . 'Action';
+        return $this->$action();
+    }
+
+    /**
+     * Forward and dispatch controller action with current request
+     *
+     * @param string $controller
+     * @param string $action
+     * @return App
+     */
+    public function forwardController($controller, $action)
+    {
+        $module = $this->_getCurrentModuleName();
+        return $this->app()->dispatchAction(
+            array('module' => $module, 'controller' => $controller, 'action' => $action), $this->request()
+        );
+    }
+
+    public function getUrl()
     {
 
     }

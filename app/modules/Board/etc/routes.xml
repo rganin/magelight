@@ -1,5 +1,6 @@
 <routes>
     <Board>
-        <route match="/" controller="index" action="index" module="Core" rank="5"/>
+        <route match="/" controller="index" action="index" />
+        <route match="/new" action="new" />
     </Board>
 </routes>

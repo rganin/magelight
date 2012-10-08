@@ -313,82 +313,16 @@ class Block extends \Magelight\Forgery\Forgery
     }
 
     /**
-     * Get URL by controller and action
+     * Fetch url by match mask
      *
-     * @param string $controller
-     * @param string $action
-     * @param array $params
-     * @return mixed
+     * @param string $match - url match mask
+     * @param array $params - params to be passed to URL
+     * @param string $type - URL type (http|https)
+     * @return string
      */
-    public function url($controller,
-                        $action = \Magelight\Controller::DEFAULT_ACTION,
-                        $params = array()
-    )
+    public function url($match, $params = array(), $type = \Magelight\Helpers\UrlHelper::TYPE_HTTP)
     {
-        return \Magelight\Helpers\UrlHelper::getInstance()->getUrl(
-            $this->_getCurrentModuleName(),
-            $controller,
-            $action,
-            $params,
-            \Magelight\Helpers\UrlHelper::TYPE_HTTP
-        );
-    }
-
-    /**
-     * Get HTTPS url by controller and action
-     *
-     * @param string $controller
-     * @param string $action
-     * @param array $params
-     * @return mixed
-     */
-    public function urlHttps(
-        $controller,
-        $action = \Magelight\Controller::DEFAULT_ACTION,
-        $params = array()
-    )
-    {
-            return \Magelight\Helpers\UrlHelper::getInstance()->getUrl(
-                $this->_getCurrentModuleName(),
-                $controller,
-                $action,
-                $params,
-                \Magelight\Helpers\UrlHelper::TYPE_HTTPS
-            );
-    }
-
-    /**
-     * Get URL by module
-     *
-     * @param string $module
-     * @param string $controller
-     * @param string $action
-     * @param string $params
-     * @param string $type
-     * @return mixed
-     */
-    public function urlByModule($module, $controller, $action, $params, $type = \Magelight\Helpers\UrlHelper::TYPE_HTTP)
-    {
-        return \Magelight\Helpers\UrlHelper::getInstance()->getUrl(
-            $module,
-            $controller,
-            $action,
-            $params,
-            $type
-        );
-    }
-
-    /**
-     * Get current module name
-     *
-     * @return string|null
-     */
-    protected function _getCurrentModuleName()
-    {
-        $namespace = explode('\\', get_called_class());
-        if (!empty($namespace[0])) {
-            return $namespace[0];
-        }
-        return null;
+        $url = \Magelight\Helpers\UrlHelper::getInstance()->getUrl($match, $params, $type);
+        return $url;
     }
 }

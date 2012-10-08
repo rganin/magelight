@@ -42,10 +42,20 @@ class Router
      * 
      * @var array
      */
-    protected $_routesBackIndex = array();
-    
+    protected $_routesIndex = array();
+
+    /**
+     * Application instance
+     *
+     * @var \Magelight\App|null
+     */
     protected $_app = null;
-    
+
+    /**
+     * Constructor
+     *
+     * @param \Magelight\App $app
+     */
     public function __construct(\Magelight\App $app)
     {
         $this->_app = $app;
@@ -58,23 +68,13 @@ class Router
                 }
             }
         }
-        $loader->buildRoutesBackIndex();
-        $this->setRoutes($loader->getRoutes(), $loader->getRoutesBackIndex());
+
+        $this->_routes = $loader->getRoutes();
+        $this->_routesIndex = $loader->getRoutesIndex();
+
         unset($loader);
     }
 
-    /**
-     * Set router routes
-     * 
-     * @param array $routes
-     * @param array $routesBackIndex
-     */
-    public function setRoutes($routes = array(), $routesBackIndex = array())
-    {
-        $this->_routes = $routes;
-        $this->_routesBackIndex = $routesBackIndex;
-    }
-    
     /**
      * Get route action
      * 
@@ -116,9 +116,9 @@ class Router
      * 
      * @return array
      */
-    public function getRoutesBackIndex()
+    public function getRoutesIndex()
     {
-        return $this->_routesBackIndex;
+        return $this->_routesIndex;
     }
     
     /**

@@ -56,61 +56,40 @@ class UrlHelper extends \Magelight\Singleton
             $server = \Magelight\Http\Server::getInstance();
             /* @var \Magelight\Http\Server $server*/
             $domain = $server->getCurrentDomain();
+        } elseif (is_array($domain)) {
+            $domain = array_shift($domain);
         }
-        return $type . '://' . $domain;
+        return $type . '://' . (string) $domain;
     }
 
     /**
-     * Get plain url
+     * Get url by match
      * 
-     * @param string $path
-     * @param string $type
-     *
-     * @return string
-     */
-    public function getPlainUrl($path, $type = self::TYPE_HTTP) 
-    {
-        return $this->getBaseUrl($type) . '/' . $path; 
-    }
-
-    /**
-     * Get url by controller/action
-     * 
-     * @param string $module
-     * @param string $controller
-     * @param string $action
+     * @param string $match
      * @param array  $params
      * @param string $type
      *
      * @return string
      * @throws \Magelight\Exception
      */
-    public function getUrl($module, 
-                           $controller, 
-                           $action = \Magelight\Controller::DEFAULT_ACTION,
-                           $params = array(),
-                           $type = self::TYPE_HTTP
-    )
+    public function getUrl($match, $params = array(), $type = self::TYPE_HTTP)
     {
-        $routes = \Magelight::app()->router()->getRoutesBackIndex();
+        $routes = \Magelight::app()->router()->getRoutesIndex();
 
-        if (\Magelight::app()->isInDeveloperMode() && !isset($routes[ucfirst($module)][$controller][$action])) {
-            throw new \Magelight\Exception("No route for module={$module}/controller={$controller}/action={$action}!",
-                E_USER_NOTICE
-            );
+        $match = '/' . trim($match, '\\/');
+        if (!isset($routes[$match])) {
+            throw new \Magelight\Exception("No route with specified mask {$match}.", E_USER_NOTICE);
         }
-                
-        $url = $routes[ucfirst($module)][$controller][$action];
         
-        if (\Magelight::app()->isInDeveloperMode() && !$this->checkParamsWithPlaceholderMask($url, $params)) {
+        if (\Magelight::app()->isInDeveloperMode() && !$this->checkParamsWithPlaceholderMask($match, $params)) {
             throw new \Magelight\Exception("Passed url params don`t match route mask.", E_USER_NOTICE);
         }
                 
         if (!empty($params)) {
-            $url = $this->setParamsToPlaceholders($url, $params);
+            $match = $this->setParamsToPlaceholders($match, $params);
         }
         
-        return $this->getBaseUrl($type) . $url;
+        return $this->getBaseUrl($type) . $match;
     }
 
     /**

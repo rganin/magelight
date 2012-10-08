@@ -132,7 +132,9 @@ class App
     }
 
     /**
-     * set session id cookie name
+     * Set the session cookie name
+     *
+     * @param $name
      */
     public function setSessionCookieName($name)
     {
@@ -289,7 +291,7 @@ class App
      *
      * @return App
      */
-    protected function dispatchAction($action, $request)
+    public function dispatchAction($action, $request)
     {
         $controllerName = $action['module'] . '\\Controllers\\' . ucfirst($action['controller']);
         $controllerMethod = $action['action'] . 'Action';

@@ -65,4 +65,18 @@ abstract class SingletonForgery extends Forgery
         }
         return $instance;
     }
+
+    /**
+     * Get current module name
+     *
+     * @return string|null
+     */
+    protected function _getCurrentModuleName()
+    {
+        $namespace = explode('\\', get_called_class());
+        if (!empty($namespace[0])) {
+            return $namespace[0];
+        }
+        return null;
+    }
 }

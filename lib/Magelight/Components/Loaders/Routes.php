@@ -63,13 +63,6 @@ class Routes
     private $_routes = array();
 
     /**
-     * Routes back index by module/controller/action
-     * 
-     * @var array
-     */
-    private $_routesBackIndex = array();
-    
-    /**
      * Parse routes from file
      * 
      * @param $file
@@ -137,7 +130,7 @@ class Routes
                 : $moduleName;
             $route['match'] = (isset($parentRoute['match']) ? $parentRoute['match'] : '' )
                 . '/' 
-                . ltrim($routeXml->attributes()->match, '/');
+                . trim($routeXml->attributes()->match, '\\/');
             
             if (is_null($route['match'])) {
                 throw new \Magelight\Exception('Route without match in module ' . $moduleName);
@@ -192,37 +185,7 @@ class Routes
         }
         return $headers;
     }
-    
-//    /**
-//     * Check if route can override existing one
-//     *
-//     * @param $moduleName
-//     * @param $match
-//     * @param $rank
-//     * @return bool
-//     * @throws \Magelight\Exception
-//     */
-//    public function canOverrideRoute($moduleName, $match, $rank)
-//    {
-//        if (isset($this->_routes[$match]['rank'])) {
-//            if ($this->_routes[$match]['rank'] === $rank) {
-//                throw new \Magelight\Exception(
-//                    'Routes with same match ('
-//                    . $match
-//                    . ') and rank ('
-//                    . $rank
-//                    . ') in modules '
-//                    . $moduleName
-//                    . ' and '
-//                    . $this->_routes[$match]['module']
-//                );
-//            } elseif ($this->_routes[$match]['rank'] > $rank) {
-//                return false;
-//            }
-//        }
-//        return true;
-//    }
-    
+
     /**
      * Convert match to regular expression
      * 
@@ -253,17 +216,18 @@ class Routes
     {
         return strpos($match, '{') !== false; // strict comparison required
     }
-    
-    public function buildRoutesBackIndex()
+
+    /**
+     * Get routes match backindex
+     *
+     * @return array
+     */
+    public function getRoutesIndex()
     {
+        $matchIndex = array();
         foreach ($this->_routes as $route) {
-            $this->_routesBackIndex[$route['module']][$route['controller']][$route['action']] = $route['match'];
+            $matchIndex[$route['match']] = $route;
         }
-        return $this;
-    }
-    
-    public function getRoutesBackIndex()
-    {
-        return $this->_routesBackIndex;
+        return $matchIndex;
     }
 }

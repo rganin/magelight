@@ -78,4 +78,17 @@ abstract class Forgery
     {
         self::$_classOverrides[$sourceClassName] = $replacementClassName;
     }
+    /**
+     * Get current module name
+     *
+     * @return string|null
+     */
+    protected function _getCurrentModuleName()
+    {
+        $namespace = explode('\\', get_called_class());
+        if (!empty($namespace[0])) {
+            return $namespace[0];
+        }
+        return null;
+    }
 }
