@@ -335,6 +335,16 @@ class App
         return $this->config()->getConfig($path, $default);
     }
 
+    /**
+     * Add message to log
+     *
+     * @param string $logMessage
+     */
+    public function log($logMessage)
+    {
+        \Magelight\Log::add($logMessage);
+    }
+
 //    /**
 //     * Upgrade application
 //     */

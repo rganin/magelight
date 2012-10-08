@@ -142,36 +142,30 @@ class Routes
             if (is_null($route['match'])) {
                 throw new \Magelight\Exception('Route without match in module ' . $moduleName);
             } else {
-                
-//                $rank = (isset($routeXml->attributes()->rank)) ? (int) $routeXml->attributes()->rank : self::DEFAULT_RANK;
-//                if ($this->canOverrideRoute($moduleName, $route['match'], $rank)) {
-                    
-                    $route['arguments'] = array();
-//                    $route['rank'] = $rank;
-                    $route['regex'] = $this->isRegex($route['match']);
-                    $route['headers'] = $this->getRouteHeaders($routeXml);
-        
-                    $routeKey = $route['regex'] ? $this->matchToRegex($route['match']) : $route['match'];
-                    
-                    if (is_null($routeXml->attributes()->controller)) {
-                        $route['controller'] = 
-                            isset($parentRoute['controller']) 
-                                ? $parentRoute['controller'] 
-                                : self::DEFAULT_CONTROLLER;
-                    } else {
-                        $route['controller'] = (string) $routeXml->attributes()->controller;
-                    }
-                    
-                    if (is_null($routeXml->attributes()->action)) {
-                        $route['action'] = 
-                            isset($parentRoute['action']) 
-                            ? $parentRoute['action'] 
-                            : self::DEFAULT_ACTION;
-                    } else {
-                        $route['action'] = (string) $routeXml->attributes()->action;
-                    }
-                    $this->_routes[$routeKey] = $route;
-//                }
+                $route['arguments'] = array();
+                $route['regex'] = $this->isRegex($route['match']);
+                $route['headers'] = $this->getRouteHeaders($routeXml);
+
+                $routeKey = $route['regex'] ? $this->matchToRegex($route['match']) : $route['match'];
+
+                if (is_null($routeXml->attributes()->controller)) {
+                    $route['controller'] =
+                        isset($parentRoute['controller'])
+                            ? $parentRoute['controller']
+                            : self::DEFAULT_CONTROLLER;
+                } else {
+                    $route['controller'] = (string) $routeXml->attributes()->controller;
+                }
+
+                if (is_null($routeXml->attributes()->action)) {
+                    $route['action'] =
+                        isset($parentRoute['action'])
+                        ? $parentRoute['action']
+                        : self::DEFAULT_ACTION;
+                } else {
+                    $route['action'] = (string) $routeXml->attributes()->action;
+                }
+                $this->_routes[$routeKey] = $route;
             }
             
             foreach ($routeXml->children() as $childRouteXml) {

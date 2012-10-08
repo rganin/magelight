@@ -37,7 +37,9 @@ class Log
      */
     public static function add($logMessage)
     {
-        self::init();
+        if (!self::$_initialized) {
+            self::init();
+        }
         $time = date('d-m-Y H:i:s', time());
         $message = "{$time} - {$logMessage}";
         $f = @fopen(self::$_file, 'a+');
