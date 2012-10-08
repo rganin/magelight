@@ -15,5 +15,24 @@
                 <init_connect>SET NAMES utf8 COLLATION utf8_general_ci</init_connect>
             </default>
         </db>
+        <cache>
+            <default>
+                <memcache>
+                    <server>
+                        <host>127.0.0.1</host>
+                        <port>11211</port>
+                    </server>
+                    <server>
+                        <host>192.468.56.101</host>
+                        <port>12121</port>
+                    </server>
+                </memcache>
+            </default>
+            <other>
+                <file>
+                    <path>var/cache</path>
+                </file>
+            </other>
+        </cache>
     </global>
 </config>
