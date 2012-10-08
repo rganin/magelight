@@ -27,7 +27,7 @@ class User extends \Magelight\Controller
 {
     public function indexAction()
     {
-        //var_dump($this->app()->config()->getConfig('//config/global/forgery'));
+
 
     }
 }

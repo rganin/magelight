@@ -34,7 +34,6 @@ class Server extends \Magelight\Singleton
     public function getCurrentDomain()
     {
         if (isset($_SERVER['HTTP_HOST'])) {
-            \Magelight::app()->log(var_dump($_SERVER['HTTP_HOST'], true));
             return $_SERVER['HTTP_HOST'];
         }
         throw new \Magelight\Exception('Global server variable HTTP_HOST is required but missing.');

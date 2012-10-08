@@ -165,7 +165,9 @@ class App
             return $this->_registry[$index];
         }
         throw new \Magelight\Exception(
-            'Trying to get undefined object from registry. Index: ' . print_r($index) . print_r(debug_backtrace())
+            'Trying to get undefined object from registry. Index: '
+                . print_r($index, true)
+                . print_r(debug_backtrace(), true)
         );
     }
     
