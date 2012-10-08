@@ -1,5 +1,5 @@
 <routes>
     <Board>
-        <route match="/" controller="index" action="index" />
+        <route match="/" controller="index" action="index" module="Core" rank="5"/>
     </Board>
 </routes>

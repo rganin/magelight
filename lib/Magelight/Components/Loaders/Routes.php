@@ -132,7 +132,9 @@ class Routes
     public function parseRoute(\SimpleXMLElement $routeXml, $moduleName, $parentRoute = null)
     {
         if ($routeXml->getName() === 'route') {
-            $route['module'] =  $moduleName = !empty($routeXml->module) ? (string) $routeXml->module : $moduleName;
+            $route['module'] =  $moduleName = !empty($routeXml->attributes()->module)
+                ? (string) $routeXml->attributes()->module
+                : $moduleName;
             $route['match'] = (isset($parentRoute['match']) ? $parentRoute['match'] : '' )
                 . '/' 
                 . ltrim($routeXml->attributes()->match, '/');
@@ -141,11 +143,11 @@ class Routes
                 throw new \Magelight\Exception('Route without match in module ' . $moduleName);
             } else {
                 
-                $rank = (isset($routeXml->attributes()->rank)) ? (int) $routeXml->attributes()->rank : self::DEFAULT_RANK;
-                if ($this->canOverrideRoute($moduleName, $route['match'], $rank)) {
+//                $rank = (isset($routeXml->attributes()->rank)) ? (int) $routeXml->attributes()->rank : self::DEFAULT_RANK;
+//                if ($this->canOverrideRoute($moduleName, $route['match'], $rank)) {
                     
                     $route['arguments'] = array();
-                    $route['rank'] = $rank;
+//                    $route['rank'] = $rank;
                     $route['regex'] = $this->isRegex($route['match']);
                     $route['headers'] = $this->getRouteHeaders($routeXml);
         
@@ -169,7 +171,7 @@ class Routes
                         $route['action'] = (string) $routeXml->attributes()->action;
                     }
                     $this->_routes[$routeKey] = $route;
-                }
+//                }
             }
             
             foreach ($routeXml->children() as $childRouteXml) {
@@ -197,35 +199,35 @@ class Routes
         return $headers;
     }
     
-    /**
-     * Check if route can override existing one
-     * 
-     * @param $moduleName
-     * @param $match
-     * @param $rank
-     * @return bool
-     * @throws \Magelight\Exception
-     */
-    public function canOverrideRoute($moduleName, $match, $rank)
-    {
-        if (isset($this->_routes[$match]['rank'])) {
-            if ($this->_routes[$match]['rank'] === $rank) {
-                throw new \Magelight\Exception(
-                    'Routes with same match (' 
-                    . $match 
-                    . ') and rank (' 
-                    . $rank 
-                    . ') in modules ' 
-                    . $moduleName 
-                    . ' and ' 
-                    . $this->_routes[$match]['module']
-                );    
-            } elseif ($this->_routes[$match]['rank'] > $rank) {
-                return false;
-            }
-        }
-        return true;
-    }
+//    /**
+//     * Check if route can override existing one
+//     *
+//     * @param $moduleName
+//     * @param $match
+//     * @param $rank
+//     * @return bool
+//     * @throws \Magelight\Exception
+//     */
+//    public function canOverrideRoute($moduleName, $match, $rank)
+//    {
+//        if (isset($this->_routes[$match]['rank'])) {
+//            if ($this->_routes[$match]['rank'] === $rank) {
+//                throw new \Magelight\Exception(
+//                    'Routes with same match ('
+//                    . $match
+//                    . ') and rank ('
+//                    . $rank
+//                    . ') in modules '
+//                    . $moduleName
+//                    . ' and '
+//                    . $this->_routes[$match]['module']
+//                );
+//            } elseif ($this->_routes[$match]['rank'] > $rank) {
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
     
     /**
      * Convert match to regular expression
