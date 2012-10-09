@@ -74,22 +74,13 @@ class UrlHelper extends \Magelight\Singleton
      */
     public function getUrl($match, $params = array(), $type = self::TYPE_HTTP)
     {
-        $routes = \Magelight::app()->router()->getRoutesIndex();
-
         $match = '/' . trim($match, '\\/');
-        if (!isset($routes[$match])) {
-            throw new \Magelight\Exception("No route with specified mask {$match}.", E_USER_NOTICE);
-        }
-        
+
         if (\Magelight::app()->isInDeveloperMode() && !$this->checkParamsWithPlaceholderMask($match, $params)) {
             throw new \Magelight\Exception("Passed url params don`t match route mask.", E_USER_NOTICE);
         }
                 
-        if (!empty($params)) {
-            $match = $this->setParamsToPlaceholders($match, $params);
-        }
-        
-        return $this->getBaseUrl($type) . $match;
+        return $this->getBaseUrl($type) . $this->makeRequestUri($match, $params);
     }
 
     /**
@@ -124,7 +115,7 @@ class UrlHelper extends \Magelight\Singleton
      *
      * @return mixed
      */
-    protected function setParamsToPlaceholders($match, &$params = array()) 
+    protected function setParamsToPlaceholders($match, &$params = array())
     {
         foreach ($params as $key => $value) {
             $match = preg_replace("/(\{{$key}\}|\{{$key}:[^\}]*\})/", $value, $match);
@@ -132,6 +123,21 @@ class UrlHelper extends \Magelight\Singleton
         }
         $match = preg_replace("/(\{[^\}]*\})/", '', $match); //cleaning not used placeholders
         return $match;
+    }
+
+    /**
+     * Create request URI from match and params
+     *
+     * @param string $match
+     * @param string $params
+     * @return string
+     */
+    protected function makeRequestUri($match, $params)
+    {
+        $paramsTmp = $params;
+        $match = $this->setParamsToPlaceholders($match, $paramsTmp);
+
+        return !empty($params) ? ($match . '?' . http_build_query($params)) : $match;
     }
 
     /**
