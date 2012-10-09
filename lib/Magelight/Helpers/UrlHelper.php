@@ -27,8 +27,10 @@ namespace Magelight\Helpers;
  * Url helper class
  * @static getInstance \Magelight\Helpers\UrlHelper
  */
-class UrlHelper extends \Magelight\Singleton
+class UrlHelper
 {
+    use \Magelight\Forgery;
+
     /**
      * Url types
      */

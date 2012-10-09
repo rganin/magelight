@@ -23,8 +23,10 @@
 
 namespace Magelight\Helpers;
 
-class ArrayHelper extends \Magelight\Singleton
+class ArrayHelper
 {
+    use \Magelight\Forgery;
+
     /**
      * Insert to array
      * 
@@ -49,16 +51,5 @@ class ArrayHelper extends \Magelight\Singleton
         }
         $array = $tmp;
         return $array;
-    }
-
-    /**
-     * Get instance of array helper
-     * 
-     * @static
-     * @return \Magelight\Helpers\ArrayHelper
-     */
-    public static function getInstance()
-    {
-        return parent::getInstance();
     }
 }

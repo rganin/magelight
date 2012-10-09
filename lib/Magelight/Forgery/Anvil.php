@@ -26,9 +26,40 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-namespace Core\Blocks;
+namespace Magelight\Forgery;
 
-class Index extends \Magelight\Block
+class Anvil
 {
-    protected $_template = 'modules/Core/templates/index.phtml';
+    /**
+     * Classes overrides
+     *
+     * @var array
+     */
+    protected static $_classOverrides = array();
+
+    /**
+     * Get class name according to runtime overrides
+     *
+     * @param string$className
+     * @return mixed
+     */
+    final public static function getClassName($className)
+    {
+        while (!empty(self::$_classOverrides[$className])) {
+            $className = self::$_classOverrides[$className];
+        }
+        return $className;
+    }
+
+    /**
+     * Add class to override
+     *
+     * @static
+     * @param $sourceClassName
+     * @param $replacementClassName
+     */
+    final public static function addClassOverride($sourceClassName, $replacementClassName)
+    {
+        self::$_classOverrides[$sourceClassName] = $replacementClassName;
+    }
 }

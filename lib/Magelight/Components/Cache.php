@@ -23,8 +23,10 @@
 
 namespace Magelight\Components;
 
-class Cache extends \Magelight\Singleton
+class Cache
 {
+    use \Magelight\Forgery;
+
     /**
      * Default cache namespace
      */

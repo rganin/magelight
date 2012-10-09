@@ -3,8 +3,11 @@
 
 namespace Magelight;
 
-abstract class Model extends \Magelight\Forgery\Forgery
+abstract class Model
 {
+
+    use \Magelight\Forgery;
+
 	/**
 	 * Table name for model
 	 *

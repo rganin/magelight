@@ -23,8 +23,10 @@
 
 namespace Magelight\Http;
 
-class Session extends \Magelight\Forgery\SingletonForgery
+class Session
 {
+    use \Magelight\Forgery;
+
     /**
      * Getter
      *

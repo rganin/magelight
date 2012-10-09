@@ -1,12 +1,4 @@
 <modules>
-    <Admin>
-        <active>0</active>
-        <require>Core</require>
-    </Admin>
-    <Board>
-        <active>1</active>
-        <require>Core</require>
-    </Board>
     <Core>
         <active>1</active>
     </Core>

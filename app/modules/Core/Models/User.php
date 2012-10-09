@@ -23,7 +23,9 @@
 
 namespace Core\Models;
 
-class User extends \Magelight\Forgery\Forgery
+class User
 {
+    use \Magelight\Forgery;
+
     const USER = 'core';
 }

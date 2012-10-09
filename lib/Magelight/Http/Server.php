@@ -23,8 +23,10 @@
 
 namespace Magelight\Http;
 
-class Server extends \Magelight\Singleton
+class Server
 {
+    use \Magelight\Forgery;
+
     /**
      * Get requested domain
      * 

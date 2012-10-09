@@ -32,7 +32,7 @@ class Index extends \Magelight\Controller
     public function beforeExecute()
     {
         $this->_view = \Core\Blocks\Document::forge();
-        $this->_view->sectionAppend('body', \Core\Blocks\Main::forge());
+        $this->_view->sectionAppend('body', \Core\Blocks\Body::forge());
     }
 
     /**
@@ -41,7 +41,7 @@ class Index extends \Magelight\Controller
     public function indexAction()
     {
         $this->_view->set('title', 'Welcome');
-        $this->_view->sectionAppend('content', \Core\Blocks\Index::forge());
+        $this->_view->sectionAppend('content', \Core\Blocks\Content::forge());
         \Core\Blocks\Document::getFromRegistry()->addMeta(array('name' => 'description', 'content' => '123'));
          $this->renderView();
     }
@@ -59,6 +59,17 @@ class Index extends \Magelight\Controller
         $block->setTemplate(\Core\Blocks\Error::TEMPLATE_404);
         $this->_view->sectionReplace('content', $block);
         $this->app()->log('404 - not found ' . $this->request()->getRequestRoute());
+        $this->renderView();
+    }
+
+    public function loginAction()
+    {
+        $form = \Core\Blocks\Form\Form::forge();
+        /* @var $form \Core\Blocks\Form\Form */
+
+        $this->_view->set('title', 'Log in');
+        $block = \Core\Blocks\Login::forge();
+        $this->_view->sectionReplace('content', $block);
         $this->renderView();
     }
 }

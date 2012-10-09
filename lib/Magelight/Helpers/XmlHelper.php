@@ -23,8 +23,10 @@
 
 namespace Magelight\Helpers;
 
-class XmlHelper extends \Magelight\Singleton
+class XmlHelper
 {
+    use \Magelight\Forgery;
+
     /**
      * Content index
      */

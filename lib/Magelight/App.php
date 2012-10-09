@@ -317,7 +317,7 @@ class App
         if (!empty($overrides)) {
             foreach($overrides as $override) {
                 if (!empty($override->old) && !empty($override->new)) {
-                    \Magelight\Forgery\Forgery::addClassOverride(
+                    \Magelight\Forgery\Anvil::addClassOverride(
                         trim($override->old, " \\/ "),
                         trim($override->new, " \\/ ")
                     );

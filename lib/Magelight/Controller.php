@@ -23,8 +23,10 @@
 
 namespace Magelight;
 
-abstract class Controller extends \Magelight\Forgery\Forgery
+abstract class Controller
 {
+    use \Magelight\Forgery;
+
     /**
      * Default controller action
      */

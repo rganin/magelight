@@ -1,0 +1,14 @@
+<form name="login-form" id="login-form" action="<?php echo $this->url('auth'); ?>" method="post">
+    <fieldset id="login-fieldset">
+        <legend>Login user</legend>
+
+        <label for="login-form-login-field">Login:</label>
+        <input id="login-form-login-field" type="text" value="" name="login"/>
+
+        <label for="login-form-password-field">Password:</label>
+        <input id="login-form-password-field" type="password" value="" name="password"/>
+
+        <p></p>
+        <button class="btn btn-success" type="submit">Log in</button>
+    </fieldset>
+</form>

@@ -26,8 +26,10 @@ namespace Magelight;
 /**
  * @static forge() \Magelight\Block
  */
-class Block extends \Magelight\Forgery\Forgery
+abstract class Block
 {
+    use \Magelight\Forgery;
+
     /**
      * Path to template
      *

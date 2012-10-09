@@ -1,4 +1,0 @@
-<routes>
-    <route match="/" controller="index" action="index" />
-    <route match="/new" action="new" />
-</routes>
