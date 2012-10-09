@@ -1,5 +1,6 @@
 <modules>
     <Core>
         <active>1</active>
+        <autoinstall>1</autoinstall>
     </Core>
 </modules>

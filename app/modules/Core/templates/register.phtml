@@ -1,0 +1,18 @@
+<div class="page-header">Register new user</div>
+
+<form action="<?php echo $this->url('register'); ?>" method="post">
+    <label for="login">Login:</label>
+    <input id="login" value="" type="text" name="user[login]" />
+
+    <label for="password">Password:</label>
+    <input id="password" value="" type="password" name="user[password]" />
+
+    <label for="password-conf">Password confirmation:</label>
+    <input id="password-conf" value="" type="password" name="user[passwordconf]" />
+
+    <label for="email">E-Mail:</label>
+    <input id="email" value="" type="password" name="user[email]" />
+    <p></p>
+
+    <button type="submit" class="btn btn-success">Register</button>
+</form>

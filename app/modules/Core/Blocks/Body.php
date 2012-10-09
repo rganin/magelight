@@ -36,6 +36,7 @@ class Body extends \Magelight\Block
             'content' => 'welcome app, magelight'
         ));
         $document->addCss('modules/Core/static/css/bootstrap.css');
+        $document->addCss('modules/Core/static/css/core.css');
         $document->addJs('modules/Core/static/js/jquery-1.8.0.min.js');
         $document->addJs('modules/Core/static/js/bootstrap.js');
     }

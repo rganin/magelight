@@ -1,7 +1,8 @@
 <routes>
     <route match="" controller="index" action="index" />
     <route match="login" action="login"/>
-    <route match="auth" action="auth"/>
+    <route match="auth" action="auth" />
+    <route match="register" action="register" />
     <route match="404" controller="index" action="no_route" />
     <route match="user/id{id:a-z0-9}/{pass}/0{rating}" controller="user" action="profile" />
 </routes>

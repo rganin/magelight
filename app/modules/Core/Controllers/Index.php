@@ -72,4 +72,15 @@ class Index extends \Magelight\Controller
         $this->_view->sectionReplace('content', $block);
         $this->renderView();
     }
+
+    public function registerAction()
+    {
+        $form = \Core\Blocks\Form\Form::forge();
+        /* @var $form \Core\Blocks\Form\Form */
+
+        $this->_view->set('title', 'Register new user');
+        $block = \Core\Blocks\Register::forge();
+        $this->_view->sectionReplace('content', $block);
+        $this->renderView();
+    }
 }
