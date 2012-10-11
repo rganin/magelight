@@ -42,21 +42,21 @@ abstract class Block
      *
      * @var array
      */
-    protected $_vars = array();
+    protected $_vars = [];
 
     /**
      * Block global variables
      *
      * @var array
      */
-    protected static $_globalVars = array();
+    protected static $_globalVars = [];
 
     /**
      * Block global sections
      *
      * @var array
      */
-    protected static $_sections = array();
+    protected static $_sections = [];
 
     /**
      * Are section initialized globally flag
@@ -188,7 +188,7 @@ abstract class Block
     public function sectionReplace($name, \Magelight\Block $block)
     {
         self::$_sectionsInitialized = false;
-        self::$_sections[$name] = array($block);
+        self::$_sections[$name] = [$block];
         return $this;
     }
 
@@ -216,7 +216,7 @@ abstract class Block
             if (!empty($section)) {
                 foreach ($section as $key => $view) {
                     if (!$view instanceof \Magelight\Block && is_string($view)) {
-                        $section[$key] = call_user_func(array($view, 'forge'));
+                        $section[$key] = call_user_func([$view, 'forge']);
                     }
                     $section[$key]->init();
                 }
@@ -322,7 +322,7 @@ abstract class Block
      * @param string $type - URL type (http|https)
      * @return string
      */
-    public function url($match, $params = array(), $type = \Magelight\Helpers\UrlHelper::TYPE_HTTP)
+    public function url($match, $params = [], $type = \Magelight\Helpers\UrlHelper::TYPE_HTTP)
     {
         $url = \Magelight\Helpers\UrlHelper::getInstance()->getUrl($match, $params, $type);
         return $url;

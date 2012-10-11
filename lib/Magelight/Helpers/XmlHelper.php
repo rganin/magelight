@@ -46,13 +46,13 @@ class XmlHelper
      * @return array
      */
     public static function xmlToArray(\SimpleXMLIterator $xml, $ns = null){
-        $a = array();
+        $a = [];
         for($xml->rewind(); $xml->valid(); $xml->next()) {
             
             $key = $xml->key();
             
             if (!isset($a[$key])) { 
-                $a[$key] = array();
+                $a[$key] = [];
             }
             
             foreach($xml->current()->attributes() as $k => $v) {

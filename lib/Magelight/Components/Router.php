@@ -35,14 +35,14 @@ class Router
      * 
      * @var array
      */
-    protected $_routes = array();
+    protected $_routes = [];
 
     /**
      * Routes back index
      * 
      * @var array
      */
-    protected $_routesIndex = array();
+    protected $_routesIndex = [];
 
     /**
      * Application instance

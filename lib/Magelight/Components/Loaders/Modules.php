@@ -35,14 +35,14 @@ final class Modules
      * 
      * @var array
      */
-    protected $_modules = array();
+    protected $_modules = [];
     
     /**
      * Loading queue
      * 
      * @var array
      */
-    protected $_loadQueue = array();
+    protected $_loadQueue = [];
     
     /**
      * Constructor. Automatically starts modules loading
@@ -89,10 +89,10 @@ final class Modules
      */
     private function loadModule(\SimpleXMLElement $moduleXml)
     {
-        $module = array(
+        $module = [
             'name' => $moduleXml->getName(),
             'active' => (int) $moduleXml->active,
-        );
+        ];
         
         if (\Magelight::app()->isInDeveloperMode() &&
             (
@@ -149,7 +149,7 @@ final class Modules
      */
     public function getActiveModules()
     {
-        $modules = array();
+        $modules = [];
         foreach ($this->_modules as $name => $module) {
             if ($module['active']) {
                 $modules[$name] = $module;

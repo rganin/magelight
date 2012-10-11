@@ -35,7 +35,7 @@ class App
      * 
      * @var array
      */   
-    protected $_registry = array();
+    protected $_registry = [];
         
     /**
      * Application directory

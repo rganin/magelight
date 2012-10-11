@@ -60,7 +60,7 @@ class Routes
      * 
      * @var array
      */
-    private $_routes = array();
+    private $_routes = [];
 
     /**
      * Load application routes
@@ -219,7 +219,7 @@ class Routes
      */
     public function getRoutesIndex()
     {
-        $matchIndex = array();
+        $matchIndex = [];
         foreach ($this->_routes as $route) {
             $matchIndex[$route['match']] = $route;
         }

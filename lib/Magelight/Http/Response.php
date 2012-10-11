@@ -31,7 +31,7 @@ class Response
      *
      * @var array
      */
-    protected $_headers = array();
+    protected $_headers = [];
 
     /**
      * Response content

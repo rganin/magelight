@@ -31,7 +31,7 @@ class Cookies
      * 
      * @var array
      */
-    private $_cookies = array();
+    private $_cookies = [];
     
     /**
      * Constructor

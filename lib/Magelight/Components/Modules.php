@@ -30,7 +30,7 @@ class Modules
      * 
      * @var array
      */
-    protected $_modules = array();
+    protected $_modules = [];
     
     /**
      * App

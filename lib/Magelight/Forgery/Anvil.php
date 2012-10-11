@@ -35,7 +35,7 @@ class Anvil
      *
      * @var array
      */
-    protected static $_classOverrides = array();
+    protected static $_classOverrides = [];
 
     /**
      * Get class name according to runtime overrides
