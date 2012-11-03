@@ -37,14 +37,14 @@ abstract class Collection
      * 
      * @var array
      */
-    protected $items = array();
+    protected $items = [];
     
     /**
      * Constructor
      * 
      * @param array $items
      */
-    public function __construct($items = array()) 
+    public function __construct($items = [])
     {
         $this->items = $items;
         $this->position = 0;

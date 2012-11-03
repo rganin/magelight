@@ -87,7 +87,7 @@ class Document extends \Magelight\Block
      */
     public function addCss($path, $after = null, $media = 'all')
     {
-        $css = $this->get('css', array());
+        $css = $this->get('css', []);
         $entry = array(
             'path' => $path,
             'media' => $media,
@@ -107,7 +107,7 @@ class Document extends \Magelight\Block
      */
     public function addInlineCss($content, $after = null, $media = 'all')
     {
-        $css = $this->get('css', array());
+        $css = $this->get('css', []);
         $entry = array(
             'path' => null,
             'media' => $media,
@@ -127,7 +127,7 @@ class Document extends \Magelight\Block
      */
     public function addJs($path, $after = null)
     {
-        $js = $this->get('js', array());
+        $js = $this->get('js', []);
         $entry = array(
             'path' => $path,
             'inline' => false,
@@ -145,7 +145,7 @@ class Document extends \Magelight\Block
      */
     public function addInlineJs($content, $after = null)
     {
-        $js = $this->get('js', array());
+        $js = $this->get('js', []);
         $entry = array(
             'path' => null,
             'inline' => true,
@@ -187,7 +187,7 @@ class Document extends \Magelight\Block
      */
     public function addMeta(array $arrayOfAttributes)
     {
-        $meta = $this->get('meta', array());
+        $meta = $this->get('meta', []);
         $index = isset($arrayOfAttributes['name']) ? $arrayOfAttributes['name'] :
             (isset($arrayOfAttributes['http-equiv']) ? $arrayOfAttributes['http-equiv'] : count($meta));
         $meta[$index] = $arrayOfAttributes;
@@ -202,7 +202,7 @@ class Document extends \Magelight\Block
     public function renderMeta()
     {
         $metaSection = '';
-        foreach ($this->get('meta', array()) as $metaTagAttributes) {
+        foreach ($this->get('meta', []) as $metaTagAttributes) {
             if (!is_array($metaTagAttributes)) {
                 continue;
             }
@@ -234,7 +234,7 @@ class Document extends \Magelight\Block
     public function renderCss()
     {
         $style = '';
-        foreach ($this->get('css', array()) as $css) {
+        foreach ($this->get('css', []) as $css) {
             if (!$css['inline']) {
                 $style .=
                     "<link rel=\"stylesheet\" href=\"{$css['path']}\" type=\"text/css\" media=\"{$css['media']}\" />"
@@ -256,7 +256,7 @@ class Document extends \Magelight\Block
     public function renderJs()
     {
         $scripts = '';
-        foreach ($this->get('js', array()) as $js) {
+        foreach ($this->get('js', []) as $js) {
             if (!$js['inline']) {
                 $scripts .=
                     "<script type=\"text/javascript\" src=\"{$js['path']}\"></script>" . PHP_EOL;

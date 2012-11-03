@@ -134,7 +134,7 @@ abstract class Controller
     protected function view()
     {
         if (!$this->_view instanceof \Magelight\Block && is_string($this->_view)) {
-            $this->_view = call_user_func(array($this->_view, 'forge'));
+            $this->_view = call_user_func([$this->_view, 'forge']);
         }
         return $this->_view;
     }
@@ -193,7 +193,12 @@ abstract class Controller
     {
         $module = $this->_getCurrentModuleName();
         return $this->app()->dispatchAction(
-            array('module' => $module, 'controller' => $controller, 'action' => $action), $this->request()
+            [
+                'module' => $module,
+                'controller' => $controller,
+                'action' => $action
+            ],
+            $this->request()
         );
     }
 

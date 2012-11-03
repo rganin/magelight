@@ -73,7 +73,7 @@ class Request
      * @param array $post
      * @param string $requestOrder
      */
-    public function __construct($get = array(), $post = array(), $requestOrder = self::DEFAULT_REQUEST_MERGE_ORDER)
+    public function __construct($get = [], $post = [], $requestOrder = self::DEFAULT_REQUEST_MERGE_ORDER)
     {
         if (isset($_SERVER['REQUEST_METHOD'])) {
             $this->_method = $_SERVER['REQUEST_METHOD'];
@@ -123,7 +123,7 @@ class Request
      * @param string $order
      * @return array
      */
-    protected function mergeRequest($get = array(), $post = array(), $order = self::DEFAULT_REQUEST_MERGE_ORDER)
+    protected function mergeRequest($get = [], $post = [], $order = self::DEFAULT_REQUEST_MERGE_ORDER)
     {
         if ($order == 'GP') {
             return array_merge($get, $post);
@@ -172,7 +172,7 @@ class Request
      * 
      * @param array $appendArray
      */
-    public function appendGet($appendArray = array())
+    public function appendGet($appendArray = [])
     {
         $this->_get = array_merge($this->_get, $appendArray);
         $this->_request = array_merge($this->_get, $this->_post);

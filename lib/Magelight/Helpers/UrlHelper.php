@@ -74,7 +74,7 @@ class UrlHelper
      * @return string
      * @throws \Magelight\Exception
      */
-    public function getUrl($match, $params = array(), $type = self::TYPE_HTTP)
+    public function getUrl($match, $params = [], $type = self::TYPE_HTTP)
     {
         $match = '/' . trim($match, '\\/');
 
@@ -117,7 +117,7 @@ class UrlHelper
      *
      * @return mixed
      */
-    protected function setParamsToPlaceholders($match, &$params = array())
+    protected function setParamsToPlaceholders($match, &$params = [])
     {
         foreach ($params as $key => $value) {
             $match = preg_replace("/(\{{$key}\}|\{{$key}:[^\}]*\})/", $value, $match);

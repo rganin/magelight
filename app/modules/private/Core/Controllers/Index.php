@@ -42,7 +42,7 @@ class Index extends \Magelight\Controller
     {
         $this->_view->set('title', 'Welcome');
         $this->_view->sectionAppend('content', \Core\Blocks\Content::forge());
-        \Core\Blocks\Document::getFromRegistry()->addMeta(array('name' => 'description', 'content' => '123'));
+        \Core\Blocks\Document::getFromRegistry()->addMeta(['name' => 'description', 'content' => '123']);
          $this->renderView();
     }
 

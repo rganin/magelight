@@ -30,9 +30,9 @@ namespace Core\Blocks\Form;
 
 abstract class AbstractFormElement extends \Magelight\Block
 {
-    protected $_elements = array();
+    protected $_elements = [];
 
-    protected $_attributes = array();
+    protected $_attributes = [];
 
     public function toHtml()
     {
