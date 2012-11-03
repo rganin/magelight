@@ -31,6 +31,11 @@ class App
     const SESSION_ID_COOKIE_NAME = 'MAGELIGHTSSID';
 
     /**
+     * Default database index
+     */
+    const DEFAULT_DB_INDEX = 'default';
+
+    /**
      * Objects registry
      * 
      * @var array
@@ -64,7 +69,7 @@ class App
      * @var string
      */
     protected $_sessionCookieName = self::SESSION_ID_COOKIE_NAME;
-    
+
     /**
      * Get application directory
      * 
@@ -152,23 +157,19 @@ class App
     }
 
     /**
-     * Get object from registry
-     * 
-     * @param string $index
+     * Get object from app registry
      *
+     * @param string $index
+     * @param mixed $default
      * @return mixed
-     * @throws Exception
      */
-    public function getRegistryObject($index)
+    public function getRegistryObject($index, $default = null)
     {
         if (isset($this->_registry[$index]) && !empty($this->_registry[$index])) {
             return $this->_registry[$index];
+        } else {
+            return $default;
         }
-        throw new \Magelight\Exception(
-            'Trying to get undefined object from registry. Index: '
-                . print_r($index, true)
-                . print_r(debug_backtrace(), true)
-        );
     }
     
     /**
@@ -317,7 +318,7 @@ class App
         if (!empty($overrides)) {
             foreach($overrides as $override) {
                 if (!empty($override->old) && !empty($override->new)) {
-                    \Magelight\Forgery\Anvil::addClassOverride(
+                    \Magelight\Anvil::addClassOverride(
                         trim($override->old, " \\/ "),
                         trim($override->new, " \\/ ")
                     );
@@ -332,7 +333,7 @@ class App
      *
      * @param $path
      * @param null $default
-     * @return array|null
+     * @return \SimpleXMLElement|mixed
      */
     public function getConfig($path, $default = null)
     {
@@ -347,6 +348,36 @@ class App
     public function log($logMessage)
     {
         \Magelight\Log::add($logMessage);
+    }
+
+    /**
+     * Get database
+     *
+     * @param string $index
+     * @return Dbal\Db\AbstractAdapter
+     * @throws Exception
+     */
+    public function db($index = self::DEFAULT_DB_INDEX)
+    {
+        $db = $this->getRegistryObject('database/' . $index);
+
+        if (!$db instanceof \Magelight\Dbal\Db\AbstractAdapter) {
+
+            $dbConfig = $this->getConfig('/global/db/' . $index, null);
+
+            if (is_null($dbConfig)) {
+                throw new \Magelight\Exception("Database {$index} configuration not found.");
+            }
+
+            $adapterClass = \Magelight\Dbal\Db\AbstractAdapter::getAdapterClassByType((string) $dbConfig->type);
+
+            $db = new $adapterClass();
+            $db->init((array) $dbConfig);
+
+            $this->setRegistryObject('database/' . $index, $db);
+
+        }
+        return $db;
     }
 
 //    /**

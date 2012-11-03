@@ -1,6 +1,6 @@
 <?php
 
-namespace Magelight\Dbal;
+namespace Magelight\Dbal\Db\MySql;
 
 class Orm
 {

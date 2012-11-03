@@ -7,12 +7,13 @@
         <db>
             <default>
                 <type>mysql</type>
-                <host>localhost</host>
+                <host>127.0.0.1</host>
                 <port>3306</port>
                 <user>root</user>
                 <password>root</password>
-                <charset>UTF-8</charset>
-                <init_connect>SET NAMES utf8 COLLATION utf8_general_ci</init_connect>
+                <dbname>magelight</dbname>
+                <persistent>1</persistent>
+                <init_connect>SET NAMES utf8 COLLATE utf8_general_ci</init_connect>
             </default>
         </db>
         <cache>
@@ -21,10 +22,6 @@
                     <server>
                         <host>127.0.0.1</host>
                         <port>11211</port>
-                    </server>
-                    <server>
-                        <host>192.468.56.101</host>
-                        <port>12121</port>
                     </server>
                 </memcache>
             </default>

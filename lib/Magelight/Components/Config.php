@@ -191,7 +191,7 @@ class Config
             return $default;
         }
         if (empty($attribute)) {
-            return $conf;
+            return is_array($conf) ? array_pop($conf) : $conf;
         } else {
             return isset($conf[0]->$attribute) ? $conf[0]->$attribute : $default;
         }

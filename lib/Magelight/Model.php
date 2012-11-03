@@ -25,7 +25,7 @@ abstract class Model
 	/**
 	 * ORM object
 	 *
-	 * @var \DBAL\ORM
+	 * @var \Magelight\ORM
 	 */
 	protected $orm = null;
 
