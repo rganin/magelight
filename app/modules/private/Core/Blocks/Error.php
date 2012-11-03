@@ -28,7 +28,11 @@
 
 namespace Core\Blocks;
 
-class Register extends \Magelight\Block
+class Error extends \Magelight\Block
 {
-    protected $_template = 'modules/Core/templates/register.phtml';
+    const TEMPLATE_404 = 'modules/private/Core/templates/errors/404.phtml';
+    const TEMPLATE_403 = 'modules/private/Core/templates/errors/403.phtml';
+    const TEMPLATE_401 = 'modules/private/Core/templates/errors/401.phtml';
+
+    protected $_template = self::TEMPLATE_404;
 }

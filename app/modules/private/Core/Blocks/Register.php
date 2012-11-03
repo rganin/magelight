@@ -28,7 +28,7 @@
 
 namespace Core\Blocks;
 
-class Content extends \Magelight\Block
+class Register extends \Magelight\Block
 {
-    protected $_template = 'modules/Core/templates/content.phtml';
+    protected $_template = 'modules/private/Core/templates/register.phtml';
 }

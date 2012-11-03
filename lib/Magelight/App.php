@@ -245,8 +245,8 @@ class App
         array_unshift(
             $includePath, 
             $this->_frameworkDir . DS . 'lib',
-            $this->_frameworkDir . DS . 'modules',
-            $this->_appDir . DS . 'modules'
+            $this->_appDir . DS . 'modules' . DS . 'public',
+            $this->_appDir . DS . 'modules' . DS . 'private'
         );
         
         ini_set('include_path', implode(PS, $includePath));

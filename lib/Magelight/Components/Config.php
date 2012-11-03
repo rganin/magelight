@@ -56,12 +56,14 @@ class Config
 
         //@todo add config caching just as caching will be implemented
         $loader->loadConfig($app->getAppDir() . DS . 'etc' . DS . 'config.xml');
-        
-        foreach (array($app->getFrameworkDir(), $app->getAppDir()) as $dir) {
-            foreach (array_keys($app->modules()->getActiveModules()) as $moduleName) {
-                $filename = $dir . DS . 'modules' . DS . $moduleName . DS . 'etc' . DS . 'config.xml';
-                if (file_exists($filename)) {
-                    $loader->loadConfig($filename);
+
+        foreach (['private', 'public'] as $scope) {
+            foreach (array($app->getFrameworkDir(), $app->getAppDir()) as $dir) {
+                foreach (array_keys($app->modules()->getActiveModules()) as $moduleName) {
+                    $filename = $dir . DS . 'modules' . DS . $scope . DS . $moduleName . DS . 'etc' . DS . 'config.xml';
+                    if (file_exists($filename)) {
+                        $loader->loadConfig($filename);
+                    }
                 }
             }
         }

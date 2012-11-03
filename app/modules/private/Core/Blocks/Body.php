@@ -25,7 +25,7 @@ namespace Core\Blocks;
 
 class Body extends \Magelight\Block
 {
-    protected $_template = 'modules/Core/templates/body.phtml';
+    protected $_template = 'modules/private/Core/templates/body.phtml';
 
     public function init()
     {
@@ -35,9 +35,9 @@ class Body extends \Magelight\Block
             'name' => 'keywords',
             'content' => 'welcome app, magelight'
         ));
-        $document->addCss('modules/Core/static/css/bootstrap.css');
-        $document->addCss('modules/Core/static/css/core.css');
-        $document->addJs('modules/Core/static/js/jquery-1.8.0.min.js');
-        $document->addJs('modules/Core/static/js/bootstrap.js');
+        $document->addCss('modules/private/Core/static/css/bootstrap.css');
+        $document->addCss('modules/private/Core/static/css/core.css');
+        $document->addJs('modules/private/Core/static/js/jquery-1.8.0.min.js');
+        $document->addJs('modules/private/Core/static/js/bootstrap.js');
     }
 }

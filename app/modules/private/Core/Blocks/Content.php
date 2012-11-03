@@ -28,11 +28,7 @@
 
 namespace Core\Blocks;
 
-class Error extends \Magelight\Block
+class Content extends \Magelight\Block
 {
-    const TEMPLATE_404 = 'modules/Core/templates/errors/404.phtml';
-    const TEMPLATE_403 = 'modules/Core/templates/errors/403.phtml';
-    const TEMPLATE_401 = 'modules/Core/templates/errors/401.phtml';
-
-    protected $_template = self::TEMPLATE_404;
+    protected $_template = 'modules/private/Core/templates/content.phtml';
 }

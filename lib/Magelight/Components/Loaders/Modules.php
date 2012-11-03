@@ -94,23 +94,29 @@ final class Modules
             'active' => (int) $moduleXml->active,
         );
         
-        if (\Magelight::app()->isInDeveloperMode() &&
-            (
-                !file_exists(\Magelight::app()->getAppDir() . DS . 'modules' . DS . $module['name'])
-                &&
-                !file_exists(\Magelight::app()->getFrameworkDir() . DS . 'modules' . DS . $module['name'])
-            )
-        ) {
-            throw new \Magelight\Exception(
-                'Module "' 
-                .  $module['name']
-                . '" does not exist.'
-            );
+        if (\Magelight::app()->isInDeveloperMode() && !$this->moduleExists($module['name'])) {
+            throw new \Magelight\Exception('Module "' .  $module['name'] . '" does not exist or not readable.');
         }
         
         $this->_modules[$module['name']] = $module;
         unset($this->_loadQueue[$module['name']]);
         return $this;
+    }
+
+    /**
+     * Check does module exists in app scope
+     *
+     * @param string $moduleName
+     * @return bool
+     */
+    private function moduleExists($moduleName)
+    {
+        $result = false;
+        $appDir = \Magelight::app()->getAppDir();
+        foreach (['private', 'public'] as $scope) {
+            $result |= is_readable($appDir . DS . 'modules' . DS . $scope . DS . $moduleName);
+        }
+        return $result;
     }
     
     /**
