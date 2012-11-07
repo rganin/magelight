@@ -355,8 +355,8 @@ class AbstractOrm
         $fields = array();
         foreach ($this->selectFields as $selectField) {
             $fields[] = isset($this->fieldAliases[$selectField])
-                ? $selectField . ' AS ' . $this->fieldAliases[$selectField]
-                : $selectField;
+                ? $this->tableName . '.' . $selectField . ' AS ' . $this->fieldAliases[$selectField]
+                : $this->tableName . '.' . $selectField;
         }
         return $fields;
     }
