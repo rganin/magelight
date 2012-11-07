@@ -25,7 +25,6 @@ require '../core.php';
 
 Magelight::app()
     ->setAppDir(dirname(__FILE__))
-    ->setFrameworkDir(dirname(dirname(__FILE__)))
     ->setDeveloperMode(true)
     ->init()
     ->run();

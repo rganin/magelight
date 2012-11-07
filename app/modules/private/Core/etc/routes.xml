@@ -1,5 +1,5 @@
 <routes>
-    <route match="" controller="index" action="index" />
+    <route match="" />
     <route match="login" action="login"/>
     <route match="auth" action="auth" />
     <route match="register" action="register" />

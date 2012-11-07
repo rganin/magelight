@@ -36,7 +36,7 @@ trait Forgery
      */
     public static function forge()
     {
-        $className = \Magelight\App::getClassName(get_called_class());
+        $className = \Magelight::app()->getClassName(get_called_class());
         return new $className;
     }
 
@@ -48,7 +48,7 @@ trait Forgery
     public static function getInstance()
     {
         static $instance;
-        $className = \Magelight\App::getClassName(get_called_class());
+        $className = \Magelight::app()->getClassName(get_called_class());
 
         if (!$instance instanceof $className) {
             $instance = new $className();
@@ -78,7 +78,7 @@ trait Forgery
      */
     public function getRedefinitionModuleName()
     {
-        $namespace = explode('\\', \Magelight\App::getClassName(get_called_class()));
+        $namespace = explode('\\', \Magelight::app()->getClassName(get_called_class()));
         if (!empty($namespace[0])) {
             return $namespace[0];
         }

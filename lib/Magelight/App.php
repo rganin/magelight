@@ -40,7 +40,7 @@ class App
      *
      * @var array
      */
-    protected static $_classOverrides = [];
+    protected $_classOverrides = [];
 
     /**
      * Objects registry
@@ -61,7 +61,7 @@ class App
      * 
      * @var string
      */
-    protected $_frameworkDir = '../';
+    protected $_frameworkDir = FRAMEWORK_DIR;
     
     /**
      * Is app in developer mode
@@ -120,19 +120,7 @@ class App
         $this->_appDir = $directory;
         return $this;
     }
-    
-    /**
-     * Set framework directory
-     * 
-     * @param string $directory
-     * @return App
-     */
-    public function setFrameworkDir($directory)
-    {
-        $this->_frameworkDir = $directory;
-        return $this;
-    }
-    
+
     /**
      * Get framework directory
      * 
@@ -249,6 +237,7 @@ class App
      */
     public function init()
     {
+        $this->_frameworkDir = FRAMEWORK_DIR;
         $includePath = explode(PS, ini_get('include_path'));
         array_unshift(
             $includePath, 
@@ -296,17 +285,25 @@ class App
     /**
      * Dispatch action
      * 
-     * @param $action
-     * @param $request
+     * @param array $action
+     * @param \Magelight\Http\Request $request
      *
      * @return App
+     * @throws \Magelight\Exception
      */
-    public function dispatchAction($action, $request)
+    public function dispatchAction(array $action, \Magelight\Http\Request $request = null)
     {
         $controllerName = $action['module'] . '\\Controllers\\' . ucfirst($action['controller']);
         $controllerMethod = $action['action'] . 'Action';
         $controller = call_user_func(array($controllerName, 'forge'));
         /* @var $controller \Magelight\Controller*/
+
+        if ($this->isInDeveloperMode() && !is_callable([$controller, $controllerMethod])) {
+            $controllerName = get_class($controller);
+            throw new \Magelight\Exception(
+                "Trying to run undefined controller action {$controllerMethod} in {$controllerName}"
+            );
+        }
         $controller->init($request);
         $controller->beforeExecute();
         $controller->$controllerMethod();
@@ -372,21 +369,15 @@ class App
         $db = $this->getRegistryObject('database/' . $index);
 
         if (!$db instanceof \Magelight\Dbal\Db\AbstractAdapter) {
-
             $dbConfig = $this->getConfig('/global/db/' . $index, null);
-
             if (is_null($dbConfig)) {
                 throw new \Magelight\Exception("Database {$index} configuration not found.");
             }
-
             $adapterClass = \Magelight\Dbal\Db\AbstractAdapter::getAdapterClassByType((string) $dbConfig->type);
-
             $db = new $adapterClass();
             /* @var $db \Magelight\Dbal\Db\AbstractAdapter*/
             $db->init((array) $dbConfig);
-
             $this->setRegistryObject('database/' . $index, $db);
-
         }
         return $db;
     }
@@ -394,13 +385,13 @@ class App
     /**
      * Get class name according to runtime overrides
      *
-     * @param string$className
+     * @param string $className
      * @return mixed
      */
-    final public static function getClassName($className)
+    final public function getClassName($className)
     {
-        while (!empty(self::$_classOverrides[$className])) {
-            $className = self::$_classOverrides[$className];
+        while (!empty($this->_classOverrides[$className])) {
+            $className = $this->_classOverrides[$className];
         }
         return $className;
     }
@@ -409,12 +400,12 @@ class App
      * Add class to override
      *
      * @static
-     * @param $sourceClassName
-     * @param $replacementClassName
+     * @param string $sourceClassName
+     * @param string $replacementClassName
      */
-    final public static function addClassOverride($sourceClassName, $replacementClassName)
+    final public function addClassOverride($sourceClassName, $replacementClassName)
     {
-        self::$_classOverrides[$sourceClassName] = $replacementClassName;
+        $this->_classOverrides[$sourceClassName] = $replacementClassName;
     }
 
 //    /**

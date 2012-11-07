@@ -59,7 +59,7 @@ abstract class Controller
      * @var \Magelight\Block|null
      */
     protected $_view = null;
-    
+
     /**
      * Constructor
      * 
@@ -175,11 +175,17 @@ abstract class Controller
      * Forward action
      *
      * @param string $action
+     *
      * @return mixed
+     * @throws \Magelight\Exception
      */
     public function forward($action)
     {
         $action = $action . 'Action';
+        if ($this->_app->isInDeveloperMode() && !is_callable([$this, $action])) {
+            $controller = get_class($this);
+            throw new \Magelight\Exception("Forwarding to undefined controller action {$action} in {$controller}");
+        }
         return $this->$action();
     }
 
