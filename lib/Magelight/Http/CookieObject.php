@@ -32,14 +32,14 @@ namespace Magelight\Http;
  * @method CookieObject setExpire(int $expire) - overrides TTL
  * @method CookieObject setSecure(bool $secure)
  * @method CookieObject setHttpOnly(bool $httpOnly)
- * @method getTtl
- * @method getKey
- * @method getValue
- * @method getDomain
- * @method getPath
- * @method getExpire
- * @method getSecure
- * @method getHttpOnly
+ * @method int getTtl()
+ * @method string getKey()
+ * @method string|null getValue()
+ * @method string getDomain()
+ * @method string getPath()
+ * @method string getExpire()
+ * @method bool getSecure()
+ * @method bool getHttpOnly()
  */
 class CookieObject
 {
@@ -50,48 +50,56 @@ class CookieObject
     
     /**
      * TTL in seconds
+     *
      * @var int
      */
     private $_ttl = null;
     
     /**
      * Cookie name
+     *
      * @var string
      */
     private $_key = null;
     
     /**
      * Cookie value
+     *
      * @var string
      */
     private $_value = null;
     
     /**
      * Cookie domain
+     *
      * @var string
      */
     private $_domain = null;
     
     /**
      * Cookie path
+     *
      * @var string
      */
     private $_path = null;
     
     /**
      * Cookie expiration timestamp
+     *
      * @var int
      */
     private $_expire = null;
     
     /**
-     * Is cookie secure flag 
+     * Is cookie secure flag
+     *
      * @var bool
      */
     private $_secure = null;
     
     /**
      * is cookie for Http only flag
+     *
      * @var bool
      */
     private $_httpOnly = null;
@@ -111,6 +119,7 @@ class CookieObject
     
     /**
      * Commit cookie (Set cookie to client)
+     *
      * @return bool
      */
     public function commit()
@@ -131,6 +140,7 @@ class CookieObject
      * 
      * @param $name
      * @param $value
+     *
      * @return CookieObject
      */
     public function __set($name, $value)
@@ -144,6 +154,7 @@ class CookieObject
      * Getter
      * 
      * @param $name
+     * 
      * @return mixed
      */
     public function __get($name)
