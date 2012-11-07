@@ -36,7 +36,7 @@ trait Forgery
      */
     public static function forge()
     {
-        $className = \Magelight\Anvil::getClassName(get_called_class());
+        $className = \Magelight\App::getClassName(get_called_class());
         return new $className;
     }
 
@@ -48,7 +48,7 @@ trait Forgery
     public static function getInstance()
     {
         static $instance;
-        $className = \Magelight\Anvil::getClassName(get_called_class());
+        $className = \Magelight\App::getClassName(get_called_class());
 
         if (!$instance instanceof $className) {
             $instance = new $className();

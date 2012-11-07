@@ -1,0 +1,10 @@
+<config>
+    <global>
+        <forgery>
+            <!--<override>-->
+                <!--<old>\Core\Blocks\Login</old>-->
+                <!--<new>\Core\Blocks\LoginRedefined</new>-->
+            <!--</override>-->
+        </forgery>
+    </global>
+</config>

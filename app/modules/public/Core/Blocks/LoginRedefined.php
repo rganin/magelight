@@ -26,40 +26,9 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-namespace Magelight;
+namespace Core\Blocks;
 
-class Anvil
+class LoginRedefined extends \Magelight\Block
 {
-    /**
-     * Classes overrides
-     *
-     * @var array
-     */
-    protected static $_classOverrides = [];
-
-    /**
-     * Get class name according to runtime overrides
-     *
-     * @param string$className
-     * @return mixed
-     */
-    final public static function getClassName($className)
-    {
-        while (!empty(self::$_classOverrides[$className])) {
-            $className = self::$_classOverrides[$className];
-        }
-        return $className;
-    }
-
-    /**
-     * Add class to override
-     *
-     * @static
-     * @param $sourceClassName
-     * @param $replacementClassName
-     */
-    final public static function addClassOverride($sourceClassName, $replacementClassName)
-    {
-        self::$_classOverrides[$sourceClassName] = $replacementClassName;
-    }
+    protected $_template = 'modules/public/Core/templates/login.phtml';
 }

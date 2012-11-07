@@ -36,6 +36,13 @@ class App
     const DEFAULT_DB_INDEX = 'default';
 
     /**
+     * Classes overrides
+     *
+     * @var array
+     */
+    protected static $_classOverrides = [];
+
+    /**
      * Objects registry
      * 
      * @var array
@@ -316,9 +323,12 @@ class App
     {
         $overrides = $this->config()->getConfig('global/forgery/override');
         if (!empty($overrides)) {
+            if (!is_array($overrides)) {
+                $overrides = [$overrides];
+            }
             foreach($overrides as $override) {
                 if (!empty($override->old) && !empty($override->new)) {
-                    \Magelight\Anvil::addClassOverride(
+                    static::addClassOverride(
                         trim($override->old, " \\/ "),
                         trim($override->new, " \\/ ")
                     );
@@ -372,12 +382,39 @@ class App
             $adapterClass = \Magelight\Dbal\Db\AbstractAdapter::getAdapterClassByType((string) $dbConfig->type);
 
             $db = new $adapterClass();
+            /* @var $db \Magelight\Dbal\Db\AbstractAdapter*/
             $db->init((array) $dbConfig);
 
             $this->setRegistryObject('database/' . $index, $db);
 
         }
         return $db;
+    }
+
+    /**
+     * Get class name according to runtime overrides
+     *
+     * @param string$className
+     * @return mixed
+     */
+    final public static function getClassName($className)
+    {
+        while (!empty(self::$_classOverrides[$className])) {
+            $className = self::$_classOverrides[$className];
+        }
+        return $className;
+    }
+
+    /**
+     * Add class to override
+     *
+     * @static
+     * @param $sourceClassName
+     * @param $replacementClassName
+     */
+    final public static function addClassOverride($sourceClassName, $replacementClassName)
+    {
+        self::$_classOverrides[$sourceClassName] = $replacementClassName;
     }
 
 //    /**
