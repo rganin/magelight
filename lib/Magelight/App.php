@@ -23,7 +23,7 @@
 
 namespace Magelight;
 
-class App
+final class App
 {
     /**
      * Session ID cookie name
@@ -132,13 +132,15 @@ class App
     }
 
     /**
-     * Set the session cookie name
+     * Set application session cookie name
      *
-     * @param $name
+     * @param string $name
+     * @return App
      */
     public function setSessionCookieName($name)
     {
         $this->_sessionCookieName = $name;
+        return $this;
     }
 
     /**
