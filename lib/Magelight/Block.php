@@ -188,6 +188,9 @@ abstract class Block
     public function sectionReplace($name, \Magelight\Block $block)
     {
         self::$_sectionsInitialized = false;
+        if (!is_array(self::$_sections)) {
+            self::$_sections = [];
+        }
         self::$_sections[$name] = [$block];
         return $this;
     }
@@ -240,7 +243,11 @@ abstract class Block
         }
         $class = get_called_class();
         if (empty($this->_template)) {
-            throw new \Magelight\Exception("Undeclared template in block '{$class}'");
+            if (\Magelight::app()->isInDeveloperMode()) {
+                throw new \Magelight\Exception("Undeclared template in block '{$class}'");
+            } else {
+                return '';
+            }
         }
         $this->beforeToHtml();
         ob_start();
@@ -285,7 +292,7 @@ abstract class Block
         }
         if (!isset(self::$_sections[$name]) && \Magelight::app()->isInDeveloperMode()) {
             trigger_error("Undefined section call - '{$name}' in " . get_called_class(), E_USER_NOTICE);
-        } elseif (is_array(self::$_sections[$name])) {
+        } elseif (isset(self::$_sections[$name]) && is_array(self::$_sections[$name])) {
             foreach (self::$_sections[$name] as $sectionBlock) {
                 /* @var $sectionBlock \Magelight\Block */
                 $html .= $sectionBlock->toHtml();
@@ -295,13 +302,15 @@ abstract class Block
     }
 
     /**
-     * Set block template
+     * Test template
      *
-     * @param $template
+     * @param string $template
+     * @return Block
      */
     public function setTemplate($template)
     {
         $this->_template = $template;
+        return $this;
     }
 
     /**

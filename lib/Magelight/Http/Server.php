@@ -23,6 +23,9 @@
 
 namespace Magelight\Http;
 
+/**
+ * @static getInstance() \Magelight\Http\Server
+ */
 class Server
 {
     use \Magelight\Forgery;

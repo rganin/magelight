@@ -62,9 +62,23 @@ trait Forgery
      *
      * @return string|null
      */
-    protected function _getCurrentModuleName()
+    public function getCurrentModuleName()
     {
         $namespace = explode('\\', get_called_class());
+        if (!empty($namespace[0])) {
+            return $namespace[0];
+        }
+        return null;
+    }
+
+    /**
+     * Get current module name
+     *
+     * @return string|null
+     */
+    public function getRedefinitionModuleName()
+    {
+        $namespace = explode('\\', \Magelight\App::getClassName(get_called_class()));
         if (!empty($namespace[0])) {
             return $namespace[0];
         }

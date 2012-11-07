@@ -76,11 +76,12 @@ abstract class Controller
      * Get object from application registry
      *
      * @param $key
+     * @param null $default
      * @return mixed
      */
-    public function getRegistryObject($key)
+    public function getRegistryObject($key, $default = null)
     {
-        return \Magelight::app()->getRegistryObject($key);
+        return $this->app()->getRegistryObject($key, $default);
     }
 
     /**
@@ -191,7 +192,7 @@ abstract class Controller
      */
     public function forwardController($controller, $action)
     {
-        $module = $this->_getCurrentModuleName();
+        $module = $this->getCurrentModuleName();
         return $this->app()->dispatchAction(
             [
                 'module' => $module,
@@ -200,10 +201,5 @@ abstract class Controller
             ],
             $this->request()
         );
-    }
-
-    public function getUrl()
-    {
-
     }
 }

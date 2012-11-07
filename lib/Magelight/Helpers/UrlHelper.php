@@ -34,7 +34,7 @@ class UrlHelper
     /**
      * Url types
      */
-    const TYPE_HTTP = 'http';
+    const TYPE_HTTP  = 'http';
     const TYPE_HTTPS = 'https';
     
     /**
@@ -53,10 +53,9 @@ class UrlHelper
      */
     public function getBaseUrl($type = self::TYPE_HTTP)
     {
-        $domain = \Magelight::app()->config()->getConfig('//global/base_domain', null);
+        $domain = \Magelight::app()->config()->getConfig('global/base_domain', null);
         if (is_null($domain)) {
             $server = \Magelight\Http\Server::getInstance();
-            /* @var \Magelight\Http\Server $server*/
             $domain = $server->getCurrentDomain();
         } elseif (is_array($domain)) {
             $domain = array_shift($domain);
