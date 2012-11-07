@@ -154,7 +154,7 @@ class CookieObject
      * Getter
      * 
      * @param $name
-     * 
+     *
      * @return mixed
      */
     public function __get($name)

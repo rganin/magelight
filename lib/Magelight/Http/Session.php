@@ -30,7 +30,8 @@ class Session
     /**
      * Getter
      *
-     * @param $name
+     * @param string $name
+     *
      * @return null
      */
     public function __get($name)
@@ -41,8 +42,8 @@ class Session
     /**
      * Setter
      *
-     * @param $name
-     * @param $value
+     * @param string $name
+     * @param mixed $value
      */
     public function __set($name, $value)
     {
@@ -52,9 +53,10 @@ class Session
     /**
      * Get value from session
      *
-     * @param $name
-     * @param null $default
-     * @return null
+     * @param string $name
+     * @param mixed $default
+     *
+     * @return mixed
      */
     public function get($name, $default = null)
     {
@@ -64,8 +66,9 @@ class Session
     /**
      * Set session value
      *
-     * @param $name
-     * @param $value
+     * @param string $name
+     * @param mixed $value
+     *
      * @return Session
      */
     public function set($name, $value)
@@ -110,7 +113,8 @@ class Session
     /**
      * Set session name
      *
-     * @param $name
+     * @param string $name
+     *
      * @return Session
      */
     public function setSessionName($name)
