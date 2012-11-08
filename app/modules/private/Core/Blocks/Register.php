@@ -30,5 +30,5 @@ namespace Core\Blocks;
 
 class Register extends \Magelight\Block
 {
-    protected $_template = 'modules/private/Core/templates/register.phtml';
+    protected $_template = 'Core/templates/register.phtml';
 }

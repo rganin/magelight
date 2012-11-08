@@ -30,7 +30,7 @@ class Document extends \Magelight\Block
      * 
      * @var string
      */
-    protected $_template = 'modules/private/Core/templates/document.phtml';
+    protected $_template = 'Core/templates/document.phtml';
     
     /**
      * Key to store this document in registry

@@ -30,5 +30,5 @@ namespace Core\Blocks;
 
 class LoginRedefined extends \Magelight\Block
 {
-    protected $_template = 'modules/public/Core/templates/login.phtml';
+    protected $_template = 'Core/templates/login.phtml';
 }

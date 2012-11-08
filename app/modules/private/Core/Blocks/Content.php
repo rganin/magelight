@@ -30,5 +30,5 @@ namespace Core\Blocks;
 
 class Content extends \Magelight\Block
 {
-    protected $_template = 'modules/private/Core/templates/content.phtml';
+    protected $_template = 'Core/templates/content.phtml';
 }
