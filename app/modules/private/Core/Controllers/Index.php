@@ -40,7 +40,6 @@ class Index extends \Magelight\Controller
      */
     public function indexAction()
     {
-//        var_dump($this->app()->db());
         $this->_view->set('title', 'Welcome');
         $this->_view->sectionAppend('content', \Core\Blocks\Content::forge());
         \Core\Blocks\Document::getFromRegistry()->addMeta(['name' => 'description', 'content' => '123']);

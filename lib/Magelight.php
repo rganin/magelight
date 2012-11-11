@@ -29,7 +29,7 @@ final class Magelight
      * @var \Magelight\App
      */
     protected static $_app = null;
-  
+
     /**
      * @static
      * Get application object
@@ -43,7 +43,7 @@ final class Magelight
         }
         return self::$_app;
     }
-    
+
     /**
      * Get session object
      * 

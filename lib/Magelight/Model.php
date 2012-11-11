@@ -193,26 +193,4 @@ abstract class Model
 		$fields = !is_array($fields) ? func_get_args() : $fields;
 		return $this->orm->getData($fields);
 	}
-
-	/**
-	 * Dummy for converting data into readable representation
-	 *
-	 * @param array  $data
-	 * @return array
-	 */
-	public function asReadable($data)
-	{
-		return $data;
-	}
-
-	/**
-	* Dummy for converting data into saveable representation
-	*
-	* @param array  $data
-	* @return array
-	*/
-	public function asSaveable($data)
-	{
-		return $data;
-	}
 }

@@ -5,14 +5,13 @@ namespace Magelight\Dbal\Db\MySql;
 /**
  * Mysql adapter (PDO proxy)
  *
- * @method \PDOStatement prepare($query) - prepare PDO statement with query
  * @method bool beginTransaction() - begin the transaction
  * @method bool commit() - commit the transaction
- * @method \PDOStatement query()
  * @method bool rollBack() - roll back the transaction
  * @method int exec($pdoStatement) - execute sql statement
  */
-class Adapter extends \Magelight\Dbal\Db\AbstractAdapter{
+class Adapter extends \Magelight\Dbal\Db\Common\Adapter
+{
 
     /**
      * PDO Object
@@ -22,28 +21,85 @@ class Adapter extends \Magelight\Dbal\Db\AbstractAdapter{
     protected $_db = null;
 
     /**
-     * Initialize DB adapter
+     * DSN Address
+     *
+     * @var string
+     */
+    protected $_dsn = '';
+
+    /**
+     * Adapter type
+     *
+     * @var string
+     */
+    protected $_type = self::TYPE_MYSQL;
+
+    /**
+     * Profiling enabled
+     *
+     * @var bool
+     */
+    protected $_profilingEnabled = false;
+
+    /**
+     * Initialize adapter
      *
      * @param array $options
      * @return Adapter|mixed
      */
     public function init(array $options = [])
     {
-        $dsn = isset($options['dsn']) ? $options['dsn'] : $this->getDsn($options);
+        $this->_dsn = isset($options['dsn']) ? $options['dsn'] : $this->getDsn($options);
 
         $user = isset($options['user']) ? $options['user'] : null;
         $pass = isset($options['password']) ? $options['password'] : null;
-        $this->_db = new \PDO($dsn, $user, $pass, $this->preparePdoOptions($options));
+        $this->_db = new \PDO($this->_dsn, $user, $pass, $this->preparePdoOptions($options));
 
         if ($this->_db instanceof \PDO) {
             $this->_isInitialized = true;
         }
 
-        if (isset($config['use_database'])) {
-            $this->_db->exec('USE ' . $config['database']);
+        if (isset($options['use_database'])) {
+            $this->_db->exec('USE ' . $options['database']);
+        }
+
+        if (isset($options['profiling']) && (bool) $options['profiling']) {
+            $this->enableProfilig();
         }
 
         return $this;
+    }
+
+    /**
+     * Enable profiling
+     *
+     * @return Adapter
+     */
+    public function enableProfilig()
+    {
+        $this->_profilingEnabled = true;
+        return $this;
+    }
+
+    /**
+     * Disable profiling
+     *
+     * @return Adapter
+     */
+    public function disableProfiling()
+    {
+        $this->_profilingEnabled = false;
+        return $this;
+    }
+
+    /**
+     * Get db profile
+     *
+     * @return array
+     */
+    public function getProfile()
+    {
+        return \Magelight\Profiler::getInstance($this->_dsn)->getProfile();
     }
 
     /**
@@ -101,5 +157,43 @@ class Adapter extends \Magelight\Dbal\Db\AbstractAdapter{
         } else {
             throw new \Magelight\Exception('Database adapter PDO object is missing or invalid.');
         }
+    }
+
+    /**
+     * Execute db statement
+     *
+     * @param string $query
+     * @param array $params
+     * @return \PDOStatement
+     * @throws \Magelight\Exception
+     */
+    public function execute($query, $params = [])
+    {
+        $statement = $this->_db->prepare($query);
+        /* @var $statement \PDOStatement*/
+        if ($this->_profilingEnabled) {
+            $profiler = \Magelight\Profiler::getInstance($this->_dsn);
+            /* @var $profiler \Magelight\Profiler */
+            $profileId = $profiler->startNewProfiling();
+        }
+
+        if (!$statement->execute(array_values($params))) {
+            $errorInfo = $statement->errorInfo();
+            trigger_error(
+                "Adapter error: `" . $errorInfo . '`'
+                . 'statement = "' . $statement->queryString . '"'
+                . 'params = ' . var_export($params, true)
+                , E_USER_NOTICE);
+        }
+
+        if ($this->_profilingEnabled) {
+            $data = ['query' => $statement->queryString];
+            if (isset($errorInfo)) {
+                $data['error'] = $errorInfo;
+
+            }
+            $profiler->finish($profileId, $data);
+        }
+        return $statement;
     }
 }

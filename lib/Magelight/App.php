@@ -363,21 +363,21 @@ final class App
      * Get database
      *
      * @param string $index
-     * @return Dbal\Db\AbstractAdapter
+     * @return Dbal\Db\Common\Adapter
      * @throws Exception
      */
     public function db($index = self::DEFAULT_DB_INDEX)
     {
         $db = $this->getRegistryObject('database/' . $index);
 
-        if (!$db instanceof \Magelight\Dbal\Db\AbstractAdapter) {
+        if (!$db instanceof \Magelight\Dbal\Db\Common\Adapter) {
             $dbConfig = $this->getConfig('/global/db/' . $index, null);
             if (is_null($dbConfig)) {
                 throw new \Magelight\Exception("Database {$index} configuration not found.");
             }
-            $adapterClass = \Magelight\Dbal\Db\AbstractAdapter::getAdapterClassByType((string) $dbConfig->type);
+            $adapterClass = \Magelight\Dbal\Db\Common\Adapter::getAdapterClassByType((string) $dbConfig->type);
             $db = new $adapterClass();
-            /* @var $db \Magelight\Dbal\Db\AbstractAdapter*/
+            /* @var $db \Magelight\Dbal\Db\Common\Adapter*/
             $db->init((array) $dbConfig);
             $this->setRegistryObject('database/' . $index, $db);
         }
