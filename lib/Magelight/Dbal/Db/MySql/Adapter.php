@@ -93,16 +93,6 @@ class Adapter extends \Magelight\Dbal\Db\Common\Adapter
     }
 
     /**
-     * Get db profile
-     *
-     * @return array
-     */
-    public function getProfile()
-    {
-        return \Magelight\Profiler::getInstance($this->_dsn)->getProfile();
-    }
-
-    /**
      * Get DSN from options
      *
      * @param array $options
@@ -172,15 +162,13 @@ class Adapter extends \Magelight\Dbal\Db\Common\Adapter
         $statement = $this->_db->prepare($query);
         /* @var $statement \PDOStatement*/
         if ($this->_profilingEnabled) {
-            $profiler = \Magelight\Profiler::getInstance($this->_dsn);
-            /* @var $profiler \Magelight\Profiler */
-            $profileId = $profiler->startNewProfiling();
+            $profileId = $this->getProfiler()->startNewProfiling();
         }
 
         if (!$statement->execute(array_values($params))) {
             $errorInfo = $statement->errorInfo();
             trigger_error(
-                "Adapter error: `" . $errorInfo . '`'
+                "Adapter error: `" . var_dump($errorInfo) . '`'
                 . 'statement = "' . $statement->queryString . '"'
                 . 'params = ' . var_export($params, true)
                 , E_USER_NOTICE);
@@ -192,8 +180,36 @@ class Adapter extends \Magelight\Dbal\Db\Common\Adapter
                 $data['error'] = $errorInfo;
 
             }
-            $profiler->finish($profileId, $data);
+            $this->getProfiler()->finish($profileId, $data);
         }
         return $statement;
+    }
+
+    /**
+     * Get PDO param type
+     *
+     * @param string $param
+     * @return int
+     */
+    protected function getParamType($param)
+    {
+        if (is_null($param)) {
+            return \PDO::PARAM_NULL;
+        } elseif (is_int($param)) {
+            return \PDO::PARAM_INT;
+        } elseif (is_bool($param)) {
+            return \PDO::PARAM_BOOL;
+        }
+        return \PDO::PARAM_STR;
+    }
+
+    /**
+     * Get profiler
+     *
+     * @return \Magelight\Profiler
+     */
+    public function getProfiler()
+    {
+        return \Magelight\Profiler::getInstance($this->_dsn);
     }
 }

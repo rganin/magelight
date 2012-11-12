@@ -40,6 +40,9 @@ class Index extends \Magelight\Controller
      */
     public function indexAction()
     {
+        $db = $this->app()->db();
+        $orm = new \Magelight\Dbal\Db\Mysql\Orm('users', 'id', 'Users', $db);
+//        var_dump($orm->selectFields(['DISTINCT name', 'password AS pass', 'email'])->whereEq('name', 'Admin')->fetchAll());
         $this->_view->set('title', 'Welcome');
         $this->_view->sectionAppend('content', \Core\Blocks\Content::forge());
         \Core\Blocks\Document::getFromRegistry()->addMeta(['name' => 'description', 'content' => '123']);

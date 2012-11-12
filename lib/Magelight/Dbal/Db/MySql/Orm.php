@@ -315,15 +315,19 @@ class Orm
      *
      * @param array $data
      * @param bool $forceNew
+     *
+     * @return Orm
      */
     public function create($data = [], $forceNew = false)
     {
+        $this->reset();
         $this->isNewRecord = !isset($data[$this->idColumn]) || $forceNew;
         $this->data = $data;
         if ($this->isNewRecord) {
             unset($this->data[$this->idColumn]);
             $this->markAllDirty();
         }
+        return $this;
     }
 
     /**
@@ -407,7 +411,7 @@ class Orm
         if (strpos($name, 'where') !== false) {
             if (isset($this->_renderWhereMap[$name])) {
                 $expression = isset($arguments[0]) ? $arguments[0] : null;
-                $params = isset($arguments[1]) ? $arguments[1]  : [];
+                $params = array_key_exists(1, $arguments) ? $arguments[1]  : [];
                 $this->where[] = [
                     self::KEY_OPERATOR => $name,
                     self::KEY_EXPRESSION => $expression,
@@ -598,7 +602,7 @@ class Orm
             if (!empty($w[self::KEY_OPERATOR])) {
                 $wherePart[] = $this->_renderWhereMap[$w[self::KEY_OPERATOR]];
             }
-            if (!empty($w[self::KEY_PARAMS])) {
+            if (array_key_exists(self::KEY_PARAMS, $w)) {
                 $wherePart[] = $this->preparePlaceholders($w[self::KEY_PARAMS]);
                 $this->pushParams($w[self::KEY_PARAMS]);
             }
@@ -1020,5 +1024,38 @@ class Orm
             return $this->data;
         }
         return array_intersect($this->data, array_flip($fields));
+    }
+
+    /**
+     * Begin transaction
+     *
+     * @return Orm
+     */
+    public function beginTransaction()
+    {
+        $this->db->beginTransaction();
+        return $this;
+    }
+
+    /**
+     * Commit transaction
+     *
+     * @return Orm
+     */
+    public function commitTransaction()
+    {
+        $this->db->commit();
+        return $this;
+    }
+
+    /**
+     * Rollback transaction
+     *
+     * @return Orm
+     */
+    public function rollbackTransaction()
+    {
+        $this->db->rollBack();
+        return $this;
     }
 }
