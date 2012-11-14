@@ -33,7 +33,7 @@ final class App
     /**
      * Default database index
      */
-    const DEFAULT_DB_INDEX = 'default';
+    const DEFAULT_INDEX = 'default';
 
     /**
      * Classes overrides
@@ -193,16 +193,6 @@ final class App
     }
     
     /**
-     * Get application cache
-     * 
-     * @return \Magelight\Components\Cache
-     */
-    public function cache()
-    {
-        return $this->getRegistryObject('cache');
-    }
-    
-    /**
      * Get application modules object
      * 
      * @return \Magelight\Components\Modules
@@ -249,10 +239,7 @@ final class App
         );
         
         ini_set('include_path', implode(PS, $includePath));
-        
-        $this->setRegistryObject('cache', \Magelight\Components\Cache::getInstance());
-        $this->cache()->init();
-        
+
         $this->setRegistryObject('modules', new \Magelight\Components\Modules($this));
         $this->setRegistryObject('config', new \Magelight\Components\Config($this));
         $this->setRegistryObject('router', new \Magelight\Components\Router($this));
@@ -366,14 +353,14 @@ final class App
      * @return Dbal\Db\Common\Adapter
      * @throws Exception
      */
-    public function db($index = self::DEFAULT_DB_INDEX)
+    public function db($index = self::DEFAULT_INDEX)
     {
         $db = $this->getRegistryObject('database/' . $index);
 
         if (!$db instanceof \Magelight\Dbal\Db\Common\Adapter) {
             $dbConfig = $this->getConfig('/global/db/' . $index, null);
             if (is_null($dbConfig)) {
-                throw new \Magelight\Exception("Database {$index} configuration not found.");
+                throw new \Magelight\Exception("Database `{$index}` configuration not found.");
             }
             $adapterClass = \Magelight\Dbal\Db\Common\Adapter::getAdapterClassByType((string) $dbConfig->type);
             $db = new $adapterClass();
@@ -382,6 +369,25 @@ final class App
             $this->setRegistryObject('database/' . $index, $db);
         }
         return $db;
+    }
+
+    public function cache($index = self::DEFAULT_INDEX)
+    {
+        $cache = $this->getRegistryObject('cache/' . $index);
+
+        if (!$cache instanceof \Magelight\Cache) {
+            $cacheConfig = $this->getConfig('/global/cache/' . $index, null);
+            if (is_null($cacheConfig)) {
+                throw new \Magelight\Exception("Cache `{$index}` configuration not found.");
+            }
+            if (empty($cacheConfig->type)) {
+                throw new \Magelight\Exception("Cache `{$index}` type not found in configuration node.");
+            }
+            $cache = \Magelight\Cache::forge();
+            /* @var $cache \Magelight\Cache */
+            $cache->init((array) $cacheConfig);
+            $this->setRegistryObject('cache/' . $index, $cache);
+        }
     }
 
     /**

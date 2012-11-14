@@ -21,21 +21,26 @@
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Magelight\Components\CacheAdapters;
+namespace Magelight\Cache;
 
-interface AdapterInterface
+abstract class AdapterAbstract implements CacheInterface
 {
-    public function init($conpression = \Magelight\Components\Cache::COMPRESSION_OFF);
-       
-    public function get($key, $default = null);
-    
-    public function set($key, $value, $ttl = 360);
-    
-    public function del($key);
-    
-    public function clear();
-    
-    public function increment($key, $incValue = 1);
-    
-    public function decrement($key, $decValue = 1);
+    /**
+     * Get adapter class by type
+     *
+     * @param string $type
+     * @return string
+     */
+    public static function getAdapterClassByType($type)
+    {
+        return '\\Magelight\\Cache\\Adapters\\' . ucfirst(strtolower($type));
+    }
+
+    /**
+     * Init adapter
+     *
+     * @param array $config
+     * @return AdapterAbstract
+     */
+    abstract public function init(array $config = []);
 }

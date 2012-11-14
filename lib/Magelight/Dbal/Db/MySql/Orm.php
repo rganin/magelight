@@ -785,7 +785,6 @@ class Orm
         $values = $this->getDirtyData();
         $keys = $this->dirtyFields;
         if ($safeMode) {
-            $safeKeys = $this->getTableFields();
             $keys = array_intersect($keys, $this->getTableFields());
             $values = array_intersect_key($values, array_flip($keys));
         }
