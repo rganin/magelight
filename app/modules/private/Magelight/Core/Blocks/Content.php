@@ -26,25 +26,9 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-namespace Core\Blocks\Form;
+namespace Magelight\Core\Blocks;
 
-class Fieldset extends AbstractFormElement
+class Content extends \Magelight\Block
 {
-    protected $_legend = '';
-
-    public function toHtml()
-    {
-
-    }
-
-    public function addField(Field $field)
-    {
-        $this->_elements[] = $field;
-    }
-
-    public function setLegend($legend)
-    {
-        $this->_legend = $legend;
-        return $this;
-    }
+    protected $_template = 'Magelight/Core/templates/content.phtml';
 }

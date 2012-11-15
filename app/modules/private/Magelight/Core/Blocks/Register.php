@@ -26,52 +26,9 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-namespace Core\Blocks\Form;
+namespace Magelight\Core\Blocks;
 
-abstract class AbstractFormElement extends \Magelight\Block
+class Register extends \Magelight\Block
 {
-    protected $_elements = [];
-
-    protected $_attributes = [];
-
-    public function toHtml()
-    {
-
-    }
-
-    public function beforeToHtml()
-    {
-
-    }
-
-    public function afterToHtml()
-    {
-
-    }
-
-    public function setAttribute($name, $value)
-    {
-        $this->_attributes[$name] = $value;
-        return $this;
-    }
-
-    public function setClass($class)
-    {
-        return $this->setAttribute('class', $class);
-    }
-
-    public function addClass($class)
-    {
-        return $this->setAttribute('class', $this->_attributes['class'] . ' ' . $class);
-    }
-
-    public function removeClass($class)
-    {
-        return $this->setAttribute('class', str_replace($class, '', $this->_attributes['class']));
-    }
-
-    public function setId($id)
-    {
-        return $this->setAttribute('id', $id);
-    }
+    protected $_template = 'Magelight/Core/templates/register.phtml';
 }

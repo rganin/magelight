@@ -29,6 +29,7 @@ namespace Magelight;
 abstract class Block
 {
     use \Magelight\Forgery;
+    use \Magelight\Components\CodePoolFetcher;
 
     /**
      * Path to template

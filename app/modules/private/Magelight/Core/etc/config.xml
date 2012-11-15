@@ -1,9 +1,9 @@
 <config>
     <module>
-        <Core>
+        <Magelight:Core>
             <version>1.0.0.0</version>
             <autoinstall>1</autoinstall>
-        </Core>
+        </Magelight:Core>
     </module>
     <global>
         <admin>

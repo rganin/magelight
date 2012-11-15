@@ -22,7 +22,17 @@
  */
 $t = microtime();
 require '../core.php';
+//
+//$xml1 = simplexml_load_file('etc/test/config1.xml');
+//$xml2 = simplexml_load_file('etc/test/config2.xml');
+//$xml3 = simplexml_load_file('etc/test/config3.xml');
+//
+//
+//\Magelight\Components\Loaders\Config::mergeConfig($xml1, $xml2);
+//\Magelight\Components\Loaders\Config::mergeConfig($xml1, $xml3);
 
+//\Magelight::dump(htmlspecialchars($xml1->asXML()));
+//die();
 Magelight::app()
     ->setAppDir(dirname(__FILE__))
     ->setDeveloperMode(true)

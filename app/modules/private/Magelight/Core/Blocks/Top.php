@@ -7,9 +7,9 @@
  * To change this template use File | Settings | File Templates.
  */
 
-namespace Core\Blocks;
+namespace Magelight\Core\Blocks;
 
 class Top extends \Magelight\Block
 {
-    protected $_template = 'Core/templates/top.phtml';
+    protected $_template = 'Magelight/Core/templates/top.phtml';
 }

@@ -26,7 +26,7 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-namespace Core\Blocks\Form;
+namespace Magelight\Core\Blocks\Form;
 
 class Form extends AbstractFormElement
 {
@@ -70,11 +70,11 @@ class Form extends AbstractFormElement
 
     public function fieldset()
     {
-        return \Core\Blocks\Form\Fieldset::forge();
+        return \Magelight\Core\Blocks\Form\Fieldset::forge();
     }
 
     public function field()
     {
-        return \Core\Blocks\Form\Field::forge();
+        return \Magelight\Core\Blocks\Form\Field::forge();
     }
 }

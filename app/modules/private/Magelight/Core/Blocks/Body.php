@@ -21,23 +21,23 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Core\Blocks;
+namespace Magelight\Core\Blocks;
 
 class Body extends \Magelight\Block
 {
-    protected $_template = 'Core/templates/body.phtml';
+    protected $_template = 'Magelight/Core/templates/body.phtml';
 
     public function init()
     {
-        $this->sectionAppend('top', \Core\Blocks\Top::forge());
-        $document = \Core\Blocks\Document::getFromRegistry();
+        $this->sectionAppend('top', \Magelight\Core\Blocks\Top::forge());
+        $document = \Magelight\Core\Blocks\Document::getFromRegistry();
         $document->addMeta(array(
             'name' => 'keywords',
             'content' => 'welcome app, magelight'
         ));
-        $document->addCss('modules/private/Core/static/css/bootstrap.css');
-        $document->addCss('modules/private/Core/static/css/core.css');
-        $document->addJs('modules/private/Core/static/js/jquery-1.8.0.min.js');
-        $document->addJs('modules/private/Core/static/js/bootstrap.js');
+        $document->addCss('modules/private/Magelight/Core/static/css/bootstrap.css');
+        $document->addCss('modules/private/Magelight/Core/static/css/core.css');
+        $document->addJs('modules/private/Magelight/Core/static/js/jquery-1.8.0.min.js');
+        $document->addJs('modules/private/Magelight/Core/static/js/bootstrap.js');
     }
 }

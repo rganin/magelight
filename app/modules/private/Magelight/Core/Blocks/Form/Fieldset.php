@@ -26,9 +26,25 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-namespace Core\Blocks;
+namespace Magelight\Core\Blocks\Form;
 
-class Register extends \Magelight\Block
+class Fieldset extends AbstractFormElement
 {
-    protected $_template = 'Core/templates/register.phtml';
+    protected $_legend = '';
+
+    public function toHtml()
+    {
+
+    }
+
+    public function addField(Field $field)
+    {
+        $this->_elements[] = $field;
+    }
+
+    public function setLegend($legend)
+    {
+        $this->_legend = $legend;
+        return $this;
+    }
 }

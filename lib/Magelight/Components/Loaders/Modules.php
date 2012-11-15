@@ -89,12 +89,13 @@ final class Modules
      */
     private function loadModule(\SimpleXMLElement $moduleXml)
     {
-        $module = [
-            'name' => $moduleXml->getName(),
-            'active' => (int) $moduleXml->active,
-        ];
+        $module = (array) $moduleXml;
+        $module['name'] = $moduleXml->getName();
+        if (!isset($module['path'])) {
+            $module['path'] = $module['name'];
+        }
         
-        if (\Magelight::app()->isInDeveloperMode() && !$this->moduleExists($module['name'])) {
+        if (\Magelight::app()->isInDeveloperMode() && !$this->moduleExists($module['path'])) {
             throw new \Magelight\Exception('Module "' .  $module['name'] . '" does not exist or not readable.');
         }
         
@@ -106,15 +107,15 @@ final class Modules
     /**
      * Check does module exists in app scope
      *
-     * @param string $moduleName
+     * @param string $path
      * @return bool
      */
-    private function moduleExists($moduleName)
+    private function moduleExists($path)
     {
         $result = false;
         $appDir = \Magelight::app()->getAppDir();
         foreach (['private', 'public'] as $scope) {
-            $result |= is_readable($appDir . DS . 'modules' . DS . $scope . DS . $moduleName);
+            $result |= is_readable($appDir . DS . 'modules' . DS . $scope . DS . $path);
         }
         return $result;
     }

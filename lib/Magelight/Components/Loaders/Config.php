@@ -41,17 +41,11 @@ class Config
      */
     public function loadConfig($filename)
     {
-//        $xmlHelper = \Magelight::helper('xml');
-//        /* @var \Magelight\Helpers\XmlHelper $xmlHelper*/
-//        $this->_config = array_replace_recursive(
-//            $this->_config,
-//            $xmlHelper->xmlToArray(new \SimpleXMLIterator(file_get_contents($filename)))
-//        );
         $xml = simplexml_load_file($filename, 'SimpleXMLElement');
         if (!$this->_config instanceof \SimpleXMLElement) {
             $this->_config = $xml;
         } else {
-            self::mergeXml($this->_config, $xml);
+            self::mergeConfig($this->_config, $xml);
         }
         return $this;
     }
@@ -63,35 +57,46 @@ class Config
      * @param \SimpleXMLElement $base
      * @param \SimpleXMLElement $add
      */
-//    public static function mergeXml(\SimpleXMLElement &$base, \SimpleXMLElement $add)
-//    {
-//        if ( $add->count() != 0 )
-//            $new = $base->addChild($add->getName());
-//        else
-//            $new = $base->addChild($add->getName(), $add);
-//        foreach ($add->attributes() as $a => $b)
-//        {
-//            $new->addAttribute($a, $b);
-//        }
-//        if ( $add->count() != 0 )
-//        {
-//            foreach ($add->children() as $child)
-//            {
-//                self::mergeXml($new, $child);
-//            }
-//        }
-//    }
-    function mergeXml(&$simplexml_to, &$simplexml_from)
+    public static function mergeConfig(\SimpleXMLElement $base, \SimpleXMLElement $add)
     {
-        foreach ($simplexml_from->children() as $simplexml_child)
-        {
-            $simplexml_temp = $simplexml_to->addChild($simplexml_child->getName(), (string) $simplexml_child);
-            foreach ($simplexml_child->attributes() as $attr_key => $attr_value)
-            {
-                $simplexml_temp->addAttribute($attr_key, $attr_value);
+        foreach ($add->children() as $name => $child) {
+            if (!isset($base->$name)) {
+                $base->addChild($name, $child);
             }
+            if (!(bool) $base->$name->attributes()->private) {
+                self::copyAttributes($base->$name, $child);
+                if (!(bool) $base->$name->attributes()->protected) {
+                    if (!(bool) $base->$name->attributes()->stackable) {
+                        if ($child->children()->count()) {
+                            self::mergeConfig($base->$name, $add->$name);
+                        } else {
+                            $base->$name = $child;
+                        }
+                    } else {
+                        foreach ($child->children() as $stackChildName => $stackChildNode) {
+                            $node = $base->$name->addChild($stackChildName);
+                            self::mergeConfig($node, $stackChildNode);
+                        }
+                    }
+                }
+            }
+        }
+    }
 
-            self::mergeXml($simplexml_temp, $simplexml_child);
+    /**
+     * Copy xml attributes from one node to another
+     *
+     * @param \SimpleXMLElement $to
+     * @param \SimpleXMLElement $from
+     */
+    public static function copyAttributes(\SimpleXMLElement $to, \SimpleXMLElement $from)
+    {
+        foreach ($from->attributes() as $attrName => $attrValue) {
+            if (!isset($to->attributes()->$attrName)) {
+                $to->addAttribute($attrName, $attrValue);
+            } else {
+                $to->attributes()->$attrName = $attrValue;
+            }
         }
     }
 

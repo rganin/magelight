@@ -21,7 +21,7 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Core\Controllers;
+namespace Magelight\Core\Controllers;
 
 class Index extends \Magelight\Controller
 {
@@ -31,8 +31,8 @@ class Index extends \Magelight\Controller
      */
     public function beforeExecute()
     {
-        $this->_view = \Core\Blocks\Document::forge();
-        $this->_view->sectionAppend('body', \Core\Blocks\Body::forge());
+        $this->_view = \Magelight\Core\Blocks\Document::forge();
+        $this->_view->sectionAppend('body', \Magelight\Core\Blocks\Body::forge());
     }
 
     /**
@@ -44,8 +44,8 @@ class Index extends \Magelight\Controller
         $orm = new \Magelight\Dbal\Db\Mysql\Orm('users', 'id', 'Users', $db);
 //        var_dump($orm->selectFields(['DISTINCT name', 'password AS pass', 'email'])->whereEq('name', 'Admin')->fetchAll());
         $this->_view->set('title', 'Welcome');
-        $this->_view->sectionAppend('content', \Core\Blocks\Content::forge());
-        \Core\Blocks\Document::getFromRegistry()->addMeta(['name' => 'description', 'content' => '123']);
+        $this->_view->sectionAppend('content', \Magelight\Core\Blocks\Content::forge());
+        \Magelight\Core\Blocks\Document::getFromRegistry()->addMeta(['name' => 'description', 'content' => '123']);
          $this->renderView();
     }
 
@@ -56,10 +56,10 @@ class Index extends \Magelight\Controller
     {
         $this->_view->set('title', 'Page not found');
 
-        $block = \Core\Blocks\Error::forge();
-        /* @var $block \Core\Blocks\Error */
+        $block = \Magelight\Core\Blocks\Error::forge();
+        /* @var $block \Magelight\Core\Blocks\Error */
 
-        $block->setTemplate(\Core\Blocks\Error::TEMPLATE_404);
+        $block->setTemplate(\Magelight\Core\Blocks\Error::TEMPLATE_404);
         $this->_view->sectionReplace('content', $block);
         $this->app()->log('404 - not found ' . $this->request()->getRequestRoute());
         $this->renderView();
@@ -67,22 +67,22 @@ class Index extends \Magelight\Controller
 
     public function loginAction()
     {
-        $form = \Core\Blocks\Form\Form::forge();
-        /* @var $form \Core\Blocks\Form\Form */
+        $form = \Magelight\Core\Blocks\Form\Form::forge();
+        /* @var $form \Magelight\Core\Blocks\Form\Form */
 
         $this->_view->set('title', 'Log in');
-        $block = \Core\Blocks\Login::forge();
+        $block = \Magelight\Core\Blocks\Login::forge();
         $this->_view->sectionReplace('content', $block);
         $this->renderView();
     }
 
     public function registerAction()
     {
-        $form = \Core\Blocks\Form\Form::forge();
-        /* @var $form \Core\Blocks\Form\Form */
+        $form = \Magelight\Core\Blocks\Form\Form::forge();
+        /* @var $form \Magelight\Core\Blocks\Form\Form */
 
         $this->_view->set('title', 'Register new user');
-        $block = \Core\Blocks\Register::forge();
+        $block = \Magelight\Core\Blocks\Register::forge();
         $this->_view->sectionReplace('content', $block);
         $this->renderView();
     }

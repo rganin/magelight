@@ -26,13 +26,9 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-namespace Core\Blocks;
+namespace Magelight\Core\Blocks;
 
-class Error extends \Magelight\Block
+class LoginRedefined extends \Magelight\Block
 {
-    const TEMPLATE_404 = 'Core/templates/errors/404.phtml';
-    const TEMPLATE_403 = 'Core/templates/errors/403.phtml';
-    const TEMPLATE_401 = 'Core/templates/errors/401.phtml';
-
-    protected $_template = self::TEMPLATE_404;
+    protected $_template = 'Core/templates/login.phtml';
 }

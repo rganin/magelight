@@ -67,8 +67,8 @@ class Config
                 }
             }
         }
-        
-        $this->_config = $loader->getConfig();
+
+        $this->_config = clone $loader->getConfig();
         unset($loader);
     }
 

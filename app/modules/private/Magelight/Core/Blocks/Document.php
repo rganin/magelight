@@ -21,7 +21,7 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Core\Blocks;
+namespace Magelight\Core\Blocks;
 
 class Document extends \Magelight\Block
 {
@@ -30,7 +30,7 @@ class Document extends \Magelight\Block
      * 
      * @var string
      */
-    protected $_template = 'Core/templates/document.phtml';
+    protected $_template = 'Magelight/Core/templates/document.phtml';
     
     /**
      * Key to store this document in registry
@@ -49,7 +49,7 @@ class Document extends \Magelight\Block
      * Get document from registry
      *
      * @param string $key
-     * @return \Core\Blocks\Document
+     * @return \Magelight\Core\Blocks\Document
      */
     public static function getFromRegistry($key = self::REGISTRY_KEY)
     {

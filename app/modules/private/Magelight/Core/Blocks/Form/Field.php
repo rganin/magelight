@@ -26,9 +26,8 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-namespace Core\Blocks;
+namespace Magelight\Core\Blocks\Form;
 
-class LoginRedefined extends \Magelight\Block
+class Field extends AbstractFormElement
 {
-    protected $_template = 'Core/templates/login.phtml';
 }
