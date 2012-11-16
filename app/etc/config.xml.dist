@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <config>
     <global>
         <log>
@@ -14,6 +15,7 @@
                 <dbname>magelight</dbname>
                 <persistent>1</persistent>
                 <init_connect>SET NAMES utf8 COLLATE utf8_general_ci</init_connect>
+                <profiling>1</profiling>
             </default>
         </db>
         <cache>
@@ -31,5 +33,9 @@
                 </file>
             </other>
         </cache>
+        <forgery stackable="1">
+
+        </forgery>
     </global>
+    <test>sdfsdf</test>
 </config>

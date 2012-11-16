@@ -1,6 +1,7 @@
 <modules>
-    <Core>
+    <Magelight_Core>
+        <path>Magelight\Core</path>
         <active>1</active>
         <autoinstall>1</autoinstall>
-    </Core>
+    </Magelight_Core>
 </modules>
