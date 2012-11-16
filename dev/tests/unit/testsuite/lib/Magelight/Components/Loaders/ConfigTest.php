@@ -20,21 +20,35 @@
  * @copyright Copyright (c) 2012 rganin (rganin@gmail.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-namespace Magelight;
 
-class AppTest extends \PHPUnit_Framework_TestCase
+namespace Magelight\Components\Loaders;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
+    protected $_xml1 =
+    '<config>
+        <test>
+            <file>logfile.log</file>
+        </test>
+    </config>';
+
+    protected $_xml2 =
+    '<config>
+        <test>
+            <file>override</file>
+        </test>
+    </config>';
+
     /**
      * @test
      */
-    public function genericAppTest()
+    public function configMergeTest()
     {
-        $app = new App();
-        $this->assertTrue($app->setAppDir('') instanceof App);
-        $this->assertTrue($app->setDeveloperMode(true) instanceof App);
-        $this->assertTrue($app->setSessionCookieName('SESSION') instanceof App);
-        $this->assertTrue($app->setRegistryObject('dfs', $this) instanceof App);
-        $this->assertTrue(is_string($app->getSessionCookieName()));
-        $this->assertTrue($app->getSessionCookieName() === 'SESSION');
+        $xml1 = new \SimpleXMLElement($this->_xml1);
+        $xml2 = new \SimpleXMLElement($this->_xml2);
+
+        \Magelight\Components\Loaders\Config::mergeConfig($xml1, $xml2);
+
+        $this->assertEquals('override', (string)$xml1->test->file);
     }
 }
