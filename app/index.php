@@ -15,7 +15,7 @@
  * @copyright Copyright (c) 2012 rganin (rganin@gmail.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-$t = microtime();
+//$t = microtime();
 require '../core.php';
 
 Magelight::app()
@@ -23,5 +23,5 @@ Magelight::app()
     ->setDeveloperMode(true)
     ->init()
     ->run();
-$s = microtime() - $t;
-echo $s;
+//$s = microtime() - $t;
+//echo $s;
