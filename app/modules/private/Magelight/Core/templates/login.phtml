@@ -1,14 +1,16 @@
-<div class="page-header">Log into applicaiton</div>
+<div class="page-header">Login to applicaiton</div>
 
 <form name="login-form" id="login-form" action="<?php echo $this->url('auth'); ?>" method="post">
     <fieldset id="login-fieldset">
         <label for="login-form-login-field">Login:</label>
         <input id="login-form-login-field" type="text" value="" name="login"/>
+        <div class="bar-info"
 
         <label for="login-form-password-field">Password:</label>
         <input id="login-form-password-field" type="password" value="" name="password"/>
 
         <p></p>
         <button class="btn btn-success" type="submit">Log in</button>
+        <button class="btn btn-warning" type="cancel">Cancel</button>
     </fieldset>
 </form>

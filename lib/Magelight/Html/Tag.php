@@ -12,6 +12,8 @@ class Tag
 
     protected $attributes = [];
 
+    protected $content = '';
+
     public function __construct($type = self::DEFUALT_TYPE, $empty = false)
     {
         $this->type = $type;
@@ -38,8 +40,13 @@ class Tag
     public function setEmpty($empty = true)
     {
         $this->empty = $empty;
+        $this->content = '';
         return $this;
     }
 
-
+    public function setContent($content = '')
+    {
+        $this->content = $content;
+        return $this;
+    }
 }

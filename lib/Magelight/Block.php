@@ -22,13 +22,13 @@
  */
 
 namespace Magelight;
-
+use Magelight\Forgery as Forgery;
 /**
  * @static forge() \Magelight\Block
  */
 abstract class Block
 {
-    use \Magelight\Forgery;
+    use Forgery;
     use \Magelight\Components\CodePoolFetcher;
 
     /**

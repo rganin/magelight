@@ -33,7 +33,11 @@ trait Forgery
     public static function forge()
     {
         $className = \Magelight::app()->getClassName(get_called_class());
-        return new $className;
+        $object = new $className;
+        if (method_exists($object, '__forge')) {
+            call_user_func_array([$object, '__forge'], func_get_args());
+        }
+        return $object;
     }
 
     /**
