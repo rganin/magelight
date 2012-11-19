@@ -1,20 +1,42 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: iddqd
- * Date: 18.11.12
- * Time: 13:41
- * To change this template use File | Settings | File Templates.
+ * Magelight
+ *
+ * NOTICE OF LICENSE
+ *
+ * This file is open source and it`s distribution is based on
+ * Open Software License (OSL 3.0). You can obtain license text at
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * For any non license implied issues please contact rganin@gmail.com
+ *
+ * DISCLAIMER
+ *
+ * This file is a part of a framework. Please, do not modify it unless you discard
+ * further updates.
+ *
+ * @version 1.0
+ * @author Roman Ganin
+ * @copyright Copyright (c) 2012 rganin (rganin@gmail.com)
+ * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
+
 namespace Magelight\Core\Blocks\Webform\Elements;
 /**
  * @method static \Magelight\Core\Blocks\Webform\Elements\Select forge()
  */
 class Select extends Abstraction\Field
 {
+    /**
+     * Element tag
+     *
+     * @var string
+     */
     protected $_tag = 'select';
 
     /**
+     * Set multi-select
+     *
      * @return Select
      */
     public function setMulti()
@@ -23,6 +45,8 @@ class Select extends Abstraction\Field
     }
 
     /**
+     * Add option
+     *
      * @param SelectOption $option
      * @return Select
      */
@@ -32,7 +56,9 @@ class Select extends Abstraction\Field
     }
 
     /**
-     * @param SelectOption $optionGroup
+     * Add options group to element
+     *
+     * @param SelectOptionGroup $optionGroup
      * @return Select
      */
     public function addGroup(SelectOptionGroup $optionGroup)
@@ -45,7 +71,7 @@ class Select extends Abstraction\Field
      *
      * @param array $options
      *
-     * @return SelectOptionGroup
+     * @return Select
      */
     public function importOptions(array $options = [])
     {
@@ -64,5 +90,4 @@ class Select extends Abstraction\Field
         }
         return $this;
     }
-
 }

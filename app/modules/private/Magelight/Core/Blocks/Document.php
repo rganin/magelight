@@ -93,8 +93,9 @@ class Document extends \Magelight\Block
             'media' => $media,
             'inline' => false,
             'content' => null,
+            'after' => $after
         );
-        $css = \Magelight\Helpers\ArrayHelper::getInstance()->insertToArray($css, $path, $entry, $after);
+        $css[$path] = $entry; //\Magelight\Helpers\ArrayHelper::getInstance()->insertToArray($css, $path, $entry, $after);
         $this->set('css', $css);
     }
     
@@ -108,14 +109,15 @@ class Document extends \Magelight\Block
     public function addInlineCss($content, $after = null, $media = 'all')
     {
         $css = $this->get('css', []);
+        $path = md5($content);
         $entry = array(
-            'path' => null,
+            'path' => $path,
             'media' => $media,
             'inline' => true,
             'content' => $content,
+            'after' => $after
         );
-        $path = md5($content);
-        $css = \Magelight\Helpers\ArrayHelper::getInstance()->insertToArray($css, $path, $entry, $after);
+        $css[$path] = $entry; //\Magelight\Helpers\ArrayHelper::getInstance()->insertToArray($css, $path, $entry, $after);
         $this->set('css', $css);
     }
     
@@ -132,8 +134,9 @@ class Document extends \Magelight\Block
             'path' => $path,
             'inline' => false,
             'content' => null,
+            'after' => $after
         );
-        $js = \Magelight\Helpers\ArrayHelper::getInstance()->insertToArray($js, $path, $entry, $after);
+        $js[$path] = $entry; //\Magelight\Helpers\ArrayHelper::getInstance()->insertToArray($js, $path, $entry, $after);
         $this->set('js', $js);
     }
     
@@ -146,13 +149,14 @@ class Document extends \Magelight\Block
     public function addInlineJs($content, $after = null)
     {
         $js = $this->get('js', []);
+        $path = md5($content);
         $entry = array(
-            'path' => null,
+            'path' => $path,
             'inline' => true,
             'content' => $content,
+            'after' => $after
         );
-        $path = md5($content);
-        $js = \Magelight\Helpers\ArrayHelper::getInstance()->insertToArray($js, $path, $entry, $after);
+        $js[$path] = $entry;//\Magelight\Helpers\ArrayHelper::getInstance()->insertToArray($js, $path, $entry, $after);
         $this->set('js', $js);
     }
     
@@ -216,6 +220,18 @@ class Document extends \Magelight\Block
         return $metaSection;
     }
 
+    public function buildDependencies($jsOrCss)
+    {
+        foreach ($jsOrCss as $path => $script) {
+            if (!empty($script['after'])) {
+                unset($jsOrCss[$path]);
+                $jsOrCss = \Magelight\Helpers\ArrayHelper::getInstance()
+                    ->insertToArray($jsOrCss, $path, $script, $script['after']);
+            }
+        }
+        return $jsOrCss;
+    }
+
     /**
      * Render title tag
      *
@@ -234,7 +250,8 @@ class Document extends \Magelight\Block
     public function renderCss()
     {
         $style = '';
-        foreach ($this->get('css', []) as $css) {
+        $styles = $this->buildDependencies($this->get('css', []));
+        foreach ($styles as $css) {
             if (!$css['inline']) {
                 $style .=
                     "<link rel=\"stylesheet\" href=\"{$css['path']}\" type=\"text/css\" media=\"{$css['media']}\" />"
@@ -256,7 +273,8 @@ class Document extends \Magelight\Block
     public function renderJs()
     {
         $scripts = '';
-        foreach ($this->get('js', []) as $js) {
+        $scriptsArray = $this->buildDependencies($this->get('js', []));
+        foreach ($scriptsArray as $js) {
             if (!$js['inline']) {
                 $scripts .=
                     "<script type=\"text/javascript\" src=\"{$js['path']}\"></script>" . PHP_EOL;

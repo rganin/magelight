@@ -20,37 +20,34 @@
  * @copyright Copyright (c) 2012 rganin (rganin@gmail.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-
 namespace Magelight\Core\Blocks\Webform\Elements;
 
 /**
- * @method static \Magelight\Core\Blocks\Webform\Elements\Label forge()
+ * @method static \Magelight\Core\Blocks\Webform\Elements\InputMasked forge()
  */
-class Label extends Abstraction\Element
+class InputMasked extends \Magelight\Core\Blocks\Webform\Elements\Abstraction\Field
 {
     /**
-     * Element tag
-     *
-     * @var string
-     */
-    protected $_tag = 'label';
-
-    /**
-     * Forgery constructor
+     * Forgery constructor (adds masked input JS to document head)
      */
     public function __forge()
     {
-        $this->addClass('control-label');
+        \Magelight\Core\Blocks\Document::getFromRegistry()->addJs(
+            'modules/private/Magelight/Core/static/js/jquery.maskedinput.js',
+            'modules/private/Magelight/Core/static/js/jquery.js'
+        );
+        $this->addClass('masked-input');
+        $this->setAttribute('type', 'text');
     }
 
     /**
-     * Set for attribute value
+     * Set masked input mask
      *
-     * @param string $forId
-     * @return Label
+     * @param string $mask
+     * @return InputMasked
      */
-    public function setFor($forId)
+    public function setMask($mask)
     {
-        return $this->setAttribute('for', $forId);
+        return $this->setAttribute('data-mask', $mask);
     }
 }

@@ -69,7 +69,7 @@ class Config
                     if (!(bool) $base->$name->attributes()->stackable) {
                         if ($child->children()->count()) {
                             self::mergeConfig($base->$name, $add->$name);
-                        } else {
+                        } elseif (!empty($child)) {
                             $base->$name = $child;
                         }
                     } else {

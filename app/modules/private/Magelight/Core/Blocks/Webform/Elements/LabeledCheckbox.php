@@ -1,11 +1,26 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: iddqd
- * Date: 18.11.12
- * Time: 12:31
- * To change this template use File | Settings | File Templates.
+ * Magelight
+ *
+ * NOTICE OF LICENSE
+ *
+ * This file is open source and it`s distribution is based on
+ * Open Software License (OSL 3.0). You can obtain license text at
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * For any non license implied issues please contact rganin@gmail.com
+ *
+ * DISCLAIMER
+ *
+ * This file is a part of a framework. Please, do not modify it unless you discard
+ * further updates.
+ *
+ * @version 1.0
+ * @author Roman Ganin
+ * @copyright Copyright (c) 2012 rganin (rganin@gmail.com)
+ * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
+
 namespace Magelight\Core\Blocks\Webform\Elements;
 
 /**
@@ -21,7 +36,7 @@ class LabeledCheckbox extends Label
     protected $_checkbox = null;
 
     /**
-     * Constructor
+     * Forgery constructor
      */
     public function __forge()
     {
@@ -34,7 +49,7 @@ class LabeledCheckbox extends Label
     /**
      * Set checkbox name
      *
-     * @param $name
+     * @param string $name
      * @return LabeledCheckbox
      */
     public function setName($name)
@@ -44,6 +59,11 @@ class LabeledCheckbox extends Label
         return $this;
     }
 
+    /**
+     * Get checkbox ID
+     *
+     * @return string
+     */
     public function getId()
     {
         return $this->_checkbox->getId();
@@ -73,7 +93,7 @@ class LabeledCheckbox extends Label
     /**
      * Set checkbox id
      *
-     * @param $id
+     * @param string $id
      * @return LabeledCheckbox
      */
     public function setCheckboxId($id)
@@ -86,7 +106,7 @@ class LabeledCheckbox extends Label
     /**
      * Set checkbox value
      *
-     * @param $value
+     * @param string $value
      * @return LabeledCheckbox
      */
     public function setCheckboxValue($value)
@@ -98,7 +118,7 @@ class LabeledCheckbox extends Label
     /**
      * Set checkbox class
      *
-     * @param $class
+     * @param string $class
      * @return LabeledCheckbox
      */
     public function setCheckboxClass($class)
@@ -110,7 +130,7 @@ class LabeledCheckbox extends Label
     /**
      * Add checkbox class
      *
-     * @param $class
+     * @param string $class
      * @return LabeledCheckbox
      */
     public function addCheckboxClass($class)
@@ -122,7 +142,7 @@ class LabeledCheckbox extends Label
     /**
      * Remove checkbox class
      *
-     * @param $class
+     * @param string $class
      * @return LabeledCheckbox
      */
     public function removeCheckboxClass($class)

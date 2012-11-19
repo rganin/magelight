@@ -30,11 +30,18 @@ namespace Magelight\Core\Blocks\Webform;
  */
 class Form extends Elements\Abstraction\Element
 {
+    /**
+     * Element tag
+     *
+     * @var string
+     */
     protected $_tag = 'form';
 
     /**
-     * @param $name
-     * @param $action
+     * Set form configuration
+     *
+     * @param string $name
+     * @param string $action
      * @param string $type
      * @param string $method
      * @return Form
@@ -47,16 +54,35 @@ class Form extends Elements\Abstraction\Element
             ->setAttribute('method', $method);
     }
 
+    /**
+     * Add fieldset to form
+     *
+     * @param Fieldset $fieldset
+     * @return Form
+     */
     public function addFieldset(Fieldset $fieldset)
     {
         return $this->addContent($fieldset);
     }
 
+    /**
+     * Add button to form
+     *
+     * @param Elements\Button $button
+     * @return Form
+     */
     public function addButton(Elements\Button $button)
     {
         return $this->addContent($button);
     }
 
+    /**
+     * Call static magic (not fully implemented yet)
+     *
+     * @param string $name
+     * @param array $arguments
+     * @return bool|mixed
+     */
     public static function __callStatic($name, $arguments)
     {
         if (substr($name, 0, 5) === 'forge') {
@@ -67,6 +93,8 @@ class Form extends Elements\Abstraction\Element
     }
 
     /**
+     * Set form horizontal orientation according to Twitter Bootstrap class
+     *
      * @return Form
      */
     public function setHorizontal()
@@ -75,6 +103,8 @@ class Form extends Elements\Abstraction\Element
     }
 
     /**
+     * Set form inline class
+     *
      * @return Form
      */
     public function setInline()

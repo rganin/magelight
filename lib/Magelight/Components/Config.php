@@ -59,9 +59,9 @@ class Config
 
         foreach (['private', 'public'] as $scope) {
             foreach (array($app->getFrameworkDir(), $app->getAppDir()) as $dir) {
-                foreach (array_keys($app->modules()->getActiveModules()) as $moduleName) {
-                    $filename = $dir . DS . 'modules' . DS . $scope . DS . $moduleName . DS . 'etc' . DS . 'config.xml';
-                    if (file_exists($filename)) {
+                foreach ($app->modules()->getActiveModules() as $module) {
+                    $filename = $dir . DS . 'modules' . DS . $scope . DS . $module['path'] . DS . 'etc' . DS . 'config.xml';
+                    if (is_readable($filename)) {
                         $loader->loadConfig($filename);
                     }
                 }
