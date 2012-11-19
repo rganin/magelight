@@ -70,4 +70,15 @@ class Input extends \Magelight\Core\Blocks\Webform\Elements\Abstraction\Field
     {
         return $this->setAttribute('disabled', 'disabled');
     }
+
+    /**
+     * Set maximum length for input
+     *
+     * @param string $maxLength
+     * @return Input
+     */
+    public function setMaxLength($maxLength)
+    {
+        return $this->setAttribute('maxlength', $maxLength);
+    }
 }

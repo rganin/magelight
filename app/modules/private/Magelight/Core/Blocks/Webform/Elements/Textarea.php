@@ -45,4 +45,15 @@ class Textarea extends \Magelight\Core\Blocks\Webform\Elements\Abstraction\Field
     {
         return $this->setContent($value);
     }
+
+    /**
+     * Set maximum length for textarea
+     *
+     * @param string $maxLength
+     * @return Textarea
+     */
+    public function setMaxLength($maxLength)
+    {
+        return $this->setAttribute('maxlength', $maxLength);
+    }
 }
