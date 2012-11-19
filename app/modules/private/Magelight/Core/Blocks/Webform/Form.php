@@ -37,6 +37,8 @@ class Form extends Elements\Abstraction\Element
      */
     protected $_tag = 'form';
 
+    protected $_wrapIndex = '';
+
     /**
      * Set form configuration
      *
@@ -48,10 +50,36 @@ class Form extends Elements\Abstraction\Element
      */
     public function setConfigs($name, $action, $type = 'multipart/form-data', $method = 'post')
     {
+        $this->_wrapIndex = $name;
         return $this->setAttribute('name', $name)
             ->setAttribute('action', $action)
             ->setAttribute('type', $type)
             ->setAttribute('method', $method);
+    }
+
+    /**
+     * Wrap field name with form name
+     *
+     * @param string $name
+     * @return string
+     */
+    public function wrapName($name)
+    {
+        return preg_replace('/^([^\[]*)/i', $this->_wrapIndex . '[\\1]', $name);
+    }
+
+    /**
+     * Add content to form
+     *
+     * @param Elements\Abstraction\Element|string $content
+     * @return Form
+     */
+    public function addContent($content)
+    {
+        if ($content instanceof \Magelight\Core\Blocks\Webform\Elements\Abstraction\Element) {
+            parent::addContent($content->bindForm($this));
+        }
+        return $this;
     }
 
     /**
@@ -111,4 +139,6 @@ class Form extends Elements\Abstraction\Element
     {
         return $this->addClass('form-inline');
     }
+
+
 }

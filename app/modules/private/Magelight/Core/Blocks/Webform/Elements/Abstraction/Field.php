@@ -80,4 +80,12 @@ class Field extends Element
     {
         return $this->setAttribute('placeholder', $placeholderContent);
     }
+
+    public function beforeToHtml()
+    {
+        if ($this->_form instanceof \Magelight\Core\Blocks\Webform\Form) {
+            $this->setAttribute('name', $this->_form->wrapName($this->getAttribute('name')));
+        }
+        return $this;
+    }
 }

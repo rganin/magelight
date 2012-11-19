@@ -43,4 +43,18 @@ class Server
         }
         throw new \Magelight\Exception('Global server variable HTTP_HOST is required but missing.');
     }
+
+    /**
+     * Get remote connection IP
+     *
+     * @return string
+     */
+    public function getRemoteIp()
+    {
+        if (isset($_SERVER['REMOTE_ADDR'])) {
+            return $_SERVER['REMOTE_ADDR'];
+        }
+        trigger_error('Remote IP is unknown');
+        return '';
+    }
 }

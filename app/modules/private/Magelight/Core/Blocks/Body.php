@@ -35,8 +35,9 @@ class Body extends \Magelight\Block
             'name' => 'keywords',
             'content' => 'welcome app, magelight'
         ));
-        $document->addCss('modules/private/Magelight/Core/static/css/bootstrap.css');
+        $document->addCss('modules/private/Magelight/Core/static/css/bootstrap.min.css');
+        $document->addCss('modules/private/Magelight/Core/static/css/core.css');
         $document->addJs('modules/private/Magelight/Core/static/js/jquery.js');
-        $document->addJs('modules/private/Magelight/Core/static/js/bootstrap.js');
+        $document->addJs('modules/private/Magelight/Core/static/js/bootstrap.min.js');
     }
 }

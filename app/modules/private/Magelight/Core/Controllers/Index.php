@@ -25,7 +25,6 @@ namespace Magelight\Core\Controllers;
 use \Magelight\Core\Blocks\Webform\Form as Form;
 use \Magelight\Core\Blocks\Webform\Fieldset as Fieldset;
 use \Magelight\Core\Blocks\Webform\Elements as Elements;
-use \Magelight\Core\Blocks\Webform\Row as Row;
 
 class Index extends \Magelight\Controller
 {
@@ -70,15 +69,8 @@ class Index extends \Magelight\Controller
     {
         $this->_view->set('title', 'Log in');
 
-        $form = Form::forge()->setConfigs('login', 'auth');
-        $fieldset = Fieldset::forge()->setLegend('Login to app')
-            ->addRowField(Elements\Input::forge()->setType('text')->setName('login'), 'Login')
-            ->addRowField(Elements\Input::forge()->setType('password')->setName('password'), 'Password')
-        ;
 
-        $form->addFieldset($fieldset);
-        $form->addButton(Elements\Button::forge()->setType('submit')->setContent('Login'));
-        $this->_view->sectionReplace('content', $form);
+//        $this->_view->sectionReplace('content', $form);
         $this->renderView();
     }
 
@@ -89,7 +81,7 @@ class Index extends \Magelight\Controller
 
     public function registerAction()
     {
-        $form = Form::forge()->setConfigs('register', 'adduser')->setHorizontal();
+        $form = Form::forge()->setConfigs('regform', 'adduser')->setHorizontal();
         $fieldset = Fieldset::forge()->setLegend('Register new user')
             ->addRowField(Elements\Input::forge()->setName('login'),
             'Login',
@@ -123,6 +115,13 @@ class Index extends \Magelight\Controller
 
     public function adduserAction()
     {
-        var_dump($this->_request);
+        var_dump($this->request());
+        $reCaptcha = \Magelight\Core\Models\Captcha\ReCaptcha::forge();
+        $isCaptchaValid = $reCaptcha->recaptchaCheckAnswer(
+            $this->server()->getRemoteIp(),
+            $this->request()->getPost(\Magelight\Core\Models\Captcha\ReCaptcha::CHALLENGE_INDEX),
+            $this->request()->getPost(\Magelight\Core\Models\Captcha\ReCaptcha::RESPONSE_INDEX)
+        )->is_valid;
+        var_dump($isCaptchaValid);
     }
 }

@@ -29,6 +29,13 @@ namespace Magelight\Core\Blocks\Webform\Elements\Abstraction;
 class Element extends \Magelight\Block
 {
     /**
+     * Form pointer
+     *
+     * @var \Magelight\Core\Blocks\Webform\Form
+     */
+    protected $_form = null;
+
+    /**
      * Element tag
      *
      * @var string
@@ -292,6 +299,36 @@ class Element extends \Magelight\Block
     public function setTag($tag)
     {
         $this->_tag = $tag;
+        return $this;
+    }
+
+    /**
+     * Set form that owns this element
+     *
+     * @param \Magelight\Core\Blocks\Webform\Form $form
+     * @return Element
+     */
+    public function setForm(\Magelight\Core\Blocks\Webform\Form $form)
+    {
+        $this->_form = $form;
+        return $this;
+    }
+
+    /**
+     * Bind element to form
+     *
+     * @param \Magelight\Core\Blocks\Webform\Form $form
+     * @return Element
+     */
+    public function bindForm(\Magelight\Core\Blocks\Webform\Form $form = null)
+    {
+        $this->_form = $form;
+        foreach ($this->_content as $child) {
+            if ($child instanceof \Magelight\Core\Blocks\Webform\Elements\Abstraction\Element) {
+                /* @var $child \Magelight\Core\Blocks\Webform\Elements\Abstraction\Element */
+                $child->bindForm($this->_form);
+            }
+        }
         return $this;
     }
 }

@@ -22,8 +22,22 @@
  */
 
 namespace Magelight\Core\Blocks;
+use \Magelight\Core\Blocks\Webform\Form as Form;
+use \Magelight\Core\Blocks\Webform\Fieldset as Fieldset;
+use \Magelight\Core\Blocks\Webform\Elements as Elements;
 
 class Top extends \Magelight\Block
 {
     protected $_template = 'Magelight/Core/templates/top.phtml';
+
+    public function getLoginFormHtml()
+    {
+        $form = Form::forge()->setConfigs('login-form', 'auth')->setHorizontal();
+        $fieldset = Fieldset::forge()
+            ->addRowField(Elements\Input::forge()->setType('text')->setName('login'), 'Login')
+            ->addRowField(Elements\Input::forge()->setType('password')->setName('password'), 'Password')
+            ->addRowField(Elements\Button::forge()->setType('submit')->setContent('Login'));
+        $form->addFieldset($fieldset);
+        return $form->toHtml();
+    }
 }

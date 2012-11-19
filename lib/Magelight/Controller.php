@@ -141,6 +141,16 @@ abstract class Controller
     }
 
     /**
+     * Get server srapper object
+     *
+     * @return \Magelight\Http\Server
+     */
+    protected function server()
+    {
+        return \Magelight\Http\Server::getInstance();
+    }
+
+    /**
      * Render view
      * 
      * @return Controller
