@@ -37,7 +37,19 @@ class Form extends Elements\Abstraction\Element
      */
     protected $_tag = 'form';
 
+    /**
+     * Wrap index
+     *
+     * @var string
+     */
     protected $_wrapIndex = '';
+
+    /**
+     * Fields IDs that were filled from request
+     *
+     * @var array
+     */
+    protected $_filledIds = [];
 
     /**
      * Set form configuration
@@ -65,7 +77,19 @@ class Form extends Elements\Abstraction\Element
      */
     public function wrapName($name)
     {
-        return preg_replace('/^([^\[]*)/i', $this->_wrapIndex . '[\\1]', $name);
+        return self::wrapFieldName($name, $this->_wrapIndex);
+    }
+
+    /**
+     * Wrap field name to array form representation
+     *
+     * @param string $name
+     * @param string $wrapper
+     * @return mixed
+     */
+    public static function wrapFieldName($name, $wrapper)
+    {
+        return preg_replace('/^([^\[]*)/i', $wrapper . '[\\1]', $name);
     }
 
     /**
@@ -140,5 +164,79 @@ class Form extends Elements\Abstraction\Element
         return $this->addClass('form-inline');
     }
 
+    /**
+     * Load form from request
+     *
+     * @param \Magelight\Http\Request $request
+     * @return Form
+     */
+    public function loadFromRequest(\Magelight\Http\Request $request)
+    {
+        $method = $this->getAttribute('method', 'post');
+        $methodName = 'get' . ucfirst(strtolower($method));
+        if (!empty($this->_wrapIndex)) {
+            $requestFields = $request->$methodName($this->_wrapIndex, []);
+        } else {
+            $methodName .= 'Array';
+            $requestFields = $request->$methodName();
+        }
+        return $this->setFormValuesFromRequestFields($requestFields);
+    }
 
+    /**
+     * Set form values from request object
+     *
+     * @param array $requestFields
+     * @param string $wrapper
+     * @return Form
+     */
+    public function setFormValuesFromRequestFields($requestFields, $wrapper = '')
+    {
+
+        foreach ($requestFields as $fieldName => $fieldValue) {
+            if (is_array($fieldValue)) {
+                $this->setFormValuesFromRequestFields($fieldValue, $fieldName);
+            } else {
+                if (!empty($wrapper)) {
+                    $name = $this->wrapFieldName($fieldName, $wrapper);
+                } else {
+                    $name = $fieldName;
+                }
+                $id = $this->getFieldIdByName($name, $this->_filledIds);
+                if (!empty($id)) {
+                    if (isset(self::$_registeredIds[$id])
+                        &&
+                        self::$_registeredIds[$id] instanceof Elements\Abstraction\Field
+                    ) {
+                        $field = self::$_registeredIds[$id];
+                        /* @var $field Elements\Abstraction\Field*/
+                        $field->setValue($fieldValue);
+                        $this->_filledIds = $id;
+                    }
+                }
+            }
+
+        }
+        return $this;
+    }
+
+    /**
+     * Get field ID by it`s name
+     *
+     * @param string $name
+     * @param array $skipIds - id`s to skip while scanning
+     * @return null|string
+     */
+    public function getFieldIdByName($name, $skipIds = [])
+    {
+        foreach (self::$_registeredIds as $id => $field) {
+            /* @var $field Elements\Abstraction\Field*/
+            if ($field->getAttribute('name') === $name) {
+                if (!isset($skipIds[$id])) {
+                    return $id;
+                }
+            }
+        }
+        return null;
+    }
 }

@@ -248,7 +248,7 @@ class Element extends \Magelight\Block
      */
     protected function registerId($id)
     {
-        self::$_registeredIds[$id] = true;
+        self::$_registeredIds[$id] = $this;
         return $this;
     }
 

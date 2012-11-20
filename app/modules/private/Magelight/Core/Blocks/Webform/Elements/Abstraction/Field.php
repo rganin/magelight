@@ -81,11 +81,34 @@ class Field extends Element
         return $this->setAttribute('placeholder', $placeholderContent);
     }
 
+    /**
+     * Before to thml render event
+     *
+     * @return \Magelight\Block|Element|Field
+     */
     public function beforeToHtml()
     {
         if ($this->_form instanceof \Magelight\Core\Blocks\Webform\Form) {
             $this->setAttribute('name', $this->_form->wrapName($this->getAttribute('name')));
         }
-        return $this;
+        return parent::beforeToHtml();
+    }
+
+    /**
+     * Clone field to array
+     *
+     * @param int $count
+     * @return array
+     */
+    public function cloneToArray($count = 1)
+    {
+        $clones = [];
+        for ($i = 0; $i < $count; $i++) {
+            $clone = clone $this;
+            /* @var $clone \Magelight\Core\Blocks\Webform\Elements\Abstraction\Field */
+            $clone->setName($clone->getName() . '[' . $i . ']');
+            $clones[] = $clone;
+        }
+        return $clones;
     }
 }

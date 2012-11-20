@@ -100,13 +100,14 @@ class Index extends \Magelight\Controller
             'Phone',
             'Please enter your phone')
             ->addRowField(Elements\ReCaptcha::forge()->setName('challenge'), 'Enter captcha')
+            ->addRowField(Elements\FilePretty::forge()->setName('photo'))
             ->addRowField(Elements\Button::forge()
                 ->setType('submit')
                 ->setContent('Register')->addClass('btn-primary')
             )
         ;
 
-        $form->addFieldset($fieldset);
+        $form->addFieldset($fieldset)->loadFromRequest($this->request());
         $this->_view->set('title', 'Register new user');
         $this->_view->sectionReplace('content', $form);
         $this->renderView();

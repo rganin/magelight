@@ -24,6 +24,11 @@ namespace Magelight\Http;
 
 class Request
 {
+    const METHOD_GET    = 'GET';
+    const METHOD_POST   = 'POST';
+    const METHOD_PUT    = 'PUT';
+    const METHOD_DELETE = 'DELETE';
+
     /**
      * Default request merging order
      */
@@ -139,6 +144,36 @@ class Request
     public function getRequest($key, $default = null)
     {
         return isset($this->_request[$key]) ? $this->_request[$key] : $default;
+    }
+
+    /**
+     * Get full REQUEST array
+     *
+     * @return array|null
+     */
+    public function getRequestArray()
+    {
+        return $this->_request;
+    }
+
+    /**
+     * Get full POST array
+     *
+     * @return array|null
+     */
+    public function getPostArray()
+    {
+        return $this->_post;
+    }
+
+    /**
+     * Get full GET array
+     *
+     * @return array|null
+     */
+    public function getGetArray()
+    {
+        return $this->_get;
     }
     
     /**
