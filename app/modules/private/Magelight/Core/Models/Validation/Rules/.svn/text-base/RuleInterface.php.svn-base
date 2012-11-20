@@ -1,0 +1,11 @@
+<?php
+
+
+namespace Validation\Rules;
+
+interface RuleInterface{
+
+    public static function check($value, $arguments);
+
+    public static function getError();
+}

@@ -99,4 +99,20 @@ final class Magelight
     {
         require_once $className . '.php';
     }
+
+    /**
+     * Translate string
+     * todo:Implement translator :)
+     *
+     * @param string $traslate
+     * @param int $num
+     * @param string $context
+     * @param array $arguments
+     *
+     * @return string
+     */
+    public static function __($traslate, $num = 1, $context = 'default', $arguments = [])
+    {
+        return vsprintf($traslate, $arguments);
+    }
 }

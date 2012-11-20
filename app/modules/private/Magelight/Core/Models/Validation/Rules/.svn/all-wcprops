@@ -1,0 +1,101 @@
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/pmvc/!svn/ver/41/trunk/components/Validation/Rules
+END
+LengthRange.php
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/pmvc/!svn/ver/41/trunk/components/Validation/Rules/LengthRange.php
+END
+MinLength.php
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/pmvc/!svn/ver/41/trunk/components/Validation/Rules/MinLength.php
+END
+Email.php
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/pmvc/!svn/ver/41/trunk/components/Validation/Rules/Email.php
+END
+Float.php
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/pmvc/!svn/ver/41/trunk/components/Validation/Rules/Float.php
+END
+Range.php
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/pmvc/!svn/ver/41/trunk/components/Validation/Rules/Range.php
+END
+RuleInterface.php
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/pmvc/!svn/ver/41/trunk/components/Validation/Rules/RuleInterface.php
+END
+AbstractRule.php
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/pmvc/!svn/ver/41/trunk/components/Validation/Rules/AbstractRule.php
+END
+Required.php
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/pmvc/!svn/ver/41/trunk/components/Validation/Rules/Required.php
+END
+PregMatch.php
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/pmvc/!svn/ver/41/trunk/components/Validation/Rules/PregMatch.php
+END
+Max.php
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/pmvc/!svn/ver/41/trunk/components/Validation/Rules/Max.php
+END
+MaxLength.php
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/pmvc/!svn/ver/41/trunk/components/Validation/Rules/MaxLength.php
+END
+Numeric.php
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/pmvc/!svn/ver/41/trunk/components/Validation/Rules/Numeric.php
+END
+Date.php
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/pmvc/!svn/ver/41/trunk/components/Validation/Rules/Date.php
+END
+DateRange.php
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/pmvc/!svn/ver/41/trunk/components/Validation/Rules/DateRange.php
+END
+Url.php
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/pmvc/!svn/ver/41/trunk/components/Validation/Rules/Url.php
+END
+Min.php
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/pmvc/!svn/ver/41/trunk/components/Validation/Rules/Min.php
+END

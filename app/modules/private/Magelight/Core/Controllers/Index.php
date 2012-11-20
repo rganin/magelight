@@ -43,6 +43,21 @@ class Index extends \Magelight\Controller
      */
     public function indexAction()
     {
+        $data = [
+            'login' => 'iddqd',
+            'date' => '2012-12-12',
+            'age' => 28,
+            'weight' => 80,
+            'url' => '89741237(*&$#@*^http://magelight.com',
+        ];
+        $validator = \Magelight\Core\Models\Validator::forge();
+        $validator->fieldRule('login')->title('"Username"')->minLength(4);
+        $validator->fieldRule('url')->title('"User website"')->url();
+        if (!$validator->check($data)) {
+            var_dump($validator->getErrors());
+        }
+        die();
+
         $this->_view->set('title', 'Welcome');
         $this->_view->sectionAppend('content', \Magelight\Core\Blocks\Content::forge());
         \Magelight\Core\Blocks\Document::getFromRegistry()->addMeta(['name' => 'description', 'content' => '123']);
