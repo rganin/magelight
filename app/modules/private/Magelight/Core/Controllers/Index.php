@@ -102,8 +102,7 @@ class Index extends \Magelight\Controller
             ->addRowField(Elements\ReCaptcha::forge()->setName('challenge'), 'Enter captcha')
             ->addRowField(Elements\Button::forge()
                 ->setType('submit')
-                ->addClass('btn-success')
-                ->setContent('Register')
+                ->setContent('Register')->addClass('btn-primary')
             )
         ;
 

@@ -36,7 +36,7 @@ class Top extends \Magelight\Block
         $fieldset = Fieldset::forge()
             ->addRowField(Elements\Input::forge()->setType('text')->setName('login'), 'Login')
             ->addRowField(Elements\Input::forge()->setType('password')->setName('password'), 'Password')
-            ->addRowField(Elements\Button::forge()->setType('submit')->setContent('Login'));
+            ->addRowField(Elements\Button::forge()->setType('submit')->setContent('Login')->addClass('btn-primary'));
         $form->addFieldset($fieldset);
         return $form->toHtml();
     }
