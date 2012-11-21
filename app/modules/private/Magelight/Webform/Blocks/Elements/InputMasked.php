@@ -24,6 +24,7 @@ namespace Magelight\Webform\Blocks\Elements;
 
 /**
  * @method static \Magelight\Webform\Blocks\Elements\InputMasked forge()
+ * @method  \Magelight\Webform\Blocks\Elements\InputMasked setName()
  */
 class InputMasked extends Abstraction\Field
 {

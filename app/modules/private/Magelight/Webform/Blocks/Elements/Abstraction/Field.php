@@ -50,6 +50,17 @@ class Field extends Element
     }
 
     /**
+     * Set field value and\or select current option or check the checkbox or radio element
+     *
+     * @param $value
+     * @return Element
+     */
+    public function setFieldValueFromRequest($value)
+    {
+        return $this->setValue($value);
+    }
+
+    /**
      * Set element value attribute
      *
      * @param string $value

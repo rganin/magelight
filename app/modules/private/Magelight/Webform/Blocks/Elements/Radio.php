@@ -25,7 +25,7 @@ namespace Magelight\Webform\Blocks\Elements;
 /**
  * @method static \Magelight\Webform\Blocks\Elements\Radio forge()
  */
-class Radio extends Input
+class Radio extends Checkbox
 {
     /**
      * Forgery constructor

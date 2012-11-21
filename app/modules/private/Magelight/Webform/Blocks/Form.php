@@ -204,7 +204,6 @@ class Form extends Elements\Abstraction\Element
      */
     public function setFormValuesFromRequestFields($requestFields, $wrapper = '')
     {
-
         foreach ($requestFields as $fieldName => $fieldValue) {
             if (is_array($fieldValue)) {
                 $this->setFormValuesFromRequestFields($fieldValue, $fieldName);
@@ -222,12 +221,11 @@ class Form extends Elements\Abstraction\Element
                     ) {
                         $field = self::$_registeredIds[$id];
                         /* @var $field Elements\Abstraction\Field*/
-                        $field->setValue($fieldValue);
+                        $field->setFieldValueFromRequest($fieldValue);
                         $this->_filledIds = $id;
                     }
                 }
             }
-
         }
         return $this;
     }

@@ -93,7 +93,7 @@ class Index extends \Magelight\Controller
 
     public function registerAction()
     {
-        $form = Form::forge()->setConfigs('regform', 'adduser')->setHorizontal();
+        $form = Form::forge()->setConfigs('regform', 'register')->setHorizontal();
         $fieldset = Fieldset::forge()->setLegend('Register new user')
             ->addRowField(Elements\Input::forge()->setName('login'),
             'Login',
@@ -107,12 +107,13 @@ class Index extends \Magelight\Controller
             ->addRowField(Elements\PasswordInput::forge()->setName('passconf'),
             'Confirm password',
             'Confirm your password')
-            ->addRowField(Elements\InputMasked::forge()
-                ->setName('phone')->setMask('+99 999 999-99-99'),
+            ->addRowField(Elements\InputMasked::forge()->setName('phone')->setMask('+99 999 999-99-99'),
             'Phone',
             'Please enter your phone')
+            ->addRowField(Elements\LabeledCheckbox::forge()->setName('agree-rules')->addContent('Agree with rules'))
             ->addRowField(Elements\ReCaptcha::forge()->setName('challenge'), 'Enter captcha')
-            ->addRowField(Elements\FilePretty::forge()->setName('photo'))
+            ->addRowField(Elements\FilePretty::forge()->setName('photo'), 'Upload photo')
+            ->addContent(\Magelight\Webform\Blocks\Result::forge()->setErrorClass()->setContent('Test result'))
             ->addRowField(Elements\Button::forge()
                 ->setType('submit')
                 ->setContent('Register')->addClass('btn-primary')
@@ -128,12 +129,5 @@ class Index extends \Magelight\Controller
     public function adduserAction()
     {
         var_dump($this->request());
-        $reCaptcha = \Magelight\Webform\Models\Captcha\ReCaptcha::forge();
-        $isCaptchaValid = $reCaptcha->recaptchaCheckAnswer(
-            $this->server()->getRemoteIp(),
-            $this->request()->getPost(\Magelight\Webform\Models\Captcha\ReCaptcha::CHALLENGE_INDEX),
-            $this->request()->getPost(\Magelight\Webform\Models\Captcha\ReCaptcha::RESPONSE_INDEX)
-        )->is_valid;
-        var_dump($isCaptchaValid);
     }
 }

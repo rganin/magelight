@@ -46,4 +46,16 @@ class Checkbox extends Input
     {
         return $this->setAttribute('checked', 'checked');
     }
+
+    /**
+     * Set field value
+     *
+     * @param $value
+     * @return Checkbox
+     */
+    public function setFieldValueFromRequest($value)
+    {
+        $this->setChecked();
+        return parent::setFieldValueFromRequest($value);
+    }
 }

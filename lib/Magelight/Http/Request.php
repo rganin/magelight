@@ -24,6 +24,8 @@ namespace Magelight\Http;
 
 class Request
 {
+    use \Magelight\Forgery;
+
     const METHOD_GET    = 'GET';
     const METHOD_POST   = 'POST';
     const METHOD_PUT    = 'PUT';

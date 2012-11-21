@@ -25,6 +25,8 @@ namespace Magelight\Http;
 
 class Response
 {
+    use \Magelight\Forgery;
+    
     /**
      * Response headers
      *
