@@ -1,0 +1,19 @@
+<?php
+
+namespace Validation\Rules;
+
+class MaxLength extends AbstractRule{
+
+    public static function check($value, $args)
+    {
+        if (isset($args[0])) {
+            return mb_strlen($value) <= $args[0];
+        }
+        return false;
+    }
+
+    public static function getError()
+    {
+        return \L::tc('Field %0 shouldn`t be longer than %1', 'validation');
+    }
+}

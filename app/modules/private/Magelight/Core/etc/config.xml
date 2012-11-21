@@ -5,10 +5,6 @@
         </admin>
         <document>
             <default_lang>ru</default_lang>
-            <re_captcha>
-                <private_key>6LdXRNkSAAAAAOPdccvZiwrYy1ANY-oESFCdK4ty</private_key>
-                <public_key>6LdXRNkSAAAAAFwH0iBHqY9AtUYEQPlYyNPVhQw_</public_key>
-            </re_captcha>
         </document>
     </global>
 </config>

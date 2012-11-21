@@ -1,0 +1,19 @@
+<?php
+
+namespace Validation\Rules;
+
+class PregMatch extends AbstractRule{
+
+    public static function check($value, $args)
+    {
+        if (isset($args[0])) {
+            return preg_match($args[0], $value) > 0;
+        }
+        return false;
+    }
+
+    public static function getError()
+    {
+        return \L::tc('Field %0 must match regexp "%1"', 'validation');
+    }
+}

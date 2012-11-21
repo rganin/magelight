@@ -22,9 +22,9 @@
  */
 
 namespace Magelight\Core\Blocks;
-use \Magelight\Core\Blocks\Webform\Form as Form;
-use \Magelight\Core\Blocks\Webform\Fieldset as Fieldset;
-use \Magelight\Core\Blocks\Webform\Elements as Elements;
+use \Magelight\Webform\Blocks\Form as Form;
+use \Magelight\Webform\Blocks\Fieldset as Fieldset;
+use \Magelight\Webform\Blocks\Elements as Elements;
 
 class Top extends \Magelight\Block
 {

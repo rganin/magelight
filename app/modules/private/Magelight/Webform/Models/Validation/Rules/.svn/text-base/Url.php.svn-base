@@ -1,0 +1,17 @@
+<?php
+
+namespace Validation\Rules;
+
+class Url extends AbstractRule{
+
+    public static function check($value, $args)
+    {
+        $regex = "/^(http(s?):\\/\\/|ftp:\\/\\/{1})((\w+\.)+)\w{2,}(\/?)$/i";
+        return preg_match($regex, trim($value)) > 0;
+    }
+
+    public static function getError()
+    {
+        return \L::tc('Field %0 must be a valid URL link', 'validation');
+    }
+}

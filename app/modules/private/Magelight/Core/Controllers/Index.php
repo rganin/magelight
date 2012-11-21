@@ -22,9 +22,9 @@
  */
 
 namespace Magelight\Core\Controllers;
-use \Magelight\Core\Blocks\Webform\Form as Form;
-use \Magelight\Core\Blocks\Webform\Fieldset as Fieldset;
-use \Magelight\Core\Blocks\Webform\Elements as Elements;
+use \Magelight\Webform\Blocks\Form as Form;
+use \Magelight\Webform\Blocks\Fieldset as Fieldset;
+use \Magelight\Webform\Blocks\Elements as Elements;
 
 class Index extends \Magelight\Controller
 {
@@ -43,20 +43,20 @@ class Index extends \Magelight\Controller
      */
     public function indexAction()
     {
-        $data = [
-            'login' => 'iddqd',
-            'date' => '2012-12-12',
-            'age' => 28,
-            'weight' => 80,
-            'url' => '89741237(*&$#@*^http://magelight.com',
-        ];
-        $validator = \Magelight\Core\Models\Validator::forge();
-        $validator->fieldRule('login')->title('"Username"')->minLength(4);
-        $validator->fieldRule('url')->title('"User website"')->url();
-        if (!$validator->check($data)) {
-            var_dump($validator->getErrors());
-        }
-        die();
+//        $data = [
+//            'login' => '',
+//            'date' => '2012-12-12',
+//            'age' => 28,
+//            'weight' => 80,
+//            'url' => 'http://magelight.com',
+//        ];
+//        $validator = \Magelight\Webform\Models\Validator::forge();
+//        $validator->fieldRule('login')->title('"Username"')->required()->minLength(4);
+//        $validator->fieldRule('url')->title('"User website"')->url();
+//        if (!$validator->check($data)) {
+//            var_dump($validator->getErrors());
+//        }
+
 
         $this->_view->set('title', 'Welcome');
         $this->_view->sectionAppend('content', \Magelight\Core\Blocks\Content::forge());

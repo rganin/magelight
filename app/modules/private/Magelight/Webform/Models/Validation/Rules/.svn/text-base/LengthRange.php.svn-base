@@ -1,0 +1,19 @@
+<?php
+
+namespace Validation\Rules;
+
+class Range extends AbstractRule{
+
+    public static function check($value, $args)
+    {
+        if (isset($args[0], $args[1])) {
+            return (mb_strlen($value) >= $args[0]) && (mb_strlen($value) <= $args[1]);
+        }
+        return false;
+    }
+
+    public static function getError()
+    {
+        return \L::tc('Field %0 must contain from %1 to %2 symbols', 'validation');
+    }
+}

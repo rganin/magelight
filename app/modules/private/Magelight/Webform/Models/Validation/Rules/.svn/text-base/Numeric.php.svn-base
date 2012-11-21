@@ -1,0 +1,16 @@
+<?php
+
+namespace Validation\Rules;
+
+class Numeric extends AbstractRule{
+
+    public static function check($value, $args)
+    {
+        return is_numeric($value);
+    }
+
+    public static function getError()
+    {
+        return \L::tc('Field %0 must numeric', 'validation');
+    }
+}

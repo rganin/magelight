@@ -1,0 +1,16 @@
+<?php
+
+namespace Validation\Rules;
+
+class Float extends AbstractRule{
+
+    public static function check($value, $args)
+    {
+        return is_numeric($value) || is_float($value);
+    }
+
+    public static function getError()
+    {
+        return \L::tc('Field %0 must a float value', 'validation');
+    }
+}
