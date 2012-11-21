@@ -25,7 +25,7 @@ namespace Magelight\Webform\Blocks\Elements;
 /**
  * @method static \Magelight\Webform\Blocks\Elements\InputMasked forge()
  */
-class InputMasked extends \Magelight\Webform\Blocks\Elements\Abstraction\Field
+class InputMasked extends Abstraction\Field
 {
     /**
      * Forgery constructor (adds masked input JS to document head)

@@ -26,7 +26,7 @@ namespace Magelight\Webform\Blocks\Elements;
 /**
  * @method static \Magelight\Webform\Blocks\Elements\Input forge()
  */
-class Input extends \Magelight\Webform\Blocks\Elements\Abstraction\Field
+class Input extends Abstraction\Field
 {
     /**
      * Element tag

@@ -52,6 +52,13 @@ class Form extends Elements\Abstraction\Element
     protected $_filledIds = [];
 
     /**
+     * Feild values loaded from request
+     *
+     * @var array
+     */
+    protected $_requestFields = [];
+
+    /**
      * Set form configuration
      *
      * @param string $name
@@ -164,6 +171,11 @@ class Form extends Elements\Abstraction\Element
         return $this->addClass('form-inline');
     }
 
+    public function validateState($breakOnFirst = false)
+    {
+
+    }
+
     /**
      * Load form from request
      *
@@ -175,12 +187,12 @@ class Form extends Elements\Abstraction\Element
         $method = $this->getAttribute('method', 'post');
         $methodName = 'get' . ucfirst(strtolower($method));
         if (!empty($this->_wrapIndex)) {
-            $requestFields = $request->$methodName($this->_wrapIndex, []);
+            $this->_requestFields = $request->$methodName($this->_wrapIndex, []);
         } else {
             $methodName .= 'Array';
-            $requestFields = $request->$methodName();
+            $this->_requestFields = $request->$methodName();
         }
-        return $this->setFormValuesFromRequestFields($requestFields);
+        return $this->setFormValuesFromRequestFields($this->_requestFields);
     }
 
     /**

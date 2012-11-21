@@ -26,7 +26,7 @@ namespace Magelight\Webform\Blocks\Elements;
 /**
  * @method static \Magelight\Webform\Blocks\Elements\Textarea forge()
  */
-class Textarea extends \Magelight\Webform\Blocks\Elements\Abstraction\Field
+class Textarea extends Abstraction\Field
 {
     /**
      * Element tag
