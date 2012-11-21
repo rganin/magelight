@@ -83,9 +83,6 @@ class Index extends \Magelight\Controller
     public function loginAction()
     {
         $this->_view->set('title', 'Log in');
-
-
-//        $this->_view->sectionReplace('content', $form);
         $this->renderView();
     }
 
@@ -131,11 +128,11 @@ class Index extends \Magelight\Controller
     public function adduserAction()
     {
         var_dump($this->request());
-        $reCaptcha = \Magelight\Core\Models\Captcha\ReCaptcha::forge();
+        $reCaptcha = \Magelight\Webform\Models\Captcha\ReCaptcha::forge();
         $isCaptchaValid = $reCaptcha->recaptchaCheckAnswer(
             $this->server()->getRemoteIp(),
-            $this->request()->getPost(\Magelight\Core\Models\Captcha\ReCaptcha::CHALLENGE_INDEX),
-            $this->request()->getPost(\Magelight\Core\Models\Captcha\ReCaptcha::RESPONSE_INDEX)
+            $this->request()->getPost(\Magelight\Webform\Models\Captcha\ReCaptcha::CHALLENGE_INDEX),
+            $this->request()->getPost(\Magelight\Webform\Models\Captcha\ReCaptcha::RESPONSE_INDEX)
         )->is_valid;
         var_dump($isCaptchaValid);
     }

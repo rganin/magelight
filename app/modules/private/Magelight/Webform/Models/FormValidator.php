@@ -28,7 +28,7 @@
 
 namespace Magelight\Core\Models\Validation;
 
-class FormValidator extends \Magelight\Core\Models\Validator
+class FormValidator extends \Magelight\Webform\Models\Validator
 {
     protected $_form = null;
 
