@@ -95,7 +95,7 @@ class Index extends \Magelight\Controller
     {
         $form = Form::forge()->setConfigs('regform', 'register')->setHorizontal();
         $fieldset = Fieldset::forge()->setLegend('Register new user')
-            ->addRowField(Elements\Input::forge()->setName('login'),
+            ->addRowField(Elements\Input::forge()->setName('login')->addClass('error'),
             'Login',
             'Your login (5-20 characters)')
             ->addRowField(Elements\Input::forge()->setName('email'),

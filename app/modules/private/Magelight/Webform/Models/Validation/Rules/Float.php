@@ -23,6 +23,11 @@
 
 namespace Magelight\Webform\Models\Validation\Rules;
 
+/**
+ * @method static \Magelight\Webform\Models\Validation\Rules\Float
+ *         forge(\Magelight\Webform\Models\Validation\Checker $checker)
+ *
+ */
 class Float extends AbstractRule
 {
 

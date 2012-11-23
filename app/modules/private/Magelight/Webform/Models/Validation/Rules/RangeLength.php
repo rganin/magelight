@@ -23,6 +23,11 @@
 
 namespace Magelight\Webform\Models\Validation\Rules;
 
+/**
+ * @method static \Magelight\Webform\Models\Validation\Rules\RangeLength
+ *         forge(\Magelight\Webform\Models\Validation\Checker $checker)
+ *
+ */
 class RangeLength extends AbstractRule
 {
     /**

@@ -23,6 +23,11 @@
 
 namespace Magelight\Webform\Models\Validation\Rules;
 
+/**
+ * @method static \Magelight\Webform\Models\Validation\Rules\DateTimeRange
+ *         forge(\Magelight\Webform\Models\Validation\Checker $checker)
+ *
+ */
 class DateRange extends AbstractRule
 {
     /**

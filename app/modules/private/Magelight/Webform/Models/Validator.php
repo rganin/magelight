@@ -28,6 +28,10 @@ namespace Magelight\Webform\Models;
  */
 class Validator extends \Magelight\Model
 {
+    /**
+     * Empty field data constant
+     */
+    const EMPTY_DATA = null;
 
     /**
      * Validation result
@@ -44,6 +48,13 @@ class Validator extends \Magelight\Model
     protected $_checkers = [];
 
     /**
+     * Break on first error flag
+     *
+     * @var bool
+     */
+    protected $_breakOnFirst = false;
+
+    /**
      * Validate data
      *
      * @param $data
@@ -51,7 +62,43 @@ class Validator extends \Magelight\Model
      */
     public function validate($data)
     {
+        $result = true;
+        $this->_result = Validation\Result::forge($result, []);
+        foreach ($this->_checkers as $fieldName => $checker) {
+            /* @var $checker Validation\Checker*/
+            if (!isset($data[$fieldName])) {
+                $data[$fieldName] = self::EMPTY_DATA;
+            }
+            if (!$checker->check($data[$fieldName])) {
+                $this->_result->addErrors($checker->getErrors())->setFail();
+                if ($this->_breakOnFirst) {
+                    return $this;
+                }
+            }
+        }
         return $this;
+    }
+
+    /**
+     * Set break on first error flag
+     *
+     * @param bool $flag
+     * @return Validator
+     */
+    public function breakOnFirst($flag = true)
+    {
+        $this->_breakOnFirst = $flag;
+        return $this;
+    }
+
+    /**
+     * get result
+     *
+     * @return Validation\Result
+     */
+    public function result()
+    {
+        return $this->_result;
     }
 
     /**
@@ -63,8 +110,11 @@ class Validator extends \Magelight\Model
      */
     public function fieldRules($fieldName, $fieldAlias = null)
     {
+        if (isset($this->_checkers[$fieldName]) && $this->_checkers[$fieldName] instanceof Validation\Checker) {
+            return $this->_checkers[$fieldName];
+        }
         $checker = Validation\Checker::forge($fieldName, $fieldAlias);
-        $this->_checkers = $checker;
+        $this->_checkers[$fieldName] = $checker;
         return $checker;
     }
 }

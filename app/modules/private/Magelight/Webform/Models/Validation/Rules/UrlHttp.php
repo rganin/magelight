@@ -23,6 +23,11 @@
 
 namespace Magelight\Webform\Models\Validation\Rules;
 
+/**
+ * @method static \Magelight\Webform\Models\Validation\Rules\UrlHttp
+ *         forge(\Magelight\Webform\Models\Validation\Checker $checker)
+ *
+ */
 class UrlHttp extends AbstractRule
 {
     /**

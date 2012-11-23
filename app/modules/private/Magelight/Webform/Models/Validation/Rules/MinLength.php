@@ -22,6 +22,11 @@
  */
 namespace Magelight\Webform\Models\Validation\Rules;
 
+/**
+ * @method static \Magelight\Webform\Models\Validation\Rules\MinLength
+ *         forge(\Magelight\Webform\Models\Validation\Checker $checker)
+ *
+ */
 class MinLength extends AbstractRule
 {
     /**

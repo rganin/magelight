@@ -23,6 +23,11 @@
 
 namespace Magelight\Webform\Models\Validation\Rules;
 
+/**
+ * @method static \Magelight\Webform\Models\Validation\Rules\MaxLength
+ *         forge(\Magelight\Webform\Models\Validation\Checker $checker)
+ *
+ */
 class MaxLength extends AbstractRule
 {
     /**

@@ -35,10 +35,9 @@ class CheckerTest extends \PHPUnit_Framework_TestCase
      */
     public function checkerGeneralTest()
     {
-        $checker = \Magelight\Webform\Models\Validator::forge()
-            ->fieldRules('login', 'Login field')->max(33)
-            ->chainRule()->required()
-            ->checker();
+        $checker = \Magelight\Webform\Models\Validation\Checker::forge('login', 'Login field')
+            ->max(33)->chainRule()
+            ->required()->checker();
         $this->assertTrue($checker->check(30));
         $this->assertFalse($checker->check(null));
         $this->assertFalse($checker->check(100500));

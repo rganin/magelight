@@ -22,6 +22,11 @@
  */
 namespace Magelight\Webform\Models\Validation\Rules;
 
+/**
+ * @method static \Magelight\Webform\Models\Validation\Rules\Numeric
+ *         forge(\Magelight\Webform\Models\Validation\Checker $checker)
+ *
+ */
 class Numeric extends AbstractRule
 {
     /**

@@ -23,6 +23,11 @@
 
 namespace Magelight\Webform\Models\Validation\Rules;
 
+/**
+ * @method static \Magelight\Webform\Models\Validation\Rules\Email
+ *         forge(\Magelight\Webform\Models\Validation\Checker $checker)
+ *
+ */
 class Email extends AbstractRule
 {
     /**

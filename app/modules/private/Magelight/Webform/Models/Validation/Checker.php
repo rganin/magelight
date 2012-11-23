@@ -62,11 +62,30 @@ class Checker
     protected $_fieldAlias = null;
 
     /**
+     * Form highlight id
+     *
+     * @var string
+     */
+    protected $_highlightId = null;
+
+    /**
      * Rules to check with
      *
      * @var array
      */
     protected $_rules = [];
+
+    /**
+     * @var array
+     */
+    protected $_errors = [];
+
+    /**
+     * Break on first error flag
+     *
+     * @var bool
+     */
+    protected $_breakOnFirst = false;
 
     /**
      * Forgery constructor
@@ -77,9 +96,35 @@ class Checker
     public function __forge($fieldName, $fieldAlias = null)
     {
         $this->_fieldName = $fieldName;
+        $this->setFieldAlias($fieldAlias);
+    }
+
+    /**
+     * Set Field alias name
+     *
+     * @param string $fieldAlias
+     * @return \Magelight\Webform\Models\Validation\Checker
+     */
+    public function setFieldAlias($fieldAlias = null)
+    {
         if (empty($fieldAlias)) {
-            $this->_fieldAlias = $fieldName;
+            $this->_fieldAlias = $this->_fieldName;
+        } else {
+            $this->_fieldAlias = $fieldAlias;
         }
+        return $this;
+    }
+
+    /**
+     * Set highlight ID
+     *
+     * @param string $fieldId
+     * @return Checker
+     */
+    public function setHighlightId($fieldId)
+    {
+        $this->_highlightId = $fieldId;
+        return $this;
     }
 
     /**
@@ -130,8 +175,36 @@ class Checker
         $result = true;
         foreach ($this->_rules as $rule) {
             /* @var $rule Rules\AbstractRule */
-            $result = $result & $rule->check($value);
+            if (!$rule->check($value)) {
+                $this->_errors[] = Error::forge($rule->getError(), $this->_highlightId);
+                if ($this->_breakOnFirst) {
+                    return false;
+                }
+                $result = false;
+            }
         }
         return (bool) $result;
+    }
+
+    /**
+     * Set break on first error flag
+     *
+     * @param bool $flag
+     * @return Checker
+     */
+    public function breakOnFirst($flag = true)
+    {
+        $this->_breakOnFirst = $flag;
+        return $this;
+    }
+
+    /**
+     * Get checking errors
+     *
+     * @return array
+     */
+    public function getErrors()
+    {
+        return $this->_errors;
     }
 }
