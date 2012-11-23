@@ -20,16 +20,17 @@
  * @copyright Copyright (c) 2012 rganin (rganin@gmail.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
+
 namespace Magelight\Webform\Models\Validation\Rules;
 
-class Max extends AbstractRule
+class Min extends AbstractRule
 {
     /**
      * Validation error pattern
      *
      * @var string
      */
-    protected $_error = 'Field %s must be less than %s or equal';
+    protected $_error = 'Field %s must not be less than %s';
 
     /**
      * Check value with rule
@@ -42,6 +43,6 @@ class Max extends AbstractRule
      */
     public function check($value)
     {
-        return ($value <= $this->_arguments[0]);
+        return ($value >= $this->_arguments[0]);
     }
 }

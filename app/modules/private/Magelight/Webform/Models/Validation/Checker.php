@@ -1,37 +1,47 @@
 <?php
 /**
- * Magento
+ * Magelight
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
+ * This file is open source and it`s distribution is based on
+ * Open Software License (OSL 3.0). You can obtain license text at
  * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * For any non license implied issues please contact rganin@gmail.com
  *
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
+ * This file is a part of a framework. Please, do not modify it unless you discard
+ * further updates.
  *
- * @category
- * @package
- * @subpackage
- * @author
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @version 1.0
+ * @author Roman Ganin
+ * @copyright Copyright (c) 2012 rganin (rganin@gmail.com)
+ * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
 namespace Magelight\Webform\Models\Validation;
 
 /**
  * @method static \Magelight\Webform\Models\Validation\Checker forge($fieldName, $fieldAlias = null) - forgery
- * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule max($maxValue) - maximum value rule
+ * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule max($max) - maximum value rule
  * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule required() - Field is required
+ * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule dateTime() - Field must be a date time string
+ * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule dateTimeRange($minDate, $maxDate)
+ * - Field is in range between two dates
+ * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule email() - Field must be a valid email
+ * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule float() - Field must be a float value
+ * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule maxLength($max) - Field has max length
+ * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule min($min) - Field must be not less than
+ * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule minLength($min) - Field must be longer than
+ * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule numeric() - Field must be numeric
+ * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule pregMatch() - Field must match regex
+ * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule range($min, $max)
+ * - Field must be between two values
+ * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule rangeLength($min, $max)
+ * - Field must contain from $min to $max chars
+ * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule urlHttp() - Field must be a valid http or https URL
  */
 class Checker
 {
@@ -109,6 +119,12 @@ class Checker
         return $rule;
     }
 
+    /**
+     * Check value for validity with set of rules
+     *
+     * @param string $value
+     * @return bool
+     */
     public function check($value)
     {
         $result = true;
@@ -116,7 +132,6 @@ class Checker
             /* @var $rule Rules\AbstractRule */
             $result = $result & $rule->check($value);
         }
-
         return (bool) $result;
     }
 }
