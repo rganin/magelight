@@ -54,11 +54,7 @@ class Log
 
     protected static function init()
     {
-        self::$_file = \Magelight::app()->config()->getConfigLast(
-            'global/log/file',
-            \Magelight\Components\Config::TYPE_STRING,
-            self::$_file
-        );
+        self::$_file = (string)\Magelight::app()->config()->getConfig('global/log/file', self::$_file);
         self::$_initialized = true;
     }
 }

@@ -1,5 +1,8 @@
 <config>
     <global>
+        <log>
+            <file>logfile.log</file>
+        </log>
         <admin>
             <auth>2</auth>
         </admin>

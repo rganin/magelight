@@ -1,252 +1,121 @@
 <?php
 /**
- * Magelight
+ * Magento
  *
  * NOTICE OF LICENSE
  *
- * This file is open source and it`s distribution is based on
- * Open Software License (OSL 3.0). You can obtain license text at
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
  * http://opensource.org/licenses/osl-3.0.php
- *
- * For any non license implied issues please contact rganin@gmail.com
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * DISCLAIMER
  *
- * This file is a part of a framework. Please, do not modify it unless you discard
- * further updates.
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @version 1.0
- * @author Roman Ganin
- * @copyright Copyright (c) 2012 rganin (rganin@gmail.com)
- * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ * @category
+ * @package
+ * @subpackage
+ * @author
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 namespace Magelight\Webform\Models\Validation;
 
 /**
- * Form field checker
- *
- * @author iddqd
- * @method static \Magelight\Webform\Models\Validation\Checker forge($fieldName, $validatorObject)
- * @method \Magelight\Webform\Models\Validation\Checker date() - check is a field a valid date
- * @method \Magelight\Webform\Models\Validation\Checker dateRange($dateStart, $dateEnd)
- * - check is the field between 2 dates (inclusive)
- * @method \Magelight\Webform\Models\Validation\Checker email() - the field must be a valid email
- * @method \Magelight\Webform\Models\Validation\Checker float() - the field must be a valid float number
- * @method \Magelight\Webform\Models\Validation\Checker lengthRange($floor, $ceil)
- * - the field must contain symbols between mentioned as params
- * @method \Magelight\Webform\Models\Validation\Checker min($minValue) - chek minimal value
- * @method \Magelight\Webform\Models\Validation\Checker minLength($minLength) - the field must be longer or equal
- * @method \Magelight\Webform\Models\Validation\Checker max($maxValue) - chek minimal value
- * @method \Magelight\Webform\Models\Validation\Checker dateAndTime() - field must be a valid date
- * @method \Magelight\Webform\Models\Validation\Checker numeric() - the field must be numeric
- * @method \Magelight\Webform\Models\Validation\Checker pregMatch($regex) - the field must match regular expression
- * @method \Magelight\Webform\Models\Validation\Checker range($minValue, $maxValue) - chek minimal and maximum value
- * @method \Magelight\Webform\Models\Validation\Checker required()  required() - field is required
- * @method \Magelight\Webform\Models\Validation\Checker url() - the field must be a valid url address
+ * @method static \Magelight\Webform\Models\Validation\Checker forge($fieldName, $fieldAlias = null) - forgery
+ * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule max($maxValue) - maximum value rule
+ * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule required() - Field is required
  */
 class Checker
 {
     use \Magelight\Forgery;
 
-	/**
-	 * Field key
-	 *
-	 * @var string
-	 */
-    protected $fieldName;
-
     /**
-     * Title for the field
-     * if not set the field key will be passed as the title
+     * Field name
      *
      * @var string
      */
-    protected $fieldTitle;
+    protected $_fieldName = null;
 
     /**
-     * Rules stack
+     * Field alias
+     *
+     * @var string
+     */
+    protected $_fieldAlias = null;
+
+    /**
+     * Rules to check with
      *
      * @var array
      */
-    protected $rules = [];
-
-    /**
-     * Validator object
-     *
-     * @var \Magelight\Webform\Models\Validator
-     */
-    protected $_validator = null;
-
-    /**
-     * Flag that field is an array of fields
-     *
-     * @var bool
-     */
-    protected $isArray = false;
-
-    /**
-     * Envelope pattern
-     * e.g. form[%0]
-     *
-     * @var string
-     */
-    protected $envelopePattern = null;
+    protected $_rules = [];
 
     /**
      * Forgery constructor
      *
      * @param $fieldName
-     * @param \Magelight\Webform\Models\Validator $validator
+     * @param string $fieldAlias
      */
-    public function __forge($fieldName, \Magelight\Webform\Models\Validator $validator)
+    public function __forge($fieldName, $fieldAlias = null)
     {
-        $this->fieldName = $fieldName;
-        $this->_validator = $validator;
-    }
-
-    /**
-     * Tell validator that the field is an array of common fields
-     *
-     * @return Checker
-     */
-    public function isArray()
-    {
-        $this->isArray = true;
-        return $this;
-    }
-
-    /**
-     * Set field title. If not set the field array key will be passed as title
-     *
-     * @param string $fieldTitle
-     * @return Checker
-     */
-    public function title($fieldTitle = null)
-    {
-        $this->fieldTitle = $fieldTitle;
-        return $this;
-    }
-
-    /**
-     * Add an envelope to field for highlighting
-     * Is useful when field is an array part
-     * example:
-     * 		if you user u[name] , u[login], u[email] and u[password]
-     * 		for posting data and getting it as $_POST['u']
-     * 		you can add an envelope like u[%0] and receive
-     *      a highlight name as it is set in your html code
-     *
-     *
-     * @param string $envelopePattern
-     * @return Checker
-     */
-    public function envelope($envelopePattern = null)
-    {
-        if (empty($this->envelopePattern)) {
-            $this->envelopePattern = $envelopePattern;
+        $this->_fieldName = $fieldName;
+        if (empty($fieldAlias)) {
+            $this->_fieldAlias = $fieldName;
         }
+    }
+
+    /**
+     * Add rule to checker
+     *
+     * @param Rules\AbstractRule $rule
+     * @return Checker
+     */
+    public function addRule(Rules\AbstractRule $rule)
+    {
+        $this->_rules[] = $rule;
         return $this;
     }
 
     /**
-     * Call magic
+     * Call magix
      *
-     * @param string $name
-     * @param array $arguments
-     * @return Checker
+     * @param $name
+     * @param $arguments
+     * @return Rules\AbstractRule
+     * @throws \Magelight\Exception
      */
     public function __call($name, $arguments)
     {
-        $name = '\\Magelight\\Webform\\Models\\Validation\\Rules\\' . ucfirst($name);
-            $this->rules[$name]['checker'] = call_user_func([$name, 'forge']);
-            $this->rules[$name]['arguments'] = $arguments;
-        return $this;
+        $className = __NAMESPACE__ . '\\Rules\\' . ucfirst($name);
+        $rule = call_user_func_array([$className, 'forge'], [$this]);
+
+        if (!$rule instanceof Rules\AbstractRule) {
+            throw new \Magelight\Exception(
+                "Trying to add unknown rule '$className' in "
+                . __CLASS__
+                . " for field {$this->_fieldName} ({$this->_fieldAlias})."
+            );
+        }
+        /* @var $rule Rules\AbstractRule */
+        $this->addRule($rule->setArguments($arguments)->setFieldTitle($this->_fieldAlias));
+        return $rule;
     }
 
-    /**
-     * Check value to match validation rules
-     *
-     * @param mixed $value
-     * @return boolean
-     */
     public function check($value)
     {
-        $res = true;
-
-        foreach ($this->rules as $rule) {
-            $result = true;
-            if (!$this->isArray || ($this->isArray && !is_array($value))) {
-                $result = call_user_func_array([$rule['checker'], 'check'], [$value, $rule['arguments']]);
-            } else {
-                foreach ($value as $field) {
-                    $result = call_user_func_array([$rule['checker'], 'check'], [$field, $rule['arguments']]);
-                }
-            }
-
-            if (!$result) {
-                $this->raiseError($rule);
-                if ($this->_validator->isBreakOnFirst()) {
-                    return $result;
-                }
-            }
-            $res &= $result;
+        $result = true;
+        foreach ($this->_rules as $rule) {
+            /* @var $rule Rules\AbstractRule */
+            $result &= $rule->check($value);
         }
-
-        return $res;
-    }
-
-    /**
-     * Raise an error and push it into errors stack
-     *
-     * @param string $rule
-     */
-    public function raiseError($rule)
-    {
-        $fieldTitle = empty($this->fieldTitle) ? $this->fieldName : $this->fieldTitle;
-        if (isset($rule['error'])) {
-            $error = $rule['error'];
-        } else {
-            $error = call_user_func_array(array($rule['checker'], 'getError'), array());
-        }
-        $args = $rule['arguments'];
-        array_unshift($args, $fieldTitle);
-        var_dump($args);
-        $error = \Magelight::__($error, 1, 'validation', array_values($args));
-        $this->_validator->addError($error);
-    }
-
-    /**
-     * Set error text for rule
-     *
-     * @param string $ruleName
-     * @param string $errorString
-     * @return Checker
-     */
-    public function setError($ruleName, $errorString)
-    {
-        $name = '\\Magelight\\Webform\\Models\\Validation\\Rules\\' . ucfirst($ruleName);
-        $this->rules[$name]['error'] = $errorString;
-        return $this;
-    }
-
-
-    /**
-     * Set errors array('rule' => 'Error text')
-     * Example:
-     * array(
-     * 		'range' => 'Oooops, value is out of range',
-     * 		'url' => 'Url validation for field %0 failed'
-     * );
-     *
-     * @param array $errors
-     * @return Checker
-     */
-    public function setErrorsArray($errors = array())
-    {
-    	foreach ($errors as $key => $error) {
-    		$this->rules[$key]['error'] = $error;
-    	}
-    	return $this;
+        return $result;
     }
 }

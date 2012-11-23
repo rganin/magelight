@@ -72,6 +72,16 @@ class Field extends Element
     }
 
     /**
+     * Get field value
+     *
+     * @return mixed|string
+     */
+    public function getValue()
+    {
+        return $this->getAttribute('value');
+    }
+
+    /**
      * Get element name
      *
      * @return mixed|string

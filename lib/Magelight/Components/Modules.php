@@ -48,7 +48,7 @@ class Modules
     {
         $this->_app = $app;
         //@todo add modules caching just as caching will be implemented
-        $this->loadModules('etc' . DS . 'modules.xml');
+        $this->loadModules($app->getAppDir() . DS . 'etc' . DS . 'modules.xml');
     }
     
     /**

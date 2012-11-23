@@ -47,6 +47,16 @@ class Textarea extends Abstraction\Field
     }
 
     /**
+     * Get Textarea value
+     *
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return isset($this->_content[0]) ? $this->_content[0] : '';
+    }
+
+    /**
      * Set maximum length for textarea
      *
      * @param string $maxLength

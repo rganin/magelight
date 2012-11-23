@@ -171,7 +171,7 @@ class Form extends Elements\Abstraction\Element
         return $this->addClass('form-inline');
     }
 
-    public function validateState($breakOnFirst = false)
+    public function isValid($breakOnFirst = false)
     {
 
     }

@@ -26,22 +26,20 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-namespace Magelight\Webform\Models\Validation\Rules;
+namespace Magelight\Webform\Models\Validation;
 
-class ReCaptcha extends AbstractRule
+class CheckerTest extends \PHPUnit_Framework_TestCase
 {
-    protected $_error = 'Please enter a valid captcha code';
-
-    public function check($value, $arguments)
+    /**
+     * @test
+     */
+    public function checkerGeneralTest()
     {
-        return \Magelight\Webform\Models\Captcha\ReCaptcha::forge()->recaptchaCheckAnswer(
-            \Magelight\Http\Server::getInstance()->getRemoteIp(),
-            \Magelight\Http\Request::getInstance()->getRequest(
-                \Magelight\Webform\Models\Captcha\ReCaptcha::CHALLENGE_INDEX
-            ),
-            \Magelight\Http\Request::getInstance()->getRequest(
-                \Magelight\Webform\Models\Captcha\ReCaptcha::RESPONSE_INDEX
-            )
-        )->is_valid;
+        $checker = \Magelight\Webform\Models\Validator::forge()
+            ->fieldRules('login', 'Login field')->max(33)
+//            ->chain()->required()
+            ->checker();
+        $this->assertTrue($checker->check(30));
+        $this->assertFalse($checker->check(''));
     }
 }

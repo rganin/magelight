@@ -8,3 +8,4 @@
  */
 
 require_once dirname(dirname(dirname(dirname(dirname(__FILE__))))) . DIRECTORY_SEPARATOR . 'core.php';
+Magelight::app()->setAppDir(dirname(dirname(dirname(dirname(dirname(__FILE__))))) . DS . 'app')->init();

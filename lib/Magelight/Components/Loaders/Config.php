@@ -67,9 +67,10 @@ class Config
                 self::copyAttributes($base->$name, $child);
                 if (!(bool) $base->$name->attributes()->protected) {
                     if (!(bool) $base->$name->attributes()->stackable) {
+                        $childStr = (string) $child;
                         if ($child->children()->count()) {
                             self::mergeConfig($base->$name, $add->$name);
-                        } elseif (!empty($child)) {
+                        } elseif (!empty($childStr)) {
                             $base->$name = $child;
                         }
                     } else {

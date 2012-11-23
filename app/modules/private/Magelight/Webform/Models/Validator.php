@@ -1,151 +1,75 @@
 <?php
 /**
- * Magelight
+ * Magento
  *
  * NOTICE OF LICENSE
  *
- * This file is open source and it`s distribution is based on
- * Open Software License (OSL 3.0). You can obtain license text at
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
  * http://opensource.org/licenses/osl-3.0.php
- *
- * For any non license implied issues please contact rganin@gmail.com
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * DISCLAIMER
  *
- * This file is a part of a framework. Please, do not modify it unless you discard
- * further updates.
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @version     1.0
- * @author      Roman Ganin
- * @copyright   Copyright (c) 2012 rganin (rganin@gmail.com)
- * @license     http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ * @category
+ * @package
+ * @subpackage
+ * @author
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 namespace Magelight\Webform\Models;
 
 /**
- * @method static \Magelight\Webform\Models\Validator forge()
+ * @method static \Magelight\Webform\Models\Validator forge() - forg teh validator
  */
-class Validator{
-
-    use \Magelight\Forgery;
-
-	/**
-	 * Array of checkers for fields
-	 *
-	 * @var array
-	 */
-    private $checkers = [];
+class Validator extends \Magelight\Model
+{
 
     /**
-     * Envelope for all fields
+     * Validation result
      *
-     * @var string
+     * @var null
      */
-    private $envelope = null;
-
+    protected $_result = null;
 
     /**
-     * Validation errors
+     * Checkers for fields
      *
      * @var array
      */
-    protected $_errors = [];
-
-    /**
-     * Break on first error
-     *
-     * @var bool
-     */
-    protected $_breakOnFirst = false;
-
-
-    /**
-     * Add the field rule
-     *
-     * @param string $field - field name
-     *
-     * @return Validation\Checker
-     */
-    public function fieldRule($field)
-    {
-        $this->checkers[$field]= Validation\Checker::forge($field, $this);
-        return $this->checkers[$field];
-    }
-
-    /**
-     * Break validation on first error
-     *
-     * @param bool $break
-     * @return Validator
-     */
-    public function breakOnFirst($break = true)
-    {
-        $this->_breakOnFirst = $break;
-        return $this;
-    }
-
-    /**
-     * Check is validator break on first error flag enabled
-     *
-     * @return bool
-     */
-    public function isBreakOnFirst()
-    {
-        return $this->_breakOnFirst;
-    }
+    protected $_checkers = [];
 
     /**
      * Validate data
      *
-     * @param array $data
-     * @return boolean
-     */
-    public function check($data)
-    {
-    	
-        $res = true;
-        foreach ($this->checkers as $field => $checker) {
-            /* @var $checker \Magelight\Webform\Models\Validation\Checker*/
-            if (!empty($this->envelope)) {
-                $checker->envelope($this->envelope);
-            }
-            $res &= $checker->check(isset($data[$field]) ? $data[$field] : null);
-        }
-        return $res;
-    }
-
-    /**
-     * Add an envelope for all fields, overrides all fields envelopes
-     *
-     * @param string $envelopePattern
+     * @param $data
      * @return Validator
      */
-    public function envelope($envelopePattern = null)
+    public function validate($data)
     {
-        foreach ($this->checkers as $checker) {
-            /* @var $checker \Magelight\Webform\Models\Validation\Checker*/
-           $checker->envelope($envelopePattern);
-        }
+        return $this;
     }
 
     /**
-     * Add error to stack
+     * Add field rules
      *
-     * @param string $errorStr
+     * @param $fieldName
+     * @param null $fieldAlias
+     * @return Validation\Checker
      */
-    public function addError($errorStr)
+    public function fieldRules($fieldName, $fieldAlias = null)
     {
-        $this->_errors[] = $errorStr;
-    }
-
-    /**
-     * Get validation errors
-     *
-     * @return array
-     */
-    public function getErrors()
-    {
-        return $this->_errors;
+        $checker = Validation\Checker::forge($fieldName, $fieldAlias);
+        $this->_checkers = $checker;
+        return $checker;
     }
 }
