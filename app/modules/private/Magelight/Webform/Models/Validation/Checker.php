@@ -114,8 +114,9 @@ class Checker
         $result = true;
         foreach ($this->_rules as $rule) {
             /* @var $rule Rules\AbstractRule */
-            $result &= $rule->check($value);
+            $result = $result & $rule->check($value);
         }
-        return $result;
+
+        return (bool) $result;
     }
 }

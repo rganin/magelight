@@ -96,7 +96,7 @@ abstract class AbstractRule
      *
      * @return \Magelight\Webform\Models\Validation\Checker
      */
-    public function chain()
+    public function chainRule()
     {
         return $this->checker();
     }

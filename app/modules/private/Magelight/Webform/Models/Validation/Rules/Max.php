@@ -34,6 +34,6 @@ class Max extends AbstractRule
 
     public function check($value)
     {
-        return $value <= $this->_arguments[0];
+        return ($value <= $this->_arguments[0]);
     }
 }
