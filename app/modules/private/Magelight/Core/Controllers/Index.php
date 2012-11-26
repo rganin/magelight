@@ -57,7 +57,6 @@ class Index extends \Magelight\Controller
 //            var_dump($validator->getErrors());
 //        }
 
-        print_r($this->app()->getConfig('global'));
         $this->_view->set('title', 'Welcome');
         $this->_view->sectionAppend('content', \Magelight\Core\Blocks\Content::forge());
         \Magelight\Core\Blocks\Document::getFromRegistry()->addMeta(['name' => 'description', 'content' => '123']);
