@@ -36,7 +36,7 @@ class Validator extends \Magelight\Model
     /**
      * Validation result
      *
-     * @var null
+     * @var Validation\Result
      */
     protected $_result = null;
 
@@ -57,22 +57,49 @@ class Validator extends \Magelight\Model
     /**
      * Validate data
      *
-     * @param $data
+     * @param array $data
      * @return Validator
      */
     public function validate($data)
     {
-        $result = true;
-        $this->_result = Validation\Result::forge($result, []);
-        foreach ($this->_checkers as $fieldName => $checker) {
-            /* @var $checker Validation\Checker*/
-            if (!isset($data[$fieldName])) {
-                $data[$fieldName] = self::EMPTY_DATA;
-            }
-            if (!$checker->check($data[$fieldName])) {
-                $this->_result->addErrors($checker->getErrors())->setFail();
-                if ($this->_breakOnFirst) {
-                    return $this;
+        $this->_result = Validation\Result::forge(true, []);
+        return $this->_validateRecursive($data, $this->_checkers);
+    }
+
+    /**
+     * Validate data recursively
+     *
+     * @param array $data
+     * @param array $checkers
+     * @return Validator
+     */
+    protected function _validateRecursive(&$data, &$checkers = [])
+    {
+        foreach ($checkers as $fieldName => $checker) {
+
+            $validationData = empty($fieldName) ? $data :
+                (isset($data[$fieldName]) ? $data[$fieldName] : self::EMPTY_DATA);
+
+
+            if (is_array($checker) && is_array($validationData)) {
+
+                foreach ($checker as $key => $subChecker) {
+                    if (empty($key)) {
+                        foreach ($validationData as $dataField) {
+                            $this->_validateRecursive($dataField, $checker);
+                        }
+                    } else {
+                        $this->_validateRecursive($validationData, $checker);
+                    }
+                }
+
+            } elseif ($checker instanceof Validation\Checker) {
+                /* @var $checker Validation\Checker*/
+                if (!$checker->check($validationData)) {
+                    $this->_result->addErrors($checker->getErrors())->setFail();
+                    if ($this->_breakOnFirst) {
+                        return $this;
+                    }
                 }
             }
         }
@@ -102,19 +129,87 @@ class Validator extends \Magelight\Model
     }
 
     /**
+     * Turn query string to array
+     *
+     * @param string $queryString
+     * @return array
+     */
+    public function queryStringToArray($queryString)
+    {
+        return explode('[', str_replace(']', '', $queryString));
+    }
+
+    /**
+     * Set checker by field address array
+     *
+     * @param array $fieldAddress
+     * @param Validation\Checker $checker
+     * @return Validator
+     */
+    public function setChecker(array $fieldAddress, Validation\Checker $checker)
+    {
+        if (empty($fieldAddress)) {
+            return $this;
+        }
+
+        $index = array_shift($fieldAddress);
+        if (!isset($this->_checkers[$index])) {
+            $this->_checkers[$index] = null;
+        }
+
+        $pointer = &$this->_checkers[$index];
+
+        foreach ($fieldAddress as $index) {
+            $pointer[$index] = [];
+            $pointer = &$pointer[$index];
+        }
+
+        $pointer = $checker;
+        return $this;
+    }
+
+    /**
+     * Get checker by address
+     *
+     * @param array $fieldAddress
+     * @return Validation\Checker|null
+     */
+    protected function _getChecker(array $fieldAddress)
+    {
+        if (empty($fieldAddress)) {
+            return null;
+        }
+        $index = array_shift($fieldAddress);
+        if (!isset($this->_checkers[$index])) {
+            return null;
+        }
+
+        $pointer = &$this->_checkers[$index];
+        foreach ($fieldAddress as $index) {
+            if (!isset($pointer[$index])) {
+                return null;
+            } else {
+                $pointer = &$pointer[$index];
+            }
+        }
+        return $pointer instanceof Validation\Checker ? $pointer : null;
+    }
+
+    /**
      * Add field rules
      *
-     * @param $fieldName
+     * @param string $fieldName
      * @param null $fieldAlias
      * @return Validation\Checker
      */
     public function fieldRules($fieldName, $fieldAlias = null)
     {
-        if (isset($this->_checkers[$fieldName]) && $this->_checkers[$fieldName] instanceof Validation\Checker) {
-            return $this->_checkers[$fieldName];
+        $fieldAddress = $this->queryStringToArray($fieldName);
+        $checker = $this->_getChecker($fieldAddress);
+        if (empty($checker)) {
+            $checker = Validation\Checker::forge($fieldName, $fieldAlias);
+            $this->setChecker($fieldAddress, $checker);
         }
-        $checker = Validation\Checker::forge($fieldName, $fieldAlias);
-        $this->_checkers[$fieldName] = $checker;
         return $checker;
     }
 }

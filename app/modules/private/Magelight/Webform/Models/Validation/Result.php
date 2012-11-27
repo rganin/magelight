@@ -89,4 +89,14 @@ class Result
     {
         return $this->_success;
     }
+
+    /**
+     * Get validation errors
+     *
+     * @return array
+     */
+    public function getErrors()
+    {
+        return $this->_errors;
+    }
 }

@@ -135,7 +135,7 @@ class Checker
      */
     public function addRule(Rules\AbstractRule $rule)
     {
-        $this->_rules[] = $rule;
+        $this->_rules[get_class($rule)] = $rule;
         return $this;
     }
 
@@ -176,7 +176,7 @@ class Checker
         foreach ($this->_rules as $rule) {
             /* @var $rule Rules\AbstractRule */
             if (!$rule->check($value)) {
-                $this->_errors[] = Error::forge($rule->getError(), $this->_highlightId);
+                $this->_errors[get_class($rule)] = Error::forge($rule->getError(), $this->_highlightId);
                 if ($this->_breakOnFirst) {
                     return false;
                 }

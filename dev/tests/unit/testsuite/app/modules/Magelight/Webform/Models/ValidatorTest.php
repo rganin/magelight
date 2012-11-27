@@ -40,9 +40,27 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $validator->fieldRules('email', 'Email field')
             ->email()->chainRule()
             ->rangeLength(5, 30);
-        $result = $validator->validate(['login' => 'iddqd', 'email' => 'iddqd@meta.ua'])->result()->isSuccess();
-        $this->assertTrue($result);
+        $result = $validator->validate(['login' => 'iddqd', 'email' => 'iddqd@meta.ua'])->result();
+        $this->assertTrue($result->isSuccess());
     }
 
+    /**
+     * @test
+     */
+    public function validatorComplexTest()
+    {
+        $validator = Validator::forge();
+        $validator->fieldRules('user[skills][general][]', 'General skills')
+            ->maxLength(20)->chainRule()->minLength(5);
 
+        $result = $validator->validate([
+            'user' => [
+                'skills' => [
+                    'general' => ['12345', '54321', '42232']
+                ]
+            ]
+        ])->result();
+        var_dump($result->getErrors());
+        $this->assertTrue($result->isSuccess());
+    }
 }
