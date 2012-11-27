@@ -4,38 +4,39 @@
         <log>
             <file>app.log</file>
         </log>
-        <base_domain>fw.loc</base_domain>
+        <domains>
+            <base_domain>fw.loc</base_domain>
+        </domains>
         <db>
             <default>
                 <type>mysql</type>
-                <host>127.0.0.1</host>
+                <host>192.168.56.101</host>
                 <port>3306</port>
                 <user>root</user>
-                <password>root</password>
-                <dbname>magelight</dbname>
+                <password></password>
+                <dbname>board</dbname>
                 <persistent>1</persistent>
                 <init_connect>SET NAMES utf8 COLLATE utf8_general_ci</init_connect>
-                <profiling>1</profiling>
             </default>
         </db>
         <cache>
             <default>
-                <memcache>
-                    <server>
-                        <host>127.0.0.1</host>
-                        <port>11211</port>
-                    </server>
-                </memcache>
+                <type>memcached</type>
+                <server>
+                    <host>127.0.0.1</host>
+                    <port>11211</port>
+                </server>
             </default>
             <other>
-                <file>
-                    <path>var/cache</path>
-                </file>
+                <type>file</type>
+                <path>var/cache</path>
             </other>
         </cache>
         <forgery stackable="1">
 
         </forgery>
+        <routes stackable="1">
+
+        </routes>
     </global>
-    <test>sdfsdf</test>
 </config>
