@@ -11,23 +11,6 @@ namespace Magelight\Webform\Models;
 
 class ValidatorTest extends \PHPUnit_Framework_TestCase
 {
-//    /**
-//     * @test
-//     */
-//    public function multiArrayTest()
-//    {
-//        $arr = [
-//            'login' => '111',
-//            'pass'  => '222',
-//            'test'  => [
-//                'exam' => 2,
-//                'restul' => 3,
-//            ],
-//        ];
-//        $res = \Magelight\Helpers\ArrayHelper::multiArrayToVector($arr);
-//        var_dump($res);
-//    }
-
     /**
      * @test
      */
@@ -60,7 +43,6 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
                 ]
             ]
         ])->result();
-        var_dump($result->getErrors());
         $this->assertTrue($result->isSuccess());
     }
 }
