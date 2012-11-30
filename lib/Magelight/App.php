@@ -42,6 +42,13 @@ final class App
     protected $_classOverrides = [];
 
     /**
+     * Interfaces for classes overrides
+     *
+     * @var array
+     */
+    protected $_classOverridesInterfaces = [];
+
+    /**
      * Objects registry
      * 
      * @var array
@@ -245,7 +252,6 @@ final class App
         $this->setRegistryObject('session', \Magelight\Http\Session::getInstance());
         $this->session()->setSessionName(self::SESSION_ID_COOKIE_NAME)->start();
         $this->loadClassesOverrides();
-        
         return $this;
     }
 
@@ -306,17 +312,25 @@ final class App
      */
     public function loadClassesOverrides()
     {
-        $overrides = $this->config()->getConfig('global/forgery/override');
+        $overrides = $this->config()->getConfigSet('global/forgery/override');
         if (!empty($overrides)) {
             if (!is_array($overrides)) {
                 $overrides = [$overrides];
             }
             foreach($overrides as $override) {
+
                 if (!empty($override->old) && !empty($override->new)) {
-                    static::addClassOverride(
+
+                    $this->addClassOverride(
                         trim($override->old, " \\/ "),
                         trim($override->new, " \\/ ")
                     );
+
+                    if (!empty($override->interface)) {
+                        foreach ($override->interface as $interface) {
+                            $this->addClassOverrideInterface((string) $override->new, trim($interface, " \\/ "));
+                        }
+                    }
                 }
             }
         }
@@ -404,6 +418,20 @@ final class App
     }
 
     /**
+     * Add class interface check for overriden class
+     *
+     * @param string $className
+     * @return array
+     */
+    final public function getClassInterfaces($className)
+    {
+        return !empty($this->_classOverridesInterfaces[$className])
+            && is_array($this->_classOverridesInterfaces[$className])
+            ? $this->_classOverridesInterfaces[$className]
+            : [];
+    }
+
+    /**
      * Add class to override
      *
      * @static
@@ -413,6 +441,21 @@ final class App
     final public function addClassOverride($sourceClassName, $replacementClassName)
     {
         $this->_classOverrides[$sourceClassName] = $replacementClassName;
+    }
+
+    /**
+     * Add interface check to overriden class
+     *
+     * @static
+     * @param string $className
+     * @param string $interfaceName
+     */
+    final public function addClassOverrideInterface($className, $interfaceName)
+    {
+        if (!isset($this->_classOverridesInterfaces[$className])) {
+            $this->_classOverridesInterfaces[$className] = [];
+        }
+        $this->_classOverridesInterfaces[$className][] = $interfaceName;
     }
 
 //    /**

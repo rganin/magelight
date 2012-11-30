@@ -29,15 +29,33 @@ trait Forgery
      * Forge object
      *
      * @return mixed
+     * @throws Exception
      */
     public static function forge()
     {
         $className = \Magelight::app()->getClassName(get_called_class());
+        if (!self::_checkInterfaces($className)) {
+            throw new \Magelight\Exception(
+                "Forgery error: Class {$className} must implement all interfaces described in it`s override container!"
+            );
+        }
         $object = new $className;
         if (method_exists($object, '__forge')) {
             call_user_func_array([$object, '__forge'], func_get_args());
         }
         return $object;
+    }
+
+    final static protected function _checkInterfaces($className)
+    {
+        $requiredInterfaces = \Magelight::app()->getClassInterfaces($className);
+        $implementedInterfaces = class_implements($className, true);
+        foreach ($requiredInterfaces as $interface) {
+            if (!isset($implementedInterfaces[$interface])) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

@@ -62,25 +62,30 @@ class Config
         foreach ($add->children() as $name => $child) {
             if (!isset($base->$name)) {
                 $base->addChild($name, $child);
+            } elseif (isset($base->$name) && (bool) $base->attributes()->private) {
+                continue;
+            } elseif (isset($base->$name) && (bool) $base->attributes()->stackable) {
+                $base->addChild($name, $child);
             }
-            if (!(bool) $base->$name->attributes()->private) {
                 self::copyAttributes($base->$name, $child);
                 if (!(bool) $base->$name->attributes()->protected) {
                     if (!(bool) $base->$name->attributes()->stackable) {
                         $childStr = (string) $child;
                         if ($child->children()->count()) {
                             self::mergeConfig($base->$name, $add->$name);
-                        } elseif (!empty($childStr)) {
-                            $base->$name = $child;
+                        } elseif (!empty($childStr) && !is_array($base->$name)) {
+                            if (!(bool) $base->attributes()->stackable) {
+                                $base->$name = $child;
+                            }
                         }
                     } else {
                         foreach ($child->children() as $stackChildName => $stackChildNode) {
                             $node = $base->$name->addChild($stackChildName);
+                            self::copyAttributes($node, $stackChildNode);
                             self::mergeConfig($node, $stackChildNode);
                         }
                     }
                 }
-            }
         }
     }
 

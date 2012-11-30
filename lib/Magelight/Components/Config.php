@@ -92,7 +92,20 @@ class Config
      */
     public function getConfig($path, $default = null)
     {
-        return $this->getConfigByPath($path, null, $default);
+        return $this->getConfigByPath($path, null, false, $default);
+    }
+
+    /**
+     * Get configuration elements set by path
+     *
+     * @param      $path
+     * @param null $default
+     *
+     * @return array|null
+     */
+    public function getConfigSet($path, $default = null)
+    {
+        return $this->getConfigByPath($path, null, true, $default);
     }
 
     /**
@@ -171,7 +184,7 @@ class Config
      */
     public function getConfigAttribute($path, $attribute, $default = null)
     {
-        return $this->getConfigByPath($path, $attribute, $default);
+        return $this->getConfigByPath($path, $attribute, false, $default);
     }
 
     /**
@@ -179,11 +192,12 @@ class Config
      * 
      * @param      $path
      * @param null $attribute
+     * @param bool $getSet
      * @param null $default
      *
      * @return mixed|null
      */
-    protected function getConfigByPath($path, $attribute = null, $default = null)
+    protected function getConfigByPath($path, $attribute = null, $getSet = false, $default = null)
     {
         $path = self::CONFIG_PATH_PREFIX . ltrim($path, '\\/ ');
         $conf = $this->_config->xpath($path);
@@ -191,7 +205,7 @@ class Config
             return $default;
         }
         if (empty($attribute)) {
-            return is_array($conf) ? array_pop($conf) : $conf;
+            return $getSet ? $conf : (is_array($conf) ? array_pop($conf) : $conf);
         } else {
             return isset($conf[0]->$attribute) ? $conf[0]->$attribute : $default;
         }
