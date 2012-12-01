@@ -33,13 +33,17 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     public function validatorComplexTest()
     {
         $validator = Validator::forge();
-        $validator->fieldRules('user[skills][general][]', 'General skills')
+        $validator->fieldRules('user[skills][general][][test]', 'General skills')
             ->maxLength(20)->chainRule()->minLength(5);
 
         $result = $validator->validate([
             'user' => [
                 'skills' => [
-                    'general' => ['12345', '54321', '42232']
+                    'general' => [
+                        ['test' => '12345'],
+                        ['test' => '54321'],
+                        ['test' => '12313213'],
+                    ]
                 ]
             ]
         ])->result();
