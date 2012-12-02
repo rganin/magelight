@@ -24,7 +24,7 @@
 namespace Magelight;
 use Magelight\Forgery as Forgery;
 /**
- * @static forge() \Magelight\Block
+ * @static forge() \Magelight\Blocks
  */
 abstract class Block
 {
@@ -39,21 +39,21 @@ abstract class Block
     protected $_template = null;
 
     /**
-     * Block variables
+     * Blocks variables
      *
      * @var array
      */
     protected $_vars = [];
 
     /**
-     * Block global variables
+     * Blocks global variables
      *
      * @var array
      */
     protected static $_globalVars = [];
 
     /**
-     * Block global sections
+     * Blocks global sections
      *
      * @var array
      */
@@ -74,7 +74,7 @@ abstract class Block
     protected $_initialized = false;
 
     /**
-     * Set Block property
+     * Set Blocks property
      *
      * @param string $name
      * @param mixed $value
@@ -87,7 +87,7 @@ abstract class Block
     }
 
     /**
-     * Get Block property
+     * Get Blocks property
      *
      * @param string $name
      * @param mixed $default
@@ -149,10 +149,10 @@ abstract class Block
      * Append section
      *
      * @param string $name - section name
-     * @param \Magelight\Block $block
+     * @param \Magelight\Block|string $block
      * @return Block
      */
-    public function sectionAppend($name, \Magelight\Block $block)
+    public function sectionAppend($name, $block)
     {
         self::$_sectionsInitialized = false;
         if (!isset(self::$_sections[$name]) || !is_array(self::$_sections[$name])) {
@@ -166,10 +166,10 @@ abstract class Block
      * Prepend section
      *
      * @param $name
-     * @param Block $block
+     * @param Block|string $block
      * @return Block
      */
-    public function sectionPrepend($name, \Magelight\Block $block)
+    public function sectionPrepend($name, $block)
     {
         self::$_sectionsInitialized = false;
         if (!isset(self::$_sections[$name]) || !is_array(self::$_sections[$name])) {
@@ -183,10 +183,10 @@ abstract class Block
      * Replace section (clear and create new one with given block)
      *
      * @param $name
-     * @param Block $block
+     * @param Block|string $block
      * @return Block
      */
-    public function sectionReplace($name, \Magelight\Block $block)
+    public function sectionReplace($name, $block)
     {
         self::$_sectionsInitialized = false;
         if (!is_array(self::$_sections)) {
@@ -219,10 +219,12 @@ abstract class Block
         foreach (self::$_sections as $name => $section) {
             if (!empty($section)) {
                 foreach ($section as $key => $view) {
-                    if (!$view instanceof \Magelight\Block && is_string($view)) {
-                        $section[$key] = call_user_func([$view, 'forge']);
+                    if ($view instanceof \Magelight\Block) {
+                        $section[$key]->init();
+                    } elseif (is_string($view)) {
+
                     }
-                    $section[$key]->init();
+
                 }
             }
             self::$_sections[$name] = $section;
@@ -232,7 +234,7 @@ abstract class Block
     }
 
     /**
-     * Render Block to html or whatever is given in template
+     * Render Blocks to html or whatever is given in template
      *
      * @return string
      * @throws Exception
@@ -295,8 +297,12 @@ abstract class Block
             trigger_error("Undefined section call - '{$name}' in " . get_called_class(), E_USER_NOTICE);
         } elseif (isset(self::$_sections[$name]) && is_array(self::$_sections[$name])) {
             foreach (self::$_sections[$name] as $sectionBlock) {
-                /* @var $sectionBlock \Magelight\Block */
-                $html .= $sectionBlock->toHtml();
+                if ($sectionBlock instanceof Block) {
+                    /* @var $sectionBlock \Magelight\Block */
+                    $html .= $sectionBlock->toHtml();
+                } elseif (is_string($sectionBlock)) {
+                    $html .= $sectionBlock;
+                }
             }
         }
         return $html;
@@ -315,7 +321,7 @@ abstract class Block
     }
 
     /**
-     * Initialize Block
+     * Initialize Blocks
      *
      * @return Block
      */
@@ -334,7 +340,6 @@ abstract class Block
      */
     public function url($match, $params = [], $type = \Magelight\Helpers\UrlHelper::TYPE_HTTP)
     {
-        $url = \Magelight\Helpers\UrlHelper::getInstance()->getUrl($match, $params, $type);
-        return $url;
+        return \Magelight::app()->url($match, $params, $type);
     }
 }

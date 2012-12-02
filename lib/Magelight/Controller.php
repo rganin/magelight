@@ -56,7 +56,7 @@ abstract class Controller
     /**
      * View object
      * 
-     * @var \Magelight\Block|null
+     * @var \Magelight\Block
      */
     protected $_view = null;
 
@@ -197,6 +197,39 @@ abstract class Controller
             throw new \Magelight\Exception("Forwarding to undefined controller action {$action} in {$controller}");
         }
         return $this->$action();
+    }
+
+    /**
+     * Fetch url by match mask
+     *
+     * @param string $match - url match mask
+     * @param array $params - params to be passed to URL
+     * @param string $type - URL type (http|https)
+     * @return string
+     */
+    public function url($match, $params = [], $type = \Magelight\Helpers\UrlHelper::TYPE_HTTP)
+    {
+        return \Magelight::app()->url($match, $params, $type);
+    }
+
+    /**
+     * Redirect to url
+     *
+     * @param $url
+     */
+    public function redirect($url)
+    {
+        $this->server()->sendHeader("Location: $url");
+    }
+
+    /**
+     * Get session object
+     *
+     * @return Http\Session
+     */
+    public function session()
+    {
+        return \Magelight::app()->session();
     }
 
     /**

@@ -37,7 +37,7 @@ namespace Magelight\Dbal\Db\Mysql;
  * @method \Magelight\Dbal\Db\Mysql\Orm     whereNotIn($expression, $param)
  * @method \Magelight\Dbal\Db\Mysql\Orm     whereEx($expression)
  */
-class Orm
+class Orm extends \Magelight\Dbal\Db\Common\Orm
 {
     /**
      * Key constants
@@ -96,26 +96,7 @@ class Orm
      */
     protected $where = [];
 
-    /**
-     * PDO instance
-     *
-     * @var Adapter
-     */
-    protected $db;
 
-    /**
-     * Model name
-     *
-     * @var string
-     */
-    protected $modelName = null;
-
-    /**
-     * Current table name
-     *
-     * @var string
-     */
-    protected $tableName = null;
 
     /**
      * array of data
@@ -137,13 +118,6 @@ class Orm
      * @var array
      */
     protected $selectFields = [];
-
-    /**
-     * Identifier column
-     *
-     * @var string
-     */
-    protected $idColumn = 'id';
 
     /**
      * Flag to identify is this data a new record
@@ -222,24 +196,6 @@ class Orm
      */
     protected $tableFields = [];
 
-    /**
-     * Constructor
-     *
-     * @param string $tableName
-     * @param string $idColumn
-     * @param string $modelName
-     * @param \Magelight\Dbal\Db\Common\Adapter $db
-     */
-    public function __construct($tableName = null, $idColumn = null, $modelName = null,
-                                \Magelight\Dbal\Db\Common\Adapter $db)
-    {
-        if (!empty($tableName)) {
-            $this->tableName = $tableName;
-        }
-        $this->db = $db;
-        $this->modelName = $modelName;
-        $this->idColumn = $idColumn;
-    }
 
     /**
      * Get current orm profile
@@ -269,28 +225,6 @@ class Orm
     protected function getQuoteChar()
     {
         return $this->quoteChar;
-    }
-
-    /**
-     * Set the id column
-     *
-     * @param string $idColumn
-     */
-    public function setIdColumn($idColumn = 'id')
-    {
-        if (!empty($idColumn)) {
-            $this->idColumn = $idColumn;
-        }
-    }
-
-    /**
-     * Get the id column
-     *
-     * @return string
-     */
-    public function getIdColumn()
-    {
-        return $this->idColumn;
     }
 
     /**
@@ -819,6 +753,9 @@ class Orm
         $ret = $this->statement->rowCount();
         if ($ret > 0) {
             $this->dirtyFields = [];
+            if ($this->idColumn && $this->isNew()) {
+                $this->setValue($this->idColumn, $this->db->execute('SELECT LAST_INSERT_ID();')->fetchColumn(0));
+            }
             $this->isNewRecord = false;
         }
         return $ret;

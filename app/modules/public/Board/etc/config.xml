@@ -1,0 +1,22 @@
+<config>
+    <global>
+        <db>
+            <default>
+                <dbname>kharkovbay</dbname>
+            </default>
+        </db>
+        <contacts>
+            <types>
+                <skype>2</skype>
+                <email>1</email>
+                <phone>3</phone>
+            </types>
+        </contacts>
+        <forgery>
+            <override>
+                <old>Magelight\Core\Blocks\Body</old>
+                <new>Board\Blocks\Body</new>
+            </override>
+        </forgery>
+    </global>
+</config>

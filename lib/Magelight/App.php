@@ -35,6 +35,13 @@ final class App
     const DEFAULT_INDEX = 'default';
 
     /**
+     * Array of application code pools
+     *
+     * @var array
+     */
+    protected $_pools = ['public', 'private'];
+
+    /**
      * Classes overrides
      *
      * @var array
@@ -229,9 +236,33 @@ final class App
     }
 
     /**
+     * Set application code pools (the sequence is an include path sequence,
+     * so classes from the first code pool in the array will be included first)
+     *
+     * @param array $pools
+     * @return App
+     */
+    public function setCodePools($pools = ['public', 'private'])
+    {
+        $this->_pools = $pools;
+        return $this;
+    }
+
+    /**
+     * Get application code pools in loading sequence
+     *
+     * @return array
+     */
+    public function getCodePools()
+    {
+        return $this->_pools;
+    }
+
+    /**
      * Initialize application
      * 
      * @return App
+     * @throws \Magelight\Exception
      */
     public function init()
     {
@@ -239,10 +270,19 @@ final class App
         $includePath = explode(PS, ini_get('include_path'));
         array_unshift(
             $includePath, 
-            $this->_frameworkDir . DS . 'lib',
-            $this->_appDir . DS . 'modules' . DS . 'public',
-            $this->_appDir . DS . 'modules' . DS . 'private'
+            $this->_frameworkDir . DS . 'lib'
         );
+        foreach ($this->_pools as $pool) {
+            $path = $this->_appDir . DS . 'modules' . DS . $pool;
+
+            if (!is_readable($path)) {
+                throw new Exception("Code pool {$path} does not exist or is not readable.");
+            }
+            array_unshift(
+                $includePath,
+                $this->_appDir . DS . 'modules' . DS . $pool
+            );
+        }
         
         ini_set('include_path', implode(PS, $includePath));
 
@@ -458,31 +498,86 @@ final class App
         $this->_classOverridesInterfaces[$className][] = $interfaceName;
     }
 
-//    /**
-//     * Upgrade application
-//     */
-//    public function upgrade()
-//    {
-//        foreach ($this->modules()->getActiveModules() as $module) {
-//            $this->upgradeModule($module['name']);
-//        }
-//    }
-//
-//    /**
-//     * Upgrate module
-//     *
-//     * @param string $module
-//     */
-//    public function upgradeModule($module)
-//    {
-//        $file = $this->getAppDir() . '/modules/' . $module . "/upgrade/install.php";
-//        if (file_exists($file)) {
-//            include $file;
-//                if(rename($file, $file . ".complete")) {
-//            echo "renaming $file";
-//            } else {
-//            echo "error renaming $file";
-//            }
-//        }
-//    }
+    /**
+     * Upgrade application
+     *
+     * @return App
+     */
+    public function upgrade()
+    {
+        foreach ($this->modules()->getActiveModules() as $module) {
+            $this->upgradeModule($module);
+        }
+        return $this;
+    }
+
+    /**
+     * Upgrade module
+     *
+     * @param array $module
+     * @return App
+     */
+    protected  function upgradeModule($module)
+    {
+        $installer = Installer::forge();
+        $scripts = $installer->findInstallScripts($module['path']);
+        foreach ($scripts as $script) {
+            if (!$this->isSetupScriptExecuted($module['name'], $script)) {
+                $installer->executeScript($script);
+                $this->setSetupScriptExecuted($module['name'], $script);
+            }
+        }
+        unset($installer);
+        return $this;
+    }
+
+    /**
+     * Check was setup script executed before
+     *
+     * @param string $moduleName
+     * @param string $scriptName
+     * @return bool
+     */
+    protected function isSetupScriptExecuted($moduleName, $scriptName)
+    {
+        $file = $this->getAppDir() . DS . $this->getConfig('global/setup/executed_scripts/filename');
+        if (!file_exists($file)) {
+            file_put_contents($file, '');
+        }
+        $scripts = json_decode(file_get_contents($file), true);
+        return isset($scripts[$moduleName][basename($scriptName)]);
+    }
+
+    /**
+     * Set script as executed
+     *
+     * @param string $moduleName
+     * @param string $scriptFullPath
+     * @return App
+     */
+    protected function setSetupScriptExecuted($moduleName, $scriptFullPath)
+    {
+        $file = $this->getAppDir() . DS . $this->getConfig('global/setup/executed_scripts/filename');
+        if (file_exists($file)) {
+            $scripts = json_decode(file_get_contents($file), true);
+        }
+        $scripts[$moduleName][basename($scriptFullPath)] = [date('Y-m-d H:i:s', time()), $scriptFullPath];
+        $scripts = json_encode($scripts, JSON_PRETTY_PRINT);
+        file_put_contents($file, $scripts);
+        return $this;
+    }
+
+    /**
+     * Fetch url by match mask
+     *
+     * @param string $match - url match mask
+     * @param array $params - params to be passed to URL
+     * @param string $type - URL type (http|https)
+     * @return string
+     */
+    public function url($match, $params = [], $type = \Magelight\Helpers\UrlHelper::TYPE_HTTP)
+    {
+        $url = \Magelight\Helpers\UrlHelper::getInstance()->getUrl($match, $params, $type);
+        return $url;
+    }
 }

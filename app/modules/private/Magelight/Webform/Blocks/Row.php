@@ -68,7 +68,7 @@ class Row extends Elements\Abstraction\Element
                 /* @var $fieldElement Elements\Abstraction\Field*/
                 $controls->addContent($fieldElement);
             } else {
-                throw new \Magelight\Exception('FieldElement must be a string or instance of \\Magelight\\Block');
+                throw new \Magelight\Exception('FieldElement must be a string or instance of \\Magelight\\Blocks');
             }
         }
 

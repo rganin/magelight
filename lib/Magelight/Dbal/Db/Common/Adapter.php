@@ -75,7 +75,6 @@ abstract class Adapter
         return '\\Magelight\\Dbal\\Db\\' . ucfirst(strtolower($type)) . '\\Adapter';
     }
 
-
     /**
      * Forge an adapter
      *
@@ -95,4 +94,13 @@ abstract class Adapter
     {
         return $this->_type;
     }
+
+    /**
+     * Execute query on DB adapter
+     *
+     * @param string $query
+     * @param array $params
+     * @return mixed
+     */
+    abstract public function execute($query, $params = []);
 }

@@ -1,0 +1,47 @@
+<?php
+/* @var $this \Board\Blocks\Top*/
+?>
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <ul class="nav">
+                <li><a href="<?php echo $this->url('/'); ?>"><i class="icon-home"></i> Главная</a></li>
+                <li><a href=""><i class="icon-plus"></i> Добавить объявление</a></li>
+            </ul>
+            <ul class="nav pull-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Войти<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <dl class="login-options">
+                                <dt>Через сервисы</dt>
+                                <dd>
+                                    <script src="//ulogin.ru/js/ulogin.js"></script>
+                                    <div id="uLogin" data-ulogin="display=panel;fields=first_name,last_name;providers=vkontakte,facebook,odnoklassniki,twitter,mailru,yandex,google;hidden=;redirect_uri=<?php echo $this->url('servicelogin'); ?>"></div>
+                                </dd>
+                                <dt>
+                                    Через e-mail
+                                </dt>
+                                <dd>
+                                    <form class="form-inline form-search navbar-form" action="<?php echo $this->url('login')?>">
+                                        <div class="controls-row">
+                                            <input type="text" class="input-small" name="loginform[email]" placeholder="Ваш e-mail" />
+                                            <input type="password" class="input-small" name="loginform[password]" placeholder="Пароль" />
+                                            <button class="btn">Войти</button>
+                                        </div>
+                                    </form>
+                                    <div class="reg-options">
+                                        <a href="">Забыли пароль?</a>
+                                    </div>
+                                </dd>
+                            </dl>
+                        </li>
+                     </ul>
+                </li>
+                <li>
+                    <a href="">Регистрация</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

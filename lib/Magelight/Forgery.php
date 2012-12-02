@@ -76,11 +76,21 @@ trait Forgery
     }
 
     /**
+     * Get class redefinition name
+     *
+     * @return mixed
+     */
+    public static function getClassRedefinition()
+    {
+        return \Magelight::app()->getClassName(get_called_class());
+    }
+
+    /**
      * Get current module name
      *
      * @return string|null
      */
-    public function getCurrentModuleName()
+    public static function getCurrentModuleName()
     {
         $namespace = explode('\\', get_called_class());
         if (!empty($namespace[0])) {
@@ -94,12 +104,36 @@ trait Forgery
      *
      * @return string|null
      */
-    public function getRedefinitionModuleName()
+    public static function getRedefinitionModuleName()
     {
         $namespace = explode('\\', \Magelight::app()->getClassName(get_called_class()));
         if (!empty($namespace[0])) {
             return $namespace[0];
         }
         return null;
+    }
+
+    /**
+     * Call public static method from class redefinition
+     *
+     * @param string $method
+     * @param array $arguments
+     * @return mixed
+     */
+    public static function callStatic($method, $arguments = [])
+    {
+        return call_user_func_array([self::getClassRedefinition(), $method], $arguments);
+    }
+
+    /**
+     * Call public late static method from class redefinition
+     *
+     * @param string $method
+     * @param array $arguments
+     * @return mixed
+     */
+    public static function callStaticLate($method, $arguments = [])
+    {
+        return call_user_func_array([static::getClassRedefinition(), $method], $arguments);
     }
 }

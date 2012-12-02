@@ -37,6 +37,13 @@ class Field extends Element
     protected $_tag = 'input';
 
     /**
+     * Linked row element
+     *
+     * @var \Magelight\Webform\Blocks\Row|null
+     */
+    protected $_row = null;
+
+    /**
      * Set element name attribute
      *
      * @param string $name
@@ -131,5 +138,27 @@ class Field extends Element
             $clones[] = $clone;
         }
         return $clones;
+    }
+
+    /**
+     * Set row that contains this field
+     *
+     * @param \Magelight\Webform\Blocks\Row $row
+     * @return Field
+     */
+    public function setRow(\Magelight\Webform\Blocks\Row $row)
+    {
+        $this->_row = $row;
+        return $this;
+    }
+
+    /**
+     * Get row element that contains this field
+     *
+     * @return \Magelight\Webform\Blocks\Row|null
+     */
+    public function getRow()
+    {
+        return $this->_row;
     }
 }

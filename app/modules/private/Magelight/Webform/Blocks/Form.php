@@ -59,6 +59,20 @@ class Form extends Elements\Abstraction\Element
     protected $_requestFields = [];
 
     /**
+     * Validator object
+     *
+     * @var null|\Magelight\Webform\Models\FormValidator
+     */
+    protected $_validator = null;
+
+    /**
+     * Is form data loaded from request flag
+     *
+     * @var bool
+     */
+    protected $_loadedFromRequest = false;
+
+    /**
      * Set form configuration
      *
      * @param string $name

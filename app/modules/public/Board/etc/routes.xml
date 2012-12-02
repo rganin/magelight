@@ -1,0 +1,5 @@
+<routes>
+    <route match="/" />
+    <route match="/login" controller="index" action="login" />
+    <route match="/servicelogin" controller="index" action="servicelogin" />
+</routes>

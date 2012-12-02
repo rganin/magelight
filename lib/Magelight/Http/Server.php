@@ -57,4 +57,14 @@ class Server
         trigger_error('Remote IP is unknown');
         return '';
     }
+
+    /**
+     * Send header to client
+     *
+     * @param string $header
+     */
+    public function sendHeader($header)
+    {
+        header($header);
+    }
 }
