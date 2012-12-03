@@ -1,0 +1,25 @@
+<h1>Регистрация</h1>
+<div class="row-fluid">
+
+    <div class="span8">
+        <div class="page-header">
+            Через форму
+        </div>
+        <div>
+            <?=$this->section('regform')?>
+        </div>
+    </div>
+
+    <div class="span4">
+        <div class="page-header">
+            Через социальные сети
+        </div>
+        <div>
+            <div id="uLogin-clone" data-ulogin="display=panel;fields=first_name,email,city,country;optional=photo,phone;providers=vkontakte,facebook,odnoklassniki,twitter,mailru,yandex,google;hidden=;redirect_uri=<?php echo $this->url('servicelogin'); ?>"></div>
+            <p></p>
+            <div class="alert alert-info">
+                При входе через социальную сеть регистрация производится автоматически
+            </div>
+        </div>
+    </div>
+</div>

@@ -16,7 +16,12 @@ class Body extends \Magelight\Block
     public function init()
     {
         $this->sectionAppend('top', Top::forge());
-
+        $currentUserId = \Magelight::app()->session()->get('user_id');
+        if (!empty($currentUserId)) {
+            if ($user = \Board\Models\User::find($currentUserId)) {
+                $this->setGlobal('user_data', $user->asArray());
+            }
+        }
         $document = \Magelight\Core\Blocks\Document::getFromRegistry();
         $document->addMeta([
             'http-equiv'=> "content-type",

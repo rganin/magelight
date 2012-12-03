@@ -23,5 +23,6 @@ Magelight::app()
     ->setDeveloperMode(true)
     ->init()
     ->run();
+Magelight::app()->log('run');
 //$s = microtime() - $t;
 //echo $s;

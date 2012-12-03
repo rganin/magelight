@@ -5,6 +5,11 @@ div.logo-wide {
 }
 
 
+div.main-content{
+    margin: 32px 16px 32px 16px !important;
+}
+
+
 div.login-option{
     text-align: center;
 }
@@ -35,4 +40,19 @@ dl.login-options dd div.reg-options a{
     display: inline;
     padding: 0;
     margin-right: 8px;
+}
+
+img.navbar-avatar{
+    max-height: 18px;
+    max-width: 18px;
+    margin: 0;
+    padding: 0;
+}
+
+ul.dropdown-menu li a i{
+    margin-right: 8px;
+}
+
+h1{
+    font-size: 24px;
 }

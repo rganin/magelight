@@ -2,4 +2,6 @@
     <route match="/" />
     <route match="/login" controller="index" action="login" />
     <route match="/servicelogin" controller="index" action="servicelogin" />
+    <route match="/logout" action="logout" />
+    <route match="/register" action="register" />
 </routes>

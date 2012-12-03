@@ -9,6 +9,7 @@
                 <li><a href=""><i class="icon-plus"></i> Добавить объявление</a></li>
             </ul>
             <ul class="nav pull-right">
+                <?php if (!$this->getGlobal('user_data', false)): ?>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Войти<b class="caret"></b></a>
                     <ul class="dropdown-menu">
@@ -16,14 +17,13 @@
                             <dl class="login-options">
                                 <dt>Через сервисы</dt>
                                 <dd>
-                                    <script src="//ulogin.ru/js/ulogin.js"></script>
-                                    <div id="uLogin" data-ulogin="display=panel;fields=first_name,last_name;providers=vkontakte,facebook,odnoklassniki,twitter,mailru,yandex,google;hidden=;redirect_uri=<?php echo $this->url('servicelogin'); ?>"></div>
+                                    <div id="uLogin" data-ulogin="display=panel;fields=first_name,email,city,country;optional=photo,phone;providers=vkontakte,facebook,odnoklassniki,twitter,mailru,yandex,google;hidden=;redirect_uri=<?php echo $this->url('servicelogin'); ?>"></div>
                                 </dd>
                                 <dt>
-                                    Через e-mail
+                                    Стандартный вход
                                 </dt>
                                 <dd>
-                                    <form class="form-inline form-search navbar-form" action="<?php echo $this->url('login')?>">
+                                    <form class="form-inline form-search navbar-form" action="<?php echo $this->url('login')?>" method="post">
                                         <div class="controls-row">
                                             <input type="text" class="input-small" name="loginform[email]" placeholder="Ваш e-mail" />
                                             <input type="password" class="input-small" name="loginform[password]" placeholder="Пароль" />
@@ -39,8 +39,25 @@
                      </ul>
                 </li>
                 <li>
-                    <a href="">Регистрация</a>
+                    <a href="<?=$this->url('/register')?>">Регистрация</a>
                 </li>
+                <?php else: ?>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img class="navbar-avatar" src="<?=$this->getGlobal('user_data')['photo']?>" />
+                        <?=$this->getGlobal('user_data')['name']?>
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a><i class="icon-certificate"></i> Мои объявления</a></li>
+                        <li><a><i class="icon-envelope"></i> Мои сообщения</a></li>
+                        <li><a><i class="icon-wrench"></i> Настройки</a></li>
+                        <li><a><i class="icon-hand-right"></i> Счет</a></li>
+                        <li><a href="<?=$this->url('logout')?>"><i class="icon-remove"></i> Выход</a></li>
+                    </ul>
+                </li>
+                <?php endif; ?>
+
             </ul>
         </div>
     </div>

@@ -78,6 +78,18 @@ class Session
     }
 
     /**
+     * Unset session data
+     *
+     * @param string $name
+     * @return Session
+     */
+    public function unsetData($name)
+    {
+        unset($_SESSION[$name]);
+        return $this;
+    }
+
+    /**
      * Start session
      *
      * @return Session

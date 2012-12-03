@@ -1,0 +1,26 @@
+#container li {
+    background: url('../img/catpics/csg-50bbbd6d1fd7a.png') no-repeat top left;
+}
+
+ul.categories li div.cat-icon.cat-icon-accessories{ background-position: 0 0; width: 32px; height: 32px; }
+ul.categories li div.cat-icon.cat-icon-animals{ background-position: 0 -40px; width: 32px; height: 32px; }
+ul.categories li div.cat-icon.cat-icon-antique{ background-position: 0 -80px; width: 32px; height: 32px; }
+ul.categories li div.cat-icon.cat-icon-auto{ background-position: 0 -120px; width: 32px; height: 32px; }
+ul.categories li div.cat-icon.cat-icon-business{ background-position: 0 -160px; width: 32px; height: 32px; }
+ul.categories li div.cat-icon.cat-icon-children{ background-position: 0 -200px; width: 32px; height: 31px; }
+ul.categories li div.cat-icon.cat-icon-computer{ background-position: 0 -239px; width: 32px; height: 32px; }
+ul.categories li div.cat-icon.cat-icon-electronics{ background-position: 0 -279px; width: 32px; height: 32px; }
+ul.categories li div.cat-icon.cat-icon-estate{ background-position: 0 -319px; width: 32px; height: 32px; }
+ul.categories li div.cat-icon.cat-icon-games{ background-position: 0 -359px; width: 32px; height: 32px; }
+ul.categories li div.cat-icon.cat-icon-hobby{ background-position: 0 -399px; width: 32px; height: 32px; }
+ul.categories li div.cat-icon.cat-icon-mebel{ background-position: 0 -439px; width: 32px; height: 32px; }
+ul.categories li div.cat-icon.cat-icon-music{ background-position: 0 -479px; width: 32px; height: 32px; }
+ul.categories li div.cat-icon.cat-icon-other{ background-position: 0 -519px; width: 32px; height: 32px; }
+ul.categories li div.cat-icon.cat-icon-photo{ background-position: 0 -559px; width: 32px; height: 32px; }
+ul.categories li div.cat-icon.cat-icon-plant{ background-position: 0 -599px; width: 32px; height: 32px; }
+ul.categories li div.cat-icon.cat-icon-service{ background-position: 0 -639px; width: 32px; height: 32px; }
+ul.categories li div.cat-icon.cat-icon-sport{ background-position: 0 -679px; width: 32px; height: 32px; }
+ul.categories li div.cat-icon.cat-icon-technics{ background-position: 0 -719px; width: 32px; height: 32px; }
+ul.categories li div.cat-icon.cat-icon-virtual{ background-position: 0 -759px; width: 32px; height: 32px; }
+ul.categories li div.cat-icon.cat-icon-wear{ background-position: 0 -799px; width: 32px; height: 32px; }
+ul.categories li div.cat-icon.cat-icon-women{ background-position: 0 -839px; width: 32px; height: 32px; }

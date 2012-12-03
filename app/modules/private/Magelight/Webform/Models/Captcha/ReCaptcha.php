@@ -26,8 +26,9 @@ namespace Magelight\Webform\Models\Captcha;
 /**
  * @method static \Magelight\Webform\Models\Captcha\ReCaptcha forge()
  */
-class ReCaptcha extends \Magelight\Model
+class ReCaptcha
 {
+    use \Magelight\Forgery;
     /**
      * Field indexes
      */

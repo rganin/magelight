@@ -35,7 +35,59 @@ namespace Magelight\Dbal\Db\Mysql;
  * @method \Magelight\Dbal\Db\Mysql\Orm     whereLike($expression, $param)
  * @method \Magelight\Dbal\Db\Mysql\Orm     whereIn($expression, $param)
  * @method \Magelight\Dbal\Db\Mysql\Orm     whereNotIn($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     whereEx($expression)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     whereEx($expression, $params)
+ *
+ * @method \Magelight\Dbal\Db\Mysql\Orm     orWhereEq($expression, $param)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     orWhereNeq($expression, $param)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     orWhereNull($expression)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     orWhereNotNull($expression)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     orWhereGt($expression, $param)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     orWhereGte($expression, $param)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     orWhereLt($expression, $param)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     orWhereLte($expression, $param)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     orWhereLike($expression, $param)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     orWhereIn($expression, $param)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     orWhereNotIn($expression, $param)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     orWhereEx($expression, $params)
+ *
+ * @method \Magelight\Dbal\Db\Mysql\Orm     andWhereEq($expression, $param)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     andWhereNeq($expression, $param)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     andWhereNull($expression)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     andWhereNotNull($expression)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     andWhereGt($expression, $param)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     andWhereGte($expression, $param)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     andWhereLt($expression, $param)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     andWhereLte($expression, $param)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     andWhereLike($expression, $param)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     andWhereIn($expression, $param)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     andWhereNotIn($expression, $param)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     andWhereEx($expression, $params)
+ *
+ * @method \Magelight\Dbal\Db\Mysql\Orm     andNotWhereEq($expression, $param)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     andNotWhereNeq($expression, $param)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     andNotWhereNull($expression)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     andNotWhereNotNull($expression)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     andNotWhereGt($expression, $param)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     andNotWhereGte($expression, $param)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     andNotWhereLt($expression, $param)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     andNotWhereLte($expression, $param)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     andNotWhereLike($expression, $param)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     andNotWhereIn($expression, $param)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     andNotWhereNotIn($expression, $param)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     andNotWhereEx($expression, $params)
+ *
+ * @method \Magelight\Dbal\Db\Mysql\Orm     orNotWhereEq($expression, $param)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     orNotWhereNeq($expression, $param)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     orNotWhereNull($expression)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     orNotWhereNotNull($expression)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     orNotWhereGt($expression, $param)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     orNotWhereGte($expression, $param)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     orNotWhereLt($expression, $param)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     orNotWhereLte($expression, $param)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     orNotWhereLike($expression, $param)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     orNotWhereIn($expression, $param)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     orNotWhereNotIn($expression, $param)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     orNotWhereEx($expression, $params)
  */
 class Orm extends \Magelight\Dbal\Db\Common\Orm
 {
@@ -46,6 +98,7 @@ class Orm extends \Magelight\Dbal\Db\Common\Orm
     const KEY_OPERATOR = 1;
     const KEY_PARAMS = 2;
     const KEY_PLACEHOLDERS = 3;
+    const KEY_LOGIC = 4;
 
     /**
      * Logic contants
@@ -362,20 +415,44 @@ class Orm extends \Magelight\Dbal\Db\Common\Orm
      */
     public function __call($name, $arguments)
     {
-        if (strpos($name, 'where') !== false) {
-            if (isset($this->_renderWhereMap[$name])) {
+        $logic = $this->parseStatementLogic($name);
+        if (!is_null($logic)) {
+            if (isset($this->_renderWhereMap[$logic['method']])) {
                 $expression = isset($arguments[0]) ? $arguments[0] : null;
                 $params = array_key_exists(1, $arguments) ? $arguments[1]  : [];
                 $this->where[] = [
-                    self::KEY_OPERATOR => $name,
+                    self::KEY_OPERATOR => $logic['method'],
                     self::KEY_EXPRESSION => $expression,
                     self::KEY_PARAMS => $params,
+                    self::KEY_LOGIC => $logic['logic'],
                 ];
             }
             return $this;
         }
         $class = __CLASS__;
         throw new \Magelight\Exception("Undefined method call {$class}::{$name}");
+    }
+
+    /**
+     * Parse statement logic
+     *
+     * @param $name
+     * @return array|null
+     */
+    protected function parseStatementLogic($name)
+    {
+        if (substr($name, 0, 5) === 'where') {
+            return ['method' => $name, 'logic' => self::LOGIC_AND];
+        } elseif (substr($name, 0, 7) === 'orWhere') {
+            return ['method' => lcfirst(substr($name, 2)), 'logic' => self::LOGIC_OR];
+        } elseif (substr($name, 0, 8) === 'andWhere') {
+            return ['method' => lcfirst(substr($name, 3)), 'logic' => self::LOGIC_AND];
+        } elseif (substr($name, 0, 10) === 'orNotWhere') {
+            return ['method' => lcfirst(substr($name, 5)), 'logic' => self::LOGIC_OR_NOT];
+        } elseif (substr($name, 0, 11) === 'andNotWhere') {
+            return ['method' => lcfirst(substr($name, 6)), 'logic' => self::LOGIC_AND_NOT];
+        }
+        return null;
     }
 
     /**
@@ -545,6 +622,7 @@ class Orm extends \Magelight\Dbal\Db\Common\Orm
             return '';
         }
         $query = [];
+        $count = 0;
         foreach ($this->where as $w) {
             if (!isset($this->_renderWhereMap[$w[self::KEY_OPERATOR]])) {
                 continue;
@@ -560,9 +638,13 @@ class Orm extends \Magelight\Dbal\Db\Common\Orm
                 $wherePart[] = $this->preparePlaceholders($w[self::KEY_PARAMS]);
                 $this->pushParams($w[self::KEY_PARAMS]);
             }
-            $query[] = '(' . implode(' ', $wherePart) . ')';
+            $query[] =
+                ($count > 0
+                    ? ' ' . $w[self::KEY_LOGIC] . ' '
+                    : '') . '(' . implode(' ', $wherePart) . ')';
+            $count++;
         }
-        return ' WHERE ' . implode(' AND ', $query);
+        return ' WHERE ' . implode(' ', $query);
     }
 
     /**
@@ -801,6 +883,34 @@ class Orm extends \Magelight\Dbal\Db\Common\Orm
             $this->data = $data;
         }
         return $data;
+    }
+
+    /**
+     * Fetch row by select query
+     *
+     * @param bool $array - fetch as array array, else both
+     *
+     * @return mixed
+     */
+    public function fetchColumn($array = true)
+    {
+        $this->statement = $this->db->execute($this->buidSelect(), array_values($this->params));
+        $data = $this->statement->fetchColumn($array ? \PDO::FETCH_ASSOC : \PDO::FETCH_BOTH);
+        return $data;
+    }
+
+    /**
+     * Fetch row by select query
+     *
+     * @param bool $array - fetch as array array, else both
+     *
+     * @return mixed
+     */
+    public function fetchFirstColumnElement()
+    {
+        $this->statement = $this->db->execute($this->buidSelect(), array_values($this->params));
+        $data = $this->statement->fetchColumn();
+        return isset($data[0]) ? $data[0] : null;
     }
 
     /**
