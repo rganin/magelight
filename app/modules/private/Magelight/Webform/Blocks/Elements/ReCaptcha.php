@@ -40,7 +40,7 @@ class ReCaptcha extends Abstraction\Field
      *
      * @var string
      */
-    protected $_template = 'Magelight\Core\templates\webform\elements\re-captcha.phtml';
+    protected $_template = 'Magelight\Webform\templates\webform\elements\re-captcha.phtml';
 
     /**
      * Forgery constructor

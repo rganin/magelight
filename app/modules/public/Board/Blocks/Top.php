@@ -12,11 +12,4 @@ namespace Board\Blocks;
 class Top extends \Magelight\Block
 {
     protected $_template = 'Board/templates/top.phtml';
-
-
-
-    public function getLoginFormHtml()
-    {
-
-    }
 }
