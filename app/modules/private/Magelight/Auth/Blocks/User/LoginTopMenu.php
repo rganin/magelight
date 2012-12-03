@@ -47,9 +47,6 @@ class LoginTopMenu extends \Magelight\Block
      */
     public function init()
     {
-        \Magelight\Core\Blocks\Document::getFromRegistry()->addJs(
-            (string) \Magelight::app()->getConfig('global/auth/ulogin/ulogin_script_url')
-        );
         $this->sectionAppend('ulogin-widget', \Magelight\Auth\Blocks\UloginWidget::forge()->setConfigIndex('default'));
     }
 }

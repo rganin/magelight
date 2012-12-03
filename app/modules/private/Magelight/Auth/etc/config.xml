@@ -19,7 +19,7 @@
                             <optional>photo,phone</optional>
                             <providers>vkontakte,facebook,odnoklassniki,twitter,mailru,yandex,google</providers>
                             <hidden></hidden>
-                            <redirect_route>/</redirect_route>
+                            <redirect_route>/servicelogin</redirect_route>
                         </options>
                     </default>
                     <register>
@@ -30,7 +30,7 @@
                             <optional>photo,phone</optional>
                             <providers>vkontakte,facebook,odnoklassniki,twitter,mailru,yandex,google</providers>
                             <hidden></hidden>
-                            <redirect_route>/</redirect_route>
+                            <redirect_route>/servicelogin</redirect_route>
                         </options>
                     </register>
                 </instances>

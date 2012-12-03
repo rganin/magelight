@@ -70,7 +70,7 @@ class UloginWidget extends \Magelight\Block
 
 
         if (isset($config['redirect_route'])) {
-            $config['redirect_url'] = urlencode($this->url($config['redirect_route']));
+            $config['redirect_uri'] = $this->url($config['redirect_route']);
             unset($config['redirect_route']);
         }
         foreach ($config as $key => $configItem) {
@@ -87,5 +87,15 @@ class UloginWidget extends \Magelight\Block
     public function getUloginHtmlId()
     {
         return (string) \Magelight::app()->getConfig('global/auth/ulogin/instances/' . $this->_index . '/html_id');
+    }
+
+    /**
+     * Get Ulogin JS url
+     *
+     * @return string
+     */
+    public function getUloginScriptUrl()
+    {
+        return (string) \Magelight::app()->getConfig('global/auth/ulogin/ulogin_script_url');
     }
 }
