@@ -1,3 +1,6 @@
+<?php
+    /* @var $this \Magelight\Auth\Blocks\User\Register */
+?>
 <h1>Регистрация</h1>
 <div class="row-fluid">
 
@@ -6,7 +9,7 @@
             Через форму
         </div>
         <div>
-            <?=$this->section('regform')?>
+            <?=$this->getRegisterFormHtml()?>
         </div>
     </div>
 
@@ -15,7 +18,7 @@
             Через социальные сети
         </div>
         <div>
-            <div id="uLogin-clone" data-ulogin="display=panel;fields=first_name,email,city,country;optional=photo,phone;providers=vkontakte,facebook,odnoklassniki,twitter,mailru,yandex,google;hidden=;redirect_uri=<?php echo $this->url('servicelogin'); ?>"></div>
+            <?=$this->section('ulogin-widget-register')?>
             <p></p>
             <div class="alert alert-info">
                 При входе через социальную сеть регистрация производится автоматически

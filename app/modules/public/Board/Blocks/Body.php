@@ -16,9 +16,10 @@ class Body extends \Magelight\Block
     public function init()
     {
         $this->sectionAppend('top', Top::forge());
+//        $this->sectionAppend('login-menu-option', \Magelight\Auth\Blocks\User\LoginTopMenu::forge());
         $currentUserId = \Magelight::app()->session()->get('user_id');
         if (!empty($currentUserId)) {
-            if ($user = \Board\Models\User::find($currentUserId)) {
+            if ($user = \Magelight\Auth\Models\User::find($currentUserId)) {
                 $this->setGlobal('user_data', $user->asArray());
             }
         }

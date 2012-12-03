@@ -13,10 +13,7 @@ class Top extends \Magelight\Block
 {
     protected $_template = 'Board/templates/top.phtml';
 
-    public function init()
-    {
-        \Magelight\Core\Blocks\Document::getFromRegistry()->addJs('http://ulogin.ru/js/ulogin.js');
-    }
+
 
     public function getLoginFormHtml()
     {

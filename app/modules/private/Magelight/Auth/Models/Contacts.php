@@ -7,10 +7,10 @@
  * To change this template use File | Settings | File Templates.
  */
 
-namespace Board\Models;
+namespace Magelight\Auth\Models;
 
 /**
- * @method static \Board\Models\Contact forge($data = [], $forceNew = false)
+ * @method static \Magelight\Auth\Models\Contact forge($data = [], $forceNew = false)
  */
 class Contact extends \Magelight\Model
 {

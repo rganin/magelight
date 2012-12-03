@@ -1,0 +1,20 @@
+{
+    "Magelight_Geo": {
+        "setup-1.0.0.0.php": [
+            "2012-12-03 15:07:40",
+            "D:\\www\\framework\\app\\modules\\private\\Magelight\\Geo\\setup\\setup-1.0.0.0.php"
+        ]
+    },
+    "Magelight_Auth": {
+        "setup-1.0.0.0.php": [
+            "2012-12-03 15:07:40",
+            "D:\\www\\framework\\app\\modules\\private\\Magelight\\Auth\\setup\\setup-1.0.0.0.php"
+        ]
+    },
+    "Board": {
+        "setup-1.0.0.0.php": [
+            "2012-12-03 15:07:40",
+            "D:\\www\\framework\\app\\modules\\public\\Board\\setup\\setup-1.0.0.0.php"
+        ]
+    }
+}
