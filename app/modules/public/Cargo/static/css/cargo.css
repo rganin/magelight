@@ -1,0 +1,58 @@
+div.logo-wide {
+    margin: 24px 0 0 0;
+    height: 96px;
+    background: url("../img/logo4.png") no-repeat;
+}
+
+
+div.main-content{
+    margin: 32px 16px 32px 16px !important;
+}
+
+
+div.login-option{
+    text-align: center;
+}
+
+dl.login-options{
+    margin: 8px;
+}
+
+dl.login-options dt{
+    font-weight: normal;
+    color: #333;
+    width: 188px;
+    display:inline-block;
+    padding-left: 10px;
+}
+
+dl.login-options dd{
+    margin-top: 4px;
+    display:inline-block;
+    width: 300px;
+}
+
+dl.login-options dd div.reg-options{
+    margin-top: 12px;
+}
+
+dl.login-options dd div.reg-options a{
+    display: inline;
+    padding: 0;
+    margin-right: 8px;
+}
+
+img.navbar-avatar{
+    max-height: 18px;
+    max-width: 18px;
+    margin: 0;
+    padding: 0;
+}
+
+ul.dropdown-menu li a i{
+    margin-right: 8px;
+}
+
+h1{
+    font-size: 24px;
+}

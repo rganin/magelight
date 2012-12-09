@@ -25,6 +25,8 @@ namespace Magelight\Webform\Models\Validation;
 
 /**
  * @method static \Magelight\Webform\Models\Validation\Checker forge($fieldName, $fieldAlias = null) - forgery
+ * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule equals($value) - Must be equal to this value
+ * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule reCaptcha() - Captcha checker
  * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule max($max) - maximum value rule
  * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule required() - Field is required
  * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule dateTime() - Field must be a date time string

@@ -66,11 +66,25 @@ class Form extends Elements\Abstraction\Element
     protected $_validator = null;
 
     /**
+     * Result object
+     *
+     * @var null|\Magelight\Webform\Blocks\Elements\Abstraction\Element
+     */
+    protected $_resultRow = null;
+
+    /**
      * Is form data loaded from request flag
      *
      * @var bool
      */
     protected $_loadedFromRequest = false;
+
+    /**
+     * Form data (loaded from request)
+     *
+     * @var array
+     */
+    protected $_formData = [];
 
     /**
      * Set form configuration
@@ -139,14 +153,28 @@ class Form extends Elements\Abstraction\Element
     }
 
     /**
+     * Is form request empty
+     *
+     * @return bool
+     */
+    public function isEmptyRequest()
+    {
+        return empty($this->_requestFields);
+    }
+
+    /**
      * Add button to form
      *
-     * @param Elements\Button $button
+     * @param array $buttons
      * @return Form
      */
-    public function addButton(Elements\Button $button)
+    public function addButtonsRow($buttons = [])
     {
-        return $this->addContent($button);
+        if (!is_array($buttons)) {
+            $buttons = [$buttons];
+        }
+        $row = Row::forge()->addField($buttons);
+        return $this->addContent($row);
     }
 
     /**
@@ -185,9 +213,83 @@ class Form extends Elements\Abstraction\Element
         return $this->addClass('form-inline');
     }
 
-    public function isValid($breakOnFirst = false)
+    /**
+     * Set form data
+     *
+     * @param \Magelight\Webform\Models\Validator $validator
+     * @return Form
+     */
+    public function setValidator(\Magelight\Webform\Models\Validator $validator)
     {
+        $this->_validator = $validator;
+        return $this;
+    }
 
+    /**
+     * Validate form with validator set by setValidator() method
+     *
+     * @return bool
+     * @throws \Magelight\Exception
+     */
+    public function validate()
+    {
+        if ($this->_validator instanceof \Magelight\Webform\Models\Validator) {
+            if (!empty($this->_requestFields)) {
+                $result = $this->_validator->validate($this->_requestFields)->result();
+                if (!$result->isSuccess()) {
+                    foreach ($result->getErrors() as $error) {
+                        $this->addResult($error->getErrorString());
+                    }
+                }
+                return $result->isSuccess();
+            } else {
+                return true;
+            }
+        } else {
+            throw new \Magelight\Exception("Form validator is not set");
+        }
+    }
+
+    /**
+     * Create result row for form
+     *
+     * @return Form
+     */
+    public function createResultRow()
+    {
+        $this->_resultRow = Elements\Abstraction\Element::forge()->setTag('div');
+        $this->addContent($this->_resultRow);
+        return $this;
+    }
+
+    /**
+     * Get form field value
+     *
+     * @param string $index
+     * @param mixed $default
+     * @return mixed
+     */
+    public function getFieldValue($index, $default = null)
+    {
+        return isset($this->_requestFields[$index]) ? $this->_requestFields[$index] : $default;
+    }
+
+    /**
+     * Add form result
+     *
+     * @param string $text
+     * @param string $class
+     * @return Form
+     */
+    public function addResult($text = '', $class = 'alert-error')
+    {
+        $res = Result::forge()->setContent($text)->setClass('alert')->addClass($class);
+        if ($this->_resultRow instanceof Elements\Abstraction\Element) {
+            $this->_resultRow->addContent($res);
+        } else {
+            $this->addContent($res);
+        }
+        return $this;
     }
 
     /**

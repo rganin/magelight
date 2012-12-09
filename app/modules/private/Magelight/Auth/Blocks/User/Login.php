@@ -2,24 +2,16 @@
 /**
  * Created by JetBrains PhpStorm.
  * User: iddqd
- * Date: 02.12.12
- * Time: 22:47
+ * Date: 09.12.12
+ * Time: 21:20
  * To change this template use File | Settings | File Templates.
  */
 
 namespace Magelight\Auth\Blocks\User;
 
-/**
- * @method static \Magelight\Auth\Blocks\User\Register forge()
- */
-class Register extends \Magelight\Block
+class Login extends \Magelight\Block
 {
-    /**
-     * Register form template
-     *
-     * @var string
-     */
-    protected $_template = 'Magelight/Auth/templates/user/register.phtml';
+    protected $_template = 'Magelight/Auth/templates/user/login.phtml';
 
     /***
      * Init overide

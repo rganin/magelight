@@ -41,4 +41,14 @@ class Error
         $this->_errorString = $errorString;
         $this->_highlightId = $highlightId;
     }
+
+    /**
+     * Get error string
+     *
+     * @return string
+     */
+    public function getErrorString()
+    {
+        return $this->_errorString;
+    }
 }

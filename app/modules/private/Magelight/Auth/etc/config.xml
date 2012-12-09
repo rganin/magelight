@@ -8,6 +8,7 @@
             </types>
         </contacts>
         <auth>
+            <robot_email>admin@example.com</robot_email>
             <ulogin>
                 <ulogin_script_url>//ulogin.ru/js/ulogin.js</ulogin_script_url>
                 <instances>

@@ -1,0 +1,10 @@
+<config>
+    <global>
+        <forgery>
+            <override>
+                <old>Magelight\Core\Blocks\Body</old>
+                <new>Cargo\Blocks\Body</new>
+            </override>
+        </forgery>
+    </global>
+</config>

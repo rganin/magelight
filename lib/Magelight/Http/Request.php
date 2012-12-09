@@ -22,6 +22,9 @@
  */
 namespace Magelight\Http;
 
+/**
+ * @method static \Magelight\Http\Request forge()
+ */
 class Request
 {
     use \Magelight\Forgery;

@@ -199,7 +199,7 @@ class ReCaptcha
      * @return ReCaptchaResponse
      * @throws \Magelight\Exception
      */
-    public function recaptchaCheckAnswer($remoteip, $challenge, $response, $extraParams = [])
+    public function recaptchaCheckAnswer($remoteip, $challenge, $response = null, $extraParams = [])
     {
         if (empty($this->_privateKey)) {
             $this->triggerKeyError();
