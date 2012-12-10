@@ -61,9 +61,16 @@ class Form extends Elements\Abstraction\Element
     protected $_requestFields = [];
 
     /**
+     * Feild values loaded from request with plaintext addresses
+     *
+     * @var array
+     */
+    protected $_requestFieldsPlain = [];
+
+    /**
      * Validator object
      *
-     * @var null|\Magelight\Webform\Models\FormValidator
+     * @var null|\Magelight\Webform\Models\Validator
      */
     protected $_validator = null;
 
@@ -302,6 +309,31 @@ class Form extends Elements\Abstraction\Element
         return null;
     }
 
+    public function setFieldValue($index, $value)
+    {
+        $address = $this->queryStringToArray($index);
+        $this->_setFieldValueRecursive($address, $value, $this->_requestFields);
+        return $this;
+    }
+
+    protected function _setFieldValueRecursive($address, $value, &$fields)
+    {
+        if (!is_array($address)) {
+            return $this;
+        }
+        $index = array_shift($address);
+        if (!isset($fields[$index])) {
+            $fields[$index] = [];
+        }
+        if (empty($address)) {
+            $fields[$index] = $value;
+        } else {
+            $pointer =  &$fields[$index];
+            $this->_setFieldValueRecursive($address, $value, $pointer);
+        }
+        return $this;
+    }
+
     /**
      * Get form field value
      *
@@ -311,7 +343,45 @@ class Form extends Elements\Abstraction\Element
      */
     public function getFieldValue($index, $default = null)
     {
-        return isset($this->_requestFields[$index]) ? $this->_requestFields[$index] : $default;
+        $address = $this->queryStringToArray($index);
+        return $this->_getFieldValueRecursive($address, $default, $this->_requestFields);
+    }
+
+    /**
+     * Get field value recursively
+     *
+     * @param string $address
+     * @param mixed $default
+     * @param array $fields
+     * @return mixed|null
+     */
+    protected function _getFieldValueRecursive($address, $default = null, &$fields = [])
+    {
+        if (!is_array($address)) {
+            return $default;
+        }
+        $index = array_shift($address);
+        if (isset($fields[$index])) {
+            $pointer =  &$fields[$index];
+        } else {
+            return $default;
+        }
+        if (empty($address)) {
+            return $pointer;
+        } else {
+            return $this->_getFieldValueRecursive($address, $default, $pointer);
+        }
+    }
+
+    /**
+     * Turn query string to array
+     *
+     * @param string $queryString
+     * @return array
+     */
+    public function queryStringToArray($queryString)
+    {
+        return explode('[', str_replace(']', '', $queryString));
     }
 
     /**

@@ -21,7 +21,6 @@ class Orders extends \Magelight\Controller
     {
         $this->_view = \Magelight\Core\Blocks\Document::forge();
         $this->_view->sectionAppend('body', \Cargo\Blocks\Body::forge());
-        $this->_view->sectionAppend('login-menu-option', \Magelight\Auth\Blocks\User\LoginTopMenu::forge());
     }
 
     public function addorderAction()
@@ -29,7 +28,7 @@ class Orders extends \Magelight\Controller
         $this->_view->setTitle('Заказать перевозку');
 
         $orderForm = \Cargo\Blocks\Order\OrderForm::forge()
-            ->setConfigs('order', $this->url('addorder'))
+            ->setConfigs('order-form', $this->url('addorder'))
             ->setHorizontal()
             ->setValidator($this->_getOrderValidator())->loadFromRequest($this->request());
 
@@ -39,25 +38,26 @@ class Orders extends \Magelight\Controller
             ->fetchColumn(false);
         $orderForm->set('cities', json_encode($cities));
 
-        $userData = \Magelight\Auth\Models\User::find($this->session()->get('user_id'));
-        if ($userData) {
-            $orderForm->set('client_name', $userData->name);
-            $orderForm->set('client_email', $userData->email);
-            $phone = \Magelight\Auth\Models\Contact::orm()
-                ->selectFields(['content'])
-                ->whereEq('type', 'phone')
-                ->whereEq('user_id', $userData->id)
-                ->fetchFirstColumnElement();
-            $orderForm->set('client_phone', $phone);
-        } else {
 
-        }
         $categories = \Cargo\Models\Category::orm()->fetchAll();
         $orderForm->set('categories', $categories);
         if (!$orderForm->isEmptyRequest() && $orderForm->validate()) {
-            $data = $orderForm->getRequestFields();
-            unset($data['client']);
+            $data = $orderForm->getFieldValue('order');
             \Cargo\Models\Order::forge($data, true)->save();
+        } else {
+            $userData = \Magelight\Auth\Models\User::find($this->session()->get('user_id'));
+            if ($userData) {
+                $client = [
+                    'name' => $userData->name,
+                    'email' => $userData->email,
+                    'phone' => \Magelight\Auth\Models\Contact::orm()
+                        ->selectFields(['content'])
+                        ->whereEq('type', 'phone')
+                        ->whereEq('user_id', $userData->id)
+                        ->fetchFirstColumnElement()
+                ];
+                $orderForm->setFieldValue('client', $client);
+            }
         }
         $this->_view->sectionReplace('content', $orderForm);
         $this->renderView();
@@ -65,29 +65,26 @@ class Orders extends \Magelight\Controller
 
     protected function _getOrderValidator()
     {
-        $validator = \Magelight\Webform\Models\Validator::forge();
-        $validator->fieldRules('category')
+        $validator = \Magelight\Webform\Models\Validator::forge()->setErrorsLimit(2);
+        $validator->fieldRules('order[category]')
             ->required()->setCustomError('Укажите категорию');
 
-        $validator->fieldRules('title')
-            ->minLength(4)->setCustomError('Введите краткое описание')->chainRule()
-            ->maxLength(64)->setCustomError('Краткое описание должно быть кратким. Распишите лучше в поле "Детали"');
-        $validator->fieldRules('city_from')
+        $validator->fieldRules('order[city_from]')
             ->required()->setCustomError('Укажите город отправки')->chainRule()
             ->maxLength(64)->setCustomError('Названиегорода слишком длинное. Вы и правда там живете?');
-        $validator->fieldRules('city_to')
+        $validator->fieldRules('order[city_to]')
             ->required()->setCustomError('Укажите город доставки')->chainRule()
             ->maxLength(64)->setCustomError('Название города доставки слишком длинное. Такой и правда есть?');
-        $validator->fieldRules('address_from')
+        $validator->fieldRules('order[address_from]')
             ->required()->setCustomError('Укажите адрес отправки');
-        $validator->fieldRules('address_to')
+        $validator->fieldRules('order[address_to]')
             ->required()->setCustomError('Укажите адрес доставки');
-        $validator->fieldRules('client[client_name]')
+        $validator->fieldRules('client[name]')
             ->required()->setCustomError('Введите ваше имя');
-        $validator->fieldRules('client[client_email]')->breakOnFirst()
+        $validator->fieldRules('client[email]')->breakOnFirst()
             ->required()->setCustomError('Введите e-mail')->chainRule()
             ->email()->setCustomError('Введите корректный e-mail, на него будут отправляться предложения');
-        $validator->fieldRules('client[client_phone]')->breakOnFirst()
+        $validator->fieldRules('client[phone]')->breakOnFirst()
             ->required()->setCustomError('Введите номер телефона')->chainRule()
             ->pregMatch('/\+[0-9]{2}\s\([0-9]{3}\)\s[0-9]{3}\-[0-9]{2}\-[0-9]{2}/i')
             ->setCustomError('Введите корректный номер телефона');
@@ -98,5 +95,11 @@ class Orders extends \Magelight\Controller
         $validator->fieldRules('date_move')
             ->dateTime()->setCustomError('Укажите корректную дату отправки');
         return $validator;
+    }
+
+    public function listAction()
+    {
+        $this->_view->sectionReplace('content', \Cargo\Blocks\Order\OrderList::forge());
+        $this->renderView();
     }
 }

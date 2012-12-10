@@ -47,6 +47,6 @@ class LoginTopMenu extends \Magelight\Block
      */
     public function init()
     {
-        $this->sectionAppend('ulogin-widget', \Magelight\Auth\Blocks\UloginWidget::forge()->setConfigIndex('default'));
+        $this->sectionReplace('ulogin-widget', \Magelight\Auth\Blocks\UloginWidget::forge()->setConfigIndex('default'));
     }
 }

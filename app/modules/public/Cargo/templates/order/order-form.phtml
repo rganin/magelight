@@ -33,7 +33,7 @@
                         </li>
                     </ul>
                 </div>
-                <input id="order-category" type="hidden" name="<?=$this->wrapName('category')?>" value="<?=$this->getFieldValue('category')?>"/>
+                <input id="order-category" type="hidden" name="<?=$this->wrapName('order[category]')?>" value="<?=$this->getFieldValue('order[category]')?>"/>
                 <script type="text/javascript">
                     function selectCategory(category_id)
                     {
@@ -65,21 +65,21 @@
             <div class="control-group">
                 <label class="control-label" for="order-location-from-city">Откуда <span class="required">*</span></label>
                 <div class="controls">
-                    <input id="order-location-from-city" class="span4" data-provide="typeahead" data-source='<?=$this->get('cities', '[]')?>' data-items="5" name="order[city_from]" value="<?=$this->getFieldValue('city_from')?>" type="text" placeholder="Город" />
-                    <input id="order-location-from-address" class="span6" name="order[address_from]" value="<?=$this->getFieldValue('address_from')?>" type="text" placeholder="Адрес"/>
+                    <input id="order-location-from-city" class="span4" data-provide="typeahead" data-source='<?=$this->get('cities', '[]')?>' data-items="5" name="<?=$this->wrapName('order[city_from]')?>" value="<?=$this->getFieldValue('order[city_from]')?>" type="text" placeholder="Город" />
+                    <input id="order-location-from-address" class="span6" name="<?=$this->wrapName('order[address_from]')?>" value="<?=$this->getFieldValue('order[address_from]')?>" type="text" placeholder="Адрес"/>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label" for="order-location-to-city">Куда <span class="required">*</span></label>
                 <div class="controls">
-                    <input id="order-location-to-city" class="span4" data-provide="typeahead" data-source='<?=$this->get('cities', '[]')?>' data-items="5" name="order[city_to]" value="<?=$this->getFieldValue('city_to')?>" type="text" placeholder="Город"/>
-                    <input id="order-location-to-address" class="span6" name="order[address_to]" type="text" value="<?=$this->getFieldValue('address_to')?>" placeholder="Адрес"/>
+                    <input id="order-location-to-city" class="span4" data-provide="typeahead" data-source='<?=$this->get('cities', '[]')?>' data-items="5" name="<?=$this->wrapName('order[city_to]')?>" value="<?=$this->getFieldValue('order[city_to]')?>" type="text" placeholder="Город"/>
+                    <input id="order-location-to-address" class="span6" name="<?=$this->wrapName('order[address_to]')?>" type="text" value="<?=$this->getFieldValue('order[address_to]')?>" placeholder="Адрес"/>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label" for="order-details">Что везем</label>
                 <div class="controls">
-                    <textarea id="order-details" class="span10" name="order[details]" placeholder="Подробнее о заказе (что везем). Габариты, объем, пожелания и требования."><?=$this->getFieldValue('details')?></textarea>
+                    <textarea id="order-details" class="span10" name="<?=$this->wrapName('order[details]')?>" placeholder="Подробнее о заказе (что везем). Габариты, объем, пожелания и требования."><?=$this->getFieldValue('order[details]')?></textarea>
                 </div>
 
             </div>
@@ -94,7 +94,7 @@
                     <label class="control-label" for="order-weight">Вес груза</label>
                     <div class="controls">
                         <div class="input-append">
-                            <input id="order-weight" class="span10" name="order[weight]" value="<?=$this->getFieldValue('weight')?>" type="text"/>
+                            <input id="order-weight" class="span10" name="<?=$this->wrapName('order[weight]')?>" value="<?=$this->getFieldValue('order[weight]')?>" type="text"/>
                             <span class="add-on">кг</span>
                         </div>
                         <span class="help-inline">примерно</span>
@@ -104,7 +104,7 @@
                 <div class="control-group">
                     <div class="controls">
                         <label class="checkbox inline">
-                            <input type="checkbox" name="order[loading_required]" value="1" <?php if ($this->getFieldValue('loading_required')): ?>checked="checked"<?php endif; ?>/>
+                            <input type="checkbox" name="<?=$this->wrapName('order[loading_required]')?>" value="1" <?php if ($this->getFieldValue('order[loading_required]', false)): ?>checked="checked"<?php endif; ?>/>
                             Нужна погрузка/разгрузка
                         </label>
                     </div>
@@ -114,7 +114,7 @@
                     <label class="control-label" for="order-passengers">Пассажиры</label>
                     <div class="controls">
                         <div class="input-append">
-                            <input id="order-passengers" class="span7" name="order[weight]" value="<?=$this->getFieldValue('passengers')?>" type="text"/>
+                            <input id="order-passengers" class="span7" name="<?=$this->wrapName('order[passengers]')?>" value="<?=$this->getFieldValue('order[passengers]')?>" type="text"/>
                             <span class="add-on">человек</span>
                         </div>
 
@@ -124,14 +124,14 @@
                 <div class="control-group">
                     <label class="control-label" for="order-date">Дата</label>
                     <div class="controls">
-                        <input id="order-date" class="span4 datepicker" size="16" name="order[date_move]" value="<?=$this->getFieldValue('date_move')?>" placeholder="<?=$this->get('current_date', '')?>" type="text"/>
+                        <input id="order-date" class="span4 datepicker" size="16" name="<?=$this->wrapName('order[date_move]')?>" value="<?=$this->getFieldValue('order[date_move]')?>" placeholder="<?=$this->get('current_date', '')?>" type="text"/>
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label" for="order-max-price">Максимальная цена</label>
                     <div class="controls">
                         <div class="input-append">
-                            <input id="order-max-price" class="span10" name="order[max_price]" value="<?=$this->getFieldValue('max_price')?>" type="text"/>
+                            <input id="order-max-price" class="span10" name="<?=$this->wrapName('order[max_price]')?>" value="<?=$this->getFieldValue('order[max_price]')?>" type="text"/>
                             <span class="add-on">грн.</span>
                         </div>
                     </div>
@@ -140,15 +140,15 @@
 
             <div class="control-group">
                 <label class="control-label" for="order-max-price">Ваши контакты <span class="required">*</span></label>
-                <?php $client = $this->getFieldValue('client'); ?>
+
                 <div class="controls">
-                    <input id="order-client-name" class="span10" name="order[client][client_name]" value="<?=$client['client_name']?>" type="text" placeholder="Имя"/>
+                    <input id="order-client-name" class="span10" name="<?=$this->wrapName('client[name]')?>" value="<?=$this->getFieldValue('client[name]'); ?>" type="text" placeholder="Имя"/>
                 </div>
                 <div class="controls">
-                    <input id="order-client-email" class="span10" name="order[client][client_email]" value="<?=$client['client_email']?>" type="text" placeholder="E-Mail"/>
+                    <input id="order-client-email" class="span10" name="<?=$this->wrapName('client[email]')?>" value="<?=$this->getFieldValue('client[email]'); ?>" type="text" placeholder="E-Mail"/>
                 </div>
                 <div class="controls">
-                    <input id="order-client-phone" class="span10 masked-input" data-mask="+38 (999) 999-99-99" name="order[client][client_phone]" value="<?=$client['client_phone']?>" type="text" placeholder="Телефон"/>
+                    <input id="order-client-phone" class="span10 masked-input" data-mask="+38 (999) 999-99-99" name="<?=$this->wrapName('client[phone]')?>" value="<?=$this->getFieldValue('client[phone]')?>" type="text" placeholder="Телефон"/>
                 </div>
             </div>
 
@@ -163,7 +163,7 @@
     </div>
     <div class="span4 container-fluid">
         <div class="alert alert-info">
-            <p><i class="icon-exclamation-sign"></i> Важно!</p>
+            <p><i class="icon-exclamation-sign "></i> Важно!</p>
             <p>Размещая заявку Вы соглашаетесь с правилами сервиса</p>
             <p>Администрация сервиса не несет ответственности за действия перевозчиков и курьеров</p>
         </div>
@@ -181,7 +181,7 @@
                 monthsShort: ["Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"]
             },
             weekStart: 1,
-            format: 'dd.mm.yyyy'
+            format: 'dd-mm-yyyy'
         });
         $('.typeahead').typeahead();
         $('#order-details-toggle').bind('click', function(){

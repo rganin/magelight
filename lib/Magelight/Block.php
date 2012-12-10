@@ -154,7 +154,7 @@ abstract class Block
      */
     public function sectionAppend($name, $block)
     {
-        self::$_sectionsInitialized = false;
+        $block->initBlock();
         if (!isset(self::$_sections[$name]) || !is_array(self::$_sections[$name])) {
             return $this->sectionReplace($name, $block);
         }
@@ -171,7 +171,7 @@ abstract class Block
      */
     public function sectionPrepend($name, $block)
     {
-        self::$_sectionsInitialized = false;
+        $block->initBlock();
         if (!isset(self::$_sections[$name]) || !is_array(self::$_sections[$name])) {
             return $this->sectionReplace($name, $block);
         }
@@ -188,7 +188,7 @@ abstract class Block
      */
     public function sectionReplace($name, $block)
     {
-        self::$_sectionsInitialized = false;
+        $block->initBlock();
         if (!is_array(self::$_sections)) {
             self::$_sections = [];
         }
@@ -204,32 +204,7 @@ abstract class Block
      */
     public function sectionDelete($name)
     {
-        self::$_sectionsInitialized = false;
         unset(self::$_sections[$name]);
-        return $this;
-    }
-
-    /**
-     * Initialize global sections
-     *
-     * @return Block
-     */
-    public function initSections()
-    {
-        foreach (self::$_sections as $name => $section) {
-            if (!empty($section)) {
-                foreach ($section as $key => $view) {
-                    if ($view instanceof \Magelight\Block) {
-                        $section[$key]->init();
-                    } elseif (is_string($view)) {
-
-                    }
-
-                }
-            }
-            self::$_sections[$name] = $section;
-        }
-        self::$_sectionsInitialized = true;
         return $this;
     }
 
@@ -241,9 +216,7 @@ abstract class Block
      */
     public function toHtml()
     {
-        if (!self::$_sectionsInitialized) {
-            $this->initSections();
-        }
+        $this->initBlock();
         $class = get_called_class();
         if (empty($this->_template)) {
             if (\Magelight::app()->isInDeveloperMode()) {
@@ -290,9 +263,6 @@ abstract class Block
     public function section($name)
     {
         $html = '';
-        if (!self::$_sectionsInitialized) {
-            $this->initSections();
-        }
         if (!isset(self::$_sections[$name]) && \Magelight::app()->isInDeveloperMode()) {
             trigger_error("Undefined section call - '{$name}' in " . get_called_class(), E_USER_NOTICE);
         } elseif (isset(self::$_sections[$name]) && is_array(self::$_sections[$name])) {
@@ -327,6 +297,20 @@ abstract class Block
      */
     public function init()
     {
+        return $this;
+    }
+
+    /**
+     * Initialize block if it wasn`t initialized
+     *
+     * @return Block
+     */
+    public function initBlock()
+    {
+        if (!$this->_initialized) {
+            $this->init();
+            $this->_initialized = true;
+        }
         return $this;
     }
 

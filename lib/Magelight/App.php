@@ -329,7 +329,15 @@ final class App
     {
         $controllerName = $action['module'] . '\\Controllers\\' . ucfirst($action['controller']);
         $controllerMethod = $action['action'] . 'Action';
-        $controller = call_user_func(array($controllerName, 'forge'));
+        if ($this->isInDeveloperMode()) {
+            if (!@include_once(\Magelight::getAutoloaderFileNameByClass($controllerName))) {
+                throw new \Magelight\Exception(
+                    "Unable to load controller {$controllerName} for route {$action['match']} "
+                    . "in module {$action['module']}."
+                );
+            }
+        }
+        $controller = @call_user_func(array($controllerName, 'forge'));
         /* @var $controller \Magelight\Controller*/
 
         if ($this->isInDeveloperMode() && !is_callable([$controller, $controllerMethod])) {

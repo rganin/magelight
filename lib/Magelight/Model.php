@@ -134,6 +134,11 @@ abstract class Model
         return static::$_idField;
     }
 
+    public function __isset($name)
+    {
+        return isset($this->orm->$name);
+    }
+
     /**
      * Magic setter
      *

@@ -20,7 +20,11 @@ class Order extends \Magelight\Model
 
     public function _beforeSave()
     {
-        $this->date_move = strtotime($this->date_move);
+        $this->date_move = (int)strtotime($this->date_move);
         $this->date_added = time();
+        $this->weight = floatval($this->weight);
+        $this->max_price = floatval($this->max_price);
+        $this->passengers = (int) $this->passengers;
+        $this->loading_required = (int)isset($this->loading_required);
     }
 }

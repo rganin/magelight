@@ -41,7 +41,6 @@ class Index extends \Magelight\Controller
     {
         $this->_view = \Magelight\Core\Blocks\Document::forge();
         $this->_view->sectionAppend('body', \Magelight\Core\Blocks\Body::forge());
-        $this->_view->sectionAppend('login-menu-option', \Magelight\Auth\Blocks\User\LoginTopMenu::forge());
     }
 
     /**

@@ -34,26 +34,24 @@ class Result
      * Forgery constructor
      *
      * @param bool $success
-     * @param array $errors
+     * @param Error $error
      */
-    public function __forge($success, $errors = [])
+    public function __forge($success, $error = null)
     {
         $this->_success = (bool) $success;
-        $this->addErrors($errors);
+        $this->addError($error);
     }
 
     /**
      * Add errors to result
      *
-     * @param array $errors
+     * @param Error $error
      * @return Result
      */
-    public function addErrors($errors = [])
+    public function addError($error)
     {
-        foreach ($errors as $error) {
-            if ($error instanceof Error) {
-                $this->_errors[] = $error;
-            }
+        if ($error instanceof Error) {
+            $this->_errors[] = $error;
         }
         return $this;
     }

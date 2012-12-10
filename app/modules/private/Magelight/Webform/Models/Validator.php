@@ -55,6 +55,13 @@ class Validator extends \Magelight\Model
     protected $_breakOnFirst = false;
 
     /**
+     * Errors limit to render
+     *
+     * @var int
+     */
+    protected $_errorsLimit = 10000;
+
+    /**
      * Validate data
      *
      * @param array $data
@@ -115,7 +122,16 @@ class Validator extends \Magelight\Model
                 $checker->breakOnFirst(true);
             }
             if (!$checker->check($data)) {
-                $this->_result->addErrors($checker->getErrors())->setFail();
+                if ($this->_errorsLimit) {
+                    foreach ($checker->getErrors() as $error) {
+                        if ($this->_errorsLimit--) {
+                            $this->_result->addError($error);
+                        } else {
+                            break;
+                        }
+                    }
+                }
+                $this->_result->setFail();
                 if ($this->_breakOnFirst) {
                     return $this;
                 }
@@ -144,6 +160,12 @@ class Validator extends \Magelight\Model
     public function breakOnFirst($flag = true)
     {
         $this->_breakOnFirst = $flag;
+        return $this;
+    }
+
+    public function setErrorsLimit($limit = 10000)
+    {
+        $this->_errorsLimit = $limit;
         return $this;
     }
 

@@ -1123,4 +1123,9 @@ class Orm extends \Magelight\Dbal\Db\Common\Orm
         $this->db->rollBack();
         return $this;
     }
+
+    public function __isset($name)
+    {
+        return isset($this->data[$name]);
+    }
 }

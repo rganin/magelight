@@ -91,14 +91,16 @@ class Document extends \Magelight\Block
     public function addCss($path, $after = null, $media = 'all')
     {
         $css = $this->get('css', []);
+        $url = $this->url($path);
         $entry = array(
+            'url' => $url,
             'path' => $path,
             'media' => $media,
             'inline' => false,
             'content' => null,
             'after' => $after
         );
-        $css[$path] = $entry; //\Magelight\Helpers\ArrayHelper::getInstance()->insertToArray($css, $path, $entry, $after);
+        $css[$path] = $entry;
         $this->set('css', $css);
     }
     
@@ -120,7 +122,7 @@ class Document extends \Magelight\Block
             'content' => $content,
             'after' => $after
         );
-        $css[$path] = $entry; //\Magelight\Helpers\ArrayHelper::getInstance()->insertToArray($css, $path, $entry, $after);
+        $css[$path] = $entry;
         $this->set('css', $css);
     }
     
@@ -133,13 +135,15 @@ class Document extends \Magelight\Block
     public function addJs($path, $after = null)
     {
         $js = $this->get('js', []);
+        $url = $this->url($path);
         $entry = array(
+            'url' => $url,
             'path' => $path,
             'inline' => false,
             'content' => null,
             'after' => $after
         );
-        $js[$path] = $entry; //\Magelight\Helpers\ArrayHelper::getInstance()->insertToArray($js, $path, $entry, $after);
+        $js[$path] = $entry;
         $this->set('js', $js);
     }
     
@@ -159,7 +163,7 @@ class Document extends \Magelight\Block
             'content' => $content,
             'after' => $after
         );
-        $js[$path] = $entry;//\Magelight\Helpers\ArrayHelper::getInstance()->insertToArray($js, $path, $entry, $after);
+        $js[$path] = $entry;
         $this->set('js', $js);
     }
     
@@ -223,6 +227,12 @@ class Document extends \Magelight\Block
         return $metaSection;
     }
 
+    /**
+     * Rebuild JS or CSS array by order
+     *
+     * @param array $jsOrCss
+     * @return mixed
+     */
     public function buildDependencies($jsOrCss)
     {
         foreach ($jsOrCss as $path => $script) {
@@ -257,7 +267,7 @@ class Document extends \Magelight\Block
         foreach ($styles as $css) {
             if (!$css['inline']) {
                 $style .=
-                    "<link rel=\"stylesheet\" href=\"{$css['path']}\" type=\"text/css\" media=\"{$css['media']}\" />"
+                    "<link rel=\"stylesheet\" href=\"{$css['url']}\" type=\"text/css\" media=\"{$css['media']}\" />"
                     . PHP_EOL;
             } else {
                 $style .= "<style>
@@ -280,7 +290,7 @@ class Document extends \Magelight\Block
         foreach ($scriptsArray as $js) {
             if (!$js['inline']) {
                 $scripts .=
-                    "<script type=\"text/javascript\" src=\"{$js['path']}\"></script>" . PHP_EOL;
+                    "<script type=\"text/javascript\" src=\"{$js['url']}\"></script>" . PHP_EOL;
             } else {
                 $scripts .= "<script type=\"text/javascript\">
                 {$js['content']}

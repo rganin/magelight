@@ -12,4 +12,9 @@ namespace Cargo\Blocks;
 class Top extends \Magelight\Core\Blocks\Top
 {
     protected $_template = 'Cargo/templates/top.phtml';
+
+    public function init()
+    {
+        $this->sectionAppend('login-menu-option', \Magelight\Auth\Blocks\User\LoginTopMenu::forge());
+    }
 }

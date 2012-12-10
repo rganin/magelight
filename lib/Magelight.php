@@ -97,7 +97,18 @@ final class Magelight
      */
     public static function autoload($className)
     {
-        require_once $className . '.php';
+        require_once self::getAutoloaderFileNameByClass($className);
+    }
+
+    /**
+     * Get autoloader fielname by class
+     *
+     * @param $className
+     * @return string
+     */
+    public static function getAutoloaderFileNameByClass($className)
+    {
+        return $className . '.php';
     }
 
     /**
