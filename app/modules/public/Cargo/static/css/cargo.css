@@ -1,3 +1,7 @@
+.hidden{
+    display: none;
+}
+
 div.logo-wide {
     margin: 24px 0 0 0;
     height: 96px;
@@ -6,7 +10,7 @@ div.logo-wide {
 
 
 div.main-content{
-    margin: 32px 16px 32px 16px !important;
+    margin: 8px 16px 32px 16px !important;
 }
 
 
@@ -55,4 +59,63 @@ ul.dropdown-menu li a i{
 
 h1{
     font-size: 24px;
+}
+
+span.required{
+    color: #dd1144;
+}
+
+ul.categories{
+    list-style: none;
+    padding: 0;
+}
+
+ul.categories li{
+    display:inline-block;
+    width:180px;
+    height:80px;
+    text-align: center;
+}
+
+div.category-icon {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background: url('../img/category-icons/sprite.png') no-repeat top left;
+}
+
+ul.categories li a span.category-title{
+    display: block;
+    font-size: 0.8em;
+}
+
+div.category-icon.cat-icon-1{ background-position: 0 0; width: 32px; height: 32px; }
+div.category-icon.cat-icon-10{ background-position: 0 -40px; width: 32px; height: 32px; }
+div.category-icon.cat-icon-11{ background-position: 0 -80px; width: 32px; height: 32px; }
+div.category-icon.cat-icon-12{ background-position: 0 -120px; width: 32px; height: 32px; }
+div.category-icon.cat-icon-13{ background-position: 0 -160px; width: 32px; height: 32px; }
+div.category-icon.cat-icon-14{ background-position: 0 -200px; width: 32px; height: 32px; }
+div.category-icon.cat-icon-15{ background-position: 0 -240px; width: 32px; height: 32px; }
+div.category-icon.cat-icon-2{ background-position: 0 -280px; width: 32px; height: 32px; }
+div.category-icon.cat-icon-3{ background-position: 0 -320px; width: 32px; height: 32px; }
+div.category-icon.cat-icon-4{ background-position: 0 -360px; width: 32px; height: 32px; }
+div.category-icon.cat-icon-5{ background-position: 0 -400px; width: 32px; height: 32px; }
+div.category-icon.cat-icon-6{ background-position: 0 -440px; width: 32px; height: 32px; }
+div.category-icon.cat-icon-7{ background-position: 0 -480px; width: 32px; height: 32px; }
+div.category-icon.cat-icon-8{ background-position: 0 -520px; width: 32px; height: 32px; }
+div.category-icon.cat-icon-9{ background-position: 0 -560px; width: 32px; height: 32px; }
+
+
+ul.selected-category{
+    display: inline;
+    padding:0;
+    margin:0;
+}
+
+ul.selected-category li{
+    display: inline;
+}
+
+ul.selected-category li *{
+    display: inline-block;
 }

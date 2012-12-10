@@ -1,3 +1,5 @@
 <routes>
     <route match="/" />
+    <route match="/addorder" action="addorder" controller="orders" />
+    <route match="/order/{id:0-9}" action="order" controller="orders" />
 </routes>

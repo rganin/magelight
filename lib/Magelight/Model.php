@@ -53,10 +53,32 @@ abstract class Model
      */
     public function __forge($data = [], $forceNew = false)
     {
+        $data = $this->_processDataBeforeCreate($data);
         $this->setOrm(static::callStaticLate('orm'));
         if (!empty($data) && is_array($data)) {
             $this->_orm->create($data, $forceNew);
         }
+        $this->_afterLoad();
+    }
+
+    protected function _processDataBeforeCreate($data)
+    {
+        return $data;
+    }
+
+    protected function _afterLoad()
+    {
+        return $this;
+    }
+
+    protected function _beforeSave()
+    {
+        return $this;
+    }
+
+    protected function _afterSave()
+    {
+        return $this;
     }
 
     /**
@@ -158,10 +180,13 @@ abstract class Model
      */
     public function save($safeMode = false, $ignore = false, $onDuplicateKeyUpdate = false)
     {
+        $this->_beforeSave();
         if ($this->_orm->isNew()) {
             $this->_orm->mergeData(static::$_defaultValues);
         }
-        return $this->_orm->save($safeMode, $ignore, $onDuplicateKeyUpdate);
+        $result = $this->_orm->save($safeMode, $ignore, $onDuplicateKeyUpdate);
+        $this->_afterSave();
+        return $result;
     }
 
     /**

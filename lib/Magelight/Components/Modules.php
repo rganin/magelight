@@ -26,7 +26,7 @@ namespace Magelight\Components;
 class Modules
 {
     /**
-     * Modules
+     * Models
      * 
      * @var array
      */

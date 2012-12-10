@@ -17,7 +17,6 @@
  */
 //$t = microtime();
 require '../core.php';
-
 Magelight::app()
     ->setAppDir(dirname(__FILE__))
     ->setDeveloperMode(true)

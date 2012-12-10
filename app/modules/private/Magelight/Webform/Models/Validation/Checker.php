@@ -189,6 +189,27 @@ class Checker
     }
 
     /**
+     * Check if checker has rule
+     *
+     * @param string $ruleClass
+     * @return bool
+     */
+    public function hasRule($ruleClass = 'Magelight\\Webform\\Models\\Validation\\Rules\\Required')
+    {
+        return isset($this->_rules[$ruleClass]);
+    }
+
+    /**
+     * Check whether checker has rule 'required'
+     *
+     * @return bool
+     */
+    public function hasRuleRequired()
+    {
+        return $this->hasRule();
+    }
+
+    /**
      * Set break on first error flag
      *
      * @param bool $flag

@@ -888,15 +888,14 @@ class Orm extends \Magelight\Dbal\Db\Common\Orm
     /**
      * Fetch row by select query
      *
-     * @param bool $array - fetch as array array, else both
+     * @param int $columnIndex
      *
      * @return mixed
      */
-    public function fetchColumn($array = true)
+    public function fetchColumn($columnIndex = 0)
     {
         $this->statement = $this->db->execute($this->buidSelect(), array_values($this->params));
-        $data = $this->statement->fetchColumn($array ? \PDO::FETCH_ASSOC : \PDO::FETCH_BOTH);
-        return $data;
+        return $this->statement->fetchAll(\PDO::FETCH_COLUMN, $columnIndex);
     }
 
     /**

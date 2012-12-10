@@ -31,7 +31,7 @@ final class Modules
     const MODULES_NODE_NAME = 'modules';
     
     /**
-     * Modules array
+     * Models array
      * 
      * @var array
      */

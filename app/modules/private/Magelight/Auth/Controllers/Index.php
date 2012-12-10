@@ -53,13 +53,14 @@ class Index extends \Magelight\Controller
     {
         $form = Form::forge()->setHorizontal()->setConfigs('regform', $this->url('register'));
         $fieldset = Fieldset::forge();
-        $fieldset->addRowField(Elements\Input::forge()->setName('name'), 'Имя');
-        $fieldset->addRowField(Elements\Input::forge()->setName('email'), 'E-Mail');
-        $fieldset->addRowField(Elements\PasswordInput::forge()->setName('password'), 'Пароль');
-        $fieldset->addRowField(Elements\PasswordInput::forge()->setName('passconf'), 'Подтверждение пароля');
+        $fieldset->addRowField(Elements\Input::forge()->setName('name')->setClass('span9'), 'Имя');
+        $fieldset->addRowField(Elements\Input::forge()->setName('email')->setClass('span9'), 'E-Mail');
+        $fieldset->addRowField(Elements\PasswordInput::forge()->setName('password')->setClass('span9'), 'Пароль');
+        $fieldset->addRowField(Elements\PasswordInput::forge()->setName('passconf')->setClass('span9'),
+            'Подтверждение пароля');
         $fieldset->addRowField(Elements\ReCaptcha::forge(), null, 'Введите слова на картинке');
         return $form->addFieldset($fieldset)
-            ->createResultRow()
+            ->createResultRow(true)
             ->addButtonsRow(Elements\Button::forge()->setContent('Зарегистрироваться')->addClass('btn-primary'))
             ->loadFromRequest($this->request())->setValidator($this->_getRegFormValidator());
     }
@@ -71,12 +72,12 @@ class Index extends \Magelight\Controller
      */
     protected function _getLoginForm()
     {
-        $form = Form::forge()->setHorizontal()->setConfigs('login-form', $this->url('login'));
+        $form = Form::forge()->setHorizontal()->setConfigs('remindpass-form', $this->url('login'));
         $fieldset = Fieldset::forge();
         $fieldset->addRowField(Elements\Input::forge()->setName('email'), 'E-Mail');
         $fieldset->addRowField(Elements\PasswordInput::forge()->setName('password'), 'Пароль');
         return $form->addFieldset($fieldset)
-            ->createResultRow()
+            ->createResultRow(true)
             ->addButtonsRow([
                 Elements\Button::forge()->setContent('Войти')->addClass('btn-primary'),
                 Elements\Abstraction\Element::forge()->setTag('a')->setAttribute('href', $this->url('remindpass'))
@@ -116,6 +117,7 @@ class Index extends \Magelight\Controller
         $validator->fieldRules(\Magelight\Webform\Models\Captcha\ReCaptcha::CHALLENGE_INDEX)
             ->reCaptcha()->setCustomError('Слова с картинки введены неверно');
         $validator->fieldRules('password', 'Пароль')
+            ->required()->setCustomError('Введите пароль')->chainRule()
             ->minLength(3)->setCustomError('Пароль должен содержать не менее 3 букв')->chainRule()
             ->maxLength(32)->setCustomError('Пароль Слишком длинный')->chainRule();
 
@@ -124,12 +126,15 @@ class Index extends \Magelight\Controller
             ->setCustomError('Пароль и подтверждение не совпадают');
 
         $validator->fieldRules('name')
+            ->required()->setCustomError('Введите имя')->chainRule()
             ->minLength(3)->setCustomError('Имя должно быть не менее 3 букв')->chainRule()
             ->maxLength(32)->setCustomError('Имя должно быть не длинее 32 букв')->chainRule()
             ->pregMatch('/[a-z0-9а-я]*/i')->setCustomError('Имя содержит недопустимые символы');
 
-        $validator->fieldRules('email')->email()->setCustomError('Введите существующий e-mail адрес!');
-
+        $validator->fieldRules('email')
+            ->required()->setCustomError('Введите e-mail')->chainRule()
+            ->email()->setCustomError('Введите существующий e-mail адрес!');
+        $validator->breakOnFirst();
         return $validator;
     }
 
@@ -159,7 +164,6 @@ class Index extends \Magelight\Controller
                 ->whereEq('password', md5($form->getFieldValue('password')))
                 ->fetchModel()
             ) {
-                var_dump($user);
                 $form->addResult('Неправильный пароль или пользователя с таким e-mail не существует');
             } else {
                 $this->session()->set('user_id', $user->id);

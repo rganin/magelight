@@ -9,6 +9,9 @@
 
 namespace Cargo\Controllers;
 
+/**
+ * @property  \Magelight\Core\Blocks\Document $_view
+ */
 class Index extends \Magelight\Controller
 {
     /**
@@ -18,12 +21,12 @@ class Index extends \Magelight\Controller
     {
         $this->_view = \Magelight\Core\Blocks\Document::forge();
         $this->_view->sectionAppend('body', \Cargo\Blocks\Body::forge());
-        $this->_view->sectionAppend('content', \Cargo\Blocks\Home::forge());
         $this->_view->sectionAppend('login-menu-option', \Magelight\Auth\Blocks\User\LoginTopMenu::forge());
     }
 
     public function indexAction()
     {
+        $this->_view->sectionAppend('content', \Cargo\Blocks\Home::forge());
         $this->renderView();
     }
 }

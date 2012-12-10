@@ -89,21 +89,50 @@ class Validator extends \Magelight\Model
                             $this->_validateRecursive($dataField, $checker);
                         }
                     } else {
-                        $this->_validateRecursive($validationData, $checker);
+                        $this->_processValidation($validationData[$key], $subChecker);
                     }
                 }
-
             } elseif ($checker instanceof Validation\Checker) {
-                /* @var $checker Validation\Checker*/
-                if (!$checker->check($validationData)) {
-                    $this->_result->addErrors($checker->getErrors())->setFail();
-                    if ($this->_breakOnFirst) {
-                        return $this;
-                    }
-                }
+                $this->_processValidation($validationData, $checker);
             }
         }
         return $this;
+    }
+
+    /**
+     * Process data validation
+     *
+     * @param string $data
+     * @param Validation\Checker $checker
+     * @return Validator
+     */
+    protected function _processValidation($data, Validation\Checker $checker)
+    {
+        if ($this->emptyField($data) && !$checker->hasRuleRequired()) {
+
+        } else {
+            if ($this->_breakOnFirst) {
+                $checker->breakOnFirst(true);
+            }
+            if (!$checker->check($data)) {
+                $this->_result->addErrors($checker->getErrors())->setFail();
+                if ($this->_breakOnFirst) {
+                    return $this;
+                }
+            }
+        }
+    }
+
+    /**
+     * Check is string empty
+     *
+     * @param string $value
+     * @return bool
+     */
+    public function emptyField($value)
+    {
+        $value = trim($value);
+        return $value === '' || $value === null;
     }
 
     /**
@@ -205,9 +234,10 @@ class Validator extends \Magelight\Model
     public function fieldRules($fieldName, $fieldAlias = null)
     {
         $fieldAddress = $this->queryStringToArray($fieldName);
+        $fieldAddressLast = array_reverse($fieldAddress)[0];
         $checker = $this->_getChecker($fieldAddress);
         if (empty($checker)) {
-            $checker = Validation\Checker::forge($fieldName, $fieldAlias);
+            $checker = Validation\Checker::forge($fieldAddressLast, $fieldAlias)->breakOnFirst($this->_breakOnFirst);
             $this->setChecker($fieldAddress, $checker);
         }
         return $checker;

@@ -23,6 +23,9 @@
 
 namespace Magelight\Core\Blocks;
 
+/**
+ * @method static \Magelight\Core\Blocks\Document forge()
+ */
 class Document extends \Magelight\Block
 {
     /**

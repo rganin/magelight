@@ -27,6 +27,8 @@ namespace Magelight\Webform\Blocks;
  * @method static \Magelight\Webform\Blocks\Form forge() forge a webform
  * @method static \Magelight\Webform\Blocks\Fieldset forgeFieldset()
  * @method static \Magelight\Webform\Blocks\Row forgeRow()
+ * @method \Magelight\Webform\Blocks\Form addClass($class)
+ * @method \Magelight\Webform\Blocks\Form setClass($class)
  */
 class Form extends Elements\Abstraction\Element
 {
@@ -163,6 +165,16 @@ class Form extends Elements\Abstraction\Element
     }
 
     /**
+     * Get for request fields
+     *
+     * @return array
+     */
+    public function getRequestFields()
+    {
+        return $this->_requestFields;
+    }
+
+    /**
      * Add button to form
      *
      * @param array $buttons
@@ -253,13 +265,41 @@ class Form extends Elements\Abstraction\Element
     /**
      * Create result row for form
      *
+     * @param bool $insertToContent - inser result row to content ad the place it was created
+     *
      * @return Form
      */
-    public function createResultRow()
+    public function createResultRow($insertToContent = false)
     {
         $this->_resultRow = Elements\Abstraction\Element::forge()->setTag('div');
-        $this->addContent($this->_resultRow);
+        if ($insertToContent) {
+            $this->addContent($this->_resultRow);
+        }
         return $this;
+    }
+
+    /**
+     * Get form result row
+     *
+     * @return Elements\Abstraction\Element|null
+     */
+    public function getResultRow()
+    {
+        return $this->_resultRow;
+    }
+
+    /**
+     *
+     *
+     * @return null|string
+     */
+    public function getResultRowHtml()
+    {
+        $res = $this->getResultRow();
+        if ($res instanceof \Magelight\Block) {
+            return $res->toHtml();
+        }
+        return null;
     }
 
     /**
@@ -284,11 +324,10 @@ class Form extends Elements\Abstraction\Element
     public function addResult($text = '', $class = 'alert-error')
     {
         $res = Result::forge()->setContent($text)->setClass('alert')->addClass($class);
-        if ($this->_resultRow instanceof Elements\Abstraction\Element) {
-            $this->_resultRow->addContent($res);
-        } else {
-            $this->addContent($res);
+        if (!$this->_resultRow instanceof Elements\Abstraction\Element) {
+            $this->createResultRow(false);
         }
+        $this->_resultRow->addContent($res);
         return $this;
     }
 
