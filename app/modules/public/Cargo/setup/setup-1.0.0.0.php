@@ -51,7 +51,7 @@ INSERT INTO `categories` (`id`, `title`) VALUES (2, 'Личные вещи');
 INSERT INTO `categories` (`id`, `title`) VALUES (3, 'Квартирный/офисный переезд');
 INSERT INTO `categories` (`id`, `title`) VALUES (4, 'Перевозка пассажиров');
 INSERT INTO `categories` (`id`, `title`) VALUES (5, 'Обслуживание торжеств');
-INSERT INTO `categories` (`id`, `title`) VALUES (6, 'Авто и мото. Перегон');
+INSERT INTO `categories` (`id`, `title`) VALUES (6, 'Авто, мото, перегон');
 INSERT INTO `categories` (`id`, `title`) VALUES (7, 'Животные');
 INSERT INTO `categories` (`id`, `title`) VALUES (8, 'Продукты питания');
 INSERT INTO `categories` (`id`, `title`) VALUES (9, 'Спецтехника');
