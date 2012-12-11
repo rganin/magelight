@@ -12,6 +12,14 @@ namespace Magelight\Dbal\Db\Common;
 /**
  * Abstract Orm
  *
+ * @method \Magelight\Dbal\Db\Mysql\Orm     joinLeft($table, $alias, $onStatement, $onParams)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     joinRight($table, $alias, $onStatement, $onParams)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     joinCross($table, $alias, $onStatement, $onParams)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     joinInnerLeft($table, $alias, $onStatement, $onParams)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     joinInnerRight($table, $alias, $onStatement, $onParams)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     joinOuterLeft($table, $alias, $onStatement, $onParams)
+ * @method \Magelight\Dbal\Db\Mysql\Orm     joinOuterRight($table, $alias, $onStatement, $onParams)
+ *
  * @method \Magelight\Dbal\Db\Common\Orm     whereEq($expression, $param)
  * @method \Magelight\Dbal\Db\Common\Orm     whereNeq($expression, $param)
  * @method \Magelight\Dbal\Db\Common\Orm     whereNull($expression)
@@ -79,6 +87,8 @@ namespace Magelight\Dbal\Db\Common;
  */
 abstract class Orm
 {
+    use \Magelight\Cache\Cache;
+
     /**
      * PDO instance
      *

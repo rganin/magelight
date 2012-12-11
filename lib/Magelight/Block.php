@@ -22,7 +22,7 @@
  */
 
 namespace Magelight;
-use Magelight\Forgery as Forgery;
+
 /**
  * @static forge() \Magelight\Blocks
  */
@@ -30,6 +30,7 @@ abstract class Block
 {
     use Forgery;
     use \Magelight\Components\CodePoolFetcher;
+    use \Magelight\Cache\Cache;
 
     /**
      * Path to template
@@ -37,6 +38,27 @@ abstract class Block
      * @var string
      */
     protected $_template = null;
+
+    /**
+     * Enable block html caching
+     *
+     * @var bool
+     */
+    protected $_cacheEnabled = false;
+
+    /**
+     * Cache Key
+     *
+     * @var null
+     */
+    protected $_cacheKey = null;
+
+    /**
+     * Cache lifetime
+     *
+     * @var int
+     */
+    protected $_cacheTtl = 3600;
 
     /**
      * Blocks variables
@@ -146,6 +168,17 @@ abstract class Block
     }
 
     /**
+     * Isset magic
+     *
+     * @param string $name
+     * @return bool
+     */
+    public function __isset($name)
+    {
+        return isset($this->_vars[$name]);
+    }
+
+    /**
      * Append section
      *
      * @param string $name - section name
@@ -217,6 +250,9 @@ abstract class Block
     public function toHtml()
     {
         $this->initBlock();
+        if ($html = $this->getFromCache(null)) {
+            return $html;
+        }
         $class = get_called_class();
         if (empty($this->_template)) {
             if (\Magelight::app()->isInDeveloperMode()) {
@@ -229,7 +265,9 @@ abstract class Block
         ob_start();
         include($this->_template);
         $this->afterToHtml();
-        return ob_get_clean();
+        $html = ob_get_clean();
+        $this->setToCache($html);
+        return $html;
     }
 
     /**
@@ -325,5 +363,41 @@ abstract class Block
     public function url($match, $params = [], $type = \Magelight\Helpers\UrlHelper::TYPE_HTTP)
     {
         return \Magelight::app()->url($match, $params, $type);
+    }
+
+    /**
+     * Pasre int to date
+     *
+     * @param int $value
+     * @return string
+     */
+    public function date($value)
+    {
+        $dateFormat = \Magelight::app()->getConfig('global/view/date_format', 'Y-m-d');
+        return date($dateFormat, $value);
+    }
+
+    /**
+     * int to date and time
+     *
+     * @param int $value
+     * @return string
+     */
+    public function dateTime($value)
+    {
+        $dateFormat = \Magelight::app()->getConfig('global/view/date_time_format', 'Y-m-d H:i:s');
+        return date($dateFormat, $value);
+    }
+
+    /**
+     * Custom mask int to dateTime conversion
+     *
+     * @param string $dateFormat
+     * @param int $value
+     * @return string
+     */
+    public function dateTimeCustom($dateFormat, $value)
+    {
+        return date($dateFormat, $value);
     }
 }

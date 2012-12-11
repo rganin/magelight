@@ -1,16 +1,46 @@
+<?php
+/* @var $this \Cargo\Blocks\Order\OrderList */
+?>
+
 <h1>Заявки</h1>
 
-<table>
+<?=$this->section('orders-pager'); ?>
+
+<table class="table table-hover table-striped">
     <thead>
         <tr>
-            <th>#</th>
             <th>Описание</th>
+            <th>Маршрут</th>
             <th>Дата</th>
-            <th>Цена</th>
-            <th>Добавил</th>
+            <th>Макс. цена</th>
         </tr>
     </thead>
     <tbody>
-        <?php ?>
+        <?php foreach ($this->get('orders', []) as $order): ?>
+            <tr>
+                <td>
+                    <small>
+                        <?=mb_strcut($order['details'], 0, 257)?>
+                    </small>
+                </td>
+                <td>
+                    <small>
+                        Из: <?=$order['geo_address_from']?>
+                        <br />
+                        В: <?=$order['geo_address_to']?>
+                    </small>
+                    <br />
+                    <strong>
+                        <?=@round($order['route_length'] / 1000, 1)?> км.
+                    </strong>
+                    <br />
+                    <?=$this->formatTime($order['route_time'])?>
+                </td>
+                <td><?=($order['date_move'] ? $this->date($order['date_move']) : '-')?></td>
+                <td><?=$order['max_price']?> грн.</td>
+            </tr>
+        <?php endforeach; ?>
     </tbody>
 </table>
+
+<?=$this->section('orders-pager'); ?>

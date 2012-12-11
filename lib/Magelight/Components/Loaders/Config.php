@@ -116,6 +116,12 @@ class Config
         return $this->_config;
     }
 
+    public function setConfig(\SimpleXMLElement $config)
+    {
+        $this->_config = $config;
+        return $this;
+    }
+
     /**
      * Destructor
      */

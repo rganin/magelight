@@ -23,22 +23,24 @@
 
 namespace Magelight\Cache\Adapters;
 
+/**
+ * @method static \Magelight\Cache\Adapters\File forge($config)
+ */
 class File extends \Magelight\Cache\AdapterAbstract
 {
-
     protected $_path = '/var/tmp';
 
-    public function init(array $config = [])
+    public function init()
     {
-        $this->_path = isset($config['path'])
-            ? \Magelight::app()->getAppDir() . DS . trim($config['path'], '\\/')
+        $this->_path = isset($this->_config->path)
+            ? \Magelight::app()->getAppDir() . DS . trim((string)$this->_config->path, '\\/')
             : $this->_path;
         return $this;
     }
 
     public function getFilepath($key)
     {
-        return $this->_path . DS . md5($key);
+        return $this->_path . DS . $key;
     }
 
     public function get($key, $default = null)

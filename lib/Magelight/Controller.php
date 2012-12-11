@@ -26,6 +26,7 @@ namespace Magelight;
 abstract class Controller
 {
     use \Magelight\Forgery;
+    use \Magelight\Cache\Cache;
 
     /**
      * Default controller action
@@ -52,6 +53,13 @@ abstract class Controller
      * @var \Magelight\Http\Response
      */
     protected $_response = null;
+
+    /**
+     * Current route action
+     *
+     * @var array
+     */
+    protected $_routeAction = [];
     
     /**
      * View object
@@ -64,10 +72,13 @@ abstract class Controller
      * Constructor
      * 
      * @param Http\Request $request
+     * @param array $routeAction
+     *
      */
-    public function init(\Magelight\Http\Request $request)
+    public function init(\Magelight\Http\Request $request, array $routeAction = [])
     {
         $this->_request = $request;
+        $this->_routeAction = $routeAction;
         $this->_app = \Magelight::app();
         $this->_response = new \Magelight\Http\Response();
     }

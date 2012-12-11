@@ -25,7 +25,7 @@ class Index extends \Magelight\Controller
 
     public function indexAction()
     {
-        $this->_view->sectionAppend('content', \Cargo\Blocks\Home::forge());
+        $this->_view->sectionAppend('content', \Cargo\Blocks\Home::forge()->useCache('main_page'));
         $this->renderView();
     }
 }

@@ -9,6 +9,9 @@
 
 namespace Cargo\Blocks;
 
+/**
+ * @method static \Cargo\Blocks\Home forge()
+ */
 class Home extends \Magelight\Block
 {
     protected $_template = 'Cargo\templates\home.phtml';

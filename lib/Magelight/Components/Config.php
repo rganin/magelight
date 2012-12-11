@@ -25,6 +25,8 @@ namespace Magelight\Components;
 
 class Config
 {
+    use \Magelight\Cache\Cache;
+
     /**
      * Config path prefix
      */
@@ -52,23 +54,46 @@ class Config
      */
     public function __construct(\Magelight\App $app)
     {
+        /* Loading APP config */
         $loader = new \Magelight\Components\Loaders\Config();
-
-        //@todo add config caching just as caching will be implemented
         $loader->loadConfig($app->getAppDir() . DS . 'etc' . DS . 'config.xml');
+        $this->_config = $loader->getConfig();
+    }
 
-        foreach (['private', 'public'] as $scope) {
-            foreach (array($app->getFrameworkDir(), $app->getAppDir()) as $dir) {
-                foreach ($app->modules()->getActiveModules() as $module) {
-                    $filename = $dir . DS . 'modules' . DS . $scope . DS . $module['path'] . DS . 'etc' . DS . 'config.xml';
-                    if (is_readable($filename)) {
-                        $loader->loadConfig($filename);
+    /**
+     * Load config for application modules
+     *
+     * @param \Magelight\App $app
+     */
+    public function loadModulesConfig(\Magelight\App $app)
+    {
+        $modulesConfig = (bool)$app->config()->getConfig('global/app')->cache_modules_config
+            ? $this->cache()->get($this->buildCacheKey('modules_config'))
+            : false;
+        if ($modulesConfig) {
+            $modulesConfig = simplexml_load_string($modulesConfig);
+        }
+        /* Loading modules config */
+        if (!$modulesConfig) {
+            $loader = new \Magelight\Components\Loaders\Config();
+            foreach (['private', 'public'] as $scope) {
+                foreach (array($app->getFrameworkDir(), $app->getAppDir()) as $dir) {
+                    foreach ($app->modules()->getActiveModules() as $module) {
+                        $filename = $dir . DS . 'modules' . DS . $scope . DS . $module['path']
+                            . DS . 'etc' . DS . 'config.xml';
+                        if (is_readable($filename)) {
+                            $loader->loadConfig($filename);
+                        }
                     }
                 }
             }
+            $modulesConfig = $loader->getConfig();
+            if ((bool)$app->config()->getConfig('global/app')->cache_modules_config) {
+                $this->cache()->set($this->buildCacheKey('modules_config'), $modulesConfig->asXML(), 360);
+            }
         }
 
-        $this->_config = clone $loader->getConfig();
+        \Magelight\Components\Loaders\Config::mergeConfig($this->_config, $modulesConfig);
         unset($loader);
     }
 

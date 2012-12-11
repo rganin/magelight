@@ -24,6 +24,14 @@ namespace Magelight\Dbal\Db\Mysql;
 /**
  * Abstract Orm
  *
+ * @method \Magelight\Dbal\Db\Mysql\Orm     joinLeft($table, $alias, $onStatement = null, $onParams = [])
+ * @method \Magelight\Dbal\Db\Mysql\Orm     joinRight($table, $alias, $onStatement = null, $onParams = [])
+ * @method \Magelight\Dbal\Db\Mysql\Orm     joinCross($table, $alias, $onStatement = null, $onParams = [])
+ * @method \Magelight\Dbal\Db\Mysql\Orm     joinInnerLeft($table, $alias, $onStatement = null, $onParams = [])
+ * @method \Magelight\Dbal\Db\Mysql\Orm     joinInnerRight($table, $alias, $onStatement = null, $onParams = [])
+ * @method \Magelight\Dbal\Db\Mysql\Orm     joinOuterLeft($table, $alias, $onStatement = null, $onParams = [])
+ * @method \Magelight\Dbal\Db\Mysql\Orm     joinOuterRight($table, $alias, $onStatement = null, $onParams = [])
+ *
  * @method \Magelight\Dbal\Db\Mysql\Orm     whereEq($expression, $param)
  * @method \Magelight\Dbal\Db\Mysql\Orm     whereNeq($expression, $param)
  * @method \Magelight\Dbal\Db\Mysql\Orm     whereNull($expression)
@@ -91,6 +99,7 @@ namespace Magelight\Dbal\Db\Mysql;
  */
 class Orm extends \Magelight\Dbal\Db\Common\Orm
 {
+
     /**
      * Key constants
      */
@@ -129,6 +138,21 @@ class Orm extends \Magelight\Dbal\Db\Common\Orm
     ];
 
     /**
+     * Render map for joins
+     *
+     * @var array
+     */
+    protected $_renderJoinMap = [
+        'joinLeft'       => 'LEFT JOIN',
+        'joinRight'      => 'RIGHT JOIN',
+        'joinCross'      => 'CROSS JOIN',
+        'joinInnerLeft'  => 'LEFT INNER JOIN',
+        'joinInnerRight' => 'RIGHT INNER JOIN',
+        'joinOuterLeft'  => 'LEFT OUTER JOIN',
+        'joinOuterRight' => 'RIGHT OUTER JOIN',
+    ];
+
+    /**
      * Flag is profiling enabled
      *
      * @var bool
@@ -149,7 +173,19 @@ class Orm extends \Magelight\Dbal\Db\Common\Orm
      */
     protected $where = [];
 
+    /**
+     * Cache key
+     *
+     * @var null|string
+     */
+    protected $_cacheKey = null;
 
+    /**
+     * Cache index to use
+     *
+     * @var string
+     */
+    protected $_cacheIndex = \Magelight\App::DEFAULT_INDEX;
 
     /**
      * array of data
@@ -249,6 +285,12 @@ class Orm extends \Magelight\Dbal\Db\Common\Orm
      */
     protected $tableFields = [];
 
+    /**
+     * Joins
+     *
+     * @var array
+     */
+    protected $_join = [];
 
     /**
      * Get current orm profile
@@ -415,6 +457,68 @@ class Orm extends \Magelight\Dbal\Db\Common\Orm
      */
     public function __call($name, $arguments)
     {
+        if (stripos($name, 'where') !== false) {
+            return $this->_addWhereStatement($name, $arguments);
+        } elseif (stripos($name, 'join') !== false) {
+            return $this->_addJoinStatement($name, $arguments);
+        }
+
+        $class = __CLASS__;
+        throw new \Magelight\Exception("Undefined method call {$class}::{$name}");
+    }
+
+    /**
+     * add statement for join*****($table, $alias, $onStatement, $onParams)
+     *
+     * @param string $name
+     * @param array $arguments
+     *
+     * @return Orm
+     */
+    protected function _addJoinStatement($name, $arguments)
+    {
+        if (isset($this->_renderJoinMap[$name])) {
+            $join = [
+                'logic'  => $this->_renderJoinMap[$name],
+                'table'  => $arguments[0],
+                'alias'  => $arguments[1],
+                'on'     => (isset($arguments[2]) ? $arguments[2] : 'TRUE'),
+                'params' => isset($arguments[3]) ? $arguments[3] : [],
+            ];
+            $this->_join[] = $join;
+        }
+        return $this;
+    }
+
+    /**
+     * Build joins
+     *
+     * @return string
+     */
+    protected function buildJoins()
+    {
+        $query = [];
+        foreach ($this->_join as $join) {
+            $query[] = $join['logic'];
+            $query[] = $join['table'];
+            if (!empty($join['alias'])) {
+                $query[] = $join['alias'];
+            }
+            $query[] = 'ON ' . $join['on'];
+            $this->pushParams($join['params']);
+        }
+        return implode(' ', $query);
+    }
+
+    /**
+     * Build and add where *** statement to SQL
+     *
+     * @param string $name - called method name
+     * @param array $arguments - method args
+     * @return Orm
+     */
+    protected function _addWhereStatement($name, $arguments)
+    {
         $logic = $this->parseStatementLogic($name);
         if (!is_null($logic)) {
             if (isset($this->_renderWhereMap[$logic['method']])) {
@@ -427,10 +531,8 @@ class Orm extends \Magelight\Dbal\Db\Common\Orm
                     self::KEY_LOGIC => $logic['logic'],
                 ];
             }
-            return $this;
         }
-        $class = __CLASS__;
-        throw new \Magelight\Exception("Undefined method call {$class}::{$name}");
+        return $this;
     }
 
     /**
@@ -612,6 +714,8 @@ class Orm extends \Magelight\Dbal\Db\Common\Orm
         return implode(' ', $query);
     }
 
+
+
     /**
      * Build WHERE statement
      *
@@ -701,7 +805,7 @@ class Orm extends \Magelight\Dbal\Db\Common\Orm
      */
     protected function buildLimit()
     {
-        if (empty($this->limit) && $this->limit !== 0) {
+        if (empty($this->limit) || $this->limit == 0) {
             return null;
         }
         $query[] = 'LIMIT';
@@ -741,6 +845,7 @@ class Orm extends \Magelight\Dbal\Db\Common\Orm
     protected function buidSelect()
     {
         $query = $this->buildSelectStart()
+            . ' ' . $this->buildJoins()
             . ' ' . $this->buildWhere()
             . ' ' . $this->buildGroupBy()
             . ' ' . $this->buildOrderBy()
@@ -877,10 +982,20 @@ class Orm extends \Magelight\Dbal\Db\Common\Orm
      */
     public function fetchRow($array = true)
     {
+        if ($this->getCacheKey()) {
+            if ($data = $this->cache()->get($this->buildCacheKey([$this->getCacheKey(), 'row']), false)) {
+                return $data;
+            }
+        }
         $this->statement = $this->db->execute($this->buidSelect(), array_values($this->params));
         $data = $this->statement->fetch($array ? \PDO::FETCH_ASSOC : \PDO::FETCH_BOTH);
         if (!empty($data)) {
             $this->data = $data;
+            if ($this->getCacheKey()) {
+                $this->cache()->set(
+                    $this->buildCacheKey([$this->getCacheKey(), 'row']), $data, $this->getCacheTtl()
+                );
+            }
         }
         return $data;
     }
@@ -894,35 +1009,65 @@ class Orm extends \Magelight\Dbal\Db\Common\Orm
      */
     public function fetchColumn($columnIndex = 0)
     {
+        if ($this->getCacheKey()) {
+            if ($data = $this->cache()->get($this->buildCacheKey([$this->getCacheKey(), 'col']), false)) {
+                return $data;
+            }
+        }
         $this->statement = $this->db->execute($this->buidSelect(), array_values($this->params));
-        return $this->statement->fetchAll(\PDO::FETCH_COLUMN, $columnIndex);
+        $data = $this->statement->fetchAll(\PDO::FETCH_COLUMN, $columnIndex);
+        if ($this->getCacheKey()) {
+            $this->cache()->set(
+                $this->buildCacheKey([$this->getCacheKey(), 'col']), $data, $this->getCacheTtl()
+            );
+        }
+        return $data;
     }
 
     /**
-     * Fetch row by select query
-     *
-     * @param bool $array - fetch as array array, else both
+     * Fetch first column element
      *
      * @return mixed
      */
     public function fetchFirstColumnElement()
     {
+        if ($this->getCacheKey()) {
+            if ($data = $this->cache()->get($this->buildCacheKey([$this->getCacheKey(), 'firstCol']), false)) {
+                return $data;
+            }
+        }
         $this->statement = $this->db->execute($this->buidSelect(), array_values($this->params));
         $data = $this->statement->fetchColumn();
-        return isset($data[0]) ? $data[0] : null;
+        if ($this->getCacheKey()) {
+            $this->cache()->set(
+                $this->buildCacheKey([$this->getCacheKey(), 'firstCol']), $data, $this->getCacheTtl()
+            );
+        }
+        return $data;
     }
 
     /**
      * Fetch all data by select query
      *
      * @param bool $array - fetch as array array, else both
-     *
+     * @param int &$affectedRows - total count
      * @return array
      */
-    public function fetchAll($array = true)
+    public function fetchAll($array = true, &$affectedRows = 0)
     {
+        if ($this->getCacheKey()) {
+            if ($data = $this->cache()->get($this->buildCacheKey([$this->getCacheKey(), 'all']), false)) {
+                return $data;
+            }
+        }
         $this->statement = $this->db->execute($this->buidSelect(), array_values($this->params));
+        $affectedRows = $this->statement->rowCount();
         $data = $this->statement->fetchAll($array ? \PDO::FETCH_ASSOC : \PDO::FETCH_BOTH);
+        if ($this->getCacheKey()) {
+            $this->cache()->set(
+                $this->buildCacheKey([$this->getCacheKey(), 'all']), $data, $this->getCacheTtl()
+            );
+        }
         return $data;
     }
 
@@ -939,12 +1084,12 @@ class Orm extends \Magelight\Dbal\Db\Common\Orm
 
     /**
      * Fetch array of models
-     *
+     * @param int &$affectedRows
      * @return array
      */
-    public function fetchModels()
+    public function fetchModels(&$affectedRows = 0)
     {
-        $dataArray = $this->fetchAll(true);
+        $dataArray = $this->fetchAll(true, $affectedRows);
         $models = [];
         foreach ($dataArray as $data) {
             if (!empty($data)) {
@@ -961,7 +1106,17 @@ class Orm extends \Magelight\Dbal\Db\Common\Orm
      */
     public function totalCount()
     {
-        return $this->db->execute($this->buidSelect(), array_values($this->params))->rowCount();
+        if ($this->getCacheKey()) {
+            if ($result = $this->cache()->get($this->buildCacheKey([$this->getCacheKey(), 'count']), false)) {
+                return $result;
+            }
+        }
+        $this->limit(null, null);
+        $result = $this->db->execute($this->buidSelect(), array_values($this->params))->rowCount();
+        if ($this->getCacheKey()) {
+            $this->cache()->set($this->buildCacheKey([$this->getCacheKey(), 'count']), $result, $this->getCacheTtl());
+        }
+        return $result;
     }
 
     /**
@@ -1124,6 +1279,12 @@ class Orm extends \Magelight\Dbal\Db\Common\Orm
         return $this;
     }
 
+    /**
+     * Isset magic
+     *
+     * @param string $name
+     * @return bool
+     */
     public function __isset($name)
     {
         return isset($this->data[$name]);

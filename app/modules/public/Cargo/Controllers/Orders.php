@@ -37,15 +37,20 @@ class Orders extends \Magelight\Controller
             ->whereEq('country_id', 2)
             ->fetchColumn(false);
         $orderForm->set('cities', json_encode($cities));
-
+        $userData = \Magelight\Auth\Models\User::find($this->session()->get('user_id'));
 
         $categories = \Cargo\Models\Category::orm()->fetchAll();
         $orderForm->set('categories', $categories);
         if (!$orderForm->isEmptyRequest() && $orderForm->validate()) {
             $data = $orderForm->getFieldValue('order');
-            \Cargo\Models\Order::forge($data, true)->save();
+            $data['user_id'] = $this->session()->get('user_id');
+            $order = \Cargo\Models\Order::forge($data, true);
+            if ($order->save()) {
+                $orderGeo = \Cargo\Models\OrderGeo::forge([], true)->createForOrder($order->id);
+                $orderGeo->save();
+            }
         } else {
-            $userData = \Magelight\Auth\Models\User::find($this->session()->get('user_id'));
+
             if ($userData) {
                 $client = [
                     'name' => $userData->name,
@@ -99,7 +104,20 @@ class Orders extends \Magelight\Controller
 
     public function listAction()
     {
-        $this->_view->sectionReplace('content', \Cargo\Blocks\Order\OrderList::forge());
+        $this->_view->setTitle('Список заказов');
+        $list = \Cargo\Blocks\Order\OrderList::forge();
+        $currentPage = $this->request()->getGet('page', 0);
+        $collection = \Magelight\Dbal\Db\Collection::forge(
+            \Cargo\Models\Order::orm()->selectFields(['u.name', 'orders.*', 'g.*'])
+                ->joinLeft('users', 'u', 'u.id = orders.user_id')
+                ->joinLeft('order_geo', 'g', 'g.order_id = orders.id')
+                ->orderByDesc('orders.date_added')
+        )->setLimit(5)->setPage($currentPage)->useCache(['orders_list_no_filter', 5, $currentPage], 50);
+
+        $list->set('orders', $collection->fetchAll(true));
+        $pager = \Magelight\Core\Blocks\Pager::forge($collection)->setRoute($this->_routeAction['match'])->addClass('pagination-small');
+        $this->_view->sectionReplace('orders-pager', $pager);
+        $this->_view->sectionReplace('content', $list);
         $this->renderView();
     }
 }

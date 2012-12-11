@@ -55,7 +55,7 @@ abstract class Model
     {
         $data = $this->_processDataBeforeCreate($data);
         $this->setOrm(static::callStaticLate('orm'));
-        if (!empty($data) && is_array($data)) {
+        if (is_array($data)) {
             $this->_orm->create($data, $forceNew);
         }
         $this->_afterLoad();

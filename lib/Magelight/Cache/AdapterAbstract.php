@@ -23,10 +23,39 @@
 
 namespace Magelight\Cache;
 
+/**
+ * @method static \Magelight\Cache\AdapterAbstract forge($config)
+ */
 abstract class AdapterAbstract implements CacheInterface
 {
+    use \Magelight\Forgery;
+
     /**
-     * Get adapter class by type
+     * Adapters pool
+     *
+     * @var array
+     */
+    protected static $_adapters = [];
+
+    /**
+     * Adapter configuration
+     *
+     * @var \SimpleXMLElement
+     */
+    protected $_config = null;
+
+    /**
+     * Forgery constructor
+     *
+     * @param \SimpleXMLElement $config
+     */
+    public function __forge($config)
+    {
+        $this->_config = $config;
+    }
+
+    /**
+     * Get adapter class by type string
      *
      * @param string $type
      * @return string
@@ -37,10 +66,38 @@ abstract class AdapterAbstract implements CacheInterface
     }
 
     /**
+     * Get adapter by index
+     *
+     * @param string $index
+     * @return \Magelight\Cache\AdapterAbstract
+     */
+    protected  static function getAdapter($index)
+    {
+        $config = \Magelight::app()->getConfig('global/cache/' . $index);
+        $type = self::getAdapterClassByType($config->type);
+        self::$_adapters[$index] = @call_user_func_array([$type, 'forge'], [$config->config]);
+        self::$_adapters[$index]->init();
+        return self::$_adapters[$index];
+    }
+
+    /**
+     * Get adapter instance by index
+     *
+     * @param string $index
+     * @return \Magelight\Cache\AdapterAbstract
+     */
+    public static function getAdapterInstance($index)
+    {
+        if (isset(self::$_adapters[$index]) && self::$_adapters[$index] instanceof self) {
+            return self::$_adapters[$index];
+        }
+        return self::getAdapter($index);
+    }
+
+    /**
      * Init adapter
      *
-     * @param array $config
      * @return AdapterAbstract
      */
-    abstract public function init(array $config = []);
+    abstract public function init();
 }

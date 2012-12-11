@@ -1,0 +1,10 @@
+<config>
+    <global>
+        <forgery>
+            <override>
+                <old>\Magelight\Core\Blocks\Document</old>
+                <old>\Magelight\Minifier\Blocks\Document</old>
+            </override>
+        </forgery>
+    </global>
+</config>

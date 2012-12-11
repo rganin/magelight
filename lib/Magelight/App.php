@@ -288,6 +288,8 @@ final class App
 
         $this->setRegistryObject('modules', new \Magelight\Components\Modules($this));
         $this->setRegistryObject('config', new \Magelight\Components\Config($this));
+        $this->setDeveloperMode((string)$this->getConfig('global/app/developer_mode'));
+        $this->config()->loadModulesConfig($this);
         $this->setRegistryObject('router', new \Magelight\Components\Router($this));
         $this->setRegistryObject('session', \Magelight\Http\Session::getInstance());
         $this->session()->setSessionName(self::SESSION_ID_COOKIE_NAME)->start();
@@ -346,7 +348,7 @@ final class App
                 "Trying to run undefined controller action {$controllerMethod} in {$controllerName}"
             );
         }
-        $controller->init($request);
+        $controller->init($request, $action);
         $controller->beforeExecute();
         $controller->$controllerMethod();
         $controller->afterExecute();

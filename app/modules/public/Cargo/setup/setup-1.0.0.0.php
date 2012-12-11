@@ -18,12 +18,10 @@ CREATE TABLE `categories` (
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
 
-DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
 	`id` INT(10) NOT NULL AUTO_INCREMENT,
 	`category` INT(10) NULL DEFAULT NULL,
 	`user_id` INT(11) NULL DEFAULT NULL,
-	`title` VARCHAR(64) NULL DEFAULT NULL,
 	`details` VARCHAR(2048) NULL DEFAULT NULL,
 	`loading_required` TINYINT(4) NULL DEFAULT NULL,
 	`city_from` VARCHAR(50) NULL DEFAULT NULL,
@@ -34,7 +32,7 @@ CREATE TABLE `orders` (
 	`date_added` INT(11) NULL DEFAULT NULL,
 	`max_price` INT(11) NULL DEFAULT NULL,
 	`weight` FLOAT NULL DEFAULT NULL,
-	`passengers` INT(10) NULL,
+	`passengers` INT(10) NULL DEFAULT NULL,
 	PRIMARY KEY (`id`),
 	INDEX `category` (`category`),
 	INDEX `user_id` (`user_id`),
@@ -43,6 +41,7 @@ CREATE TABLE `orders` (
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB
 AUTO_INCREMENT=100;
+
 ");
 
 $this->getDb()->execute("
