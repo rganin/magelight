@@ -434,25 +434,6 @@ final class App
         return $db;
     }
 
-    public function cache($index = self::DEFAULT_INDEX)
-    {
-        $cache = $this->getRegistryObject('cache/' . $index);
-
-        if (!$cache instanceof \Magelight\Cache) {
-            $cacheConfig = $this->getConfig('/global/cache/' . $index, null);
-            if (is_null($cacheConfig)) {
-                throw new \Magelight\Exception("Cache `{$index}` configuration not found.");
-            }
-            if (empty($cacheConfig->type)) {
-                throw new \Magelight\Exception("Cache `{$index}` type not found in configuration node.");
-            }
-            $cache = \Magelight\Cache::forge();
-            /* @var $cache \Magelight\Cache */
-            $cache->init((array) $cacheConfig);
-            $this->setRegistryObject('cache/' . $index, $cache);
-        }
-    }
-
     /**
      * Get class name according to runtime overrides
      *

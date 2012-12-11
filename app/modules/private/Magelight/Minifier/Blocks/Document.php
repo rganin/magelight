@@ -11,5 +11,8 @@ namespace Magelight\Minifier\Blocks;
 
 class Document extends \Magelight\Core\Blocks\Document
 {
-
+    public function init()
+    {
+        return parent::init();
+    }
 }

@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <config>
     <global>
-        <log>
-            <file>logfile.log</file>
-        </log>
-        <admin>
-            <auth>2</auth>
-        </admin>
         <document>
             <default_lang>ru</default_lang>
         </document>

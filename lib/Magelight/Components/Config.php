@@ -67,7 +67,7 @@ class Config
      */
     public function loadModulesConfig(\Magelight\App $app)
     {
-        $modulesConfig = (bool)$app->config()->getConfig('global/app')->cache_modules_config
+        $modulesConfig = $app->config()->getConfigBool('global/app/cache_modules_config')
             ? $this->cache()->get($this->buildCacheKey('modules_config'))
             : false;
         if ($modulesConfig) {
@@ -76,24 +76,25 @@ class Config
         /* Loading modules config */
         if (!$modulesConfig) {
             $loader = new \Magelight\Components\Loaders\Config();
+            $loader->setConfig($this->_config);
             foreach (['private', 'public'] as $scope) {
-                foreach (array($app->getFrameworkDir(), $app->getAppDir()) as $dir) {
-                    foreach ($app->modules()->getActiveModules() as $module) {
-                        $filename = $dir . DS . 'modules' . DS . $scope . DS . $module['path']
-                            . DS . 'etc' . DS . 'config.xml';
-                        if (is_readable($filename)) {
-                            $loader->loadConfig($filename);
-                        }
+                foreach ($app->modules()->getActiveModules() as $module) {
+                    $filename = $app->getAppDir() . DS . 'modules' . DS . $scope . DS . $module['path']
+                        . DS . 'etc' . DS . 'config.xml';
+                    if (is_readable($filename)) {
+                        $loader->loadConfig($filename);
+
                     }
                 }
             }
             $modulesConfig = $loader->getConfig();
-            if ((bool)$app->config()->getConfig('global/app')->cache_modules_config) {
+            if ($app->config()->getConfigBool('global/app/cache_modules_config')) {
                 $this->cache()->set($this->buildCacheKey('modules_config'), $modulesConfig->asXML(), 360);
             }
+            $this->_config = $loader->getConfig();
+        } else {
+            \Magelight\Components\Loaders\Config::mergeConfig($this->_config, $modulesConfig);
         }
-
-        \Magelight\Components\Loaders\Config::mergeConfig($this->_config, $modulesConfig);
         unset($loader);
     }
 
@@ -118,6 +119,66 @@ class Config
     public function getConfig($path, $default = null)
     {
         return $this->getConfigByPath($path, null, false, $default);
+    }
+
+    /**
+     * Get config boolean value
+     *
+     * @param string $path
+     * @param mixed $default
+     * @return bool
+     */
+    public function getConfigBool($path, $default = null)
+    {
+        return (bool)(string)$this->getConfig($path, $default);
+    }
+
+    /**
+     * Get config string value
+     *
+     * @param string $path
+     * @param mixed $default
+     * @return string
+     */
+    public function getConfigString($path, $default = null)
+    {
+        return (string)$this->getConfig($path, $default);
+    }
+
+    /**
+     * Get config integer value
+     *
+     * @param string $path
+     * @param mixed $default
+     * @return int
+     */
+    public function getConfigInt($path, $default = null)
+    {
+        return (int)(string)$this->getConfig($path, $default);
+    }
+
+    /**
+     * Get config float value
+     *
+     * @param string $path
+     * @param mixed $default
+     * @return float
+     */
+    public function getConfigFloat($path, $default = null)
+    {
+        return (float)(string)$this->getConfig($path, $default);
+    }
+
+    /**
+     * Get config array value
+     *
+     * @param string $path
+     * @param mixed $default
+     * @return array
+     */
+    public function getConfigArray($path, $default = null)
+    {
+        return (array)(string)$this->getConfig($path, $default);
     }
 
     /**
