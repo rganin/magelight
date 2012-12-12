@@ -25,9 +25,6 @@ class Index extends \Magelight\Controller
 
     public function indexAction()
     {
-
-        var_dump($this->app()->config()->getConfig('global/events/app_start'));
-        var_dump($this->app()->config()->getConfig('global/forgery'));
         $this->_view->sectionAppend('content', \Cargo\Blocks\Home::forge()->useCache('main_page'));
         $this->renderView();
     }

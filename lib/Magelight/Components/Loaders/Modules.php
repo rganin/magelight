@@ -114,7 +114,7 @@ final class Modules
     {
         $result = false;
         $appDir = \Magelight::app()->getAppDir();
-        foreach (['private', 'public'] as $scope) {
+        foreach (\Magelight::app()->getCodePools() as $scope) {
             $result |= is_readable($appDir . DS . 'modules' . DS . $scope . DS . $path);
         }
         return $result;

@@ -70,7 +70,7 @@ class Routes
     public function loadRoutes()
     {
         $modules= \Magelight::app()->modules()->getActiveModules();
-        foreach (['private', 'public'] as $scope) {
+        foreach (array_reverse(\Magelight::app()->getCodePools()) as $scope) {
             foreach ($modules as $module) {
                 $filename = 'modules' . DS . $scope . DS . $module['path'] . DS . 'etc' . DS . 'routes.xml';
                 if (is_readable($filename)) {

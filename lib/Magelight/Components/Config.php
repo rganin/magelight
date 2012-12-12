@@ -75,13 +75,12 @@ class Config
         if (!$modulesConfig) {
             $loader = new \Magelight\Components\Loaders\Config();
             $loader->setConfig($this->_config);
-            foreach (['private', 'public'] as $scope) {
+            foreach (array_reverse($app->getCodePools()) as $scope) {
                 foreach ($app->modules()->getActiveModules() as $module) {
                     $filename = $app->getAppDir() . DS . 'modules' . DS . $scope . DS . $module['path']
                         . DS . 'etc' . DS . 'config.xml';
                     if (is_readable($filename)) {
                         $loader->loadConfig($filename);
-
                     }
                 }
             }
