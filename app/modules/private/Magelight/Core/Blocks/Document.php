@@ -92,14 +92,14 @@ class Document extends \Magelight\Block
     {
         $css = $this->get('css', []);
         $url = $this->url($path);
-        $entry = array(
-            'url' => $url,
-            'path' => $path,
-            'media' => $media,
-            'inline' => false,
+        $entry = [
+            'url'     => $url,
+            'path'    => $path,
+            'media'   => $media,
+            'inline'  => false,
             'content' => null,
-            'after' => $after
-        );
+            'after'   => $after
+        ];
         $css[$path] = $entry;
         $this->set('css', $css);
     }
@@ -115,13 +115,13 @@ class Document extends \Magelight\Block
     {
         $css = $this->get('css', []);
         $path = md5($content);
-        $entry = array(
-            'path' => $path,
-            'media' => $media,
-            'inline' => true,
+        $entry = [
+            'path'    => $path,
+            'media'   => $media,
+            'inline'  => true,
             'content' => $content,
-            'after' => $after
-        );
+            'after'   => $after
+        ];
         $css[$path] = $entry;
         $this->set('css', $css);
     }
@@ -136,13 +136,13 @@ class Document extends \Magelight\Block
     {
         $js = $this->get('js', []);
         $url = $this->url($path);
-        $entry = array(
-            'url' => $url,
-            'path' => $path,
-            'inline' => false,
+        $entry = [
+            'url'     => $url,
+            'path'    => $path,
+            'inline'  => false,
             'content' => null,
-            'after' => $after
-        );
+            'after'   => $after
+        ];
         $js[$path] = $entry;
         $this->set('js', $js);
     }
@@ -158,10 +158,10 @@ class Document extends \Magelight\Block
         $js = $this->get('js', []);
         $path = md5($content);
         $entry = array(
-            'path' => $path,
-            'inline' => true,
+            'path'    => $path,
+            'inline'  => true,
             'content' => $content,
-            'after' => $after
+            'after'   => $after
         );
         $js[$path] = $entry;
         $this->set('js', $js);

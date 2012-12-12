@@ -6,5 +6,8 @@
                 <new>\Magelight\Minifier\Blocks\Document</new>
             </override>
         </forgery>
+        <minifier>
+            <public_dir>var/static</public_dir>
+        </minifier>
     </global>
 </config>

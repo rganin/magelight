@@ -11,8 +11,17 @@ namespace Magelight\Minifier\Blocks;
 
 class Document extends \Magelight\Core\Blocks\Document
 {
-    public function init()
+    public function renderCss()
     {
-        return parent::init();
+        $css = $this->buildDependencies($this->get('css', []));
+        $this->set('css', \Magelight\Minifier\Models\Minifier::forge()->getMinifiedCss($css));
+        return parent::renderCss();
+    }
+
+    public function renderJs()
+    {
+//        $js = $this->buildDependencies($this->get('js', []));
+//        $this->set('js', \Magelight\Minifier\Models\Minifier::forge()->getMinifiedJs($js));
+        return parent::renderJs();
     }
 }

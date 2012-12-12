@@ -18,8 +18,25 @@ namespace Magelight\Cache;
  */
 trait Cache
 {
+    /**
+     * Cacher configuration index
+     *
+     * @var string
+     */
     protected $_cacherTraitCacheIndex = \Magelight\App::DEFAULT_INDEX;
+
+    /**
+     * Cache key
+     *
+     * @var bool
+     */
     protected $_cacherTraitCacheKey = false;
+
+    /**
+     * Cache expiration time
+     *
+     * @var int
+     */
     protected $_cacherTraitCacheTtl = 3600;
     /**
      * Build cache key with array of params
@@ -139,7 +156,7 @@ trait Cache
      */
     public function proxyCacheTo($object)
     {
-        // todo: refine this crap when https://github.com/php/php-src/pull/23 will be merged to master and released
+        // todo: refine this crap as https://github.com/php/php-src/pull/23 will be released
         if (!method_exists($object, 'buildCacheKey')) {
             throw new \Magelight\Exception(
                 "Object passed to " . __METHOD__ . " must use " . __TRAIT__ . " trait!"
