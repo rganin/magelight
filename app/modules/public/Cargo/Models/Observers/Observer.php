@@ -3,18 +3,16 @@
  * Created by JetBrains PhpStorm.
  * User: iddqd
  * Date: 12.12.12
- * Time: 17:51
+ * Time: 22:31
  * To change this template use File | Settings | File Templates.
  */
 
-namespace Magelight;
+namespace Cargo\Models\Observers;
 
-abstract class Observer
+class AppStart extends \Magelight\Observer
 {
-    use Forgery;
-
-    public function execute()
+    public function execute($arguments)
     {
-        return $this;
+
     }
 }

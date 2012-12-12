@@ -60,32 +60,43 @@ class Config
     public static function mergeConfig(\SimpleXMLElement $base, \SimpleXMLElement $add)
     {
         foreach ($add->children() as $name => $child) {
-            if (!isset($base->$name)) {
-                $base->addChild($name, $child);
+            if (!isset($base->$name)
+                || (isset($base->$name) && ((bool) $base->attributes()->stackable || $add->attributes()->stackable))
+            ) {
+                $base->addChild($name);
             } elseif (isset($base->$name) && (bool) $base->attributes()->private) {
                 continue;
-            } elseif (isset($base->$name) && (bool) $base->attributes()->stackable) {
-                $base->addChild($name, $child);
             }
-                self::copyAttributes($base->$name, $child);
-                if (!(bool) $base->$name->attributes()->protected) {
-                    if (!(bool) $base->$name->attributes()->stackable) {
-                        $childStr = (string) $child;
-                        if ($child->children()->count()) {
-                            self::mergeConfig($base->$name, $add->$name);
-                        } elseif (!empty($childStr) && !is_array($base->$name)) {
-                            if (!(bool) $base->attributes()->stackable) {
-                                $base->$name = $child;
-                            }
-                        }
-                    } else {
-                        foreach ($child->children() as $stackChildName => $stackChildNode) {
-                            $node = $base->$name->addChild($stackChildName);
-                            self::copyAttributes($node, $stackChildNode);
-                            self::mergeConfig($node, $stackChildNode);
-                        }
+            self::copyAttributes($base->$name, $add->$name);
+            if (!(bool) $base->$name->attributes()->protected) {
+                if ((bool) $base->$name->attributes()->stackable_child) {
+                    foreach ($base->$name->children() as $firstChild) {
+                        /* @var \SimpleXMLElement $firstChild */
+                        $firstChild->addAttribute('stackable', '1');
+                    }
+                    foreach ($add->$name->children() as $firstChild) {
+                        /* @var \SimpleXMLElement $firstChild */
+                        $firstChild->addAttribute('stackable', '1');
                     }
                 }
+
+                if (!(bool) $base->$name->attributes()->stackable) {
+                    $childStr = (string) $add->$name;
+                    if ($child->children()->count()) {
+                        self::mergeConfig($base->$name, $add->$name);
+                    } elseif (!empty($childStr) && !is_array($base->$name)) {
+                        if (!(bool) $base->attributes()->stackable) {
+                            $base->$name = $add->$name;
+                        }
+                    }
+                } else {
+                    foreach ($child->children() as $stackChildName => $stackChildNode) {
+                        $node = $base->$name->addChild($stackChildName, $stackChildNode);
+                        self::copyAttributes($node, $stackChildNode);
+                        self::mergeConfig($node, $stackChildNode);
+                    }
+                }
+            }
         }
     }
 

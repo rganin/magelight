@@ -6,5 +6,10 @@
                 <new>Cargo\Blocks\Body</new>
             </override>
         </forgery>
+        <events>
+            <app_start>
+                <observer>\Cargo\Models\Observers\AppStart</observer>
+            </app_start>
+        </events>
     </global>
 </config>
