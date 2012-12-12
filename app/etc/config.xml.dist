@@ -1,42 +1,60 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <config>
     <global>
+        <app>
+            <cache_modules_config>1</cache_modules_config>
+            <developer_mode>1</developer_mode>
+        </app>
+        <view>
+            <date_format>d-m-Y</date_format>
+            <date_time_format>d-m-Y H:i:s</date_time_format>
+            <cache_ttl>3600</cache_ttl>
+        </view>
         <log>
             <file>app.log</file>
         </log>
-        <domains>
-            <base_domain>fw.loc</base_domain>
-        </domains>
+        <setup>
+            <executed_scripts>
+                <filename>var/protected/executed_setup_scripts.json</filename>
+            </executed_scripts>
+        </setup>
+        <base_domain>fw.loc</base_domain>
         <db>
             <default>
                 <type>mysql</type>
-                <host>192.168.56.101</host>
+                <host>127.0.0.1</host>
                 <port>3306</port>
                 <user>root</user>
-                <password></password>
-                <dbname>board</dbname>
+                <password>root</password>
+                <dbname>cargo</dbname>
                 <persistent>1</persistent>
                 <init_connect>SET NAMES utf8 COLLATE utf8_general_ci</init_connect>
+                <profiling>1</profiling>
             </default>
         </db>
         <cache>
             <default>
                 <type>memcached</type>
-                <server>
-                    <host>127.0.0.1</host>
-                    <port>11211</port>
-                </server>
+                <config>
+                    <servers stackable="1">
+                        <server>
+                            <host>127.0.0.1</host>
+                            <port>11211</port>
+                        </server>
+                    </servers>
+                </config>
             </default>
             <other>
                 <type>file</type>
-                <path>var/cache</path>
+                <config>
+                    <path>var/cache</path>
+                </config>
             </other>
         </cache>
         <forgery stackable="1">
 
         </forgery>
-        <routes stackable="1">
-
-        </routes>
+        <events stackable_child="1">
+        </events>
     </global>
 </config>

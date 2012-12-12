@@ -63,6 +63,16 @@ trait Cache
     }
 
     /**
+     * Get cache adapter instance
+     *
+     * @return AdapterAbstract
+     */
+    public function allCacheInstances()
+    {
+        return AdapterAbstract::getAllAdapters();
+    }
+
+    /**
      * Get item from cache
      *
      * @param null $default

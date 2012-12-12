@@ -95,6 +95,21 @@ abstract class AdapterAbstract implements CacheInterface
     }
 
     /**
+     * Get all cache adapters described in config
+     *
+     * @return array
+     */
+    public static function getAllAdapters()
+    {
+        $adapters = [];
+        $config = \Magelight::app()->getConfig('global/cache');
+        foreach ($config->children() as $index => $cache) {
+            $adapters[] = self::getAdapter($index);
+        }
+        return $adapters;
+    }
+
+    /**
      * Init adapter
      *
      * @return AdapterAbstract

@@ -12,4 +12,5 @@ Magelight::app()
     ->setAppDir(dirname(__FILE__))
     ->setDeveloperMode(true)
     ->init()
+    ->flushAllCache()
     ->upgrade();

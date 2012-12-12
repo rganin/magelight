@@ -520,6 +520,20 @@ final class App
     }
 
     /**
+     * Flush all application caches
+     *
+     * @return App
+     */
+    public function flushAllCache()
+    {
+        foreach (\Magelight\Cache\AdapterAbstract::getAllAdapters() as $adapter) {
+            /* @var \Magelight\Cache\AdapterAbstract $adapter*/
+            $adapter->clear();
+        }
+        return $this;
+    }
+
+    /**
      * Upgrade module
      *
      * @param array $module
