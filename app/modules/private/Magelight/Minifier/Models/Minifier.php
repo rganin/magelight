@@ -45,6 +45,9 @@ class Minifier
 
     public function getMinifiedCss($css)
     {
+        if (!\Magelight::app()->config()->getConfigBool('global/minifier/minify_css')) {
+            return $css;
+        }
         $css = $this->splitCssByMedia($css);
         $result = [];
         foreach ($css as $media => $styles) {
@@ -55,6 +58,9 @@ class Minifier
 
     public function getMinifiedJs($js)
     {
+        if (!\Magelight::app()->config()->getConfigBool('global/minifier/minify_js')) {
+            return $js;
+        }
         return [$this->minifyDocumentStatic('js', $js)];
     }
 
@@ -71,8 +77,8 @@ class Minifier
         $staticOffset = preg_replace('/([^\\\\\/]+)/i', '..', $this->_staticPath);
         $staticOffset = preg_replace('/[\\\]+/', '/', $staticOffset);
         $css = preg_replace(
-            "/(url\s*\(\s*[\'\"]*([^\'\"\)http:\/\/]*)[\'\"]*\s*\))/i",
-            'url("' . $staticOffset . '/'. $entryPath . "/\\2" .'")',
+            "/url\s*\(\s*[\"']?([^\"']+)[\"']?\s*\)/i",
+            'url("' . $staticOffset . '/'. $entryPath . "/\\1" .'")',
             $css
         );
         return $css;
@@ -101,7 +107,11 @@ class Minifier
         $content = '';
         $path = $this->getEntriesStaticPath($staticEntries, $type);
         if ($isAlreadyMinified = $this->cache()->get($this->buildCacheKey($path), false)) {
-            if (is_readable($path)) {
+            $ok = true;
+            if (\Magelight::app()->config()->getConfigBool('global/minifier/check_readability')) {
+                $ok = is_readable($path);
+            }
+            if ($ok) {
                 return [
                     'path'    => $path,
                     'content' => '',
@@ -118,12 +128,16 @@ class Minifier
                 if ($buffer === false) {
                     throw new \Magelight\Exception("File for minifier cannot be read");
                 }
+                if (\Magelight::app()->config()->getConfigBool('global/minifier/compress_' . $type)) {
+                    $buffer = $minifier->minify($buffer);
+                }
+
                 switch ($type) {
                     case 'css':
-                        $content .= $this->fixCssUrls($minifier->minify($buffer), $entry['path']);
+                        $content .= $this->fixCssUrls($buffer, $entry['path']);
                         break;
                     case 'js':
-                        $content .= $minifier->minify($buffer);
+                        $content .= $buffer;
                         break;
                     default:
                         break;

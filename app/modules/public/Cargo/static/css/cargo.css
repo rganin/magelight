@@ -2,11 +2,6 @@
     display: none;
 }
 
-div.container {
-    background: url("http://www.w3schools.com/images/w3schoolslogo.gif") no-repeat;
-}
-
-
 div.main-content{
     margin: 8px 16px 32px 16px !important;
 }
