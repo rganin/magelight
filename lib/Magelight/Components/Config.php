@@ -70,9 +70,7 @@ class Config
         $modulesConfig = $app->config()->getConfigBool('global/app/cache_modules_config')
             ? $this->cache()->get($this->buildCacheKey('modules_config'))
             : false;
-        if ($modulesConfig) {
-            $modulesConfig = simplexml_load_string($modulesConfig);
-        }
+
         /* Loading modules config */
         if (!$modulesConfig) {
             $loader = new \Magelight\Components\Loaders\Config();
@@ -93,7 +91,7 @@ class Config
             }
             $this->_config = $loader->getConfig();
         } else {
-            \Magelight\Components\Loaders\Config::mergeConfig($this->_config, $modulesConfig);
+            $this->_config = simplexml_load_string($modulesConfig);
         }
         unset($loader);
     }
