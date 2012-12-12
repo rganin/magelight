@@ -306,6 +306,7 @@ final class App
     public function run($muteExceptions = true)
     {
         try {
+            $this->fireEvent('app_start', ['muteExceptions' => $muteExceptions]);
             $request = new \Magelight\Http\Request();
             $action = $this->router()->getAction((string) $request->getRequestRoute());
             $request->appendGet($action['arguments']);
@@ -329,6 +330,7 @@ final class App
      */
     public function dispatchAction(array $action, \Magelight\Http\Request $request = null)
     {
+        $this->fireEvent('app_dispatch_action', ['action' => $action, 'request' => $request]);
         $controllerName = $action['module'] . '\\Controllers\\' . ucfirst($action['controller']);
         $controllerMethod = $action['action'] . 'Action';
         if ($this->isInDeveloperMode()) {
@@ -348,10 +350,25 @@ final class App
                 "Trying to run undefined controller action {$controllerMethod} in {$controllerName}"
             );
         }
+        $this->fireEvent('app_controller_init', [
+            'controller' => $controller,
+            'action'     => $action,
+            'request'    => $request
+        ]);
         $controller->init($request, $action);
+        $this->fireEvent('app_controller_initialized', [
+            'controller' => $controller,
+            'action'     => $action,
+            'request'    => $request
+        ]);
         $controller->beforeExecute();
         $controller->$controllerMethod();
         $controller->afterExecute();
+        $this->fireEvent('app_controller_executed', [
+            'controller' => $controller,
+            'action'     => $action,
+            'request'    => $request
+        ]);
         return $this;
     }
     
@@ -570,5 +587,17 @@ final class App
     {
         $url = \Magelight\Helpers\UrlHelper::getInstance()->getUrl($match, $params, $type);
         return $url;
+    }
+
+    public function fireEvent($eventName, $arguments = [])
+    {
+        $observers = (array)$this->config()->getConfigSet('global/events/' . $eventName . '/observer');
+        if (!empty($observers)) {
+            foreach ($observers as $observerClass) {
+                $observer = call_user_func_array([(string)$observerClass, 'forge'], $arguments);
+                /* @var $observer \Magelight\Observer*/
+                $observer->execute();
+            }
+        }
     }
 }

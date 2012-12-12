@@ -25,6 +25,9 @@ class Orders extends \Magelight\Controller
 
     public function addorderAction()
     {
+//        if (!$this->session()->get('user_id', false)) {
+//            $this->redirect($this->url('login'));
+//        }
         $this->_view->setTitle('Заказать перевозку');
 
         $orderForm = \Cargo\Blocks\Order\OrderForm::forge()
@@ -108,11 +111,11 @@ class Orders extends \Magelight\Controller
         $list = \Cargo\Blocks\Order\OrderList::forge();
         $currentPage = $this->request()->getGet('page', 0);
         $collection = \Magelight\Dbal\Db\Collection::forge(
-            \Cargo\Models\Order::orm()->selectFields(['u.name', 'orders.*', 'g.*'])
+            \Cargo\Models\Order::orm()->selectFields(['u.name', 'u.photo AS user_photo', 'orders.*', 'g.*'])
                 ->joinLeft('users', 'u', 'u.id = orders.user_id')
                 ->joinLeft('order_geo', 'g', 'g.order_id = orders.id')
                 ->orderByDesc('orders.date_added')
-        )->setLimit(5)->setPage($currentPage)->useCache(['orders_list_no_filter', 5, $currentPage], 50);
+        )->setLimit(15)->setPage($currentPage)->useCache(['orders_list_no_filter', 15, $currentPage], 50);
 
         $list->set('orders', $collection->fetchAll(true));
         $pager = \Magelight\Core\Blocks\Pager::forge($collection)->setRoute($this->_routeAction['match'])->addClass('pagination-small');

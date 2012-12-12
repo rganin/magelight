@@ -11,8 +11,8 @@ namespace Cargo\Models\Observers;
 
 class AppStart extends \Magelight\Observer
 {
-    public function execute($arguments)
+    public function execute()
     {
-
+        return parent::execute();
     }
 }

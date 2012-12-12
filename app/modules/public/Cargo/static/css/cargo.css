@@ -112,3 +112,25 @@ ul.selected-category li{
 ul.selected-category li *{
     display: inline-block;
 }
+
+
+a#move_up {
+    position: fixed;
+    top: 0;
+    display: none;
+    width: 90px;
+    height: 100%;
+    text-align: center;
+    font-family: Verdana;
+    font-size: 0.8em;
+    text-decoration: none;
+    background: #EEEEEE;
+    padding-top:5px;
+    color: #aaa;
+    opacity:0.9;
+    filter: alpha(opacity=90);
+}
+a#move_up:hover {
+    color: #fff;
+    background: #888888;
+}

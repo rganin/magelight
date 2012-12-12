@@ -5,42 +5,42 @@
 <h1>Заявки</h1>
 
 <?=$this->section('orders-pager'); ?>
-
-<table class="table table-hover table-striped">
+<div class="row">
+<table class="table table-hover table-striped span12">
     <thead>
         <tr>
-            <th>Описание</th>
-            <th>Маршрут</th>
-            <th>Дата</th>
-            <th>Макс. цена</th>
+            <th class="span5">Описание</th>
+            <th class="span4">Маршрут</th>
+            <th class="span2">Дата</th>
+            <th class="span2">Макс. цена</th>
         </tr>
     </thead>
     <tbody>
         <?php foreach ($this->get('orders', []) as $order): ?>
             <tr>
                 <td>
-                    <small>
-                        <?=mb_strcut($order['details'], 0, 257)?>
-                    </small>
+                    <p><?=$order['details']?></p>
+                    <p>
+                        <?php if ($order['weight']): ?>
+                            <span class="badge badge-important">Вес: <?=$order['weight']?> кг</span>
+                        <?php endif; ?>
+                        <?php if ($order['passengers']): ?>
+                            <span class="badge badge-info">Пассажиров: <?=$order['passengers']?></span>
+                        <?php endif; ?>
+                    </p>
                 </td>
                 <td>
-                    <small>
-                        Из: <?=$order['geo_address_from']?>
-                        <br />
-                        В: <?=$order['geo_address_to']?>
-                    </small>
-                    <br />
-                    <strong>
-                        <?=@round($order['route_length'] / 1000, 1)?> км.
-                    </strong>
-                    <br />
-                    <?=$this->formatTime($order['route_time'])?>
+                    <p class="">Откуда: <?=$order['city_from'] . ', '  . $order['address_from']?></p>
+                    <p class="">Куда: <?=$order['city_to'] . ', '  . $order['address_to']?></p>
+
+                    <span class=""><?=@round($order['route_length'] / 1000, 1)?> км</span>,
+                    ~ <strong class=""><?=$this->formatTime($order['route_time'])?></strong>
                 </td>
                 <td><?=($order['date_move'] ? $this->date($order['date_move']) : '-')?></td>
-                <td><?=$order['max_price']?> грн.</td>
+                <td><strong><?=$order['max_price']?> грн.</strong></td>
             </tr>
         <?php endforeach; ?>
     </tbody>
 </table>
-
+</div>
 <?=$this->section('orders-pager'); ?>

@@ -72,11 +72,15 @@ class Config
                 if ((bool) $base->$name->attributes()->stackable_child) {
                     foreach ($base->$name->children() as $firstChild) {
                         /* @var \SimpleXMLElement $firstChild */
-                        $firstChild->addAttribute('stackable', '1');
+                        if (!isset($firstChild->attributes()->stackable)) {
+                            $firstChild->addAttribute('stackable', '1');
+                        }
                     }
                     foreach ($add->$name->children() as $firstChild) {
                         /* @var \SimpleXMLElement $firstChild */
-                        $firstChild->addAttribute('stackable', '1');
+                        if (!isset($firstChild->attributes()->stackable)) {
+                            $firstChild->addAttribute('stackable', '1');
+                        }
                     }
                 }
 
