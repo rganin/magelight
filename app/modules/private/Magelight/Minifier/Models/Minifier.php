@@ -78,13 +78,39 @@ class Minifier
         return $css;
     }
 
+    protected function getEntriesStaticPath($entries, $type)
+    {
+        $path = '';
+        foreach ($entries as $entry) {
+            $path .= $entry['path'];
+        }
+        return $this->_staticPath . '/' . md5($path) . '.' . $type;
+    }
+
+    /**
+     * Minify document static entry
+     *
+     * @param string $type
+     * @param array $staticEntries
+     * @return array
+     * @throws \Magelight\Exception
+     */
     protected function minifyDocumentStatic($type = 'css', $staticEntries = [])
     {
         $minifier = $this->getMinifierByType($type);
         $content = '';
-        $path = '';
+        $path = $this->getEntriesStaticPath($staticEntries, $type);
+        if ($isAlreadyMinified = $this->cache()->get($this->buildCacheKey($path), false)) {
+            if (is_readable($path)) {
+                return [
+                    'path'    => $path,
+                    'content' => '',
+                    'url'     => \Magelight::app()->url($path),
+                    'inline'  => false
+                ];
+            }
+        }
         foreach ($staticEntries as $entry) {
-            $path .= $entry['path'];
             if ($entry['inline']) {
                 $content .= $minifier->minify($entry['content']);
             } else {
@@ -106,8 +132,12 @@ class Minifier
                 unset($buffer);
             }
         }
-        $path = $this->_staticPath . '/' . md5($path) . '.' . $type;
         file_put_contents($path, $content);
+        $this->cache()->set(
+            $this->buildCacheKey($path),
+            1,
+            \Magelight::app()->config()->getConfigInt('global/minifier/cache_ttl')
+        );
         return [
             'path'    => $path,
             'content' => '',

@@ -8,6 +8,7 @@
         </forgery>
         <minifier>
             <public_dir>var/static</public_dir>
+            <cache_ttl>3600</cache_ttl>
         </minifier>
     </global>
 </config>

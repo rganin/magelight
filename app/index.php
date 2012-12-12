@@ -17,10 +17,6 @@
  */
 $t = microtime();
 require '../core.php';
-Magelight::app()
-    ->setAppDir(dirname(__FILE__))
-    ->init()
-    ->run();
-Magelight::app()->log('run');
+Magelight::app()->setAppDir(dirname(__FILE__))->init()->run();
 $s = microtime() - $t;
 echo $s;

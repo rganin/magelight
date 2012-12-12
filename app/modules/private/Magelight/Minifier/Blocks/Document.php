@@ -20,8 +20,8 @@ class Document extends \Magelight\Core\Blocks\Document
 
     public function renderJs()
     {
-//        $js = $this->buildDependencies($this->get('js', []));
-//        $this->set('js', \Magelight\Minifier\Models\Minifier::forge()->getMinifiedJs($js));
+        $js = $this->buildDependencies($this->get('js', []));
+        $this->set('js', \Magelight\Minifier\Models\Minifier::forge()->getMinifiedJs($js));
         return parent::renderJs();
     }
 }
