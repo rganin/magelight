@@ -2,10 +2,8 @@
     display: none;
 }
 
-div.logo-wide {
-    margin: 24px 0 0 0;
-    height: 96px;
-    background: url("../img/logo4.png") no-repeat;
+div.container {
+    background: url("http://www.w3schools.com/images/w3schoolslogo.gif") no-repeat;
 }
 
 

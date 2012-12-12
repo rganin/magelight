@@ -71,7 +71,7 @@ class Minifier
         $staticOffset = preg_replace('/([^\\\\\/]+)/i', '..', $this->_staticPath);
         $staticOffset = preg_replace('/[\\\]+/', '/', $staticOffset);
         $css = preg_replace(
-            "/(url\s*\(\s*[\'\"]*([^\'\"\)]*)[\'\"]*\s*\))/i",
+            "/(url\s*\(\s*[\'\"]*([^\'\"\)http:\/\/]*)[\'\"]*\s*\))/i",
             'url("' . $staticOffset . '/'. $entryPath . "/\\2" .'")',
             $css
         );
@@ -136,7 +136,7 @@ class Minifier
         $this->cache()->set(
             $this->buildCacheKey($path),
             1,
-            \Magelight::app()->config()->getConfigInt('global/minifier/cache_ttl')
+            \Magelight::app()->config()->getConfigInt('global/minifier/cache_ttl_' . $type)
         );
         return [
             'path'    => $path,
