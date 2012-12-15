@@ -51,6 +51,7 @@ class Installer
 
     public function findInstallScripts($modulePath)
     {
+        $modulePath = str_replace('\\', DS, $modulePath);
         $scripts = [];
         $pools = \Magelight::app()->getCodePools();
         foreach ($pools as $pool) {
