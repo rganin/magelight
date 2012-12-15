@@ -21,8 +21,4 @@
         <active>1</active>
         <require>Magelight_Core</require>
     </Magelight_Auth>
-    <Cargo>
-        <path>Cargo</path>
-        <active>1</active>
-    </Cargo>
 </modules>

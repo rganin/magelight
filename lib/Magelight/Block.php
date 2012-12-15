@@ -187,7 +187,9 @@ abstract class Block
      */
     public function sectionAppend($name, $block)
     {
-        $block->initBlock();
+        if ($block instanceof \Magelight\Block) {
+            $block->initBlock();
+        }
         if (!isset(self::$_sections[$name]) || !is_array(self::$_sections[$name])) {
             return $this->sectionReplace($name, $block);
         }
@@ -204,7 +206,9 @@ abstract class Block
      */
     public function sectionPrepend($name, $block)
     {
-        $block->initBlock();
+        if ($block instanceof \Magelight\Block) {
+            $block->initBlock();
+        }
         if (!isset(self::$_sections[$name]) || !is_array(self::$_sections[$name])) {
             return $this->sectionReplace($name, $block);
         }
@@ -221,7 +225,9 @@ abstract class Block
      */
     public function sectionReplace($name, $block)
     {
-        $block->initBlock();
+        if ($block instanceof \Magelight\Block) {
+            $block->initBlock();
+        }
         if (!is_array(self::$_sections)) {
             self::$_sections = [];
         }

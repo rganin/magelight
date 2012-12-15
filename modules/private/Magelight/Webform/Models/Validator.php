@@ -88,7 +88,9 @@ class Validator extends \Magelight\Model
                 (isset($data[$fieldName]) ? $data[$fieldName] : self::EMPTY_DATA);
 
 
-            if (is_array($checker) && is_array($validationData)) {
+            if (is_array($checker)) {
+                $validationData = empty($fieldName) ? $data :
+                    (isset($data[$fieldName]) ? $data[$fieldName] : [self::EMPTY_DATA]);
 
                 foreach ($checker as $key => $subChecker) {
                     if (empty($key)) {

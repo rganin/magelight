@@ -2,7 +2,7 @@
 <config>
     <global>
         <app>
-            <cache_modules_config>1</cache_modules_config>
+            <cache_modules_config>0</cache_modules_config>
             <developer_mode>1</developer_mode>
         </app>
         <view>
@@ -17,6 +17,15 @@
             <executed_scripts>
                 <filename>var/protected/executed_setup_scripts.json</filename>
             </executed_scripts>
+            <backup>
+                <db>
+                    <default>
+                        <create_backup>1</create_backup>
+                        <destination>var/db_backup</destination>
+                        <filename>default_db_backup.sql</filename>
+                    </default>
+                </db>
+            </backup>
         </setup>
         <base_domain>fw.loc</base_domain>
         <db>

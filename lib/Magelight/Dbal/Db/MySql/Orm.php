@@ -1172,6 +1172,18 @@ class Orm extends \Magelight\Dbal\Db\Common\Orm
     }
 
     /**
+     * Unset orm data value
+     *
+     * @param string $name
+     * @return Orm
+     */
+    public function unsetValue($name)
+    {
+        unset($this->data[$name]);
+        return $this;
+    }
+
+    /**
      * Reset object
      *
      * @return Orm

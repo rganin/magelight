@@ -162,6 +162,11 @@ abstract class Model
         return $this->_orm->getValue($name);
     }
 
+    public function __unset($name)
+    {
+        return $this->_orm->unsetValue($name);
+    }
+
     /**
      * Delete model by id
      *

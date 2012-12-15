@@ -474,4 +474,18 @@ class Form extends Elements\Abstraction\Element
         }
         return null;
     }
+
+    /**
+     * Render form attributes as HTML attributes code
+     *
+     * @return string
+     */
+    public function renderAttributes()
+    {
+        $render = '';
+        foreach ($this->_attributes as $name => $value) {
+            $render .= ' ' . $name . '="' . $value . '" ';
+        }
+        return $render;
+    }
 }

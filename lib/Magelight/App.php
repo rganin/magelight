@@ -74,7 +74,7 @@ final class App
      * 
      * @var string
      */
-    protected $_frameworkDir = FRAMEWORK_DIR;
+    protected $_frameworkDir = null;
     
     /**
      * Is app in developer mode
@@ -131,6 +131,18 @@ final class App
     public function setAppDir($directory)
     {
         $this->_appDir = $directory;
+        return $this;
+    }
+
+    /**
+     * Set App framework directory
+     *
+     * @param string $directory
+     * @return App
+     */
+    public function setFrameworkDir($directory = FRAMEWORK_DIR)
+    {
+        $this->_frameworkDir = $directory;
         return $this;
     }
 
@@ -266,7 +278,9 @@ final class App
      */
     public function init()
     {
-        $this->_frameworkDir = FRAMEWORK_DIR;
+        if (empty($this->_frameworkDir)) {
+            $this->_frameworkDir = FRAMEWORK_DIR;
+        }
         $includePath = explode(PS, ini_get('include_path'));
         array_unshift(
             $includePath, 
