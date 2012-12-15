@@ -287,15 +287,12 @@ final class App
             $this->_frameworkDir . DS . 'lib'
         );
         foreach ($this->_pools as $pool) {
-            $path = $this->_appDir . DS . 'modules' . DS . $pool;
+            $path = dirname($this->_appDir . DS . 'modules' . DS . $pool) . $pool;
 
             if (!is_readable($path)) {
                 throw new Exception("Code pool {$path} does not exist or is not readable.");
             }
-            array_unshift(
-                $includePath,
-                $this->_appDir . DS . 'modules' . DS . $pool
-            );
+            array_unshift($includePath, $path);
         }
         
         ini_set('include_path', implode(PS, $includePath));
