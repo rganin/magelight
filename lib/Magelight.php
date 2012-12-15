@@ -108,7 +108,7 @@ final class Magelight
      */
     public static function getAutoloaderFileNameByClass($className)
     {
-        return $className . '.php';
+        return str_replace('\\', DS, $className) . '.php';
     }
 
     /**
