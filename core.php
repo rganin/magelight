@@ -24,5 +24,6 @@
 define('PS', PATH_SEPARATOR);
 define('DS', DIRECTORY_SEPARATOR);
 define('FRAMEWORK_DIR', dirname(__FILE__));
+ini_set('include_path', ini_get('include_path') . PS . FRAMEWORK_DIR);
 require 'lib' . DS . 'Magelight.php';
 spl_autoload_register(array('Magelight', 'autoload'));
