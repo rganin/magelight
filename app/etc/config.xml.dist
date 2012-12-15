@@ -2,8 +2,8 @@
 <config>
     <global>
         <app>
-            <cache_modules_config>0</cache_modules_config>
-            <developer_mode>1</developer_mode>
+            <cache_modules_config>##cache_modules_config_flag##</cache_modules_config>
+            <developer_mode>##is_in_developer_mode##</developer_mode>
         </app>
         <view>
             <date_format>d-m-Y</date_format>
@@ -11,34 +11,25 @@
             <cache_ttl>3600</cache_ttl>
         </view>
         <log>
-            <file>app.log</file>
+            <file>##logfile##</file>
         </log>
         <setup>
             <executed_scripts>
-                <filename>var/protected/executed_setup_scripts.json</filename>
+                <filename>##executed_scripts_path##</filename>
             </executed_scripts>
-            <backup>
-                <db>
-                    <default>
-                        <create_backup>1</create_backup>
-                        <destination>var/db_backup</destination>
-                        <filename>default_db_backup.sql</filename>
-                    </default>
-                </db>
-            </backup>
         </setup>
-        <base_domain>fw.loc</base_domain>
+        <base_domain>##application_base_domain##</base_domain>
         <db>
             <default>
-                <type>mysql</type>
-                <host>127.0.0.1</host>
-                <port>3306</port>
-                <user>root</user>
-                <password>root</password>
-                <dbname>cargo</dbname>
-                <persistent>1</persistent>
+                <type>##default_db_type##</type>
+                <host>##default_db_host##</host>
+                <port>##default_db_port##</port>
+                <user>##default_db_user##</user>
+                <password>##default_db_password##</password>
+                <dbname>##default_db_name##</dbname>
+                <persistent>##default_db_connection_persistent_flag##</persistent>
                 <init_connect>SET NAMES utf8 COLLATE utf8_general_ci</init_connect>
-                <profiling>1</profiling>
+                <profiling>##default_db_profiling_flag##</profiling>
             </default>
         </db>
         <cache>
@@ -47,8 +38,8 @@
                 <config>
                     <servers stackable="1">
                         <server>
-                            <host>127.0.0.1</host>
-                            <port>11211</port>
+                            <host>##memcached_host##</host>
+                            <port>##memcached_port##</port>
                         </server>
                     </servers>
                 </config>
@@ -56,7 +47,7 @@
             <other>
                 <type>file</type>
                 <config>
-                    <path>var/cache</path>
+                    <path>##file_cache_path##</path>
                 </config>
             </other>
         </cache>
