@@ -286,7 +286,7 @@ final class App
             $includePath, 
             $this->_frameworkDir . DS . 'lib'
         );
-        foreach ($this->_pools as $pool) {
+        foreach (array_reverse($this->_pools) as $pool) {
             $path = $this->_appDir . DS . 'modules' . DS . $pool;
 
             if (!is_readable($path)) {
@@ -345,7 +345,7 @@ final class App
     public function dispatchAction(array $action, \Magelight\Http\Request $request = null)
     {
         $this->fireEvent('app_dispatch_action', ['action' => $action, 'request' => $request]);
-        $controllerName = $action['module'] . '\\Controllers\\' . ucfirst($action['controller']);
+        $controllerName = str_replace('/','\\', $action['module'] . '\\Controllers\\' . ucfirst($action['controller']));
         $controllerMethod = $action['action'] . 'Action';
         if ($this->isInDeveloperMode()) {
             if (!@include_once(\Magelight::getAutoloaderFileNameByClass($controllerName))) {
@@ -355,11 +355,10 @@ final class App
                 );
             }
         }
-        $controller = @call_user_func(array($controllerName, 'forge'));
+        $controller = call_user_func(array($controllerName, 'forge'));
         /* @var $controller \Magelight\Controller*/
 
         if ($this->isInDeveloperMode() && !is_callable([$controller, $controllerMethod])) {
-            $controllerName = get_class($controller);
             throw new \Magelight\Exception(
                 "Trying to run undefined controller action {$controllerMethod} in {$controllerName}"
             );
