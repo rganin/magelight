@@ -3,8 +3,8 @@
     <global>
         <document>
             <re_captcha>
-                <private_key>6LdXRNkSAAAAAOPdccvZiwrYy1ANY-oESFCdK4ty</private_key>
-                <public_key>6LdXRNkSAAAAAFwH0iBHqY9AtUYEQPlYyNPVhQw_</public_key>
+                <private_key></private_key>
+                <public_key></public_key>
             </re_captcha>
         </document>
     </global>
