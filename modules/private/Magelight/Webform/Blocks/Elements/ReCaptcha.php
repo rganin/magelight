@@ -36,13 +36,6 @@ class ReCaptcha extends Abstraction\Field
     protected $_model = null;
 
     /**
-     * Template path
-     *
-     * @var string
-     */
-    protected $_template = 'Magelight\Webform\templates\webform\elements\re-captcha.phtml';
-
-    /**
      * Forgery constructor
      */
     public function __forge()
@@ -55,7 +48,7 @@ class ReCaptcha extends Abstraction\Field
      *
      * @return string
      */
-    public function getCaptchaHtml()
+    public function toHtml()
     {
         return $this->_model->recaptchaGetHtml();
     }
