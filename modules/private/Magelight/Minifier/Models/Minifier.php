@@ -106,6 +106,11 @@ class Minifier
         $minifier = $this->getMinifierByType($type);
         $content = '';
         $path = $this->getEntriesStaticPath($staticEntries, $type);
+        $dir = dirname($path);
+        if (!is_writable($dir)) {
+            trigger_error("Static cache directory {$dir} is not writable or does not exist!");
+            return $staticEntries;
+        }
         if ($isAlreadyMinified = $this->cache()->get($this->buildCacheKey($path), false)) {
             $ok = true;
             if (\Magelight::app()->config()->getConfigBool('global/minifier/check_readability')) {
@@ -146,17 +151,20 @@ class Minifier
                 unset($buffer);
             }
         }
-        file_put_contents($path, $content);
-        $this->cache()->set(
-            $this->buildCacheKey($path),
-            1,
-            \Magelight::app()->config()->getConfigInt('global/minifier/cache_ttl_' . $type)
-        );
-        return [
-            'path'    => $path,
-            'content' => '',
-            'url'     => \Magelight::app()->url($path),
-            'inline'  => false
-        ];
+        if (file_put_contents($path, $content)) {
+            $this->cache()->set(
+                $this->buildCacheKey($path),
+                1,
+                \Magelight::app()->config()->getConfigInt('global/minifier/cache_ttl_' . $type)
+            );
+            return [
+                'path'    => $path,
+                'content' => '',
+                'url'     => \Magelight::app()->url($path),
+                'inline'  => false
+            ];
+        } else {
+            return $staticEntries;
+        }
     }
 }
