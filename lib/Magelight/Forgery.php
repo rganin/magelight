@@ -23,6 +23,9 @@
 
 namespace Magelight;
 
+/**
+ * Forgery trait
+ */
 trait Forgery
 {
     /**
@@ -46,6 +49,12 @@ trait Forgery
         return $object;
     }
 
+    /**
+     * Check class interfaces (checks that class is derived from one of overriden ones)
+     *
+     * @param string $className
+     * @return bool
+     */
     final static protected function _checkInterfaces($className)
     {
         $requiredInterfaces = \Magelight::app()->getClassInterfaces($className);
