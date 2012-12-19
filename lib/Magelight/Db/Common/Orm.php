@@ -1,104 +1,93 @@
 <?php
 /**
- * Magelight
- *
- * NOTICE OF LICENSE
- *
- * This file is open source and it`s distribution is based on
- * Open Software License (OSL 3.0). You can obtain license text at
- * http://opensource.org/licenses/osl-3.0.php
- *
- * For any non license implied issues please contact rganin@gmail.com
- *
- * DISCLAIMER
- *
- * This file is a part of a framework. Please, do not modify it unless you discard
- * further updates.
- *
- * @version 1.0
- * @author Roman Ganin
- * @copyright Copyright (c) 2012 rganin (rganin@gmail.com)
- * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ * Created by JetBrains PhpStorm.
+ * User: iddqd
+ * Date: 02.12.12
+ * Time: 1:18
+ * To change this template use File | Settings | File Templates.
  */
-namespace Magelight\Dbal\Db\Mysql;
+
+namespace Magelight\Db\Common;
+
 /**
  * Abstract Orm
  *
- * @method \Magelight\Dbal\Db\Mysql\Orm     joinLeft($table, $alias, $onStatement = null, $onParams = [])
- * @method \Magelight\Dbal\Db\Mysql\Orm     joinRight($table, $alias, $onStatement = null, $onParams = [])
- * @method \Magelight\Dbal\Db\Mysql\Orm     joinCross($table, $alias, $onStatement = null, $onParams = [])
- * @method \Magelight\Dbal\Db\Mysql\Orm     joinInnerLeft($table, $alias, $onStatement = null, $onParams = [])
- * @method \Magelight\Dbal\Db\Mysql\Orm     joinInnerRight($table, $alias, $onStatement = null, $onParams = [])
- * @method \Magelight\Dbal\Db\Mysql\Orm     joinOuterLeft($table, $alias, $onStatement = null, $onParams = [])
- * @method \Magelight\Dbal\Db\Mysql\Orm     joinOuterRight($table, $alias, $onStatement = null, $onParams = [])
+ * @method \Magelight\Db\Common\Orm     joinLeft($table, $alias, $onStatement, $onParams)
+ * @method \Magelight\Db\Common\Orm     joinRight($table, $alias, $onStatement, $onParams)
+ * @method \Magelight\Db\Common\Orm     joinCross($table, $alias, $onStatement, $onParams)
+ * @method \Magelight\Db\Common\Orm     joinInnerLeft($table, $alias, $onStatement, $onParams)
+ * @method \Magelight\Db\Common\Orm     joinInnerRight($table, $alias, $onStatement, $onParams)
+ * @method \Magelight\Db\Common\Orm     joinOuterLeft($table, $alias, $onStatement, $onParams)
+ * @method \Magelight\Db\Common\Orm     joinOuterRight($table, $alias, $onStatement, $onParams)
  *
- * @method \Magelight\Dbal\Db\Mysql\Orm     whereEq($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     whereNeq($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     whereNull($expression)
- * @method \Magelight\Dbal\Db\Mysql\Orm     whereNotNull($expression)
- * @method \Magelight\Dbal\Db\Mysql\Orm     whereGt($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     whereGte($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     whereLt($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     whereLte($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     whereLike($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     whereIn($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     whereNotIn($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     whereEx($expression, $params)
+ * @method \Magelight\Db\Common\Orm     whereEq($expression, $param)
+ * @method \Magelight\Db\Common\Orm     whereNeq($expression, $param)
+ * @method \Magelight\Db\Common\Orm     whereNull($expression)
+ * @method \Magelight\Db\Common\Orm     whereNotNull($expression)
+ * @method \Magelight\Db\Common\Orm     whereGt($expression, $param)
+ * @method \Magelight\Db\Common\Orm     whereGte($expression, $param)
+ * @method \Magelight\Db\Common\Orm     whereLt($expression, $param)
+ * @method \Magelight\Db\Common\Orm     whereLte($expression, $param)
+ * @method \Magelight\Db\Common\Orm     whereLike($expression, $param)
+ * @method \Magelight\Db\Common\Orm     whereIn($expression, $param)
+ * @method \Magelight\Db\Common\Orm     whereNotIn($expression, $param)
+ * @method \Magelight\Db\Common\Orm     whereEx($expression, $params)
  *
- * @method \Magelight\Dbal\Db\Mysql\Orm     orWhereEq($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     orWhereNeq($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     orWhereNull($expression)
- * @method \Magelight\Dbal\Db\Mysql\Orm     orWhereNotNull($expression)
- * @method \Magelight\Dbal\Db\Mysql\Orm     orWhereGt($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     orWhereGte($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     orWhereLt($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     orWhereLte($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     orWhereLike($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     orWhereIn($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     orWhereNotIn($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     orWhereEx($expression, $params)
+ * @method \Magelight\Db\Common\Orm     orWhereEq($expression, $param)
+ * @method \Magelight\Db\Common\Orm     orWhereNeq($expression, $param)
+ * @method \Magelight\Db\Common\Orm     orWhereNull($expression)
+ * @method \Magelight\Db\Common\Orm     orWhereNotNull($expression)
+ * @method \Magelight\Db\Common\Orm     orWhereGt($expression, $param)
+ * @method \Magelight\Db\Common\Orm     orWhereGte($expression, $param)
+ * @method \Magelight\Db\Common\Orm     orWhereLt($expression, $param)
+ * @method \Magelight\Db\Common\Orm     orWhereLte($expression, $param)
+ * @method \Magelight\Db\Common\Orm     orWhereLike($expression, $param)
+ * @method \Magelight\Db\Common\Orm     orWhereIn($expression, $param)
+ * @method \Magelight\Db\Common\Orm     orWhereNotIn($expression, $param)
+ * @method \Magelight\Db\Common\Orm     orWhereEx($expression, $params)
  *
- * @method \Magelight\Dbal\Db\Mysql\Orm     andWhereEq($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     andWhereNeq($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     andWhereNull($expression)
- * @method \Magelight\Dbal\Db\Mysql\Orm     andWhereNotNull($expression)
- * @method \Magelight\Dbal\Db\Mysql\Orm     andWhereGt($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     andWhereGte($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     andWhereLt($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     andWhereLte($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     andWhereLike($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     andWhereIn($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     andWhereNotIn($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     andWhereEx($expression, $params)
+ * @method \Magelight\Db\Common\Orm     andWhereEq($expression, $param)
+ * @method \Magelight\Db\Common\Orm     andWhereNeq($expression, $param)
+ * @method \Magelight\Db\Common\Orm     andWhereNull($expression)
+ * @method \Magelight\Db\Common\Orm     andWhereNotNull($expression)
+ * @method \Magelight\Db\Common\Orm     andWhereGt($expression, $param)
+ * @method \Magelight\Db\Common\Orm     andWhereGte($expression, $param)
+ * @method \Magelight\Db\Common\Orm     andWhereLt($expression, $param)
+ * @method \Magelight\Db\Common\Orm     andWhereLte($expression, $param)
+ * @method \Magelight\Db\Common\Orm     andWhereLike($expression, $param)
+ * @method \Magelight\Db\Common\Orm     andWhereIn($expression, $param)
+ * @method \Magelight\Db\Common\Orm     andWhereNotIn($expression, $param)
+ * @method \Magelight\Db\Common\Orm     andWhereEx($expression, $params)
  *
- * @method \Magelight\Dbal\Db\Mysql\Orm     andNotWhereEq($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     andNotWhereNeq($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     andNotWhereNull($expression)
- * @method \Magelight\Dbal\Db\Mysql\Orm     andNotWhereNotNull($expression)
- * @method \Magelight\Dbal\Db\Mysql\Orm     andNotWhereGt($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     andNotWhereGte($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     andNotWhereLt($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     andNotWhereLte($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     andNotWhereLike($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     andNotWhereIn($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     andNotWhereNotIn($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     andNotWhereEx($expression, $params)
+ * @method \Magelight\Db\Common\Orm     andNotWhereEq($expression, $param)
+ * @method \Magelight\Db\Common\Orm     andNotWhereNeq($expression, $param)
+ * @method \Magelight\Db\Common\Orm     andNotWhereNull($expression)
+ * @method \Magelight\Db\Common\Orm     andNotWhereNotNull($expression)
+ * @method \Magelight\Db\Common\Orm     andNotWhereGt($expression, $param)
+ * @method \Magelight\Db\Common\Orm     andNotWhereGte($expression, $param)
+ * @method \Magelight\Db\Common\Orm     andNotWhereLt($expression, $param)
+ * @method \Magelight\Db\Common\Orm     andNotWhereLte($expression, $param)
+ * @method \Magelight\Db\Common\Orm     andNotWhereLike($expression, $param)
+ * @method \Magelight\Db\Common\Orm     andNotWhereIn($expression, $param)
+ * @method \Magelight\Db\Common\Orm     andNotWhereNotIn($expression, $param)
+ * @method \Magelight\Db\Common\Orm     andNotWhereEx($expression, $params)
  *
- * @method \Magelight\Dbal\Db\Mysql\Orm     orNotWhereEq($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     orNotWhereNeq($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     orNotWhereNull($expression)
- * @method \Magelight\Dbal\Db\Mysql\Orm     orNotWhereNotNull($expression)
- * @method \Magelight\Dbal\Db\Mysql\Orm     orNotWhereGt($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     orNotWhereGte($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     orNotWhereLt($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     orNotWhereLte($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     orNotWhereLike($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     orNotWhereIn($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     orNotWhereNotIn($expression, $param)
- * @method \Magelight\Dbal\Db\Mysql\Orm     orNotWhereEx($expression, $params)
+ * @method \Magelight\Db\Common\Orm     orNotWhereEq($expression, $param)
+ * @method \Magelight\Db\Common\Orm     orNotWhereNeq($expression, $param)
+ * @method \Magelight\Db\Common\Orm     orNotWhereNull($expression)
+ * @method \Magelight\Db\Common\Orm     orNotWhereNotNull($expression)
+ * @method \Magelight\Db\Common\Orm     orNotWhereGt($expression, $param)
+ * @method \Magelight\Db\Common\Orm     orNotWhereGte($expression, $param)
+ * @method \Magelight\Db\Common\Orm     orNotWhereLt($expression, $param)
+ * @method \Magelight\Db\Common\Orm     orNotWhereLte($expression, $param)
+ * @method \Magelight\Db\Common\Orm     orNotWhereLike($expression, $param)
+ * @method \Magelight\Db\Common\Orm     orNotWhereIn($expression, $param)
+ * @method \Magelight\Db\Common\Orm     orNotWhereNotIn($expression, $param)
+ * @method \Magelight\Db\Common\Orm     orNotWhereEx($expression, $params)
  */
-class Orm extends \Magelight\Dbal\Db\Common\Orm
+abstract class Orm
 {
+    use \Magelight\Cache\Cache;
 
     /**
      * Key constants
@@ -116,6 +105,34 @@ class Orm extends \Magelight\Dbal\Db\Common\Orm
     const LOGIC_OR = 'OR';
     const LOGIC_AND_NOT = 'AND NOT';
     const LOGIC_OR_NOT = 'OR NOT';
+
+    /**
+     * PDO instance
+     *
+     * @var Adapter
+     */
+    protected $db;
+
+    /**
+     * Identifier column
+     *
+     * @var string
+     */
+    protected $idColumn = 'id';
+
+    /**
+     * Model name
+     *
+     * @var string
+     */
+    protected $modelName = null;
+
+    /**
+     * Current table name
+     *
+     * @var string
+     */
+    protected $tableName = null;
 
     /**
      * Where map rendering
@@ -291,6 +308,74 @@ class Orm extends \Magelight\Dbal\Db\Common\Orm
      * @var array
      */
     protected $_join = [];
+
+    /**
+     * Get Orm class by type
+     *
+     * @param string $type
+     * @return string
+     */
+    public static function getOrmClassByType($type)
+    {
+        return '\\Magelight\\Db\\' . ucfirst(strtolower($type)) . '\\Orm';
+    }
+
+    /**
+     * Set table name
+     *
+     * @param string $tableName
+     * @return Orm
+     */
+    public function setTableName($tableName)
+    {
+        if (!empty($tableName)) {
+            $this->tableName = $tableName;
+        }
+        return $this;
+    }
+
+    /**
+     * Set model name
+     *
+     * @param string $modelName
+     * @return Orm
+     */
+    public function setModelName($modelName)
+    {
+        $this->modelName = $modelName;
+        return $this;
+    }
+
+    /**
+     * Constructor
+     * @param \Magelight\Db\Common\Adapter $db
+     */
+    public function __construct(\Magelight\Db\Common\Adapter $db)
+    {
+        $this->db = $db;
+    }
+
+    /**
+     * Set the id column
+     *
+     * @param string $idColumn
+     */
+    public function setIdColumn($idColumn = 'id')
+    {
+        if (!empty($idColumn)) {
+            $this->idColumn = $idColumn;
+        }
+    }
+
+    /**
+     * Get the id column
+     *
+     * @return string
+     */
+    public function getIdColumn()
+    {
+        return $this->idColumn;
+    }
 
     /**
      * Get current orm profile

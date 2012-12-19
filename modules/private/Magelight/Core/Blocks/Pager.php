@@ -10,7 +10,7 @@
 namespace Magelight\Core\Blocks;
 
 /**
- * @method static \Magelight\Core\Blocks\Pager forge(\Magelight\Dbal\Db\Collection $collection = null)
+ * @method static \Magelight\Core\Blocks\Pager forge(\Magelight\Db\Collection $collection = null)
  */
 class Pager extends \Magelight\Block
 {
@@ -29,7 +29,7 @@ class Pager extends \Magelight\Block
     /**
      * Collection
      *
-     * @var \Magelight\Dbal\Db\Collection
+     * @var \Magelight\Db\Collection
      */
     protected $_collection = null;
 
@@ -40,10 +40,10 @@ class Pager extends \Magelight\Block
      */
     protected $_template = 'Magelight/Core/templates/pager.phtml';
 
-    public function __forge(\Magelight\Dbal\Db\Collection $collection = null)
+    public function __forge(\Magelight\Db\Collection $collection = null)
     {
         $this->_collection = $collection;
-        if ($this->_collection instanceof \Magelight\Dbal\Db\Collection) {
+        if ($this->_collection instanceof \Magelight\Db\Collection) {
             $this->setTotal($this->_collection->totalCount());
             $this->setPerPage($this->_collection->getLimit());
             $this->setCurrentPage(floor($this->_collection->getOffset() / $this->_perPage));

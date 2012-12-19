@@ -20,18 +20,18 @@
  * @copyright Copyright (c) 2012 rganin (rganin@gmail.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-namespace Magelight\Dbal\Db\MySql;
 
-/**
- * Mysql adapter (PDO proxy)
- *
- * @method bool beginTransaction() - begin the transaction
- * @method bool commit() - commit the transaction
- * @method bool rollBack() - roll back the transaction
- * @method int exec($pdoStatement) - execute sql statement
- */
-class Adapter extends \Magelight\Dbal\Db\Common\Adapter
+namespace Magelight\Db\Common;
+
+abstract class Adapter
 {
+    use \Magelight\Forgery;
+
+    const TYPE_MYSQL  = 'mysql';
+    const TYPE_PGSQL  = 'pgsql';
+    const TYPE_OCI    = 'oci';
+    const TYPE_MSSQL  = 'mssql';
+    const TYPE_SQLITE = 'sqlite';
 
     /**
      * PDO Object
@@ -62,32 +62,59 @@ class Adapter extends \Magelight\Dbal\Db\Common\Adapter
     protected $_profilingEnabled = false;
 
     /**
-     * Initialize adapter
+     * Initialized flag
+     *
+     * @var bool
+     */
+    protected $_isInitialized = false;
+
+    /**
+     * Initialize DB instance
      *
      * @param array $options
-     * @return Adapter|mixed
+     * @return mixed
      */
-    public function init(array $options = [])
+    abstract public function init(array $options = []);
+
+    /**
+     * Check the DB is initialized
+     *
+     * @return bool
+     */
+    public function isInitialized()
     {
-        $this->_dsn = isset($options['dsn']) ? $options['dsn'] : $this->getDsn($options);
+        return $this->_isInitialized;
+    }
 
-        $user = isset($options['user']) ? $options['user'] : null;
-        $pass = isset($options['password']) ? $options['password'] : null;
-        $this->_db = new \PDO($this->_dsn, $user, $pass, $this->preparePdoOptions($options));
+    /**
+     * Get adapter class by type
+     *
+     * @param string $type
+     * @return string
+     */
+    public static function getAdapterClassByType($type)
+    {
+        return '\\Magelight\\Db\\' . ucfirst(strtolower($type)) . '\\Adapter';
+    }
 
-        if ($this->_db instanceof \PDO) {
-            $this->_isInitialized = true;
-        }
+    /**
+     * Forge an adapter
+     *
+     * @return Adapter
+     */
+    public static function forge()
+    {
+        return new static();
+    }
 
-        if (isset($options['use_database'])) {
-            $this->_db->exec('USE ' . $options['database']);
-        }
-
-        if (isset($options['profiling']) && (bool) $options['profiling']) {
-            $this->enableProfilig();
-        }
-
-        return $this;
+    /**
+     * Get adapter type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->_type;
     }
 
     /**
@@ -130,45 +157,6 @@ class Adapter extends \Magelight\Dbal\Db\Common\Adapter
         return $dsn . implode(';', $dsnParams);
     }
 
-
-    /**
-     * Prepare PDO options
-     *
-     * @param array $options
-     * @return array
-     */
-    protected function preparePdoOptions(array $options = [])
-    {
-        $pdoOptions = [];
-        if (isset($options['init_connect'])) {
-            $pdoOptions[\PDO::MYSQL_ATTR_INIT_COMMAND] = (string) $options['init_connect'];
-        }
-        if (isset($options['compression'])) {
-            $pdoOptions[\PDO::MYSQL_ATTR_COMPRESS] = (int) $options['compression'];
-        }
-        if (isset($options['compression'])) {
-            $pdoOptions[\PDO::ATTR_PERSISTENT] = (int) $options['persistent'];
-        }
-        return $pdoOptions;
-    }
-
-    /**
-     * Call magic method
-     *
-     * @param string $method
-     * @param array $arguments
-     * @throws \Magelight\Exception
-     * @return mixed
-     */
-    public function __call($method, $arguments)
-    {
-        if($this->_db instanceof \PDO){
-            return call_user_func_array(array($this->_db, $method), $arguments);
-        } else {
-            throw new \Magelight\Exception('Database adapter PDO object is missing or invalid.');
-        }
-    }
-
     /**
      * Execute db statement
      *
@@ -185,12 +173,21 @@ class Adapter extends \Magelight\Dbal\Db\Common\Adapter
             $profileId = $this->getProfiler()->startNewProfiling();
         }
 
+        if (!$statement) {
+            $params = var_export($params, true);
+            $query = substr($query, 0, 1024) . '...';
+            $dbError = var_export($this->_db->errorInfo(), true);
+            throw new \Magelight\Exception(
+                "Error preparing statement:\r\n {$query}\r\n params = {$params}\r\n Database error: {$dbError}"
+            );
+        }
+
         if (!$statement->execute(array_values($params))) {
             $errorInfo = $statement->errorInfo();
             trigger_error(
-                "Adapter error: `" . var_dump($errorInfo) . '`'
-                . 'statement = "' . $statement->queryString . '"'
-                . 'params = ' . var_export($params, true)
+                "Adapter error: `" . var_export($errorInfo, true) . '`'
+                    . 'statement = "' . $statement->queryString . '"'
+                    . 'params = ' . var_export($params, true)
                 , E_USER_NOTICE);
         }
 
@@ -231,5 +228,22 @@ class Adapter extends \Magelight\Dbal\Db\Common\Adapter
     public function getProfiler()
     {
         return \Magelight\Profiler::getInstance($this->_dsn);
+    }
+
+    /**
+     * Call magic method
+     *
+     * @param string $method
+     * @param array $arguments
+     * @throws \Magelight\Exception
+     * @return mixed
+     */
+    public function __call($method, $arguments)
+    {
+        if($this->_db instanceof \PDO){
+            return call_user_func_array(array($this->_db, $method), $arguments);
+        } else {
+            throw new \Magelight\Exception('Database adapter PDO object is missing or invalid.');
+        }
     }
 }

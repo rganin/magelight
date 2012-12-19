@@ -41,7 +41,7 @@ abstract class Model
     /**
      * Orm instance
      *
-     * @var \Magelight\Dbal\Db\Mysql\Orm
+     * @var \Magelight\Db\Mysql\Orm
      */
     protected $_orm = null;
 
@@ -86,7 +86,7 @@ abstract class Model
      *
      * @param Dbal\Db\Common\Orm $orm
      */
-    public function setOrm(\Magelight\Dbal\Db\Common\Orm $orm)
+    public function setOrm(\Magelight\Db\Common\Orm $orm)
     {
         $this->_orm = $orm;
     }
@@ -99,10 +99,10 @@ abstract class Model
     public static function orm()
     {
         $db = \Magelight::app()->db(static::callStaticLate('getDbIndex'));
-        $ormClass = \Magelight\Dbal\Db\Common\Orm::getOrmClassByType($db->getType());
+        $ormClass = \Magelight\Db\Common\Orm::getOrmClassByType($db->getType());
 
         $orm = new $ormClass($db);
-        /*  @var $orm \Magelight\Dbal\Db\Mysql\Orm */
+        /*  @var $orm \Magelight\Db\Mysql\Orm */
         $orm->setIdColumn(static::callStaticLate('getIdField'));
         $orm->setTableName(static::callStaticLate('getTableName'));
         $orm->setModelName(static::getClassRedefinition());

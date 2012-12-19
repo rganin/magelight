@@ -32,7 +32,7 @@ class Installer
      *
      *
      * @param string $index
-     * @return Dbal\Db\Common\Adapter
+     * @return Db\Common\Adapter
      */
     public function getDb($index = \Magelight\App::DEFAULT_INDEX)
     {

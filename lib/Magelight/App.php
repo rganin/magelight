@@ -450,14 +450,14 @@ final class App
     {
         $db = $this->getRegistryObject('database/' . $index);
 
-        if (!$db instanceof \Magelight\Dbal\Db\Common\Adapter) {
+        if (!$db instanceof \Magelight\Db\Common\Adapter) {
             $dbConfig = $this->getConfig('/global/db/' . $index, null);
             if (is_null($dbConfig)) {
                 throw new \Magelight\Exception("Database `{$index}` configuration not found.");
             }
-            $adapterClass = \Magelight\Dbal\Db\Common\Adapter::getAdapterClassByType((string) $dbConfig->type);
+            $adapterClass = \Magelight\Db\Common\Adapter::getAdapterClassByType((string) $dbConfig->type);
             $db = new $adapterClass();
-            /* @var $db \Magelight\Dbal\Db\Common\Adapter*/
+            /* @var $db \Magelight\Db\Common\Adapter*/
             $db->init((array) $dbConfig);
             $this->setRegistryObject('database/' . $index, $db);
         }
