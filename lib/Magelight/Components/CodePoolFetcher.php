@@ -22,6 +22,9 @@
  */
 namespace Magelight\Components;
 
+/**
+ * Trait for fetching code pool of class or instance
+ */
 trait CodePoolFetcher
 {
     /**

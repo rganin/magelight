@@ -28,14 +28,37 @@ namespace Magelight;
  */
 abstract class Model
 {
+    /**
+     * Use forgery
+     */
     use \Magelight\Forgery;
 
+    /**
+     * Database index in configuration
+     *
+     * @var string
+     */
     protected static $_dbIndex = \Magelight\App::DEFAULT_INDEX;
 
+    /**
+     * Table name
+     *
+     * @var string
+     */
     protected static $_tableName = '';
 
+    /**
+     * ID field name
+     *
+     * @var string
+     */
     protected static $_idField = 'id';
 
+    /**
+     * Default model values
+     *
+     * @var array
+     */
     protected static $_defaultValues = [];
 
     /**
@@ -61,40 +84,63 @@ abstract class Model
         $this->_afterLoad();
     }
 
+    /**
+     * Process data before creating model
+     *
+     * @param array $data
+     * @return array
+     */
     protected function _processDataBeforeCreate($data)
     {
         return $data;
     }
 
+    /**
+     * After load handler
+     *
+     * @return Model
+     */
     protected function _afterLoad()
     {
         return $this;
     }
 
+    /**
+     * Before save handler
+     *
+     * @return Model
+     */
     protected function _beforeSave()
     {
         return $this;
     }
 
+    /**
+     * After Save handler
+     *
+     * @return Model
+     */
     protected function _afterSave()
     {
         return $this;
     }
 
     /**
-     * Set model orm
+     * Set model ORM
      *
-     * @param Dbal\Db\Common\Orm $orm
+     * @param Db\Common\Orm $orm
+     * @return Model
      */
     public function setOrm(\Magelight\Db\Common\Orm $orm)
     {
         $this->_orm = $orm;
+        return $this;
     }
 
     /**
      * Get model orm
      *
-     * @return Dbal\Db\Mysql\Orm
+     * @return Db\Mysql\Orm
      */
     public static function orm()
     {
@@ -109,6 +155,11 @@ abstract class Model
         return $orm;
     }
 
+    /**
+     * Get database index
+     *
+     * @return string
+     */
     public static function getDbIndex()
     {
         return static::$_dbIndex;
@@ -134,6 +185,12 @@ abstract class Model
         return static::$_idField;
     }
 
+    /**
+     * Isset magic
+     *
+     * @param string $name
+     * @return bool
+     */
     public function __isset($name)
     {
         return isset($this->orm->$name);
@@ -151,10 +208,9 @@ abstract class Model
     }
 
     /**
-     * Magic getter
+     * Getter magic
      *
      * @param string $name
-     *
      * @return mixed
      */
     public function __get($name)
@@ -162,6 +218,12 @@ abstract class Model
         return $this->_orm->getValue($name);
     }
 
+    /**
+     * Unset magic
+     *
+     * @param string $name
+     * @return Db\Common\Orm
+     */
     public function __unset($name)
     {
         return $this->_orm->unsetValue($name);

@@ -20,15 +20,21 @@
  * @copyright Copyright (c) 2012 rganin (rganin@gmail.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
+
 namespace Magelight\Http;
 
 /**
- * @method static \Magelight\Http\Request forge()
+ * Request wrapper
+ *
+ * @method static \Magelight\Http\Request forge($get = [], $post= [])
  */
 class Request
 {
     use \Magelight\Forgery;
 
+    /**
+     * Request methods
+     */
     const METHOD_GET    = 'GET';
     const METHOD_POST   = 'POST';
     const METHOD_PUT    = 'PUT';
@@ -79,9 +85,8 @@ class Request
      * 
      * @param array $get
      * @param array $post
-     * @param string $requestOrder
      */
-    public function __construct($get = [], $post = [], $requestOrder = self::DEFAULT_REQUEST_MERGE_ORDER)
+    public function __forge($get = [], $post = [])
     {
         if (isset($_SERVER['REQUEST_METHOD'])) {
             $this->_method = $_SERVER['REQUEST_METHOD'];

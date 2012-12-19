@@ -23,6 +23,10 @@
 
 namespace Magelight\Helpers;
 
+/**
+ * Array helper
+ * @method static \Magelight\Helpers\ArrayHelper forge()
+ */
 class ArrayHelper
 {
     use \Magelight\Forgery;

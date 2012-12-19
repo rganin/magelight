@@ -23,6 +23,9 @@
 
 namespace Magelight\Components\Loaders;
 
+/**
+ * Routes loader
+ */
 class Routes
 {
     /**

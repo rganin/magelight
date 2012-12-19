@@ -23,6 +23,9 @@
 
 namespace Magelight\Components;
 
+/**
+ * Application enabled modules info wrapper
+ */
 class Modules
 {
     /**

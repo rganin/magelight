@@ -22,8 +22,15 @@
  */
 namespace Magelight\Http;
 
+/**
+ * Cookies array wrapper class
+ *
+ * @method static \Magelight\Http\Cookies forge()
+ */
 class Cookies
 {
+    use \Magelight\Forgery;
+
     /**
      * Cookies
      * 
@@ -74,7 +81,7 @@ class Cookies
     public function getCookieObject($key)
     {
         if ($this->cookieExists($key)) {
-            return new CookieObject($key, $this->_cookies[$key]);    
+            return CookieObject::forge($key, $this->_cookies[$key]);
         }
         return null;
     }

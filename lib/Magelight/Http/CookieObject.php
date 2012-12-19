@@ -23,15 +23,20 @@
 
 
 namespace Magelight\Http;
+
 /**
- * @method CookieObject setTtl(int $ttl)
- * @method CookieObject setKey(string $key)
- * @method CookieObject setValue(string $value)
- * @method CookieObject setDomain(string $domain)
- * @method CookieObject setPath(string $path)
- * @method CookieObject setExpire(int $expire) - overrides TTL
- * @method CookieObject setSecure(bool $secure)
- * @method CookieObject setHttpOnly(bool $httpOnly)
+ * Cookie wrapper class
+ *
+ * @methos static \Magelight\Http\CookieObject forge($key = null, $value = null)
+ *
+ * @method \Magelight\Http\CookieObject setTtl(int $ttl)
+ * @method \Magelight\Http\CookieObject setKey(string $key)
+ * @method \Magelight\Http\CookieObject setValue(string $value)
+ * @method \Magelight\Http\CookieObject setDomain(string $domain)
+ * @method \Magelight\Http\CookieObject setPath(string $path)
+ * @method \Magelight\Http\CookieObject setExpire(int $expire) - overrides TTL
+ * @method \Magelight\Http\CookieObject setSecure(bool $secure)
+ * @method \Magelight\Http\CookieObject setHttpOnly(bool $httpOnly)
  * @method int getTtl()
  * @method string getKey()
  * @method string|null getValue()
@@ -43,6 +48,8 @@ namespace Magelight\Http;
  */
 class CookieObject
 {
+    use \Magelight\Forgery;
+
     /**
      * Default cookie TTL
      */
@@ -105,12 +112,12 @@ class CookieObject
     private $_httpOnly = null;
     
     /**
-     * Constructor
+     * Forgery constructor
      * 
      * @param string $key
      * @param string $value
      */
-    public function __construct($key = null, $value = null)
+    public function __forge($key = null, $value = null)
     {
         $this->_key = $key;
         $this->_value = $value;

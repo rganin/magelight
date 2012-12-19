@@ -23,6 +23,9 @@
 
 namespace Magelight;
 
+/**
+ * Version wrapper class
+ */
 class Version
 {
     /**

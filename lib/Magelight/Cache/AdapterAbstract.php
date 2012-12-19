@@ -28,6 +28,9 @@ namespace Magelight\Cache;
  */
 abstract class AdapterAbstract implements CacheInterface
 {
+    /**
+     * Use forgery
+     */
     use \Magelight\Forgery;
 
     /**

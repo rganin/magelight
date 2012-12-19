@@ -23,6 +23,11 @@
 
 namespace Magelight\Http;
 
+/**
+ * Response wrapper
+ *
+ * @method \Magelight\Http\Response forge()
+ */
 class Response
 {
     use \Magelight\Forgery;

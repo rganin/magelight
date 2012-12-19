@@ -23,6 +23,9 @@
 
 namespace Magelight\Components\Loaders;
 
+/**
+ * Config loader class
+ */
 class Config
 {
     /**

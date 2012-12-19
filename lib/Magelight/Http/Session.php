@@ -23,6 +23,11 @@
 
 namespace Magelight\Http;
 
+/**
+ * Session wrapper
+ *
+ * @method static \Magelight\Http\Session forge()
+ */
 class Session
 {
     use \Magelight\Forgery;

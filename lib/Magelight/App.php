@@ -20,8 +20,12 @@
  * @copyright Copyright (c) 2012 rganin (rganin@gmail.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
+
 namespace Magelight;
 
+/**
+ * Application class (no forgery available)
+ */
 final class App
 {
     /**
@@ -321,12 +325,12 @@ final class App
     {
         try {
             $this->fireEvent('app_start', ['muteExceptions' => $muteExceptions]);
-            $request = new \Magelight\Http\Request();
+            $request = \Magelight\Http\Request::forge();
             $action = $this->router()->getAction((string) $request->getRequestRoute());
             $request->appendGet($action['arguments']);
             $this->dispatchAction($action, $request);
         } catch (\Exception $e) {
-            \Magelight\Log::add($e->getMessage());
+            \Magelight\Log::getInstance()->add($e->getMessage());
             if (!$muteExceptions || $this->_developerMode) {
                 throw $e;
             }
@@ -436,14 +440,14 @@ final class App
      */
     public function log($logMessage)
     {
-        \Magelight\Log::add($logMessage);
+        \Magelight\Log::getInstance()->add($logMessage);
     }
 
     /**
      * Get database
      *
      * @param string $index
-     * @return Dbal\Db\Common\Adapter
+     * @return Db\Common\Adapter
      * @throws Exception
      */
     public function db($index = self::DEFAULT_INDEX)
@@ -616,6 +620,12 @@ final class App
         return $url;
     }
 
+    /**
+     * Fire application event (executes all observers that were bound to this event)
+     *
+     * @param string $eventName
+     * @param array $arguments
+     */
     public function fireEvent($eventName, $arguments = [])
     {
         $observers = (array)$this->config()->getConfigSet('global/events/' . $eventName . '/observer');

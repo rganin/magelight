@@ -23,6 +23,9 @@
 
 namespace Magelight\Components;
 
+/**
+ * Config wrapper
+ */
 class Config
 {
     use \Magelight\Cache\Cache;

@@ -23,15 +23,30 @@
 
 namespace Magelight;
 
+/**
+ * Cache class
+ *
+ * @method static \Magelight\Cache forge()
+ */
 class Cache implements \Magelight\Cache\CacheInterface
 {
+    /**
+     * Using forgery
+     */
     use \Magelight\Forgery;
 
     /**
-     * @var \Magelight\Cache\AdapterAbstract
+     * @var Cache\AdapterAbstract
      */
     protected $_adapter = null;
 
+    /**
+     * Initialize cache
+     *
+     * @param array $config
+     * @return Cache
+     * @throws Exception
+     */
     public function init(array $config = [])
     {
         if (!isset($config['type'])) {
@@ -44,31 +59,71 @@ class Cache implements \Magelight\Cache\CacheInterface
         return $this;
     }
 
+    /**
+     * Get cached value by key
+     *
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
+     */
     public function get($key, $default = null)
     {
         return $this->_adapter->get($key, $default);
     }
 
+    /**
+     * Set value to cache by key
+     *
+     * @param string $key
+     * @param mixed $value
+     * @param int $ttl
+     * @return mixed
+     */
     public function set($key, $value, $ttl = 360)
     {
         return $this->_adapter->set($key, $value, $ttl);
     }
 
+    /**
+     * Delete value from cache by key
+     *
+     * @param string $key
+     * @return mixed
+     */
     public function del($key)
     {
         return $this->_adapter->del($key);
     }
 
+    /**
+     * Clear cache
+     *
+     * @return mixed
+     */
     public function clear()
     {
         return $this->_adapter->clear();
     }
 
+    /**
+     * increment cache value
+     *
+     * @param string $key
+     * @param int $incValue
+     * @return mixed
+     */
     public function increment($key, $incValue = 1)
     {
         return $this->_adapter->increment($key, $incValue);
     }
 
+    /**
+     * Decrement cached value
+     *
+     * @param string $key
+     * @param int $decValue
+     * @return mixed
+     */
     public function decrement($key, $decValue = 1)
     {
         return $this->_adapter->decrement($key, $decValue);

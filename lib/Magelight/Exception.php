@@ -23,6 +23,9 @@
 
 namespace Magelight;
 
+/**
+ * Magelight exception
+ */
 class Exception extends \Exception
 {
     

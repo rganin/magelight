@@ -23,10 +23,23 @@
 
 namespace Magelight\Db\Common;
 
+/**
+ * Abstract adapter
+ *
+ * @method bool beginTransaction()
+ * @method bool commit()
+ * @method bool rollback()
+ */
 abstract class Adapter
 {
+    /**
+     * Use forgery
+     */
     use \Magelight\Forgery;
 
+    /**
+     * Database type constants
+     */
     const TYPE_MYSQL  = 'mysql';
     const TYPE_PGSQL  = 'pgsql';
     const TYPE_OCI    = 'oci';

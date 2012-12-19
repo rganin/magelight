@@ -23,6 +23,9 @@
 
 namespace Magelight\Components\Loaders;
 
+/**
+ * Modules loader
+ */
 final class Modules
 {
     /**

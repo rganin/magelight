@@ -407,8 +407,11 @@ class Form extends Elements\Abstraction\Element
      * @param \Magelight\Http\Request $request
      * @return Form
      */
-    public function loadFromRequest(\Magelight\Http\Request $request)
+    public function loadFromRequest(\Magelight\Http\Request $request = null)
     {
+        if (empty($request)) {
+            $request = \Magelight\Http\Request::forge();
+        }
         $method = $this->getAttribute('method', 'post');
         $methodName = 'get' . ucfirst(strtolower($method));
         if (!empty($this->_wrapIndex)) {

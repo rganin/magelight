@@ -24,11 +24,6 @@ namespace Magelight\Db\MySql;
 
 /**
  * Mysql adapter (PDO proxy)
- *
- * @method bool beginTransaction() - begin the transaction
- * @method bool commit() - commit the transaction
- * @method bool rollBack() - roll back the transaction
- * @method int exec($pdoStatement) - execute sql statement
  */
 class Adapter extends \Magelight\Db\Common\Adapter
 {

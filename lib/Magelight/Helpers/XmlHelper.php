@@ -23,6 +23,11 @@
 
 namespace Magelight\Helpers;
 
+/**
+ * XML Helper class
+ *
+ * @method static \Magelight\Helpers\XmlHelper forge()
+ */
 class XmlHelper
 {
     use \Magelight\Forgery;

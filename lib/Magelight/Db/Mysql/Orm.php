@@ -22,9 +22,10 @@
  */
 namespace Magelight\Db\Mysql;
 
+/**
+ * Mysql ORM
+ */
 class Orm extends \Magelight\Db\Common\Orm
 {
-
-
 
 }

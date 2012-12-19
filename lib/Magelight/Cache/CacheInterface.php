@@ -23,17 +23,60 @@
 
 namespace Magelight\Cache;
 
+/**
+ * Cache adapter interface
+ */
 interface CacheInterface
 {
+    /**
+     * Get cached value by key
+     *
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
+     */
     public function get($key, $default = null);
 
+    /**
+     * Set value to cache
+     *
+     * @param string $key
+     * @param mixed $value
+     * @param int $ttl
+     * @return mixed
+     */
     public function set($key, $value, $ttl = 360);
 
+    /**
+     * Delete value from cache by key
+     *
+     * @param string $key
+     * @return mixed
+     */
     public function del($key);
 
+    /**
+     * Clear cache
+     *
+     * @return mixed
+     */
     public function clear();
 
+    /**
+     * Increment cache value
+     *
+     * @param string $key
+     * @param int $incValue
+     * @return mixed
+     */
     public function increment($key, $incValue = 1);
 
+    /**
+     * Decrement cache value
+     *
+     * @param string $key
+     * @param int $decValue
+     * @return mixed
+     */
     public function decrement($key, $decValue = 1);
 }

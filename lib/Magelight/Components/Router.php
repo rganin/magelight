@@ -23,6 +23,9 @@
 
 namespace Magelight\Components;
 
+/**
+ * Application Router
+ */
 class Router
 {
     /**

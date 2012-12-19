@@ -22,6 +22,9 @@
  */
 namespace Magelight;
 
+/**
+ * Profiler class
+ */
 class Profiler
 {
     /**
@@ -31,8 +34,19 @@ class Profiler
      */
     protected static $_instances = [];
 
+    /**
+     * Profiles array
+     *
+     * @var array
+     */
     protected $_profiles = [];
 
+    /**
+     * Get profiler instance
+     *
+     * @param string $type
+     * @return mixed
+     */
     public static function getInstance($type)
     {
         if (!isset(self::$_instances[$type])) {

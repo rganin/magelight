@@ -24,12 +24,25 @@
 namespace Magelight;
 
 /**
- * @static forge() \Magelight\Blocks
+ * Abstract block
+ *
+ * @method static \Magelight\Block forge()
  */
 abstract class Block
 {
+    /**
+     * Use magelight forgery
+     */
     use Forgery;
+
+    /**
+     * Allow fetching code pool
+     */
     use \Magelight\Components\CodePoolFetcher;
+
+    /**
+     * Use caching trait
+     */
     use \Magelight\Cache\Cache;
 
     /**

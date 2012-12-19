@@ -23,22 +23,41 @@
 
 namespace Magelight;
 
+/**
+ * Logger class
+ *
+ * @method static \Magelight\Log getInstance()
+ */
 class Log
 {
-    protected static $_file = 'log.log';
+    /**
+     * Use forgery
+     */
+    use \Magelight\Forgery;
 
-    protected static $_initialized = false;
+    /**
+     * Logfile path
+     *
+     * @var string
+     */
+    protected $_file = 'log.log';
+
+    /**
+     * Is logger initialized
+     *
+     * @var bool
+     */
+    protected $_initialized = false;
 
     /**
      * Add message to application log
      * 
-     * @static
      * @param $logMessage
      */
-    public static function add($logMessage)
+    public function add($logMessage)
     {
-        if (!self::$_initialized) {
-            self::init();
+        if (!$this->_initialized) {
+            $this->init();
         }
         $time = date('d-m-Y H:i:s', time());
         $message = "{$time} - {$logMessage}";
@@ -50,11 +69,16 @@ class Log
         fwrite($f, $message . PHP_EOL);
         flock($f, LOCK_UN);
         fclose($f);
+        return $this;
     }
 
-    protected static function init()
+    /**
+     * Initialize application logger
+     */
+    protected function init()
     {
-        self::$_file = (string)\Magelight::app()->config()->getConfig('global/log/file', self::$_file);
-        self::$_initialized = true;
+        $this->_file = (string)\Magelight::app()->config()->getConfig('global/log/file', self::$_file);
+        $this->_initialized = true;
+        return $this;
     }
 }

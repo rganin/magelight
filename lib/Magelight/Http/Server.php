@@ -24,11 +24,23 @@
 namespace Magelight\Http;
 
 /**
- * @static getInstance() \Magelight\Http\Server
+ * Http server var wrapper + helper
+ *
+ * @method static \Magelight\Http\Server getInstance()
  */
 class Server
 {
     use \Magelight\Forgery;
+
+    /**
+     * Overriding forgery
+     *
+     * @return null
+     */
+    public static function forge()
+    {
+        return null;
+    }
 
     /**
      * Get requested domain

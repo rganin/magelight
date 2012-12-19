@@ -23,9 +23,21 @@
 
 namespace Magelight;
 
+/**
+ * Abstract application controller
+ *
+ * @method static \Magelight\Controller forge()
+ */
 abstract class Controller
 {
+    /**
+     * Use forgery
+     */
     use \Magelight\Forgery;
+
+    /**
+     * Use cacher trait
+     */
     use \Magelight\Cache\Cache;
 
     /**
