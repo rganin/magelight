@@ -30,10 +30,17 @@ class Memcached extends \Magelight\Cache\AdapterAbstract
 {
 
     /**
+     * Memcache instance
+     *
      * @var \Memcache
      */
     protected $memcached = null;
 
+    /**
+     * Initialize memcache
+     *
+     * @return \Magelight\Cache\Adapters\Memcached
+     */
     public function init()
     {
         $this->memcached = new \Memcache();
@@ -43,8 +50,16 @@ class Memcached extends \Magelight\Cache\AdapterAbstract
                 (int) $server->port
             );
         }
+        return $this;
     }
 
+    /**
+     * Get cached value
+     *
+     * @param string $key
+     * @param mixed $default
+     * @return array|mixed|null|string
+     */
     public function get($key, $default = null)
     {
         if ($data = $this->memcached->get($key)) {
@@ -53,26 +68,59 @@ class Memcached extends \Magelight\Cache\AdapterAbstract
         return $default;
     }
 
+    /**
+     * Set cache value
+     *
+     * @param string $key
+     * @param mixed $value
+     * @param int $ttl
+     * @return bool
+     */
     public function set($key, $value, $ttl = 360)
     {
         return $this->memcached->add($key, $value, 0, $ttl);
     }
 
+    /**
+     * Delete value from cache
+     *
+     * @param string $key
+     * @return bool
+     */
     public function del($key)
     {
-        $this->memcached->delete($key);
+        return (bool)$this->memcached->delete($key);
     }
 
+    /**
+     * Clear cache
+     *
+     * @return bool
+     */
     public function clear()
     {
-        $this->memcached->flush();
+        return (bool)$this->memcached->flush();
     }
 
+    /**
+     * Increment cache value
+     *
+     * @param string $key
+     * @param int $incValue
+     * @return int|null
+     */
     public function increment($key, $incValue = 1)
     {
         return $this->memcached->increment($key, $incValue);
     }
 
+    /**
+     * Decrement cached value
+     *
+     * @param string $key
+     * @param int $decValue
+     * @return int|null
+     */
     public function decrement($key, $decValue = 1)
     {
         return $this->memcached->decrement($key, $decValue);
