@@ -1290,19 +1290,22 @@ abstract class Orm
      */
     public function reset()
     {
-        $this->data = [];
-        $this->dirtyFields = [];
-        $this->where = [];
-        $this->statement = null;
-        $this->selectFields = [];
-        $this->params = [];
-        $this->isNewRecord = false;
-        $this->query = null;
-        $this->fieldAliases = [];
-        $this->groupBy = [];
-        $this->orderBy = [];
-        $this->limit = null;
-        $this->offset = null;
+        $this->data         =
+        $this->dirtyFields  =
+        $this->where        =
+        $this->selectFields =
+        $this->params       =
+        $this->fieldAliases =
+        $this->groupBy      =
+        $this->orderBy      = [];
+
+        $this->limit        =
+        $this->offset       =
+        $this->query        =
+        $this->statement    = null;
+
+        $this->isNewRecord  = false;
+
         return $this;
     }
 
