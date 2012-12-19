@@ -7,10 +7,10 @@
  * To change this template use File | Settings | File Templates.
  */
 
-namespace Magelight\Minifier\Models;
+namespace Magelight\Core\Models;
 
 /**
- * @method static \Magelight\Minifier\Models\Minifier forge()
+ * @method static \Magelight\Core\Models\Minifier forge()
  */
 class Minifier
 {
@@ -30,7 +30,7 @@ class Minifier
      */
     protected function getMinifierByType($type = 'css')
     {
-        $class = '\\Magelight\\Minifier\\Models\\Minifier\\' . ucfirst(strtolower($type));
+        $class = '\\Magelight\\Core\\Models\\Minifier\\' . ucfirst(strtolower($type));
         return new $class;
     }
 

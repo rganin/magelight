@@ -264,6 +264,7 @@ class Document extends \Magelight\Block
     {
         $style = '';
         $styles = $this->buildDependencies($this->get('css', []));
+        $styles = \Magelight\Core\Models\Minifier::forge()->getMinifiedCss($styles);
         foreach ($styles as $css) {
             if (!$css['inline']) {
                 $style .=
@@ -287,6 +288,7 @@ class Document extends \Magelight\Block
     {
         $scripts = '';
         $scriptsArray = $this->buildDependencies($this->get('js', []));
+        $scriptsArray = \Magelight\Core\Models\Minifier::forge()->getMinifiedJs($scriptsArray);
         foreach ($scriptsArray as $js) {
             if (!$js['inline']) {
                 $scripts .=

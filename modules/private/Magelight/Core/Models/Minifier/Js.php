@@ -6,7 +6,7 @@
  * Time: 0:11
  * To change this template use File | Settings | File Templates.
  */
-namespace Magelight\Minifier\Models\Minifier;
+namespace Magelight\Core\Models\Minifier;
 
 class Js implements MinifierInterface
 {

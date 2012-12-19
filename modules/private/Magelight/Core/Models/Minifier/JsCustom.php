@@ -1,6 +1,6 @@
 <?php
 
-namespace Magelight\Minifier\Models\Minifier;
+namespace Magelight\Core\Models\Minifier;
 /**
  * MinifyJS class
  *
@@ -39,7 +39,7 @@ namespace Magelight\Minifier\Models\Minifier;
  * @license MIT License
  */
 
-class Js implements \Magelight\Minifier\Models\Minifier\MinifierInterface {
+class Js implements \Magelight\Core\Models\Minifier\MinifierInterface {
 
     const STRIP_COMMENTS = 1;
     const STRIP_WHITESPACE = 2;

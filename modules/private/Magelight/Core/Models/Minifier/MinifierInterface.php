@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-namespace Magelight\Minifier\Models\Minifier;
+namespace Magelight\Core\Models\Minifier;
 
 interface MinifierInterface
 {
