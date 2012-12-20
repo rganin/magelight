@@ -17,7 +17,7 @@ class ReCaptcha extends AbstractRule
      *
      * @var string
      */
-    protected $_error = 'Enered ccaptcha text is invalid';
+    protected $_error = 'Enered captcha text is invalid';
 
     /**
      * Check value with rule
@@ -31,10 +31,9 @@ class ReCaptcha extends AbstractRule
     public function check($value)
     {
         $reCaptcha = \Magelight\Webform\Models\Captcha\ReCaptcha::forge();
-        $request = \Magelight\Http\Request::forge();
+        $request   = \Magelight\Http\Request::forge();
         $challenge = $request->getPost(\Magelight\Webform\Models\Captcha\ReCaptcha::CHALLENGE_INDEX);
-        $response = $request->getPost(\Magelight\Webform\Models\Captcha\ReCaptcha::RESPONSE_INDEX);
-
+        $response  = $request->getPost(\Magelight\Webform\Models\Captcha\ReCaptcha::RESPONSE_INDEX);
         return $reCaptcha->recaptchaCheckAnswer($_SERVER['HTTP_HOST'], $challenge, $response)->is_valid;
     }
 }

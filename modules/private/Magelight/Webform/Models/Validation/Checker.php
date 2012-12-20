@@ -25,7 +25,8 @@ namespace Magelight\Webform\Models\Validation;
 
 /**
  * @method static \Magelight\Webform\Models\Validation\Checker forge($fieldName, $fieldAlias = null) - forgery
- * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule equals($value) - Must be equal to this value
+ * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule equals($value, $displayValue)
+ * - Must be equal to this value. Display value will be displayed on frontend
  * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule reCaptcha() - Captcha checker
  * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule max($max) - maximum value rule
  * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule required() - Field is required
@@ -90,6 +91,13 @@ class Checker
     protected $_breakOnFirst = false;
 
     /**
+     * Permanent validation even if data is empty or not set
+     *
+     * @var bool
+     */
+    protected $_validatePermanent = false;
+
+    /**
      * Forgery constructor
      *
      * @param $fieldName
@@ -99,6 +107,18 @@ class Checker
     {
         $this->_fieldName = $fieldName;
         $this->setFieldAlias($fieldAlias);
+    }
+
+    /**
+     * Enable permanent validation for the field
+     *
+     * @param bool $flag
+     * @return Checker
+     */
+    public function validatePermanent($flag = true)
+    {
+        $this->_validatePermanent = $flag;
+        return $this;
     }
 
     /**

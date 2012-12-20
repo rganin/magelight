@@ -20,9 +20,22 @@
  * @copyright Copyright (c) 2012 rganin (rganin@gmail.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-?>
-<div class="page-header">
-    <h1>404 :(</h1>
-</div>
 
-<p>Page you have requested was not found. Please go to <a href="<?php echo $this->url('/'); ?>">homepage</a> or use search.</p>
+namespace SampleApp\Blocks;
+
+class Top extends \Magelight\Block
+{
+    protected $_template = 'SampleApp/templates/top.phtml';
+
+    public function init()
+    {
+        $currentUserId = \Magelight::app()->session()->get('user_id', false);
+        if (
+            $currentUserId
+            && $userData = \Magelight\Auth\Models\User::find($currentUserId)->asArray()
+        ) {
+            $this->set('user_id', $currentUserId);
+            $this->set('user_data', $userData);
+        }
+    }
+}

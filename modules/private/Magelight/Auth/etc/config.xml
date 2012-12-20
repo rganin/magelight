@@ -1,12 +1,5 @@
 <config>
     <global>
-        <contacts>
-            <types>
-                <skype>2</skype>
-                <email>1</email>
-                <phone>3</phone>
-            </types>
-        </contacts>
         <auth>
             <robot_email>admin@example.com</robot_email>
             <ulogin>
@@ -45,7 +38,7 @@
                 <openauth_error>/openauth_error</openauth_error>
             </register>
             <avatar>
-                <noavatar_url>/modules/public/Auth/static/img/no-avatar.png</noavatar_url>
+                <noavatar_url>/modules/private/Magelight/Auth/static/img/no-avatar.png</noavatar_url>
             </avatar>
         </auth>
     </global>

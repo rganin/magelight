@@ -21,9 +21,9 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Magelight\Core\Blocks;
+namespace SampleApp\Blocks;
 
-class Content extends \Magelight\Block
+class Welcome extends \Magelight\Block
 {
-    protected $_template = 'Magelight/Core/templates/content.phtml';
+    protected $_template = 'SampleApp/templates/welcome.phtml';
 }

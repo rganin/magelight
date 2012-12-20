@@ -16,7 +16,7 @@ class Equals extends AbstractRule
      *
      * @var string
      */
-    protected $_error = 'Field %s must be equal to %s';
+    protected $_error = 'Field %s must be equal to %3$s';
 
     /**
      * Check value with rule

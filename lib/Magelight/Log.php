@@ -61,9 +61,9 @@ class Log
         }
         $time = date('d-m-Y H:i:s', time());
         $message = "{$time} - {$logMessage}";
-        $f = @fopen(self::$_file, 'a+');
+        $f = @fopen($this->_file, 'a+');
         if (!$f) {
-            file_put_contents(\Magelight::app()->getAppDir() . DS . self::$_file, '', FILE_APPEND);
+            file_put_contents(\Magelight::app()->getAppDir() . DS . $this->_file, '', FILE_APPEND);
         }
         flock($f, LOCK_EX);
         fwrite($f, $message . PHP_EOL);
@@ -77,7 +77,7 @@ class Log
      */
     protected function init()
     {
-        $this->_file = (string)\Magelight::app()->config()->getConfig('global/log/file', self::$_file);
+        $this->_file = (string)\Magelight::app()->config()->getConfig('global/log/file', $this->_file);
         $this->_initialized = true;
         return $this;
     }

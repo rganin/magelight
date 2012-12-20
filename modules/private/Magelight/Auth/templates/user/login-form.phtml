@@ -9,23 +9,23 @@
         <ul class="dropdown-menu">
             <li>
                 <dl class="login-options">
-                    <dt>Через сервисы</dt>
+                    <dt>Via services</dt>
                     <dd>
                         <?php echo $this->section('ulogin-widget') ?>
                     </dd>
                     <dt>
-                        Стандартный вход
+                        Standard
                     </dt>
                     <dd>
                         <form class="form-inline form-search navbar-form" action="<?php echo $this->url('login')?>" method="post">
                             <div class="controls-row">
-                                <input type="text" class="input-small" name="login-form[email]" placeholder="Ваш e-mail" />
-                                <input type="password" class="input-small" name="login-form[password]" placeholder="Пароль" />
-                                <button class="btn">Войти</button>
+                                <input type="text" class="input-small" name="login-form[email]" placeholder="E-mail" />
+                                <input type="password" class="input-small" name="login-form[password]" placeholder="Password" />
+                                <button class="btn">Sign in</button>
                             </div>
                         </form>
                         <div class="reg-options">
-                            <a href="<?=$this->url('remindpass'); ?>">Забыли пароль?</a>
+                            <a href="<?=$this->url('remindpass'); ?>">Remind password</a>
                         </div>
                     </dd>
                 </dl>
@@ -33,7 +33,7 @@
         </ul>
     </li>
     <li>
-        <a href="<?=$this->url('/register')?>">Регистрация</a>
+        <a href="<?=$this->url('/register')?>">Register</a>
     </li>
     <?php else: ?>
     <li class="dropdown">
@@ -43,10 +43,7 @@
             <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
-            <li><a><i class="icon-certificate"></i> Мои объявления</a></li>
-            <li><a><i class="icon-envelope"></i> Мои сообщения</a></li>
-            <li><a><i class="icon-wrench"></i> Настройки</a></li>
-            <li><a><i class="icon-hand-right"></i> Счет</a></li>
+            <li><a><i class="icon-certificate"></i> My profile</a></li>
             <li><a href="<?=$this->url('logout')?>"><i class="icon-remove"></i> Выход</a></li>
         </ul>
     </li>

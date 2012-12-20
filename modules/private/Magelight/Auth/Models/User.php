@@ -14,8 +14,20 @@ namespace Magelight\Auth\Models;
  */
 class User extends \Magelight\Model
 {
+    /**
+     * Table name
+     *
+     * @var string
+     */
     protected static $_tableName = 'users';
 
+    /**
+     * Add user contact
+     *
+     * @param string $type
+     * @param string $content
+     * @return int
+     */
     public function addContact($type, $content)
     {
         return Contact::orm()->create([
@@ -25,6 +37,12 @@ class User extends \Magelight\Model
         ], true)->save(true);
     }
 
+    /**
+     * Authorize user via uLogin service
+     *
+     * @param string $userData
+     * @return User
+     */
     public function authorizeViaUlogin($userData)
     {
         return static::orm()
@@ -34,6 +52,13 @@ class User extends \Magelight\Model
             ->fetchModel();
     }
 
+    /**
+     * Create user via uLogin service
+     *
+     * @param string $userData
+     * @param string|null $defaultAvatar
+     * @return User|null
+     */
     public function createViaUlogin($userData, $defaultAvatar = null)
     {
         $name = isset($userData['first_name'])

@@ -21,20 +21,24 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Magelight\Core\Blocks;
+namespace SampleApp\Blocks;
 
 class Body extends \Magelight\Block
 {
-    protected $_template = 'Magelight/Core/templates/body.phtml';
+    protected $_template = 'SampleApp/templates/body.phtml';
 
     public function init()
     {
-        $this->sectionAppend('top', \Magelight\Core\Blocks\Top::forge());
+        $this->sectionAppend('top', Top::forge());
         $document = \Magelight\Core\Blocks\Document::getFromRegistry();
-        $document->addMeta(array(
+        $document->addMeta([
+            'http-equiv' => "content-type",
+            'content' => "text/html; charset=utf-8",
+        ]);
+        $document->addMeta([
             'name' => 'keywords',
             'content' => 'welcome app, magelight'
-        ));
+        ]);
         $document->addCss('modules/private/Magelight/Core/static/css/bootstrap.min.css');
         $document->addCss('modules/private/Magelight/Core/static/css/core.css');
         $document->addJs('modules/private/Magelight/Core/static/js/jquery.js');

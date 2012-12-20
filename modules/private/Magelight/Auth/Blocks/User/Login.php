@@ -9,6 +9,13 @@
 
 namespace Magelight\Auth\Blocks\User;
 
+use \Magelight\Webform\Blocks\Form as Form;
+use \Magelight\Webform\Blocks\Fieldset as Fieldset;
+use \Magelight\Webform\Blocks\Elements as Elements;
+
+/**
+ * @method static \Magelight\Auth\Blocks\User\Login forge()
+ */
 class Login extends \Magelight\Block
 {
     protected $_template = 'Magelight/Auth/templates/user/login.phtml';
@@ -20,9 +27,43 @@ class Login extends \Magelight\Block
      */
     public function init()
     {
-        \Magelight\Core\Blocks\Document::getFromRegistry()->sectionReplace(
+        $this->sectionReplace(
             'ulogin-widget-register',
             \Magelight\Auth\Blocks\UloginWidget::forge()->setConfigIndex('register')
         );
+    }
+
+    /**
+     * Get login form
+     *
+     * @return \Magelight\Webform\Blocks\Form
+     */
+    public function _getLoginForm()
+    {
+        $form = Form::forge()->setHorizontal()->setConfigs('remindpass-form', $this->url('login'));
+        $fieldset = Fieldset::forge();
+        $fieldset->addRowField(Elements\Input::forge()->setName('email'), 'E-Mail');
+        $fieldset->addRowField(Elements\PasswordInput::forge()->setName('password'), 'Password');
+        return $form->addFieldset($fieldset)
+            ->createResultRow(true)
+            ->addButtonsRow([
+            Elements\Button::forge()->setContent('Enter')->addClass('btn-primary'),
+            Elements\Abstraction\Element::forge()->setTag('a')->setAttribute('href', $this->url('remindpass'))
+                ->setContent('Remind password')->setClass('btn')
+        ])
+            ->loadFromRequest(\Magelight\Http\Request::forge())->setValidator($this->_getLoginFormValidator());
+    }
+
+    /**
+     * Get login form validator
+     *
+     * @return \Magelight\Webform\Models\Validator
+     */
+    public function _getLoginFormValidator()
+    {
+        $validator = \Magelight\Webform\Models\Validator::forge();
+        $validator->fieldRules('email')->email()->setCustomError('Enter correct e-mail');
+        $validator->fieldRules('password', 'Пароль')->required()->setCustomError('Enter password');
+        return $validator;
     }
 }

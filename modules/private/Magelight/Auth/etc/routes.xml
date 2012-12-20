@@ -1,7 +1,0 @@
-<routes>
-    <route match="/login" action="login" />
-    <route match="/servicelogin" action="servicelogin" />
-    <route match="/logout" action="logout" />
-    <route match="/register" action="register" />
-    <route match="/remindpass" action="remindpass" />
-</routes>

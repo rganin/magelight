@@ -117,7 +117,7 @@ class Validator extends \Magelight\Model
      */
     protected function _processValidation($data, Validation\Checker $checker)
     {
-        if ($this->emptyField($data) && !$checker->hasRuleRequired()) {
+        if ($this->emptyField($data) && !$checker->hasRuleRequired() && !$checker->validatePermanent()) {
 
         } else {
             if ($this->_breakOnFirst) {

@@ -23,11 +23,3 @@
 div.main-content{
     padding: 32px 18px;
 }
-
-.navbar .nav li a{
-    color: #ffffff;
-}
-
-.navbar .nav li a:hover{
-    color: #c4e3f3;
-}

@@ -21,13 +21,13 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Magelight\Core\Blocks;
+namespace SampleApp\Blocks;
 
 class Error extends \Magelight\Block
 {
-    const TEMPLATE_404 = 'Magelight/Core/templates/errors/404.phtml';
-    const TEMPLATE_403 = 'Magelight/Core/templates/errors/403.phtml';
-    const TEMPLATE_401 = 'Magelight/Core/templates/errors/401.phtml';
+    const TEMPLATE_404 = 'SampleApp/templates/errors/404.phtml';
+    const TEMPLATE_403 = 'SampleApp/templates/errors/403.phtml';
+    const TEMPLATE_401 = 'SampleApp/templates/errors/401.phtml';
 
     protected $_template = self::TEMPLATE_404;
 }

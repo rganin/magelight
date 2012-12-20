@@ -1,0 +1,13 @@
+<routes>
+    <route match="/404" controller="index" action="no_route" />
+
+    <route match="/" controller="index" action="index">
+        <route match="/user{id:0-9}" controller="index" action="user"/>
+
+    </route>
+    <route match="/login" action="login" controller="auth" />
+    <route match="/servicelogin" action="servicelogin" controller="auth" />
+    <route match="/logout" action="logout" controller="auth" />
+    <route match="/register" action="register" controller="auth" />
+    <route match="/remindpass" action="remindpass" controller="auth" />
+</routes>

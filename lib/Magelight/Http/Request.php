@@ -100,19 +100,19 @@ class Request
         }
         
         if (empty($get)) {
-            $this->_get = &$_GET;
+            $this->_get = $_GET;
         } else {
             $this->_get = $get;
         }
         
         if (empty($post)) {
-            $this->_post = &$_POST;
+            $this->_post = $_POST;
         } else {
             $this->_post = $post;
         }
         
         if (empty($get) && empty($post) && ini_get('request_order') === self::DEFAULT_REQUEST_MERGE_ORDER) {
-            $this->_request = &$_REQUEST;
+            $this->_request = $_REQUEST;
         } else {
             $this->_request = $this->mergeRequest($get, $post);
         }

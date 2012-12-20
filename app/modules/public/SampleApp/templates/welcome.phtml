@@ -1,0 +1,68 @@
+<div class="page-header">
+    <h1>Welcome</h1>
+</div>
+
+
+<p>Congratulations! You have successfully installed <strong>Magelight</strong>, the lightweight framework inspired by Magento.</p>
+<p>This is <em><?php echo __FILE__?></em> template, rendered by <em><?=get_class($this)?></em> block.</p>
+<p>You can modify this template or block or otherwise redefine the Index block in your own module or redefine it in public code pool.</p>
+
+
+<h2 class="page-header">Short info</h2>
+<p>
+    All data is installed by upgrade mechanism every time the application starts.
+    You can disable this feature by removing <em>upgrade()</em> method call in <em>index.php</em>
+    and use console script `upgrade.php` to upgrade your application on deployment.
+</p>
+
+<p>
+    Configuration XML has 5 types. 4 of them are set by attribute setting to 1 or 0:
+    <ol>
+        <li>no attribute - This node can be overriden by modules nodes and in public code pool.</li>
+        <li>private="1" - This node will be never overriden.</li>
+        <li>protected="1" - This node will be overriden only if override node has an attribute protected="0"</li>
+        <li>stackable="1" - All children with the same name will be appended to this node and will never be overriden.</li>
+        <li>stackable_child="1" - All first children of this node become stackable.</li>
+    </ol>
+    You can override modules configurations, such as ReCaptcha public and private keys,
+    uLogin services list and so on in <em>public</em> code pool or just adding appropriate nodes it to your <em>app/etc/config.xml</em> file as <em>protected</em> ones.
+</p>
+
+<p>
+    By default all variable files are stored in <em>var/</em> directory. You can use any directory to store your files or move <em>var/</em> directory to anywhere you want and use symlinks.
+    The default directories are:
+    <ol>
+        <li><em>var/cache</em> - Used for file cache adapter and can be changed in related node in application config.xml file</li>
+        <li><em>var/protected</em> - Contains application protected data, such as executed setup scripts logs.</li>
+        <li><em>var/static</em> - Contains application merged and minified JS and CSS files.</li>
+    </ol>
+</p>
+
+<p>
+    The default DB type is MySQL, other databses are unavailable now and will be added soon.
+    Database adapter configuration can be located in <em>app/etc/config.xml</em> file or whereelse in the modules configuration.
+    Config node db/default - is a default database connection index. Database connection adapter is retrieved like:
+    <ol>
+        <li>$app->db($index) will retrieve (and initialize if it is not inited) db adapter with configuration that is specified in &lt;$index&gt; node</li>
+        <li>$app->db() will retrieve the default connection.</li>
+    </ol>
+</p>
+
+<p>
+    Application modules system is built different from Magento way. Modules are located in <em>app/etc/modules.xml</em> file.
+    <ul>
+        <li>Node name is a system-wide module name.</li>
+        <li><em>path</em> is a path to node in code pool.</li>
+        <li><em>active</em> - flag that the module is active. If not active it`s configuration and routes will not be loaded.</li>
+        <li>
+            <em>require</em> - multiple nodes allowed. Module requirements, says that this module will not be loaded unless all required modules are loaded.
+            You can specify module loading sequence by this options.
+        </li>
+    </ul>
+</p>
+
+<p>
+
+</p>
+
+<p>Markup and styling assist: <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a>.</p>
