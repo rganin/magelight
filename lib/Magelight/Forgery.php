@@ -79,6 +79,9 @@ trait Forgery
 
         if (!$instance instanceof $className) {
             $instance = new $className();
+            if (method_exists($instance, '__forge')) {
+                call_user_func_array([$instance, '__forge'], func_get_args());
+            }
         }
 
         return $instance;

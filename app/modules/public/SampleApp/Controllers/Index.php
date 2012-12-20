@@ -56,6 +56,19 @@ class Index extends \Magelight\Controller
     }
 
     /**
+     * User profile action
+     */
+    public function userAction()
+    {
+        $userProfileBlock = \SampleApp\Blocks\UserProfile::forge();
+        if (!$userProfileBlock->get('user', false)) {
+            $this->forward('no_route');
+        }
+        $userProfileBlock->sectionAppend('content', $userProfileBlock);
+        $this->renderView();
+    }
+
+    /**
      * No route action
      */
     public function no_routeAction()

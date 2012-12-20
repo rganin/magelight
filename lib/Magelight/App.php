@@ -252,6 +252,16 @@ final class App
     }
 
     /**
+     * Get request singleton object
+     *
+     * @return \Magelight\Http\Request
+     */
+    public function request()
+    {
+        return $this->getRegistryObject('request');
+    }
+
+    /**
      * Set application code pools (the sequence is an include path sequence,
      * so classes from the first code pool in the array will be included first)
      *
@@ -325,7 +335,8 @@ final class App
     {
         try {
             $this->fireEvent('app_start', ['muteExceptions' => $muteExceptions]);
-            $request = \Magelight\Http\Request::forge();
+            $request = \Magelight\Http\Request::getInstance();
+            $this->setRegistryObject('request', $request);
             $action = $this->router()->getAction((string) $request->getRequestRoute());
             $request->appendGet($action['arguments']);
             $this->dispatchAction($action, $request);

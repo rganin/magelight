@@ -96,7 +96,7 @@ class ReCaptcha
      */
     protected function triggerKeyError()
     {
-        throw new \Magelight\Exception(
+        trigger_error(
             'To use reCAPTCHA you must get an API key from
                 <a href="https://www.google.com/recaptcha/admin/create">
                     https://www.google.com/recaptcha/admin/create

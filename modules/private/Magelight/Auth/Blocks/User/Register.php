@@ -73,7 +73,7 @@ class Register extends \Magelight\Block
             ->maxLength(32)->chainRule();
 
         $validator->fieldRules('passconf', 'Password confirmation')->required()->chainRule()
-            ->equals(\Magelight\Http\Request::forge()->getPost('regform')['password'], 'entered password');
+            ->equals(\Magelight\Http\Request::getInstance()->getPost('regform')['password'], 'entered password');
 
         $validator->fieldRules('name')
             ->required()->chainRule()

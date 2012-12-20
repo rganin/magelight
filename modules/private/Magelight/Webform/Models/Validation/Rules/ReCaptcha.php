@@ -31,7 +31,7 @@ class ReCaptcha extends AbstractRule
     public function check($value)
     {
         $reCaptcha = \Magelight\Webform\Models\Captcha\ReCaptcha::forge();
-        $request   = \Magelight\Http\Request::forge();
+        $request   = \Magelight\Http\Request::getInstance();
         $challenge = $request->getPost(\Magelight\Webform\Models\Captcha\ReCaptcha::CHALLENGE_INDEX);
         $response  = $request->getPost(\Magelight\Webform\Models\Captcha\ReCaptcha::RESPONSE_INDEX);
         return $reCaptcha->recaptchaCheckAnswer($_SERVER['HTTP_HOST'], $challenge, $response)->is_valid;

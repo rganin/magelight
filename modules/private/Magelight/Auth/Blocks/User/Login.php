@@ -51,7 +51,7 @@ class Login extends \Magelight\Block
             Elements\Abstraction\Element::forge()->setTag('a')->setAttribute('href', $this->url('remindpass'))
                 ->setContent('Remind password')->setClass('btn')
         ])
-            ->loadFromRequest(\Magelight\Http\Request::forge())->setValidator($this->_getLoginFormValidator());
+            ->loadFromRequest(\Magelight\Http\Request::getInstance())->setValidator($this->_getLoginFormValidator());
     }
 
     /**

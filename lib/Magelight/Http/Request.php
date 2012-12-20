@@ -26,7 +26,7 @@ namespace Magelight\Http;
 /**
  * Request wrapper
  *
- * @method static \Magelight\Http\Request forge($get = [], $post= [])
+ * @method static \Magelight\Http\Request getInstance($get = [], $post= [])
  */
 class Request
 {
@@ -79,6 +79,14 @@ class Request
      * @var string
      */
     private $_requestRoute = '/';
+
+    /**
+     * Closing forgery. leaving only singleton instance
+     */
+    final private function forge()
+    {
+
+    }
        
     /**
      * Constructor
