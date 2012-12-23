@@ -7,4 +7,5 @@
     <route match="/logout" action="logout" controller="auth" />
     <route match="/register" action="register" controller="auth" />
     <route match="/remindpass" action="remindpass" controller="auth" />
+    <route match="/render_captcha" action="render_captcha" controller="auth" />
 </routes>

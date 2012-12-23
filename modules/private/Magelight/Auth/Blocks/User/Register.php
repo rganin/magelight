@@ -49,7 +49,9 @@ class Register extends \Magelight\Block
         $fieldset->addRowField(Elements\PasswordInput::forge()->setName('password')->setClass('span9'), 'Password');
         $fieldset->addRowField(Elements\PasswordInput::forge()->setName('passconf')->setClass('span9'),
             'Confirm password');
-        $fieldset->addRowField(Elements\ReCaptcha::forge(), null, 'Enter protection code');
+        $fieldset->addRowField(
+            Elements\Captcha::forge($this->url('render_captcha'))->setName('captcha')->setClass('span6'), null, 'Enter protection code'
+        );
         return $form->addFieldset($fieldset)
             ->createResultRow(true)
             ->addButtonsRow(Elements\Button::forge()->setContent('Register')->addClass('btn-primary'))
@@ -64,8 +66,8 @@ class Register extends \Magelight\Block
     public function _getRegFormValidator()
     {
         $validator = \Magelight\Webform\Models\Validator::forge();
-        $validator->fieldRules(\Magelight\Webform\Models\Captcha\ReCaptcha::CHALLENGE_INDEX)
-            ->validatePermanent()->reCaptcha()->setCustomError('Protection code is incorrect');
+        $validator->fieldRules('captcha')
+            ->validatePermanent()->captcha()->setCustomError('Protection code is incorrect');
 
         $validator->fieldRules('password', 'Password')
             ->required()->chainRule()
@@ -83,7 +85,7 @@ class Register extends \Magelight\Block
 
         $validator->fieldRules('email')->required()->chainRule()->email();
 
-        $validator->setErrorsLimit(10000);
+        $validator->setErrorsLimit(1);
         return $validator;
     }
 }

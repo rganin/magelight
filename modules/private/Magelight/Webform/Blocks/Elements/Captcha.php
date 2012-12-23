@@ -26,3 +26,25 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+namespace Magelight\Webform\Blocks\Elements;
+
+/**
+ * @method static \Magelight\Webform\Blocks\Elements\Captcha forge($renderUrl = null)
+ */
+class Captcha extends Abstraction\Field
+{
+    protected $_template = 'Magelight/Webform/templates/webform/elements/captcha.phtml';
+
+    protected $_captcha = null;
+
+    public function __forge($renderUrl = null)
+    {
+        $this->_captcha = \Magelight\Webform\Models\Captcha\Captcha::forge();
+
+        if (empty($renderUrl)) {
+            $this->_captcha->loadCodeFromSession()->generate()->saveCodeToSession();
+            $this->_captcha->save();
+        }
+        $this->set('image_url', !empty($renderUrl) ? $renderUrl : $this->_captcha->getSavedFileName());
+    }
+}

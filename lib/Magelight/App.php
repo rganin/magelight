@@ -262,6 +262,17 @@ final class App
     }
 
     /**
+     * Get cache adapter
+     *
+     * @param string $index
+     * @return Cache\AdapterAbstract
+     */
+    public function cache($index = self::DEFAULT_INDEX)
+    {
+        return \Magelight\Cache\AdapterAbstract::getAdapterInstance($index);
+    }
+
+    /**
      * Set application code pools (the sequence is an include path sequence,
      * so classes from the first code pool in the array will be included first)
      *

@@ -184,7 +184,7 @@ class Form extends Elements\Abstraction\Element
     /**
      * Add button to form
      *
-     * @param array $buttons
+     * @param array|Elements\Abstraction\Element $buttons
      * @return Form
      */
     public function addButtonsRow($buttons = [])

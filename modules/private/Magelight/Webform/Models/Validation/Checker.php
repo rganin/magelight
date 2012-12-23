@@ -45,6 +45,7 @@ namespace Magelight\Webform\Models\Validation;
  * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule rangeLength($min, $max)
  * - Field must contain from $min to $max chars
  * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule urlHttp() - Field must be a valid http or https URL
+ * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule captcha()
  */
 class Checker
 {

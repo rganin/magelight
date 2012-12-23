@@ -1,18 +1,18 @@
 <?php
     /* @var $this \SampleApp\Blocks\Top */
 ?>
-<div class="navbar navbar-inverse">
+<div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container">
             <ul class="nav">
-                <li><a href="<?php echo $this->url('/'); ?>"><i class="icon-home icon-white"></i> Home</a></li>
+                <li><a href="<?php echo $this->url('/'); ?>"><i class="icon-home"></i> Home</a></li>
                 <li><a href="<?php echo $this->url('unexistent'); ?>">404</a></li>
 
             </ul>
             <ul class="nav pull-right">
                 <?php if ($this->get('user_id', false)) { ?>
                 <li>
-                    <a href="#" data-toggle="dropdown"><?=$this->get('user_data')['name']?>  <i class="icon icon-white icon-arrow-down"></i></a>
+                    <a class="dropdown-toggle" href="#" data-toggle="dropdown"><?=$this->get('user_data')['name']?> <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="<?=$this->url('user' . $this->get('user_id'))?>"><i class="icon icon-user"></i>&nbsp;&nbsp;Profile</a></li>
                         <li><a href="<?=$this->url('logout')?>"><i class="icon icon-off"></i>&nbsp;&nbsp;Exit</a></li>

@@ -97,6 +97,14 @@ class Auth extends \Magelight\Controller
     }
 
     /**
+     * Render captcha image action
+     */
+    public function render_captchaAction()
+    {
+        \Magelight\Webform\Models\Captcha\Captcha::forge()->generate()->saveCodeToSession()->render();
+    }
+
+    /**
      * Remind password action handler
      */
     public function remindpassAction()

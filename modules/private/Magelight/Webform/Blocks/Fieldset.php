@@ -49,7 +49,7 @@ class Fieldset extends Row
     /**
      * Add wield wrapped with row to fieldset
      *
-     * @param Elements\Abstraction\Field|array $field
+     * @param Elements\Abstraction\Element|array $field
      * @param string $label
      * @param string $hint
      * @return Fieldset
