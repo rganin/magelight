@@ -50,9 +50,10 @@ class Log
     protected $_initialized = false;
 
     /**
-     * Add message to application log
-     * 
-     * @param $logMessage
+     * Log message
+     *
+     * @param string $logMessage
+     * @return Log
      */
     public function add($logMessage)
     {
@@ -63,7 +64,7 @@ class Log
         $message = "{$time} - {$logMessage}";
         $f = @fopen($this->_file, 'a+');
         if (!$f) {
-            file_put_contents(\Magelight::app()->getAppDir() . DS . $this->_file, '', FILE_APPEND);
+            trigger_error("Log file or directory {$this->_file} is not writeable!", E_USER_WARNING);
         }
         flock($f, LOCK_EX);
         fwrite($f, $message . PHP_EOL);

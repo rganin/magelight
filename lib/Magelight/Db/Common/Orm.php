@@ -26,13 +26,13 @@ namespace Magelight\Db\Common;
 /**
  * Abstract Orm
  *
- * @method \Magelight\Db\Common\Orm     joinLeft($table, $alias, $onStatement, $onParams)
- * @method \Magelight\Db\Common\Orm     joinRight($table, $alias, $onStatement, $onParams)
- * @method \Magelight\Db\Common\Orm     joinCross($table, $alias, $onStatement, $onParams)
- * @method \Magelight\Db\Common\Orm     joinInnerLeft($table, $alias, $onStatement, $onParams)
- * @method \Magelight\Db\Common\Orm     joinInnerRight($table, $alias, $onStatement, $onParams)
- * @method \Magelight\Db\Common\Orm     joinOuterLeft($table, $alias, $onStatement, $onParams)
- * @method \Magelight\Db\Common\Orm     joinOuterRight($table, $alias, $onStatement, $onParams)
+ * @method \Magelight\Db\Common\Orm     joinLeft($table, $alias = null, $onStatement = null, $onParams = [])
+ * @method \Magelight\Db\Common\Orm     joinRight($table, $alias = null, $onStatement = null, $onParams = [])
+ * @method \Magelight\Db\Common\Orm     joinCross($table, $alias = null, $onStatement = null, $onParams = [])
+ * @method \Magelight\Db\Common\Orm     joinInnerLeft($table, $alias = null, $onStatement = null, $onParams = [])
+ * @method \Magelight\Db\Common\Orm     joinInnerRight($table, $alias = null, $onStatement = null, $onParams = [])
+ * @method \Magelight\Db\Common\Orm     joinOuterLeft($table, $alias = null, $onStatement = null, $onParams = [])
+ * @method \Magelight\Db\Common\Orm     joinOuterRight($table, $alias = null, $onStatement = null, $onParams = [])
  *
  * @method \Magelight\Db\Common\Orm     whereEq($expression, $param)
  * @method \Magelight\Db\Common\Orm     whereNeq($expression, $param)

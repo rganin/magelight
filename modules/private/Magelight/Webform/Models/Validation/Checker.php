@@ -25,7 +25,7 @@ namespace Magelight\Webform\Models\Validation;
 
 /**
  * @method static \Magelight\Webform\Models\Validation\Checker forge($fieldName, $fieldAlias = null) - forgery
- * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule equals($value, $displayValue)
+ * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule equals($value, $displayValue = null)
  * - Must be equal to this value. Display value will be displayed on frontend
  * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule reCaptcha() - Captcha checker
  * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule max($max) - maximum value rule
