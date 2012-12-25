@@ -1,10 +1,24 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: iddqd
- * Date: 11.12.12
- * Time: 13:05
- * To change this template use File | Settings | File Templates.
+ * Magelight
+ *
+ * NOTICE OF LICENSE
+ *
+ * This file is open source and it`s distribution is based on
+ * Open Software License (OSL 3.0). You can obtain license text at
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * For any non license implied issues please contact rganin@gmail.com
+ *
+ * DISCLAIMER
+ *
+ * This file is a part of a framework. Please, do not modify it unless you discard
+ * further updates.
+ *
+ * @version 1.0
+ * @author Roman Ganin
+ * @copyright Copyright (c) 2012 rganin (rganin@gmail.com)
+ * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
 namespace Magelight\Core\Blocks;
@@ -14,16 +28,44 @@ namespace Magelight\Core\Blocks;
  */
 class Pager extends \Magelight\Block
 {
+    /**
+     * Page variable URL template
+     */
     const PAGE_TEMPLATE  = '{page:0-9}';
 
+    /**
+     * Page URI route
+     *
+     * @var string
+     */
     protected $_route = '?page={page:0-9}';
 
+    /**
+     * Items per page
+     *
+     * @var int
+     */
     protected $_perPage = 10;
 
+    /**
+     * Total items count
+     *
+     * @var int
+     */
     protected $_total = 0;
 
+    /**
+     * Current page
+     *
+     * @var int
+     */
     protected $_currentPage = 0;
 
+    /**
+     * Pager current page siblings count
+     *
+     * @var int
+     */
     protected $_siblings = 2;
 
     /**
@@ -40,6 +82,11 @@ class Pager extends \Magelight\Block
      */
     protected $_template = 'Magelight/Core/templates/pager.phtml';
 
+    /**
+     * Forgery constructor
+     *
+     * @param \Magelight\Db\Collection $collection - collection to build pager for
+     */
     public function __forge(\Magelight\Db\Collection $collection = null)
     {
         $this->_collection = $collection;
@@ -51,30 +98,60 @@ class Pager extends \Magelight\Block
         $this->setNextCaption()->setPrevCaption();
     }
 
+    /**
+     * Set max per page count
+     *
+     * @param int $perPage
+     * @return Pager
+     */
     public function setPerPage($perPage = 10)
     {
         $this->_perPage = $perPage;
         return $this;
     }
 
+    /**
+     * Set total count
+     *
+     * @param int $total
+     * @return Pager
+     */
     public function setTotal($total = 0)
     {
         $this->_total = $total;
         return $this;
     }
 
+    /**
+     * Set pager current page
+     *
+     * @param int $currentPage
+     * @return Pager
+     */
     public function setCurrentPage($currentPage = 0)
     {
         $this->_currentPage = $currentPage;
         return $this;
     }
 
+    /**
+     * Set caption for previous page navigation button
+     *
+     * @param string $caption
+     * @return Pager
+     */
     public function setPrevCaption($caption = '&#x2190;')
     {
         $this->set('prev_caption', $caption);
         return $this;
     }
 
+    /**
+     * Set caption for next page nav button
+     *
+     * @param string $caption
+     * @return Pager
+     */
     public function setNextCaption($caption = '&#x2192;')
     {
         $this->set('next_caption', $caption);
