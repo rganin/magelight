@@ -1,11 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Default properties:
+    - controller="index"
+    - action="index"
+    - module="{this module name}"
+
+    the included route inherits all properties
+-->
 <routes>
-    <route match="/404" controller="index" action="no_route" />
-    <route match="/user{id:0-9}" controller="index" action="user"/>
-    <route match="/" controller="index" action="index" />
-    <route match="/login" action="login" controller="auth" />
-    <route match="/servicelogin" action="servicelogin" controller="auth" />
-    <route match="/logout" action="logout" controller="auth" />
-    <route match="/register" action="register" controller="auth" />
-    <route match="/remindpass" action="remindpass" controller="auth" />
-    <route match="/render_captcha" action="render_captcha" controller="auth" />
+    <route match="/" />
+    <route match="/404" action="no_route" />
+    <route match="/user{id:0-9}" action="user" />
+
+    <route match="/auth" controller="auth">
+        <route match="/{action:a-z0-9\_\-}" />
+        <!--<route match="/login"           action="login"/>-->
+        <!--<route match="/servicelogin"    action="servicelogin"/>-->
+        <!--<route match="/logout"          action="logout" />-->
+        <!--<route match="/register"        action="register" />-->
+        <!--<route match="/remindpass"      action="remindpass" />-->
+        <!--<route match="/render_captcha"  action="render_captcha" />-->
+    </route>
 </routes>

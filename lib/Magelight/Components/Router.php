@@ -87,6 +87,12 @@ class Router
                     $keys = array_filter(array_keys($arguments), 'is_string');
                     $arguments = array_intersect_key($arguments, array_flip($keys));
                     $route['arguments'] = $arguments;
+                    if (isset($arguments['action'])) {
+                        $route['action'] = $arguments['action'];
+                    }
+                    if (isset($arguments['controller'])) {
+                        $route['controller'] = $arguments['controller'];
+                    }
                     return $route;
                 }
             } else {

@@ -60,7 +60,7 @@ class Auth extends \Magelight\Controller
                 $form->addResult('Incorrect password or user with specified email is not registered');
             } else {
                 $this->session()->set('user_id', $user->id);
-                $this->redirect($this->url($this->app()->getConfig('global/auth/register/success_url')));
+                $this->redirect($this->url($this->app()->getConfig('global/auth/urls/success_url')));
             }
         }
         $this->_view->sectionAppend('content', $contentBlock);
@@ -87,7 +87,7 @@ class Auth extends \Magelight\Controller
                     $user->password = md5($user->password);
                     $user->save(true);
                     $this->session()->set('user_id', $user->id);
-                    $this->redirect($this->url($this->app()->getConfig('global/auth/register/success_url')));
+                    $this->redirect($this->url($this->app()->getConfig('global/auth/urls/success_url')));
                 }
             }
         }
@@ -155,9 +155,9 @@ class Auth extends \Magelight\Controller
         }
         if ($user) {
             $this->session()->set('user_id', $user->id);
-            $this->redirect($this->url($this->app()->getConfig('global/auth/register/success_url')));
+            $this->redirect($this->url($this->app()->getConfig('global/auth/urls/success_url')));
         } else {
-            $this->redirect($this->url($this->app()->getConfig('global/auth/register/openauth_error')));
+            $this->redirect($this->url($this->app()->getConfig('global/auth/urls/openauth_error')));
         }
     }
 
@@ -167,6 +167,6 @@ class Auth extends \Magelight\Controller
     public function logoutAction()
     {
         $this->session()->unsetData('user_id');
-        $this->redirect($this->url($this->app()->getConfig('global/auth/register/success_url')));
+        $this->redirect($this->url($this->app()->getConfig('global/auth/urls/success_url')));
     }
 }

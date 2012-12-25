@@ -13,7 +13,7 @@
                             <optional>photo,phone</optional>
                             <providers>vkontakte,facebook,odnoklassniki,twitter,mailru,yandex,google</providers>
                             <hidden></hidden>
-                            <redirect_route>/servicelogin</redirect_route>
+                            <redirect_route>auth/servicelogin</redirect_route>
                         </options>
                     </default>
                     <register>
@@ -24,19 +24,24 @@
                             <optional>photo,phone</optional>
                             <providers>vkontakte,facebook,odnoklassniki,twitter,mailru,yandex,google</providers>
                             <hidden></hidden>
-                            <redirect_route>/servicelogin</redirect_route>
+                            <redirect_route>auth/servicelogin</redirect_route>
                         </options>
                     </register>
                 </instances>
                 <options>
-
+                    <redirect_route>auth/servicelogin</redirect_route>
                 </options>
             </ulogin>
-            <register>
+            <urls>
                 <success_url>/</success_url>
-                <fail_url>/register</fail_url>
-                <openauth_error>/openauth_error</openauth_error>
-            </register>
+                <fail_url>auth/register</fail_url>
+                <openauth_error>auth/openauth_error</openauth_error>
+                <register_url>auth/register</register_url>
+                <login_url>auth/login</login_url>
+                <logout_url>auth/logout</logout_url>
+                <forgot_password_url>auth/remindpass</forgot_password_url>
+                <render_captcha_url>auth/render_captcha</render_captcha_url>
+            </urls>
             <avatar>
                 <noavatar_url>/modules/private/Magelight/Auth/static/img/no-avatar.png</noavatar_url>
             </avatar>
