@@ -49,6 +49,7 @@ class Float extends AbstractRule
      */
     public function check($value)
     {
+        $value = floatval($value);
         return is_numeric($value) || is_float($value);
     }
 }
