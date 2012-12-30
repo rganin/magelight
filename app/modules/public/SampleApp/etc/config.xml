@@ -1,0 +1,11 @@
+<config>
+    <global>
+        <auth>
+            <register>
+                <success_url>/</success_url>
+                <fail_url>auth/register</fail_url>
+                <openauth_error>auth/openauth_error</openauth_error>
+            </register>
+        </auth>
+    </global>
+</config>

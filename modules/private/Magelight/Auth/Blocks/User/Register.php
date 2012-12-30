@@ -42,7 +42,11 @@ class Register extends \Magelight\Block
      */
     public function _getRegForm()
     {
-        $form = Form::forge()->setHorizontal()->setConfigs('regform', $this->url('register'));
+        $config = \Magelight::app()->config();
+        $form = Form::forge()->setHorizontal()->setConfigs(
+            'regform',
+            $config->getConfigString('global/auth/urls/forgot_password_url')
+        );
         $fieldset = Fieldset::forge();
         $fieldset->addRowField(Elements\Input::forge()->setName('name')->setClass('span9'), 'Name');
         $fieldset->addRowField(Elements\Input::forge()->setName('email')->setClass('span9'), 'E-Mail');
@@ -50,7 +54,11 @@ class Register extends \Magelight\Block
         $fieldset->addRowField(Elements\PasswordInput::forge()->setName('passconf')->setClass('span9'),
             'Confirm password');
         $fieldset->addRowField(
-            Elements\Captcha::forge($this->url('render_captcha'))->setName('captcha')->setClass('span6'), null, 'Enter protection code'
+            Elements\Captcha::forge(
+                $this->url(\Magelight::app()->config()->getConfigString('global/auth/urls/render_captcha_url'))
+            )->setName('captcha')->setClass('span6'),
+            null,
+            'Enter protection code'
         );
         return $form->addFieldset($fieldset)
             ->createResultRow(true)

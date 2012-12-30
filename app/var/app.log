@@ -1,0 +1,9 @@
+24-12-2012 12:00:14 - 404 - not found /unexistent
+24-12-2012 14:24:01 - 404 - not found /unexistent
+25-12-2012 13:59:42 - 404 - not found /unexistent
+25-12-2012 16:38:10 - 404 - not found /render_captcha
+25-12-2012 16:40:32 - 404 - not found /servicelogin
+25-12-2012 16:41:18 - 404 - not found /servicelogin
+25-12-2012 16:41:25 - 404 - not found /servicelogin
+25-12-2012 16:43:51 - Trying to run undefined controller action indexAction in SampleApp\Controllers\Auth
+25-12-2012 16:46:00 - Trying to run undefined controller action indexAction in SampleApp\Controllers\Auth

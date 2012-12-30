@@ -40,7 +40,11 @@ class Login extends \Magelight\Block
      */
     public function _getLoginForm()
     {
-        $form = Form::forge()->setHorizontal()->setConfigs('remindpass-form', $this->url('login'));
+        $config = \Magelight::app()->config();
+        $form = Form::forge()->setHorizontal()->setConfigs(
+            'remindpass-form',
+            $this->url($config->getConfigString('global/auth/urls/login_url'))
+        );
         $fieldset = Fieldset::forge();
         $fieldset->addRowField(Elements\Input::forge()->setName('email'), 'E-Mail');
         $fieldset->addRowField(Elements\PasswordInput::forge()->setName('password'), 'Password');

@@ -26,7 +26,7 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-namespace SampleApp\Controllers;
+namespace Magelight\Auth\Controllers;
 
 /**
  * Auth controller
@@ -39,7 +39,7 @@ class Auth extends \Magelight\Controller
     public function beforeExecute()
     {
         $this->_view = \Magelight\Core\Blocks\Document::forge();
-        $this->_view->sectionAppend('body', \SampleApp\Blocks\Body::forge());
+        $this->_view->sectionAppend('body', \Magelight\Core\Blocks\Body::forge());
     }
 
     /**

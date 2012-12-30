@@ -134,7 +134,7 @@ class Routes
             if (is_null($route['match'])) {
                 throw new \Magelight\Exception('Route without match in module ' . $moduleName);
             } else {
-                $route['arguments'] = array();
+                $route['arguments'] = [];
                 $route['regex'] = $this->isRegex($route['match']);
                 $route['headers'] = $this->getRouteHeaders($routeXml);
 
