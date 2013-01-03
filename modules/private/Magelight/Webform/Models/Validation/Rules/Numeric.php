@@ -47,6 +47,6 @@ class Numeric extends AbstractRule
      */
     public function check($value)
     {
-        return is_int($value);
+        return filter_var($value, FILTER_VALIDATE_INT) !== false;
     }
 }

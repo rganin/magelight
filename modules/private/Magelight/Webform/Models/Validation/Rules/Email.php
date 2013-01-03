@@ -48,6 +48,6 @@ class Email extends AbstractRule
      */
     public function check($value)
     {
-        return preg_match('/^([*+!.&#$¦\'\\%\/0-9a-z^_`{}=?~:-]+)@(([0-9a-z-]+\.)+[0-9a-z]{2,6})$/i', trim($value)) > 0;
+        return filter_var($value, FILTER_VALIDATE_EMAIL) !== false;
     }
 }
