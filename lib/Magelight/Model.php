@@ -274,6 +274,19 @@ abstract class Model
     }
 
     /**
+     * Delete all models data from DB by field value
+     *
+     * @param string $field
+     * @param mixed $value
+     *
+     * @return int|null
+     */
+    public function deleteBy($field, $value)
+    {
+        return $this->_orm->deleteBy($field, $value);
+    }
+
+    /**
      * Get model data as array
      *
      * @param array|string $fields

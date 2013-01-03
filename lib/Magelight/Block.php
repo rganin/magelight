@@ -419,4 +419,15 @@ abstract class Block
     {
         return date($dateFormat, $value);
     }
+
+    /**
+     * Escape HTML special chars in text
+     *
+     * @param string $text
+     * @return string
+     */
+    public function escapeHtml($text)
+    {
+        return htmlspecialchars($text);
+    }
 }

@@ -34,12 +34,12 @@ class Installer
 
     use Forgery;
 
-    public function startSetup()
+    public function startSetup($index = \Magelight\App::DEFAULT_INDEX)
     {
 
     }
 
-    public function endSetup()
+    public function endSetup($index = \Magelight\App::DEFAULT_INDEX)
     {
 
     }

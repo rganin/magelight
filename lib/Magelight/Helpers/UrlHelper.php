@@ -138,7 +138,7 @@ class UrlHelper
         $paramsTmp = $params;
         $match = $this->setParamsToPlaceholders($match, $paramsTmp);
 
-        return !empty($params) ? ($match . '?' . http_build_query($params)) : $match;
+        return !empty($paramsTmp) ? ($match . '?' . http_build_query($paramsTmp)) : $match;
     }
 
     /**

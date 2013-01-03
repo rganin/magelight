@@ -472,7 +472,7 @@ abstract class Orm
     public function create($data = [], $forceNew = false)
     {
         $this->reset();
-        $this->isNewRecord = !isset($data[$this->idColumn]) || $forceNew;
+        $this->isNewRecord = $forceNew || !isset($data[$this->idColumn]) || empty($data[$this->idColumn]);
         $this->data = $data;
         if ($this->isNewRecord) {
             unset($this->data[$this->idColumn]);
@@ -1013,8 +1013,7 @@ abstract class Orm
     {
         $query[] = 'DELETE FROM';
         $query[] = $this->tableName;
-        $query[] = 'WHERE';
-        $query[] = $this->idColumn . ' = ?';
+        $query[] = $this->buildWhere();
         return implode(' ', $query);
     }
 
@@ -1064,7 +1063,23 @@ abstract class Orm
         if (empty($id)) {
             $id = $this->data[$this->idColumn];
         }
-        $this->statement = $this->db->execute($this->buildDelete(), [$id]);
+        return $this->deleteBy($this->idColumn, $id);
+    }
+
+    /**
+     * Delete by field value
+     *
+     * @param string $field
+     * @param mixed $value
+     * @return int|null
+     */
+    public function deleteBy($field, $value)
+    {
+        if (empty($field) || empty($value)) {
+            return null;
+        }
+        $this->whereEq($field, $value);
+        $this->statement = $this->db->execute($this->buildDelete(), $this->params);
         $ret = $this->statement->rowCount();
         if ($ret > 0) {
             $this->dirtyFields = [];
