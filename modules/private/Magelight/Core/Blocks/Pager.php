@@ -41,6 +41,13 @@ class Pager extends \Magelight\Block
     protected $_route = '?page={page:0-9}';
 
     /**
+     * Additional route params
+     *
+     * @var array
+     */
+    protected $_routeParams = [];
+
+    /**
      * Items per page
      *
      * @var int
@@ -208,14 +215,17 @@ class Pager extends \Magelight\Block
      * Set pager route
      *
      * @param string|null $route
+     * @param array $routeParams
+     *
      * @return Pager
      */
-    public function setRoute($route = null)
+    public function setRoute($route = null, $routeParams = [])
     {
         if (empty($route)) {
             $route = $this->getDefaultRouteTemplate();
         }
         $this->_route = $route;
+        $this->_routeParams = $routeParams;
         return $this;
     }
 
@@ -227,7 +237,7 @@ class Pager extends \Magelight\Block
      */
     public function getPageUrl($page = 0)
     {
-        $url = $this->url(str_ireplace(self::PAGE_TEMPLATE, $page, $this->_route));
+        $url = $this->url(str_ireplace(self::PAGE_TEMPLATE, $page, $this->_route), $this->_routeParams);
         return $url;
     }
 

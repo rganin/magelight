@@ -44,6 +44,11 @@ abstract class Controller
      * Default controller action
      */
     const DEFAULT_ACTION = 'index';
+
+    /**
+     * Default token key in session
+     */
+    const DEFAULT_TOKEN_SESSION_INDEX = 'session_token';
     
     /**
      * Request
@@ -273,5 +278,27 @@ abstract class Controller
             ],
             $this->request()
         );
+    }
+
+    /**
+     * Generate security action token and save it to session
+     *
+     * @param string $index
+     */
+    public function generateToken($index = self::DEFAULT_TOKEN_SESSION_INDEX)
+    {
+        $this->session()->set($index, md5(rand(0,999999999)));
+    }
+
+    /**
+     * Check is token valid
+     *
+     * @param string $token
+     * @param string $index
+     * @return bool
+     */
+    public function checkToken($token, $index = self::DEFAULT_TOKEN_SESSION_INDEX)
+    {
+        return $this->session()->get($index, null) === $token;
     }
 }

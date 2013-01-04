@@ -146,6 +146,26 @@ class Document extends \Magelight\Block
         $js[$path] = $entry;
         $this->set('js', $js);
     }
+
+    /**
+     * Add javascript to head
+     *
+     * @param string $path
+     * @param string|null $after
+     */
+    public function addExternalJs($path, $after = null)
+    {
+        $js = $this->get('external_js', []);
+        $entry = [
+            'url'     => $path,
+            'path'    => $path,
+            'inline'  => false,
+            'content' => null,
+            'after'   => $after
+        ];
+        $js[$path] = $entry;
+        $this->set('external_js', $js);
+    }
     
     /**
      * Add inline javascript to head
@@ -289,6 +309,7 @@ class Document extends \Magelight\Block
         $scripts = '';
         $scriptsArray = $this->buildDependencies($this->get('js', []));
         $scriptsArray = \Magelight\Core\Models\Minifier::forge()->getMinifiedJs($scriptsArray);
+        $scriptsArray += $this->get('external_js', []);
         foreach ($scriptsArray as $js) {
             if (!$js['inline']) {
                 $scripts .=

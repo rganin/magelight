@@ -173,4 +173,19 @@ class Collection
     {
         return $this->_dataSource->totalCount();
     }
+
+    /**
+     * Apply filter to collection
+     *
+     * @param CollectionFilter $filter
+     *
+     * @return Collection
+     */
+    public function applyFilter(CollectionFilter $filter)
+    {
+        foreach ($filter->getFilterMethods() as $method) {
+            $this->getDataSource()->$method['statement']($method['field'], $method['value']);
+        }
+        return $this;
+    }
 }

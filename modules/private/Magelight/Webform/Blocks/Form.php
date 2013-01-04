@@ -309,6 +309,13 @@ class Form extends Elements\Abstraction\Element
         return null;
     }
 
+    /**
+     * Set field value
+     *
+     * @param string $index
+     * @param mixed $value
+     * @return Form
+     */
     public function setFieldValue($index, $value)
     {
         $address = $this->queryStringToArray($index);
@@ -316,6 +323,14 @@ class Form extends Elements\Abstraction\Element
         return $this;
     }
 
+    /**
+     * Set field values recursive
+     *
+     * @param string $address
+     * @param mixed $value
+     * @param array $fields
+     * @return Form
+     */
     protected function _setFieldValueRecursive($address, $value, &$fields)
     {
         if (!is_array($address)) {

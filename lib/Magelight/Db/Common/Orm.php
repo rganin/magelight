@@ -156,19 +156,19 @@ abstract class Orm
      *
      * @var array
      */
-    protected $_renderWhereMap = [
-        'whereEq'        => '=',
-        'whereNeq'       => '!=',
-        'whereNull'      => 'IS NULL',
-        'whereNotNull'   => 'IS NOT NULL',
-        'whereGt'        => '>',
-        'whereGte'       => '>=',
-        'whereLt'        => '<',
-        'whereLte'       => '<=',
-        'whereLike'      => 'LIKE',
-        'whereIn'        => 'IN',
-        'whereNotIn'     => 'NOT IN',
-        'whereEx'        => '',
+    protected static $_renderWhereMap = [
+        'whereEq'        => ['operator' => '=',           'argcount' => 1],
+        'whereNeq'       => ['operator' => '=',           'argcount' => 1],
+        'whereNull'      => ['operator' => 'IS NULL',     'argcount' => 0],
+        'whereNotNull'   => ['operator' => 'IS NOT NULL', 'argcount' => 0],
+        'whereGt'        => ['operator' => '>',           'argcount' => 1],
+        'whereGte'       => ['operator' => '>=',          'argcount' => 1],
+        'whereLt'        => ['operator' => '<',           'argcount' => 1],
+        'whereLte'       => ['operator' => '<=',          'argcount' => 1],
+        'whereLike'      => ['operator' => 'LIKE',        'argcount' => 1],
+        'whereIn'        => ['operator' => 'IN',          'argcount' => 1],
+        'whereNotIn'     => ['operator' => 'NOT IN',      'argcount' => 1],
+        'whereEx'        => ['operator' => '',            'argcount' => 1],
     ];
 
     /**
@@ -176,7 +176,7 @@ abstract class Orm
      *
      * @var array
      */
-    protected $_renderJoinMap = [
+    protected static $_renderJoinMap = [
         'joinLeft'       => 'LEFT JOIN',
         'joinRight'      => 'RIGHT JOIN',
         'joinCross'      => 'CROSS JOIN',
@@ -335,6 +335,26 @@ abstract class Orm
     public static function getOrmClassByType($type)
     {
         return '\\Magelight\\Db\\' . ucfirst(strtolower($type)) . '\\Orm';
+    }
+
+    /**
+     * Get WHERE statement render map
+     *
+     * @return array
+     */
+    public static function getRenderWhereMap()
+    {
+        return self::$_renderWhereMap;
+    }
+
+    /**
+     * Get JOIN statement render map
+     *
+     * @return array
+     */
+    public static function getRenderJoinMap()
+    {
+        return self::$_renderJoinMap;
     }
 
     /**
@@ -579,9 +599,9 @@ abstract class Orm
      */
     protected function _addJoinStatement($name, $arguments)
     {
-        if (isset($this->_renderJoinMap[$name])) {
+        if (isset(self::$_renderJoinMap[$name])) {
             $join = [
-                'logic'  => $this->_renderJoinMap[$name],
+                'logic'  => self::$_renderJoinMap[$name],
                 'table'  => $arguments[0],
                 'alias'  => $arguments[1],
                 'on'     => (isset($arguments[2]) ? $arguments[2] : 'TRUE'),
@@ -623,7 +643,7 @@ abstract class Orm
     {
         $logic = $this->parseStatementLogic($name);
         if (!is_null($logic)) {
-            if (isset($this->_renderWhereMap[$logic['method']])) {
+            if (isset(self::$_renderWhereMap[$logic['method']])) {
                 $expression = isset($arguments[0]) ? $arguments[0] : null;
                 $params = array_key_exists(1, $arguments) ? $arguments[1]  : [];
                 $this->where[] = [
@@ -657,6 +677,22 @@ abstract class Orm
             return ['method' => lcfirst(substr($name, 6)), 'logic' => self::LOGIC_AND_NOT];
         }
         return null;
+    }
+
+    /**
+     * Check is a function call a where statement
+     *
+     * @param string $name
+     * @return bool
+     */
+    public static function isWhereStatement($name)
+    {
+        return
+           substr($name, 0, 5)  === 'where'
+        || substr($name, 0, 7)  === 'orWhere'
+        || substr($name, 0, 8)  === 'andWhere'
+        || substr($name, 0, 10) === 'orNotWhere'
+        || substr($name, 0, 11) === 'andNotWhere';
     }
 
     /**
@@ -828,7 +864,7 @@ abstract class Orm
         $query = [];
         $count = 0;
         foreach ($this->where as $w) {
-            if (!isset($this->_renderWhereMap[$w[self::KEY_OPERATOR]])) {
+            if (!isset(self::$_renderWhereMap[$w[self::KEY_OPERATOR]])) {
                 continue;
             }
             $wherePart = [];
@@ -836,9 +872,9 @@ abstract class Orm
                 $wherePart[] = $w[self::KEY_EXPRESSION];
             }
             if (!empty($w[self::KEY_OPERATOR])) {
-                $wherePart[] = $this->_renderWhereMap[$w[self::KEY_OPERATOR]];
+                $wherePart[] = self::$_renderWhereMap[$w[self::KEY_OPERATOR]]['operator'];
             }
-            if (array_key_exists(self::KEY_PARAMS, $w)) {
+            if (array_key_exists(self::KEY_PARAMS, $w) && self::$_renderWhereMap[$w[self::KEY_OPERATOR]]['argcount']) {
                 $wherePart[] = $this->preparePlaceholders($w[self::KEY_PARAMS]);
                 $this->pushParams($w[self::KEY_PARAMS]);
             }
@@ -944,6 +980,7 @@ abstract class Orm
      */
     protected function buidSelect()
     {
+        $this->params = [];
         $query = $this->buildSelectStart()
             . ' ' . $this->buildJoins()
             . ' ' . $this->buildWhere()
@@ -964,6 +1001,7 @@ abstract class Orm
      */
     protected function buildInsert($keys, $ignore = false, $onDuplicateKeyUpdate = false)
     {
+        $this->params = [];
         $query[] = 'INSERT';
         if ($ignore) {
             $query[] = 'IGNORE';
@@ -992,6 +1030,7 @@ abstract class Orm
      */
     protected function buildUpdate($keys)
     {
+        $this->params = [];
         $query[] = 'UPDATE ' . $this->tableName;
         $query[] = 'SET';
         $fields = [];
@@ -1011,6 +1050,7 @@ abstract class Orm
      */
     protected function buildDelete()
     {
+        $this->params = [];
         $query[] = 'DELETE FROM';
         $query[] = $this->tableName;
         $query[] = $this->buildWhere();
