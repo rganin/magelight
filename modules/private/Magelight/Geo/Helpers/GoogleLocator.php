@@ -64,7 +64,7 @@ class GoogleLocator
      */
     public function getRouteAsArray($fromAddress, $toAddress, $lang = 'en', $waypoints = [])
     {
-        return json_decode($this->getRoute($fromAddress, $toAddress, $lang, $waypoints = []), true);
+        return json_decode($this->getRoute($fromAddress, $toAddress, $lang, $waypoints), true);
     }
 
     /**
@@ -78,6 +78,6 @@ class GoogleLocator
      */
     public function getRouteAsObject($fromAddress, $toAddress, $lang = 'en', $waypoints = [])
     {
-        return json_decode($this->getRoute($fromAddress, $toAddress, $lang, $waypoints = []), false);
+        return json_decode($this->getRoute($fromAddress, $toAddress, $lang, $waypoints), false);
     }
 }
