@@ -24,9 +24,10 @@ class GoogleLocator
      * @param string $fromAddress
      * @param string $toAddress
      * @param string $lang
+     * @param array $waypoints
      * @return null|string
      */
-    public function getRoute($fromAddress, $toAddress, $lang = 'en')
+    public function getRoute($fromAddress, $toAddress, $lang = 'en', $waypoints = [])
     {
         $uri = 'http://maps.googleapis.com/maps/api/directions/json';
         $opts = array(
@@ -35,11 +36,15 @@ class GoogleLocator
                 'header'=>"Accept-language: {$lang}\r\n",
             )
         );
+        foreach ($waypoints as $key => $waypoint) {
+            $waypoints[$key] = str_replace('|', '', $waypoint);
+        }
         $params = [
             'origin' => $fromAddress,
             'destination' => $toAddress,
             'region' => $lang,
             'sensor' => 'false',
+            'waypoints' => implode('|', $waypoints)
         ];
         $uri .= '?' . http_build_query($params);
         $context = stream_context_create($opts);
@@ -54,11 +59,12 @@ class GoogleLocator
      * @param string $fromAddress
      * @param string $toAddress
      * @param string $lang
+     * @param array $waypoints
      * @return mixed|array
      */
-    public function getRouteAsArray($fromAddress, $toAddress, $lang = 'en')
+    public function getRouteAsArray($fromAddress, $toAddress, $lang = 'en', $waypoints = [])
     {
-        return json_decode($this->getRoute($fromAddress, $toAddress, $lang), true);
+        return json_decode($this->getRoute($fromAddress, $toAddress, $lang, $waypoints = []), true);
     }
 
     /**
@@ -67,10 +73,11 @@ class GoogleLocator
      * @param string $fromAddress
      * @param string $toAddress
      * @param string $lang
+     * @param array $waypoints
      * @return mixed|array
      */
-    public function getRouteAsObject($fromAddress, $toAddress, $lang = 'en')
+    public function getRouteAsObject($fromAddress, $toAddress, $lang = 'en', $waypoints = [])
     {
-        return json_decode($this->getRoute($fromAddress, $toAddress, $lang), false);
+        return json_decode($this->getRoute($fromAddress, $toAddress, $lang, $waypoints = []), false);
     }
 }
