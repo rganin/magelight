@@ -81,7 +81,6 @@ abstract class Model
         if (is_array($data)) {
             $this->_orm->create($data, $forceNew);
         }
-        $this->_afterLoad();
     }
 
     /**
@@ -100,7 +99,7 @@ abstract class Model
      *
      * @return Model
      */
-    protected function _afterLoad()
+    public function afterLoad()
     {
         return $this;
     }
@@ -213,7 +212,7 @@ abstract class Model
      * @param string $name
      * @return mixed
      */
-    public function __get($name)
+    public function &__get($name)
     {
         return $this->_orm->getValue($name);
     }
@@ -320,10 +319,6 @@ abstract class Model
      */
     public static function findBy($field, $value)
     {
-        $data = self::orm()->whereEq($field, $value)->fetchRow(true);
-        if ($data === false) {
-            return null;
-        }
-        return static::forge($data);
+        return self::orm()->whereEq($field, $value)->fetchModel();
     }
 }

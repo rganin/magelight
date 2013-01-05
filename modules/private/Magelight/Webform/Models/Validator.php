@@ -98,7 +98,7 @@ class Validator extends \Magelight\Model
                             $this->_validateRecursive($dataField, $checker);
                         }
                     } else {
-                        $this->_processValidation($validationData[$key], $subChecker);
+                        $this->_validateRecursive($validationData[$key], $subChecker);
                     }
                 }
             } elseif ($checker instanceof Validation\Checker) {
@@ -213,7 +213,9 @@ class Validator extends \Magelight\Model
         $pointer = &$this->_checkers[$index];
 
         foreach ($fieldAddress as $index) {
-            $pointer[$index] = [];
+            if (!isset($pointer[$index])) {
+                $pointer[$index] = [];
+            }
             $pointer = &$pointer[$index];
         }
 

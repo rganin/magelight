@@ -1285,7 +1285,9 @@ abstract class Orm
         if (empty($this->modelName) || !class_exists($this->modelName, true)) {
             return null;
         } else {
-            return call_user_func_array([$this->modelName, 'forge'], [$data, false]);
+            $model = call_user_func_array([$this->modelName, 'forge'], [$data, false]);
+            $model->afterLoad();
+            return $model;
         }
     }
 
@@ -1321,9 +1323,9 @@ abstract class Orm
      *
      * @return mixed
      */
-    public function getValue($name)
+    public function &getValue($name)
     {
-        return isset($this->data[$name]) ? $this->data[$name] : null;
+        return $this->data[$name];
     }
 
     /**
