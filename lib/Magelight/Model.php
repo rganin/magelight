@@ -192,7 +192,7 @@ abstract class Model
      */
     public function __isset($name)
     {
-        return isset($this->orm->$name);
+        return isset($this->_orm->$name);
     }
 
     /**

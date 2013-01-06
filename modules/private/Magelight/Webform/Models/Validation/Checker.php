@@ -46,6 +46,8 @@ namespace Magelight\Webform\Models\Validation;
  * - Field must contain from $min to $max chars
  * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule urlHttp() - Field must be a valid http or https URL
  * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule captcha()
+ * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule time24()
+ * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule time12()
  */
 class Checker
 {
@@ -120,6 +122,16 @@ class Checker
     {
         $this->_validatePermanent = $flag;
         return $this;
+    }
+
+    /**
+     * Check is a field permanent for validation
+     *
+     * @return bool
+     */
+    public function hasPernanentValidation()
+    {
+        return $this->_validatePermanent;
     }
 
     /**

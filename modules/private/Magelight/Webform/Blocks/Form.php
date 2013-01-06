@@ -439,6 +439,17 @@ class Form extends Elements\Abstraction\Element
     }
 
     /**
+     * Set form values from Data array
+     *
+     * @param array $data
+     */
+    public function setFormValues($data = [])
+    {
+        $this->_requestFields = $data;
+        $this->setFormValuesFromRequestFields($this->_requestFields);
+    }
+
+    /**
      * Set form values from request object
      *
      * @param array $requestFields

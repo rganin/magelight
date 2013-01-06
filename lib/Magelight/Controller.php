@@ -284,10 +284,13 @@ abstract class Controller
      * Generate security action token and save it to session
      *
      * @param string $index
+     *
+     * @return Controller
      */
     public function generateToken($index = self::DEFAULT_TOKEN_SESSION_INDEX)
     {
         $this->session()->set($index, md5(rand(0,999999999)));
+        return $this;
     }
 
     /**
@@ -299,6 +302,17 @@ abstract class Controller
      */
     public function checkToken($token, $index = self::DEFAULT_TOKEN_SESSION_INDEX)
     {
-        return $this->session()->get($index, null) === $token;
+        return $this->getToken($index) === $token;
+    }
+
+    /**
+     * Get current token
+     *
+     * @param string $index
+     * @return mixed
+     */
+    public function getToken($index = self::DEFAULT_TOKEN_SESSION_INDEX)
+    {
+        return $this->session()->get($index, null);
     }
 }

@@ -98,7 +98,8 @@ class Validator extends \Magelight\Model
                             $this->_validateRecursive($dataField, $checker);
                         }
                     } else {
-                        $this->_validateRecursive($validationData[$key], $subChecker);
+                        $subChecker = [$key=> $subChecker];
+                        $this->_validateRecursive($validationData, $subChecker);
                     }
                 }
             } elseif ($checker instanceof Validation\Checker) {
@@ -117,7 +118,7 @@ class Validator extends \Magelight\Model
      */
     protected function _processValidation($data, Validation\Checker $checker)
     {
-        if ($this->emptyField($data) && !$checker->hasRuleRequired() && !$checker->validatePermanent()) {
+        if ($this->isEmptyField($data) && !$checker->hasRuleRequired() && !$checker->hasPernanentValidation()) {
 
         } else {
             if ($this->_breakOnFirst) {
@@ -139,6 +140,7 @@ class Validator extends \Magelight\Model
                 }
             }
         }
+        return $this;
     }
 
     /**
@@ -147,7 +149,7 @@ class Validator extends \Magelight\Model
      * @param string $value
      * @return bool
      */
-    public function emptyField($value)
+    public function isEmptyField($value)
     {
         $value = trim($value);
         return $value === '' || $value === null;

@@ -252,6 +252,6 @@
 
 $(document).ready(function(){
     $('input.masked-input').each(function(){
-        $(this).mask(this.getAttribute('data-mask'), {placeholder: '..'});
+        $(this).mask(this.getAttribute('data-mask'), {placeholder: '_'});
     });
 });

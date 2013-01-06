@@ -410,6 +410,14 @@ final class App
         ]);
         return $this;
     }
+
+    /**
+     * Shutdown application handler
+     */
+    public function shutdown()
+    {
+        die();
+    }
     
     /**
      * Load classes overrides from configuration
