@@ -248,6 +248,7 @@ abstract class Controller
     public function redirect($url)
     {
         $this->server()->sendHeader("Location: $url");
+        \Magelight::app()->shutdown();
     }
 
     /**

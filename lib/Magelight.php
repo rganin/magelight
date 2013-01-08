@@ -127,4 +127,26 @@ final class Magelight
     {
         return vsprintf($traslate, $arguments);
     }
+
+    /**
+     * Fix path directory separators
+     *
+     * @param string $path
+     * @return mixed
+     */
+    public static function fixPath($path)
+    {
+        return str_replace('\\/', DS, $path);
+    }
+
+    /**
+     * Get full path in application dir
+     *
+     * @param string $path
+     * @return string
+     */
+    public static function fullPathInApp($path)
+    {
+        return trim(self::app()->getAppDir(), '\\/') . DS . self::fixPath($path);
+    }
 }

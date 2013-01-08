@@ -77,6 +77,7 @@ abstract class Model
     public function __forge($data = [], $forceNew = false)
     {
         $data = $this->_processDataBeforeCreate($data);
+
         $this->setOrm(static::callStaticLate('orm'));
         if (is_array($data)) {
             $this->_orm->create($data, $forceNew);
@@ -320,5 +321,27 @@ abstract class Model
     public static function findBy($field, $value)
     {
         return self::orm()->whereEq($field, $value)->fetchModel();
+    }
+
+    /**
+     * Rip array of models to array representation (using model`s asArray() method)
+     *
+     * @param array $arrayOfModels
+     * @param array $fields
+     * @return array[\Magelight\Model]
+     */
+    public static function modelsToArrayRecursive($arrayOfModels = [], $fields = [])
+    {
+        $ret = [];
+        foreach ($arrayOfModels as $item) {
+            if ($item instanceof \Magelight\Model) {
+                $ret[] = $item->asArray($fields);
+            } elseif (is_array($item)) {
+                $ret[] = self::modelsToArrayRecursive($item, $fields);
+            } else {
+                $ret[] = $item;
+            }
+        }
+        return $ret;
     }
 }

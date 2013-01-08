@@ -38,6 +38,30 @@ class User extends \Magelight\Model
     }
 
     /**
+     * Add user contact
+     *
+     * @param string $type
+     * @param string $content
+     * @return int
+     */
+    public function addContactIfNotExists($type, $content)
+    {
+        $contact = Contact::orm()->
+                whereEq('user_id', $this->id)->
+                whereEq('type', $type)->
+                whereLike('content', $content)
+                ->fetchRow();
+        if ($contact) {
+            return true;
+        }
+        return Contact::orm()->create([
+            'type' => $type,
+            'content' => $content,
+            'user_id' => $this->id
+        ], true)->save(true);
+    }
+
+    /**
      * Authorize user via uLogin service
      *
      * @param string $userData

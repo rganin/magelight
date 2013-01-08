@@ -50,35 +50,42 @@ class Request
      * 
      * @var string
      */
-    private $_method = 'GET';
+    protected $_method = 'GET';
     
     /**
      * GET params
      * 
      * @var array|null
      */
-    private $_get;
+    protected $_get;
     
     /**
      * POST params
      * 
      * @var array|null
      */
-    private $_post;
+    protected $_post;
+
+    /**
+     * FILES array
+     *
+     * @var array|null
+     */
+    protected $_files;
     
     /**
      * REQUEST params
      * 
      * @var array|null
      */
-    private $_request;
+    protected $_request;
     
     /**
      * Request path
      * 
      * @var string
      */
-    private $_requestRoute = '/';
+    protected $_requestRoute = '/';
 
     /**
      * Closing forgery. leaving only singleton instance
@@ -87,14 +94,15 @@ class Request
     {
 
     }
-       
+
     /**
-     * Constructor
-     * 
+     * Forgery constructor
+     *
      * @param array $get
      * @param array $post
+     * @param array $files
      */
-    public function __forge($get = [], $post = [])
+    public function __forge($get = [], $post = [], $files = [])
     {
         if (isset($_SERVER['REQUEST_METHOD'])) {
             $this->_method = $_SERVER['REQUEST_METHOD'];
@@ -117,6 +125,12 @@ class Request
             $this->_post = $_POST;
         } else {
             $this->_post = $post;
+        }
+
+        if (empty($files)) {
+            $this->_files = $_FILES;
+        } else {
+            $this->_files = $files;
         }
         
         if (empty($get) && empty($post) && ini_get('request_order') === self::DEFAULT_REQUEST_MERGE_ORDER) {
@@ -250,5 +264,85 @@ class Request
         unset($this->_get);
         unset($this->_post);
         unset($this->_request);
+    }
+
+    /**
+     * Get element of files array
+     *
+     * @param string $index
+     * @param array $default
+     * @return array|null
+     */
+    public function getFiles($index = null, $default = [])
+    {
+        if (empty($index)) {
+            return $this->_files;
+        }
+        return isset($this->_files[$index]) ? $this->_files[$index] : $default;
+    }
+
+    /**
+     * Get whole files array
+     *
+     * @return array|null
+     */
+    public function getFilesArray()
+    {
+        return $this->_files;
+    }
+
+    protected function rearrangeFilesArray($files)
+    {
+        $arrayForFill = [];
+        foreach ($files as $firstNameKey => $arFileDescriptions) {
+            foreach ($arFileDescriptions as $fileDescriptionParam => $mixedValue) {
+                $this->restructFilesArray($arrayForFill,
+                    $firstNameKey,
+                    $files[$firstNameKey][$fileDescriptionParam],
+                    $fileDescriptionParam
+                );
+            }
+        }
+        return $arrayForFill;
+    }
+
+    protected function restructFilesArray(&$arrayForFill, $currentKey, $currentMixedValue, $fileDescriptionParam)
+    {
+        if (is_array($currentMixedValue)) {
+            foreach ($currentMixedValue as $nameKey => $mixedValue) {
+                $this->restructFilesArray($arrayForFill[$currentKey],
+                    $nameKey,
+                    $mixedValue,
+                    $fileDescriptionParam
+                );
+            }
+        } else {
+            $arrayForFill[$currentKey][$fileDescriptionParam] = $currentMixedValue;
+        }
+    }
+    /**
+     * Get file info in normalized way
+     *
+     * @param string $index
+     * @param array $default
+     * @return array|FilesArray
+     */
+    public function getFilesNormalized($index = null, $default = [])
+    {
+        $files = $this->rearrangeFilesArray($this->_files);
+        if (empty($index)) {
+            return $files;
+        }
+        return isset($files[$index]) ? $files[$index] : $default;
+    }
+
+    /**
+     * Get normalized files array
+     *
+     * @return FilesArray
+     */
+    public function getFilesArrayNormalized()
+    {
+        return $this->rearrangeFilesArray($this->_files);
     }
 }

@@ -474,10 +474,13 @@ abstract class Orm
     /**
      * Mark all fields as dirty
      */
-    private function markAllDirty()
+    private function markAllDirty($skipId = false)
     {
         if (!empty($this->data)) {
             $this->dirtyFields = array_keys($this->data);
+            if ($skipId) {
+                $this->dirtyFields = array_diff($this->dirtyFields, [$this->getIdColumn()]);
+            }
         }
     }
 
@@ -496,8 +499,8 @@ abstract class Orm
         $this->data = $data;
         if ($this->isNewRecord) {
             unset($this->data[$this->idColumn]);
-            $this->markAllDirty();
         }
+        $this->markAllDirty(!$this->isNewRecord || $forceNew);
         return $this;
     }
 
@@ -1084,7 +1087,7 @@ abstract class Orm
             }
             $this->isNewRecord = false;
         }
-        return $ret;
+        return true;
     }
 
 

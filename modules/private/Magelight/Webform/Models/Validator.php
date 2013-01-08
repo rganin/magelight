@@ -151,6 +151,9 @@ class Validator extends \Magelight\Model
      */
     public function isEmptyField($value)
     {
+        if (is_array($value)) {
+            return empty($value);
+        }
         $value = trim($value);
         return $value === '' || $value === null;
     }

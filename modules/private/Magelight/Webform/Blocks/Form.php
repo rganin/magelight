@@ -61,6 +61,13 @@ class Form extends Elements\Abstraction\Element
     protected $_requestFields = [];
 
     /**
+     * Upload request fields
+     *
+     * @var array
+     */
+    protected $_requestUploads = [];
+
+    /**
      * Feild values loaded from request with plaintext addresses
      *
      * @var array
@@ -100,16 +107,16 @@ class Form extends Elements\Abstraction\Element
      *
      * @param string $name
      * @param string $action
-     * @param string $type
+     * @param string $enctype
      * @param string $method
      * @return Form
      */
-    public function setConfigs($name, $action, $type = 'multipart/form-data', $method = 'post')
+    public function setConfigs($name, $action, $enctype = 'multipart/form-data', $method = 'post')
     {
         $this->_wrapIndex = $name;
         return $this->setAttribute('name', $name)
             ->setAttribute('action', $action)
-            ->setAttribute('type', $type)
+            ->setAttribute('enctype', $enctype)
             ->setAttribute('method', $method);
     }
 
@@ -254,19 +261,33 @@ class Form extends Elements\Abstraction\Element
     {
         if ($this->_validator instanceof \Magelight\Webform\Models\Validator) {
             if (!empty($this->_requestFields)) {
-                $result = $this->_validator->validate($this->_requestFields)->result();
-                if (!$result->isSuccess()) {
-                    foreach ($result->getErrors() as $error) {
-                        $this->addResult($error->getErrorString());
-                    }
-                }
-                return $result->isSuccess();
+                $fieldsResult = $this->_processValidation(array_merge($this->_requestFields, (array)$this->_requestUploads));
+//                $uploadsResult = $this->_processValidation($this->_requestUploads);
+                return $fieldsResult;// && $uploadsResult;
             } else {
                 return true;
             }
         } else {
             throw new \Magelight\Exception("Form validator is not set");
         }
+    }
+
+    /**
+     * Process data validation
+     *
+     * @param array $data
+     * @return bool
+     */
+    protected function _processValidation($data)
+    {
+        $result = $this->_validator->validate($data)->result();
+        if (!$result->isSuccess()) {
+            foreach ($result->getErrors() as $error) {
+                /** @var $error \Magelight\Webform\Models\Validation\Error */
+                $this->addResult($error->getErrorString());
+            }
+        }
+        return $result->isSuccess();
     }
 
     /**
@@ -377,7 +398,7 @@ class Form extends Elements\Abstraction\Element
         }
         $index = array_shift($address);
         if (isset($fields[$index])) {
-            $pointer =  &$fields[$index];
+            @$pointer =  &$fields[$index];
         } else {
             return $default;
         }
@@ -431,9 +452,11 @@ class Form extends Elements\Abstraction\Element
         $methodName = 'get' . ucfirst(strtolower($method));
         if (!empty($this->_wrapIndex)) {
             $this->_requestFields = $request->$methodName($this->_wrapIndex, []);
+            $this->_requestUploads = $request->getFilesNormalized($this->_wrapIndex, []);
         } else {
             $methodName .= 'Array';
             $this->_requestFields = $request->$methodName();
+            $this->_requestUploads = $request->getFilesArrayNormalized();
         }
         return $this->setFormValuesFromRequestFields($this->_requestFields);
     }
@@ -516,5 +539,34 @@ class Form extends Elements\Abstraction\Element
             $render .= ' ' . $name . '="' . $value . '" ';
         }
         return $render;
+    }
+
+    /**
+     * Fetch upload data
+     *
+     * @param string $index
+     * @param array $default
+     * @return array
+     */
+    public function getUpload($index, $default = [])
+    {
+        $address = $this->queryStringToArray($index);
+        return $this->_getFieldValueRecursive($address, $default, $this->_requestUploads);
+    }
+
+    /**
+     * Fetch upload object from form
+     *
+     * @param string $index
+     * @return \Magelight\Upload|null
+     */
+    public function getUploadObject($index)
+    {
+        $address = $this->queryStringToArray($index);
+        $array = $this->_getFieldValueRecursive($address, [], $this->_requestUploads);
+        if (isset($array['name'], $array['tmp_name'], $array['error'], $array['size'], $array['type'])) {
+            return \Magelight\Upload::forge($array);
+        }
+        return null;
     }
 }
