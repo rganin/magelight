@@ -38,6 +38,13 @@ class Email extends AbstractRule
     protected $_error = 'Field %s must a valid e-mail address';
 
     /**
+     * Fron validator (jQueryValidator) rule name
+     *
+     * @var string
+     */
+    protected $_frontValidatorRule = 'email';
+
+    /**
      * Check value with rule
      * Returns:
      *    - true if rule passed.

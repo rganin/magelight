@@ -20,6 +20,13 @@ class ReCaptcha extends AbstractRule
     protected $_error = 'Enered captcha text is invalid';
 
     /**
+     * Fron validator (jQueryValidator) rule name
+     *
+     * @var string
+     */
+    protected $_frontValidatorRule = 'reCaptcha';
+
+    /**
      * Check value with rule
      * Returns:
      *    - true if rule passed.

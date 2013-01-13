@@ -38,6 +38,13 @@ class RangeLength extends AbstractRule
     protected $_error = 'Field %s must contain from %s to %s characters';
 
     /**
+     * Fron validator (jQueryValidator) rule name
+     *
+     * @var string
+     */
+    protected $_frontValidatorRule = 'rangelength';
+
+    /**
      * Check value with rule
      * Returns:
      *    - true if rule passed.
@@ -51,4 +58,15 @@ class RangeLength extends AbstractRule
         $value = trim($value);
         return (strlen($value) >= $this->_arguments[0]) && (strlen($value) <= $this->_arguments[1]);
     }
+
+    /**
+     * Get params array or raw param for front validaition in JQuery Validator
+     *
+     * @return mixed|array|bool|int
+     */
+    public function getFrontValidationParams()
+    {
+        return $this->_arguments;
+    }
+
 }

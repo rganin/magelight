@@ -48,6 +48,13 @@ class Validator extends \Magelight\Model
     protected $_checkers = [];
 
     /**
+     * Field checkers with flat (query string) indexes
+     *
+     * @var array
+     */
+    protected $_flatNameCheckers = [];
+
+    /**
      * Break on first error flag
      *
      * @var bool
@@ -62,6 +69,13 @@ class Validator extends \Magelight\Model
     protected $_errorsLimit = 10000;
 
     /**
+     * Data to validate
+     *
+     * @var array
+     */
+    protected $_data = [];
+
+    /**
      * Validate data
      *
      * @param array $data
@@ -70,7 +84,8 @@ class Validator extends \Magelight\Model
     public function validate($data)
     {
         $this->_result = Validation\Result::forge(true, []);
-        return $this->_validateRecursive($data, $this->_checkers);
+        $this->_data = &$data;
+        return $this->_validateRecursive($this->_data, $this->_checkers);
     }
 
     /**
@@ -229,6 +244,19 @@ class Validator extends \Magelight\Model
     }
 
     /**
+     * Set checker with flat address
+     *
+     * @param string $flatFieldAddress
+     * @param Validation\Checker $checker
+     * @return Validator
+     */
+    public function setFlatChecker($flatFieldAddress, Validation\Checker $checker)
+    {
+        $this->_flatNameCheckers[$flatFieldAddress] = $checker;
+        return $this;
+    }
+
+    /**
      * Get checker by address
      *
      * @param array $fieldAddress
@@ -268,9 +296,101 @@ class Validator extends \Magelight\Model
         $fieldAddressLast = array_reverse($fieldAddress)[0];
         $checker = $this->_getChecker($fieldAddress);
         if (empty($checker)) {
-            $checker = Validation\Checker::forge($fieldAddressLast, $fieldAlias)->breakOnFirst($this->_breakOnFirst);
+            $checker = Validation\Checker::forge($fieldAddressLast, $fieldAlias, $this)
+                ->breakOnFirst($this->_breakOnFirst);
             $this->setChecker($fieldAddress, $checker);
+            $this->setFlatChecker($fieldName, $checker);
         }
         return $checker;
+    }
+
+    /**
+     * Get default ruleset for front validation
+     *
+     * @return array
+     */
+    public function getDefaultFrontValidationRuleset()
+    {
+        return [
+            'min',
+            'max',
+            'minlength',
+            'maxlength',
+            'required',
+            'range',
+            'rangelength',
+            'number',
+            'email',
+            'url',
+            'remote',
+            'equalTo'
+        ];
+    }
+
+    public function getValidationRulesJson($formName, $ruleset = [])
+    {
+        if (empty($ruleset)) {
+            $ruleset = $this->getDefaultFrontValidationRuleset();
+        }
+        $rules = new \stdClass();
+        foreach ($this->_flatNameCheckers as $fieldName => $checker) {
+            /* @var $checker \Magelight\Webform\Models\Validation\Checker */
+            $fieldName = \Magelight\Webform\Blocks\Form::wrapFieldName($fieldName, $formName);
+            $rules->$fieldName = $checker->getRulesJson($ruleset);
+        }
+        return json_encode($rules, JSON_FORCE_OBJECT | JSON_UNESCAPED_SLASHES);
+    }
+
+    public function getValidationMessagesJson($formName, $ruleset = [])
+    {
+        if (empty($ruleset)) {
+            $ruleset = $this->getDefaultFrontValidationRuleset();
+        }
+        $messages = new \stdClass();
+        foreach ($this->_flatNameCheckers as $fieldName => $checker) {
+            /* @var $checker \Magelight\Webform\Models\Validation\Checker */
+            $fieldName = \Magelight\Webform\Blocks\Form::wrapFieldName($fieldName, $formName);
+            $messages->$fieldName = $checker->getRulesMessagesJson($ruleset);
+        }
+        return json_encode($messages, JSON_FORCE_OBJECT | JSON_UNESCAPED_SLASHES);
+    }
+
+    /**
+     * Get form field value
+     *
+     * @param string $index
+     * @param mixed $default
+     * @return mixed
+     */
+    public function getFieldValue($index, $default = null)
+    {
+        $address = $this->queryStringToArray($index);
+        return $this->getFieldValueRecursive($address, $default, $this->_requestFields);
+    }
+
+    /**
+     * Get field value recursively
+     *
+     * @param string $address
+     * @param mixed $default
+     * @param array $fields
+     * @return mixed|null
+     */
+    public function getFieldValueRecursive($address, $default = null, &$fields = [])
+    {
+        if (!is_array($address)) {
+            return $default;
+        }
+        $index = array_shift($address);
+        if (isset($fields[$index])) {
+            @$pointer =  &$fields[$index];
+        } else {
+            return $default;
+        }
+        if (empty($address)) {
+            return $pointer;
+        } else {
+            return $this->getFieldValueRecursive($address, $default, $pointer);
+        }
     }
 }

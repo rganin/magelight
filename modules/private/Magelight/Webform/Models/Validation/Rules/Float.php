@@ -39,6 +39,13 @@ class Float extends AbstractRule
     protected $_error = 'Field %s must be a float value';
 
     /**
+     * Fron validator (jQueryValidator) rule name
+     *
+     * @var string
+     */
+    protected $_frontValidatorRule = 'number';
+
+    /**
      * Check value with rule
      * Returns:
      *    - true if rule passed.

@@ -2,28 +2,28 @@
 /**
  * Created by JetBrains PhpStorm.
  * User: iddqd
- * Date: 09.12.12
- * Time: 20:34
+ * Date: 13.01.13
+ * Time: 19:28
  * To change this template use File | Settings | File Templates.
  */
 
 namespace Magelight\Webform\Models\Validation\Rules;
 
-class Equals extends AbstractRule
+class EqualsToField extends AbstractRule
 {
-    /**
-     * Validation error pattern
-     *
-     * @var string
-     */
-    protected $_error = 'Field %s must be equal to %3$s';
-
     /**
      * Fron validator (jQueryValidator) rule name
      *
      * @var string
      */
-    protected $_frontValidatorRule = 'equals';
+    protected $_frontValidatorRule = 'equalTo';
+
+    /**
+     * Error string
+     *
+     * @var string
+     */
+    protected $_error = 'Field %s must be equal to field %3$s';
 
     /**
      * Check value with rule
@@ -36,7 +36,8 @@ class Equals extends AbstractRule
      */
     public function check($value)
     {
-        return $value === $this->_arguments[0];
+        return $this->checker()->getValidator()->getFieldValue($value)
+            == $this->checker()->getValidator()->getFieldValue($this->_arguments[0]);
     }
 
     public function getFrontValidationParams()

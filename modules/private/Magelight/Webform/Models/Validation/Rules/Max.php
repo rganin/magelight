@@ -37,6 +37,13 @@ class Max extends AbstractRule
     protected $_error = 'Field %s must be less than %s or equal';
 
     /**
+     * Fron validator (jQueryValidator) rule name
+     *
+     * @var string
+     */
+    protected $_frontValidatorRule = 'max';
+
+    /**
      * Check value with rule
      * Returns:
      *    - true if rule passed.
@@ -49,4 +56,15 @@ class Max extends AbstractRule
     {
         return ($value <= $this->_arguments[0]);
     }
+
+    /**
+     * Get params array or raw param for front validaition in JQuery Validator
+     *
+     * @return mixed|array|bool|int
+     */
+    public function getFrontValidationParams()
+    {
+        return $this->_arguments[0];
+    }
+
 }

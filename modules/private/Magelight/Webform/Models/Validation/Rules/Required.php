@@ -37,6 +37,13 @@ class Required extends AbstractRule
     protected $_error = 'Field %s is required';
 
     /**
+     * Fron validator (jQueryValidator) rule name
+     *
+     * @var string
+     */
+    protected $_frontValidatorRule = 'required';
+
+    /**
      * Check value with rule
      * Returns:
      *    - true if rule passed.
@@ -47,10 +54,8 @@ class Required extends AbstractRule
      */
     public function check($value)
     {
-        return !empty($value)
-            && !is_null($value)
-            && $value !== 0
-            && $value !== '0'
+        return
+            !is_null($value)
             && $value !== ''
             && $value !== false;
     }

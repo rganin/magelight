@@ -26,6 +26,7 @@ namespace Magelight\Webform\Models\Validation;
 /**
  * @method static \Magelight\Webform\Models\Validation\Checker forge($fieldName, $fieldAlias = null) - forgery
  * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule equals($value, $displayValue = null)
+ * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule equalsToField($fullFieldIndex, $displayFieldName = null)
  * - Must be equal to this value. Display value will be displayed on frontend
  * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule reCaptcha() - Captcha checker
  * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule max($max) - maximum value rule
@@ -101,15 +102,34 @@ class Checker
     protected $_validatePermanent = false;
 
     /**
+     * Validator object
+     *
+     * @var \Magelight\Webform\Models\Validator
+     */
+    protected $_validator = null;
+
+    /**
      * Forgery constructor
      *
-     * @param $fieldName
+     * @param string $fieldName
      * @param string $fieldAlias
+     * @param \Magelight\Webform\Models\Validator $validator
      */
-    public function __forge($fieldName, $fieldAlias = null)
+    public function __forge($fieldName, $fieldAlias = null, \Magelight\Webform\Models\Validator $validator = null)
     {
         $this->_fieldName = $fieldName;
         $this->setFieldAlias($fieldAlias);
+        $this->_validator = $validator;
+    }
+
+    /**
+     * Get validator object
+     *
+     * @return \Magelight\Webform\Models\Validator|null
+     */
+    public function getValidator()
+    {
+        return $this->_validator;
     }
 
     /**
@@ -262,5 +282,32 @@ class Checker
     public function getErrors()
     {
         return $this->_errors;
+    }
+
+
+    public function getRulesJson($ruleset)
+    {
+        $rules = new \stdClass();
+        foreach ($this->_rules as $rule) {
+            /* @var $rule \Magelight\Webform\Models\Validation\Rules\AbstractRule */
+            $propertyName = $rule->getFrontValidationRuleName();
+            if (in_array($propertyName, $ruleset)) {
+                $rules->$propertyName = $rule->getFrontValidationParams();
+            }
+        }
+        return $rules;
+    }
+
+    public function getRulesMessagesJson($ruleset)
+    {
+        $messages = new \stdClass();
+        foreach ($this->_rules as $rule) {
+            /* @var $rule \Magelight\Webform\Models\Validation\Rules\AbstractRule */
+            $propertyName = $rule->getFrontValidationRuleName();
+            if (in_array($propertyName, $ruleset)) {
+                $messages->$propertyName = $rule->getError();
+            }
+        }
+        return $messages;
     }
 }

@@ -14,6 +14,13 @@ class Time24 extends AbstractRule
     protected $_error = 'Field %s must be a valid 24h formatted time';
 
     /**
+     * Fron validator (jQueryValidator) rule name
+     *
+     * @var string
+     */
+    protected $_frontValidatorRule = 'time24';
+
+    /**
      * Check value with rule
      * Returns:
      *    - true if rule passed.

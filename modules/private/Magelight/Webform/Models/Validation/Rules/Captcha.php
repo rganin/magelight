@@ -19,6 +19,13 @@ class Captcha extends AbstractRule
     protected $_error = 'Please enter a valid protection code';
 
     /**
+     * Fron validator (jQueryValidator) rule name
+     *
+     * @var string
+     */
+    protected $_frontValidatorRule = 'captcha';
+
+    /**
      * Check value with rule
      * Returns:
      *    - true if rule passed.

@@ -121,6 +121,30 @@ class Form extends Elements\Abstraction\Element
     }
 
     /**
+     * Validate form on frontend flag
+     *
+     * @param array $ruleset - set of rules to be passed to front validator
+     * @return Form
+     */
+    public function validateOnFront($ruleset = [])
+    {
+        \Magelight\Core\Blocks\Document::getFromRegistry()
+            ->addJs('modules/private/Magelight/Webform/static/js/jquery-validation.js');
+        \Magelight\Core\Blocks\Document::getFromRegistry()
+            ->addJs('modules/private/Magelight/Webform/static/js/ajax-form.js');
+        $this->setAttribute('data-front-validate', 'true');
+        $this->setAttribute(
+            'data-validator-rules',
+            $this->_validator->getValidationRulesJson($this->getAttribute('name')), $this::QUOTATION_SINGLE
+        );
+        $this->setAttribute(
+            'data-validator-messages',
+            $this->_validator->getValidationMessagesJson($this->getAttribute('name')), $this::QUOTATION_SINGLE
+        );
+        return $this;
+    }
+
+    /**
      * Wrap field name with form name
      *
      * @param string $name
@@ -299,7 +323,7 @@ class Form extends Elements\Abstraction\Element
      */
     public function createResultRow($insertToContent = false)
     {
-        $this->_resultRow = Elements\Abstraction\Element::forge()->setTag('div');
+        $this->_resultRow = Elements\Abstraction\Element::forge()->setTag('div')->addClass('form-result');
         if ($insertToContent) {
             $this->addContent($this->_resultRow);
         }
@@ -525,20 +549,6 @@ class Form extends Elements\Abstraction\Element
             }
         }
         return null;
-    }
-
-    /**
-     * Render form attributes as HTML attributes code
-     *
-     * @return string
-     */
-    public function renderAttributes()
-    {
-        $render = '';
-        foreach ($this->_attributes as $name => $value) {
-            $render .= ' ' . $name . '="' . $value . '" ';
-        }
-        return $render;
     }
 
     /**

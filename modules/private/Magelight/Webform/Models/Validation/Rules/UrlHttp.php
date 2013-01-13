@@ -38,6 +38,13 @@ class UrlHttp extends AbstractRule
     protected $_error = 'Field %s must be a valid URL link';
 
     /**
+     * Fron validator (jQueryValidator) rule name
+     *
+     * @var string
+     */
+    protected $_frontValidatorRule = 'url';
+
+    /**
      * Check value with rule
      * Returns:
      *    - true if rule passed.

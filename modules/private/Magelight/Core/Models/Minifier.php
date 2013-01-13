@@ -131,7 +131,7 @@ class Minifier
             } else {
                 $buffer = @file_get_contents($entry['path']);
                 if ($buffer === false) {
-                    trigger_error("File for minifier cannot be read", E_USER_WARNING);
+                    trigger_error("File {$entry['path']} for minifier cannot be read", E_USER_WARNING);
                 }
                 if (\Magelight::app()->config()->getConfigBool('global/minifier/compress_' . $type)) {
                     $buffer = $minifier->minify($buffer);

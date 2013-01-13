@@ -38,6 +38,13 @@ class Range extends AbstractRule
     protected $_error = 'Field %s must be between %s and %s';
 
     /**
+     * Fron validator (jQueryValidator) rule name
+     *
+     * @var string
+     */
+    protected $_frontValidatorRule = 'range';
+
+    /**
      * Check value with rule
      * Returns:
      *    - true if rule passed.
@@ -50,4 +57,15 @@ class Range extends AbstractRule
     {
         return ($value >= $this->_arguments[0]) && $value >= $this->_arguments[1];
     }
+
+    /**
+     * Get params array or raw param for front validaition in JQuery Validator
+     *
+     * @return mixed|array|bool|int
+     */
+    public function getFrontValidationParams()
+    {
+        return $this->_arguments;
+    }
+
 }

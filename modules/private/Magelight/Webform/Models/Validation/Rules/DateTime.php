@@ -37,6 +37,13 @@ class DateTime extends AbstractRule
     protected $_error = 'Field %s must be a valid date or date and time';
 
     /**
+     * Fron validator (jQueryValidator) rule name
+     *
+     * @var string
+     */
+    protected $_frontValidatorRule = 'datetime';
+
+    /**
      * Check value with rule
      * Returns:
      *    - true if rule passed.

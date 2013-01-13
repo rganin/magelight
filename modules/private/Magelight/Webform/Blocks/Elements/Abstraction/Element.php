@@ -28,6 +28,11 @@ namespace Magelight\Webform\Blocks\Elements\Abstraction;
  */
 class Element extends \Magelight\Block
 {
+    const QUOTATION_DEFAULT = '"';
+    const QUOTATION_DOUBLE  = '"';
+    const QUOTATION_SINGLE  = '\'';
+    const QUOTATION_NONE    = '';
+
     /**
      * Form pointer
      *
@@ -93,10 +98,7 @@ class Element extends \Magelight\Block
             return parent::toHtml();
         }
         $this->beforeToHtml();
-        $html = '<' . $this->_tag . '';
-        foreach ($this->_attributes as $name => $attr) {
-            $html .= ' ' . $name . '="' . $attr . '"';
-        }
+        $html = '<' . $this->_tag . ' ' . $this->renderAttributes();
         if ($this->_empty) {
             $html .= ' />';
             return $html;
@@ -113,6 +115,23 @@ class Element extends \Magelight\Block
         $html .= '</' . $this->_tag . '>';
         $this->afterToHtml();
         return $html;
+    }
+
+    /**
+     * Render form attributes as HTML attributes code
+     *
+     * @return string
+     */
+    public function renderAttributes()
+    {
+        $render = '';
+        foreach ($this->_attributes as $name => $attr) {
+            if (!isset($attr['quotation'])) {
+                $attr['quotation'] = self::QUOTATION_DEFAULT;
+            }
+            $render .= ' ' . $name . '=' . $attr['quotation'] . $attr['value'] . $attr['quotation'];
+        }
+        return $render;
     }
 
     /**
@@ -140,17 +159,18 @@ class Element extends \Magelight\Block
      *
      * @param string $name
      * @param string $value
+     * @param string $quotation
      * @return Element
      * @throws \Magelight\Exception
      */
-    public function setAttribute($name, $value)
+    public function setAttribute($name, $value, $quotaiton = self::QUOTATION_DEFAULT)
     {
         if ($name === 'id') {
             throw new \Magelight\Exception(
                 'Direct id assignment is not allowed. Use setId() method to set id attribute.'
             );
         }
-        $this->_attributes[$name] = $value;
+        $this->_attributes[$name] = ['value' => $value, 'quotation' => $quotaiton];
         return $this;
     }
 
@@ -174,9 +194,9 @@ class Element extends \Magelight\Block
     public function addClass($class)
     {
         if (!isset($this->_attributes['class'])) {
-            $this->_attributes['class'] = '';
+            $this->_attributes['class']['value'] = '';
         }
-        return $this->setAttribute('class', $this->_attributes['class'] . ' ' . $class);
+        return $this->setAttribute('class', $this->_attributes['class']['value'] . ' ' . $class);
     }
 
     /**
@@ -188,9 +208,9 @@ class Element extends \Magelight\Block
     public function removeClass($class)
     {
         if (!isset($this->_attributes['class'])) {
-            $this->_attributes['class'] = '';
+            $this->_attributes['class']['value'] = '';
         }
-        return $this->setAttribute('class', str_replace($class, '', $this->_attributes['class']));
+        return $this->setAttribute('class', str_replace($class, '', $this->_attributes['class']['value']));
     }
 
     /**
@@ -202,7 +222,7 @@ class Element extends \Magelight\Block
      */
     public function getAttribute($name, $default = null)
     {
-        return isset($this->_attributes[$name]) ? $this->_attributes[$name] : $default;
+        return isset($this->_attributes[$name]['value']) ? $this->_attributes[$name]['value'] : $default;
     }
 
     /**
@@ -214,7 +234,7 @@ class Element extends \Magelight\Block
     public function setId($id)
     {
         $id = $this->wrapId($id);
-        $this->_attributes['id'] = $id;
+        $this->_attributes['id']['value'] = $id;
         return $this->registerId($id);
     }
 
@@ -225,7 +245,7 @@ class Element extends \Magelight\Block
      */
     public function getId()
     {
-        return $this->_attributes['id'];
+        return $this->_attributes['id']['value'];
     }
 
     /**

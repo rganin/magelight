@@ -65,6 +65,13 @@ abstract class AbstractRule
     protected $_checker = null;
 
     /**
+     * Fron validator (jQueryValidator) rule name
+     *
+     * @var string
+     */
+    protected $_frontValidatorRule = '';
+
+    /**
      * Forgery constructor
      *
      * @param \Magelight\Webform\Models\Validation\Checker $checker
@@ -154,4 +161,24 @@ abstract class AbstractRule
      * @return bool
      */
     abstract public function check($value);
+
+    /**
+     * Get params array or raw param for front validaition in JQuery Validator
+     *
+     * @return mixed|array|bool|int
+     */
+    public function getFrontValidationParams()
+    {
+        return true;
+    }
+
+    /**
+     * Get front validation rule name
+     *
+     * @return string
+     */
+    public function getFrontValidationRuleName()
+    {
+        return $this->_frontValidatorRule;
+    }
 }
