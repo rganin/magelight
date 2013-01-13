@@ -12,7 +12,7 @@ namespace Magelight;
 /**
  * Getter & setter trait
  */
-trait GetSet
+trait TGetSet
 {
     /**
      * GetSet Target - an array or object to store values

@@ -30,7 +30,7 @@ namespace Magelight\Helpers;
  */
 class XmlHelper
 {
-    use \Magelight\Forgery;
+    use \Magelight\TForgery;
 
     /**
      * Content index

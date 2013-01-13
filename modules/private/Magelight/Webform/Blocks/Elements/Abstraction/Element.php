@@ -331,4 +331,14 @@ class Element extends \Magelight\Block
         }
         return $this;
     }
+
+    /**
+     * Get bound form
+     *
+     * @return \Magelight\Webform\Blocks\Form|null
+     */
+    public function getForm()
+    {
+        return $this->_form;
+    }
 }

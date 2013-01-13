@@ -14,7 +14,7 @@ namespace Magelight\Db;
  */
 class CollectionFilter
 {
-    use \Magelight\Forgery;
+    use \Magelight\TForgery;
 
     /**
      * Filter data set

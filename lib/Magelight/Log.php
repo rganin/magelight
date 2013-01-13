@@ -33,7 +33,7 @@ class Log
     /**
      * Use forgery
      */
-    use \Magelight\Forgery;
+    use \Magelight\TForgery;
 
     /**
      * Logfile path

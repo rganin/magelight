@@ -30,7 +30,7 @@ namespace Magelight\Http;
  */
 class Session
 {
-    use \Magelight\Forgery;
+    use \Magelight\TForgery;
 
     /**
      * Getter

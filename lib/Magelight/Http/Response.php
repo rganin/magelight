@@ -30,7 +30,7 @@ namespace Magelight\Http;
  */
 class Response
 {
-    use \Magelight\Forgery;
+    use \Magelight\TForgery;
     
     /**
      * Response headers

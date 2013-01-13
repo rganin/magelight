@@ -51,7 +51,7 @@ namespace Magelight\Webform\Models\Validation;
  */
 class Checker
 {
-    use \Magelight\Forgery;
+    use \Magelight\TForgery;
 
     /**
      * Field name

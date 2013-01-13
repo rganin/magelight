@@ -26,7 +26,7 @@ namespace Magelight;
 /**
  * Forgery trait
  */
-trait Forgery
+trait TForgery
 {
     /**
      * Forge object

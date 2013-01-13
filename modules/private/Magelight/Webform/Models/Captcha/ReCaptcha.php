@@ -28,7 +28,7 @@ namespace Magelight\Webform\Models\Captcha;
  */
 class ReCaptcha
 {
-    use \Magelight\Forgery;
+    use \Magelight\TForgery;
     /**
      * Field indexes
      */

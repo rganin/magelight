@@ -28,12 +28,12 @@ namespace Magelight;
  *
  * @method static \Magelight\Cache forge()
  */
-class Cache implements \Magelight\Cache\CacheInterface
+class Cache implements \Magelight\Cache\ICacheInterface
 {
     /**
      * Using forgery
      */
-    use \Magelight\Forgery;
+    use \Magelight\TForgery;
 
     /**
      * @var Cache\AdapterAbstract

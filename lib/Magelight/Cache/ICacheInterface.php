@@ -26,7 +26,7 @@ namespace Magelight\Cache;
 /**
  * Cache adapter interface
  */
-interface CacheInterface
+interface ICacheInterface
 {
     /**
      * Get cached value by key

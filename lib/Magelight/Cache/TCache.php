@@ -30,7 +30,7 @@ namespace Magelight\Cache;
  * @property string|array $_cacherTraitCacheKey
  * @property int $_cacherTraitCacheTtl
  */
-trait Cache
+trait TCache
 {
     /**
      * Cacher configuration index

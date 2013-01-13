@@ -14,7 +14,7 @@ namespace Magelight\Webform\Models\Validation;
  */
 class Error
 {
-    use \Magelight\Forgery;
+    use \Magelight\TForgery;
 
     /**
      * Error string

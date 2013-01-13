@@ -26,12 +26,12 @@ namespace Magelight\Cache;
 /**
  * @method static \Magelight\Cache\AdapterAbstract forge($config)
  */
-abstract class AdapterAbstract implements CacheInterface
+abstract class AdapterAbstract implements ICacheInterface
 {
     /**
      * Use forgery
      */
-    use \Magelight\Forgery;
+    use \Magelight\TForgery;
 
     /**
      * Adapters pool

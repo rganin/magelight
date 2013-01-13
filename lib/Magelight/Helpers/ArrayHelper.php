@@ -29,7 +29,7 @@ namespace Magelight\Helpers;
  */
 class ArrayHelper
 {
-    use \Magelight\Forgery;
+    use \Magelight\TForgery;
 
     /**
      * Insert to array

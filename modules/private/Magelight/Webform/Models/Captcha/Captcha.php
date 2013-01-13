@@ -26,8 +26,8 @@ namespace Magelight\Webform\Models\Captcha;
  */
 class Captcha
 {
-    use \Magelight\Forgery;
-    use \Magelight\GetSet;
+    use \Magelight\TForgery;
+    use \Magelight\TGetSet;
 
     /**
      * Captcha config is loaded from global/document/captcha node

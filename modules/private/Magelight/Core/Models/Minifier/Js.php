@@ -8,7 +8,7 @@
  */
 namespace Magelight\Core\Models\Minifier;
 
-class Js implements MinifierInterface
+class Js implements IMinifierInterface
 {
     public function minify($buffer)
     {

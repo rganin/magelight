@@ -14,7 +14,7 @@ namespace Magelight;
  */
 class Upload
 {
-    use \Magelight\Forgery;
+    use \Magelight\TForgery;
 
     protected $_fileData = [];
 

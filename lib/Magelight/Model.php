@@ -31,7 +31,7 @@ abstract class Model
     /**
      * Use forgery
      */
-    use \Magelight\Forgery;
+    use \Magelight\TForgery;
 
     /**
      * Database index in configuration

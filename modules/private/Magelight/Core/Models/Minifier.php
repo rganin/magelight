@@ -14,8 +14,8 @@ namespace Magelight\Core\Models;
  */
 class Minifier
 {
-    use \Magelight\Forgery;
-    use \Magelight\Cache\Cache;
+    use \Magelight\TForgery;
+    use \Magelight\Cache\TCache;
 
     protected $_staticPath = 'var/static';
 
@@ -26,7 +26,7 @@ class Minifier
 
     /**
      * @param string $type
-     * @return Minifier\MinifierInterface
+     * @return Minifier\IMinifierInterface
      */
     protected function getMinifierByType($type = 'css')
     {

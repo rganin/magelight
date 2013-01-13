@@ -14,7 +14,7 @@ namespace Magelight\Helpers;
  */
 class ColorHelper
 {
-    use \Magelight\Forgery;
+    use \Magelight\TForgery;
 
     /**
      * Css color

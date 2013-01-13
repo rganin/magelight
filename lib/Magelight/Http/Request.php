@@ -30,7 +30,7 @@ namespace Magelight\Http;
  */
 class Request
 {
-    use \Magelight\Forgery;
+    use \Magelight\TForgery;
 
     /**
      * Request methods

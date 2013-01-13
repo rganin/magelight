@@ -104,7 +104,7 @@ abstract class Orm
     /**
      * Use caching trait
      */
-    use \Magelight\Cache\Cache;
+    use \Magelight\Cache\TCache;
 
     /**
      * Key constants

@@ -9,7 +9,7 @@
 
 namespace Magelight\Core\Models\Minifier;
 
-class Css implements MinifierInterface
+class Css implements IMinifierInterface
 {
     public function minify($css) {
         $css = preg_replace(

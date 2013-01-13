@@ -9,7 +9,7 @@
 
 namespace Magelight\Core\Models\Minifier;
 
-interface MinifierInterface
+interface IMinifierInterface
 {
     public function minify($buffer);
 }

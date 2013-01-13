@@ -33,12 +33,12 @@ abstract class Controller
     /**
      * Use forgery
      */
-    use \Magelight\Forgery;
+    use \Magelight\TForgery;
 
     /**
      * Use cacher trait
      */
-    use \Magelight\Cache\Cache;
+    use \Magelight\Cache\TCache;
 
     /**
      * Default controller action

@@ -14,7 +14,7 @@ namespace Magelight\Webform\Models\Validation;
  */
 class Result
 {
-    use \Magelight\Forgery;
+    use \Magelight\TForgery;
 
     /**
      * Success flag

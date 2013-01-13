@@ -16,7 +16,7 @@ namespace Magelight\Geo\Helpers;
  */
 class GoogleLocator
 {
-    use \Magelight\Forgery;
+    use \Magelight\TForgery;
 
     /**
      * Get route for addresses as json string
