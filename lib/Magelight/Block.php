@@ -460,6 +460,7 @@ abstract class Block
             return '';
         } else {
             $startPos = $length - 1;
+            $startPos = min($startPos, mb_strlen($text, $encoding) - 1);
             $length = mb_strpos($text, ' ', $startPos, $encoding);
         }
         return $this->truncate($text, $length, $addOn, $encoding);
