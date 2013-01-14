@@ -49,6 +49,8 @@ namespace Magelight\Webform\Models\Validation;
  * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule captcha()
  * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule time24()
  * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule time12()
+ * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule in(array $values = [])
+ * - field must be in array of values
  */
 class Checker
 {
