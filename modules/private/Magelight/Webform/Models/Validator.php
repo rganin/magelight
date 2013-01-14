@@ -48,6 +48,13 @@ class Validator extends \Magelight\Model
     protected $_checkers = [];
 
     /**
+     * Checkers for fields group
+     *
+     * @var array
+     */
+    protected $_groupCheckers = [];
+
+    /**
      * Field checkers with flat (query string) indexes
      *
      * @var array
@@ -392,5 +399,11 @@ class Validator extends \Magelight\Model
         } else {
             return $this->getFieldValueRecursive($address, $default, $pointer);
         }
+    }
+
+    public function groupRules(array $fieldsGroup = [])
+    {
+        $index = implode('+', $fieldsGroup);
+        
     }
 }
