@@ -7,3 +7,7 @@
 25-12-2012 16:41:25 - 404 - not found /servicelogin
 25-12-2012 16:43:51 - Trying to run undefined controller action indexAction in SampleApp\Controllers\Auth
 25-12-2012 16:46:00 - Trying to run undefined controller action indexAction in SampleApp\Controllers\Auth
+08-01-2013 12:38:18 - 404 - not found /unexistent
+09-01-2013 15:30:01 - 404 - not found /unexistent
+09-01-2013 15:30:06 - 404 - not found /remindpass
+09-01-2013 15:30:14 - 404 - not found /unexistent

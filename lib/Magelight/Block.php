@@ -430,4 +430,38 @@ abstract class Block
     {
         return htmlspecialchars($text);
     }
+
+    /**
+     * Truncate text
+     *
+     * @param string $text
+     * @param int $length
+     * @param string $addOn
+     * @param string $encoding
+     * @return string
+     */
+    public function truncate($text, $length, $addOn = '', $encoding = 'utf-8')
+    {
+        return mb_strimwidth($text, 0, $length + strlen($addOn), $addOn, $encoding);
+    }
+
+    /**
+     * Truncate text preserving last word
+     *
+     * @param string $text
+     * @param int $length
+     * @param string $addOn
+     * @param string $encoding
+     * @return string
+     */
+    public function truncatePreserveWords($text, $length, $addOn = '', $encoding = 'utf-8')
+    {
+        if ($length == 0) {
+            return '';
+        } else {
+            $startPos = $length - 1;
+            $length = mb_strpos($text, ' ', $startPos, $encoding);
+        }
+        return $this->truncate($text, $length, $addOn, $encoding);
+    }
 }
