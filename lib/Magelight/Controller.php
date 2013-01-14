@@ -243,12 +243,23 @@ abstract class Controller
     /**
      * Redirect to url
      *
-     * @param $url
+     * @param string $url
      */
     public function redirect($url)
     {
         $this->server()->sendHeader("Location: $url");
         \Magelight::app()->shutdown();
+    }
+
+    /**
+     * Redirect to internal url
+     *
+     * @param string $url
+     * @param array $params
+     */
+    public function redirectInternal($url, $params = [], $type = \Magelight\Helpers\UrlHelper::TYPE_HTTP)
+    {
+        $this->redirect($this->url($url, $params, $type));
     }
 
     /**

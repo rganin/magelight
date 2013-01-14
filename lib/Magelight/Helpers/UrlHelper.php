@@ -119,8 +119,10 @@ class UrlHelper
     protected function setParamsToPlaceholders($match, &$params = [])
     {
         foreach ($params as $key => $value) {
-            $match = preg_replace("/(\{{$key}\}|\{{$key}:[^\}]*\})/", $value, $match);
-            unset($params[$key]);
+            $match = preg_replace("/(\{{$key}\}|\{{$key}:[^\}]*\})/", $value, $match, -1, $count);
+            if ($count) {
+                unset($params[$key]);
+            }
         }
         $match = preg_replace("/(\{[^\}]*\})/", '', $match); //cleaning not used placeholders
         return $match;
@@ -137,8 +139,8 @@ class UrlHelper
     {
         $paramsTmp = $params;
         $match = $this->setParamsToPlaceholders($match, $paramsTmp);
-
-        return !empty($paramsTmp) ? ($match . '?' . http_build_query($paramsTmp)) : $match;
+        $q = http_build_query($paramsTmp);
+        return !empty($paramsTmp) ? ($match . '?' . $q) : $match;
     }
 
     /**
