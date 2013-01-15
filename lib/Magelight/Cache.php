@@ -33,7 +33,7 @@ class Cache implements \Magelight\Cache\ICacheInterface
     /**
      * Using forgery
      */
-    use \Magelight\TForgery;
+    use \Magelight\Traits\TForgery;
 
     /**
      * @var Cache\AdapterAbstract

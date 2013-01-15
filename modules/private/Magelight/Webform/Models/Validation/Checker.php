@@ -54,7 +54,7 @@ namespace Magelight\Webform\Models\Validation;
  */
 class Checker
 {
-    use \Magelight\TForgery;
+    use \Magelight\Traits\TForgery;
 
     /**
      * Field name

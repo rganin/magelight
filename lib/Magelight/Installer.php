@@ -32,7 +32,7 @@ class Installer
 {
     const DEFAULT_DB_INDEX = 'default';
 
-    use TForgery;
+    use Traits\TForgery;
 
     public function startSetup($index = \Magelight\App::DEFAULT_INDEX)
     {

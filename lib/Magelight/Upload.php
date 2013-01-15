@@ -14,7 +14,7 @@ namespace Magelight;
  */
 class Upload
 {
-    use \Magelight\TForgery;
+    use \Magelight\Traits\TForgery;
 
     protected $_fileData = [];
 

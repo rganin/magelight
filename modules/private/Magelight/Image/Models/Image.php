@@ -67,7 +67,7 @@ class Image
     /**
      * Use forgery
      */
-    use \Magelight\TForgery;
+    use \Magelight\Traits\TForgery;
 
     /**
      * Image resource

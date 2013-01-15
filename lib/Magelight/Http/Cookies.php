@@ -29,7 +29,7 @@ namespace Magelight\Http;
  */
 class Cookies
 {
-    use \Magelight\TForgery;
+    use \Magelight\Traits\TForgery;
 
     /**
      * Cookies

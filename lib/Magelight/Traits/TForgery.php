@@ -21,7 +21,7 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Magelight;
+namespace Magelight\Traits;
 
 /**
  * Forgery trait
@@ -32,7 +32,7 @@ trait TForgery
      * Forge object
      *
      * @return mixed
-     * @throws Exception
+     * @throws \Magelight\Exception
      */
     public static function forge()
     {

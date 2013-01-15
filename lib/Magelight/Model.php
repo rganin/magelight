@@ -31,7 +31,12 @@ abstract class Model
     /**
      * Use forgery
      */
-    use \Magelight\TForgery;
+    use \Magelight\Traits\TForgery;
+
+    /**
+     * Use coalesce trait
+     */
+    use Traits\TCoalesce;
 
     /**
      * Database index in configuration

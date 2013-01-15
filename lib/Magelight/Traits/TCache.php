@@ -21,7 +21,7 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Magelight\Cache;
+namespace Magelight\Traits;
 
 /**
  * Cacher trait
@@ -69,21 +69,21 @@ trait TCache
     /**
      * Get cache adapter instance
      *
-     * @return AdapterAbstract
+     * @return \Magelight\Cache\AdapterAbstract
      */
     public function cache()
     {
-        return AdapterAbstract::getAdapterInstance($this->getCacheIndex());
+        return \Magelight\Cache\AdapterAbstract::getAdapterInstance($this->getCacheIndex());
     }
 
     /**
      * Get cache adapter instance
      *
-     * @return AdapterAbstract
+     * @return \Magelight\Cache\AdapterAbstract
      */
     public function allCacheInstances()
     {
-        return AdapterAbstract::getAllAdapters();
+        return \Magelight\Cache\AdapterAbstract::getAllAdapters();
     }
 
     /**
@@ -121,7 +121,7 @@ trait TCache
      * @param $cacheKey
      * @param int $ttl
      * @param string $cacheIndex
-     * @return Cache
+     * @return TCache
      */
     public function useCache($cacheKey, $ttl = 3600, $cacheIndex = \Magelight\App::DEFAULT_INDEX)
     {
@@ -175,7 +175,7 @@ trait TCache
      * Proxy cache settings to object
      *
      * @param object $object
-     * @return Cache
+     * @return TCache
      * @throws \Magelight\Exception
      */
     public function proxyCacheTo($object)

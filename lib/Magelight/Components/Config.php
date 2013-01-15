@@ -28,7 +28,7 @@ namespace Magelight\Components;
  */
 class Config
 {
-    use \Magelight\Cache\TCache;
+    use \Magelight\Traits\TCache;
 
     /**
      * Config path prefix

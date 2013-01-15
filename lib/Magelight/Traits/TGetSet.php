@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-namespace Magelight;
+namespace Magelight\Traits;
 
 /**
  * Getter & setter trait
@@ -32,7 +32,7 @@ trait TGetSet
      * Set target for getters and setters
      *
      * @param array|Object $target
-     * @return GetSet
+     * @return TGetSet
      */
     protected function setGetSetTarget(&$target)
     {

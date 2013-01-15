@@ -30,7 +30,7 @@ namespace Magelight\Http;
  */
 class Server
 {
-    use \Magelight\TForgery;
+    use \Magelight\Traits\TForgery;
 
     /**
      * Overriding forgery

@@ -29,7 +29,7 @@ namespace Magelight\Webform\Models\Validation\Rules;
  */
 abstract class AbstractRule
 {
-    use \Magelight\TForgery;
+    use \Magelight\Traits\TForgery;
 
     /**
      * Translation context

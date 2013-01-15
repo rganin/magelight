@@ -30,7 +30,7 @@ namespace Magelight;
  */
 abstract class Observer
 {
-    use TForgery;
+    use Traits\TForgery;
 
     /**
      * Observer arguments

@@ -30,7 +30,7 @@ namespace Magelight\Helpers;
  */
 class XmlHelper
 {
-    use \Magelight\TForgery;
+    use \Magelight\Traits\TForgery;
 
     /**
      * Content index

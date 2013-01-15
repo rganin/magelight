@@ -29,8 +29,8 @@ namespace Magelight\Db;
 class Collection
 {
 
-    use \Magelight\TForgery;
-    use \Magelight\Cache\TCache;
+    use \Magelight\Traits\TForgery;
+    use \Magelight\Traits\TCache;
 
     /**
      * @var Common\Orm

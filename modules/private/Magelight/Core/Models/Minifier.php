@@ -14,8 +14,8 @@ namespace Magelight\Core\Models;
  */
 class Minifier
 {
-    use \Magelight\TForgery;
-    use \Magelight\Cache\TCache;
+    use \Magelight\Traits\TForgery;
+    use \Magelight\Traits\TCache;
 
     protected $_staticPath = 'var/static';
 

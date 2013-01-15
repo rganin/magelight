@@ -48,7 +48,7 @@ namespace Magelight\Http;
  */
 class CookieObject
 {
-    use \Magelight\TForgery;
+    use \Magelight\Traits\TForgery;
 
     /**
      * Default cookie TTL

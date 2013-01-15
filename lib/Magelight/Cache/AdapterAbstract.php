@@ -31,7 +31,7 @@ abstract class AdapterAbstract implements ICacheInterface
     /**
      * Use forgery
      */
-    use \Magelight\TForgery;
+    use \Magelight\Traits\TForgery;
 
     /**
      * Adapters pool

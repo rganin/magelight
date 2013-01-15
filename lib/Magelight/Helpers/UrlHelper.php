@@ -29,7 +29,7 @@ namespace Magelight\Helpers;
  */
 class UrlHelper
 {
-    use \Magelight\TForgery;
+    use \Magelight\Traits\TForgery;
 
     /**
      * Url types

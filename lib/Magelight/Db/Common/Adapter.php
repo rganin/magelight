@@ -35,7 +35,7 @@ abstract class Adapter
     /**
      * Use forgery
      */
-    use \Magelight\TForgery;
+    use \Magelight\Traits\TForgery;
 
     /**
      * Database type constants

@@ -30,7 +30,7 @@ namespace Magelight\Http;
  */
 class Session
 {
-    use \Magelight\TForgery;
+    use \Magelight\Traits\TForgery;
 
     /**
      * Getter

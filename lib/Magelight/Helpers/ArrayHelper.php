@@ -29,7 +29,7 @@ namespace Magelight\Helpers;
  */
 class ArrayHelper
 {
-    use \Magelight\TForgery;
+    use \Magelight\Traits\TForgery;
 
     /**
      * Insert to array

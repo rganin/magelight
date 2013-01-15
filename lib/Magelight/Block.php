@@ -33,17 +33,22 @@ abstract class Block
     /**
      * Use magelight forgery
      */
-    use TForgery;
+    use Traits\TForgery;
 
     /**
      * Allow fetching code pool
      */
-    use \Magelight\Components\TCodePoolFetcher;
+    use \Magelight\Traits\TCodePoolFetcher;
 
     /**
      * Use caching trait
      */
-    use \Magelight\Cache\TCache;
+    use \Magelight\Traits\TCache;
+
+    /**
+     * Use coalesce trait
+     */
+    use Traits\TCoalesce;
 
     /**
      * Path to template
