@@ -404,6 +404,6 @@ class Validator extends \Magelight\Model
     public function groupRules(array $fieldsGroup = [])
     {
         $index = implode('+', $fieldsGroup);
-        
+
     }
 }
