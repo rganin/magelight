@@ -30,6 +30,9 @@ namespace Magelight;
  */
 abstract class Observer
 {
+    /**
+     * Unsing forgery
+     */
     use Traits\TForgery;
 
     /**
@@ -54,10 +57,7 @@ abstract class Observer
      *
      * @return Observer
      */
-    public function execute()
-    {
-        return $this;
-    }
+    abstract public function execute();
 
     /**
      * Setter
@@ -90,5 +90,15 @@ abstract class Observer
     public function __isset($name)
     {
         return isset($this->_arguments[$name]);
+    }
+
+    /**
+     * Unset magic
+     *
+     * @param $name
+     */
+    public function __unset($name)
+    {
+        unset($this->_arguments[$name]);
     }
 }
