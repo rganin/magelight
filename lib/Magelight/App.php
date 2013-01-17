@@ -655,15 +655,22 @@ final class App
      *
      * @param string $eventName
      * @param array $arguments
+     * @throws \Magelight\Exception
      */
     public function fireEvent($eventName, $arguments = [])
     {
         $observers = (array)$this->config()->getConfigSet('global/events/' . $eventName . '/observer');
         if (!empty($observers)) {
             foreach ($observers as $observerClass) {
-                $observer = call_user_func_array([(string)$observerClass, 'forge'], $arguments);
+                $observerClass = explode('::', (string)$observerClass);
+                $class = $observerClass[0];
+                $method = isset($observerClass[1]) ? $observerClass[1] : 'execute';
+                $observer = call_user_func_array([$class, 'forge'], $arguments);
                 /* @var $observer \Magelight\Observer*/
-                $observer->execute();
+                if (!is_callable([$observer, $method])) {
+                    throw new Exception("Observer '{$observer}' method '{$method}' does not exist or is not callable!");
+                }
+                $observer->$method();
             }
         }
     }
