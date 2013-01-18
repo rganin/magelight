@@ -470,4 +470,36 @@ abstract class Block
         }
         return $this->truncate($text, $length, $addOn, $encoding);
     }
+
+    /**
+     * Load block perspective from config node
+     *
+     * @param string $perspective - path to perspective in config
+     * @return Block
+     */
+    public function loadPerspective($perspective = 'global/prespectives/default')
+    {
+        $perspective = \Magelight::app()->config()->getConfig($perspective);
+        return $this->_processPerspective($perspective);
+    }
+
+    /**
+     * Process loaded perspective
+     *
+     * @param \SimpleXMLElement $perspective
+     * @return Block
+     */
+    protected function _processPerspective(\SimpleXMLElement $perspective)
+    {
+        foreach ($perspective->sections->children() as $sectionName => $node)
+        {
+            foreach ($node->block as $block) {
+                $this->sectionAppend($sectionName, call_user_func([(string) $block, 'forge']));
+            }
+            if (isset($node->sections)) {
+                $this->_processPerspective($node);
+            }
+        }
+        return $this;
+    }
 }
