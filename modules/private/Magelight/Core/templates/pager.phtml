@@ -2,7 +2,7 @@
 /* @var $this \Magelight\Core\Blocks\Pager */
 ?>
 
-<div class="pagination <?=$this->get('class')?>">
+<div <?=$this->renderAttributes()?>>
     <ul>
         <?php foreach ($this->get('pages', []) as $page) : ?>
             <li class="<?php if ($page['disabled']): ?>disabled<?php endif; ?> <?php if ($page['active']): ?>active<?php endif; ?>">

@@ -332,4 +332,17 @@ abstract class Controller
     {
         return $this->session()->get($index, null);
     }
+
+    /**
+     * Silent action execution
+     *
+     * @param string $action
+     * @return string
+     */
+    public function silent($action)
+    {
+        ob_start();
+        $this->$action;
+        return ob_get_clean();
+    }
 }

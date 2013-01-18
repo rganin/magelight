@@ -83,6 +83,13 @@ class Pager extends \Magelight\Block
     protected $_collection = null;
 
     /**
+     * Element attributes
+     *
+     * @var array
+     */
+    protected $_attributes = [];
+
+    /**
      * Pager templates
      *
      * @var string
@@ -94,15 +101,43 @@ class Pager extends \Magelight\Block
      *
      * @param \Magelight\Db\Collection $collection - collection to build pager for
      */
-    public function __forge(\Magelight\Db\Collection $collection = null)
+    public function __forge(\Magelight\Db\Collection $collection)
     {
         $this->_collection = $collection;
+        $this->addClass('pagination');
         if ($this->_collection instanceof \Magelight\Db\Collection) {
             $this->setTotal($this->_collection->totalCount());
             $this->setPerPage($this->_collection->getLimit());
             $this->setCurrentPage(floor($this->_collection->getOffset() / $this->_perPage));
         }
         $this->setNextCaption()->setPrevCaption();
+    }
+
+    /**
+     * Set element`s attribute
+     *
+     * @param string $attribute
+     * @param mixed $value
+     * @return AjaxPager
+     */
+    public function setAttribute($attribute, $value = null)
+    {
+        $this->_attributes[$attribute] = $value;
+        return $this;
+    }
+
+    /**
+     * Render form attributes as HTML attributes code
+     *
+     * @return string
+     */
+    public function renderAttributes()
+    {
+        $render = '';
+        foreach ($this->_attributes as $name => $attr) {
+            $render .= ' ' . $name . '=' . '"' . $attr . '"';
+        }
+        return $render;
     }
 
     /**
@@ -173,8 +208,20 @@ class Pager extends \Magelight\Block
      */
     public function setClass($class = 'pagination')
     {
-        $this->set('class', $class);
+        $this->setAttribute('class', $class);
         return $this;
+    }
+
+    /**
+     * Get element`s attribute
+     *
+     * @param string $name
+     * @param string $default
+     * @return string
+     */
+    public function getAttribute($name, $default = '')
+    {
+        return isset($this->_attributes[$name]) ? $this->_attributes[$name] : $default;
     }
 
     /**
@@ -185,7 +232,7 @@ class Pager extends \Magelight\Block
      */
     public function addClass($class)
     {
-        $this->set('class', $this->get('class', '') . ' ' . $class);
+        $this->setAttribute('class', $this->getAttribute('class', '') . ' ' . $class);
         return $this;
     }
 
@@ -197,7 +244,7 @@ class Pager extends \Magelight\Block
      */
     public function removeClass($class)
     {
-        $this->set('class', str_ireplace($class, '', $this->get('class', '')));
+        $this->setAttribute('class', str_ireplace($class, '', $this->getAttribute('class', '')));
         return $this;
     }
 
