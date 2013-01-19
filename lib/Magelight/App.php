@@ -665,10 +665,10 @@ final class App
                 $observerClass = explode('::', (string)$observerClass);
                 $class = $observerClass[0];
                 $method = isset($observerClass[1]) ? $observerClass[1] : 'execute';
-                $observer = call_user_func_array([$class, 'forge'], $arguments);
+                $observer = call_user_func_array([$class, 'forge'], [$arguments]);
                 /* @var $observer \Magelight\Observer*/
                 if (!is_callable([$observer, $method])) {
-                    throw new Exception("Observer '{$observer}' method '{$method}' does not exist or is not callable!");
+                    throw new Exception("Observer '{$class}' method '{$method}' does not exist or is not callable!");
                 }
                 $observer->$method();
             }

@@ -44,7 +44,8 @@ trait TForgery
         }
         $object = new $className;
         if (method_exists($object, '__forge')) {
-            call_user_func_array([$object, '__forge'], func_get_args());
+            $arguments = func_get_args();
+            call_user_func_array([$object, '__forge'], $arguments);
         }
         return $object;
     }
