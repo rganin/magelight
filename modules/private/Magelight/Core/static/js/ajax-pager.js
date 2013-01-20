@@ -14,6 +14,9 @@ function bindPagers()
             e.preventDefault();
             var link = $(this);
             var href = link.attr('href');
+            if (href[0] == '#') {
+                return;
+            }
             var target = pager.attr('data-target-selector');
             $.ajax({
                 url: href,

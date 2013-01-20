@@ -284,8 +284,11 @@ class Pager extends \Magelight\Block
      */
     public function getPageUrl($page = 0)
     {
-        $url = $this->url(str_ireplace(self::PAGE_TEMPLATE, $page, $this->_route), $this->_routeParams);
-        return $url;
+        if (strstr($this->_route, self::PAGE_TEMPLATE)) {
+            return $this->url(str_ireplace(self::PAGE_TEMPLATE, $page, $this->_route), $this->_routeParams);
+        }
+        $this->_routeParams['page'] = $page;
+        return $this->url($this->_route, $this->_routeParams);
     }
 
     /**

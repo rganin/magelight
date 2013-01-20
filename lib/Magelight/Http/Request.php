@@ -179,6 +179,25 @@ class Request
     }
 
     /**
+     * Get set of elements from request by array (vector) of keys
+     *
+     * @param array $keysArray
+     * @param mixed $defaultElementValue
+     * @return array|mixed
+     */
+    public function getRequestSet($keysArray, $defaultElementValue = null)
+    {
+        if (!is_array($keysArray)) {
+            return $this->getRequest($keysArray, $defaultElementValue);
+        }
+        $ret = [];
+        foreach ($keysArray as $requestIndex) {
+            $ret[] = $this->getRequest($requestIndex, $defaultElementValue);
+        }
+        return $ret;
+    }
+
+    /**
      * Get full REQUEST array
      *
      * @return array|null
