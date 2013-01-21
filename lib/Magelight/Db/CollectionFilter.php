@@ -43,6 +43,7 @@ class CollectionFilter
         $methods = [];
         foreach ($this->_filterData as $statement => $params) {
             foreach ($params as $field => $value) {
+                $field = preg_replace('/[^a-z0-9\._-]+/i', '', $field);
                 if (Common\Orm::isWhereStatement($statement)) {
                     if (!empty($value)) {
                         $methods[] = [
