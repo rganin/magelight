@@ -79,7 +79,14 @@ class Request
      * @var array|null
      */
     protected $_request;
-    
+
+    /**
+     * Cookies
+     *
+     * @var array
+     */
+    private $_cookies = [];
+
     /**
      * Request path
      * 
@@ -132,6 +139,8 @@ class Request
         } else {
             $this->_files = $files;
         }
+
+        $this->_cookies = $_COOKIE;
         
         if (empty($get) && empty($post) && ini_get('request_order') === self::DEFAULT_REQUEST_MERGE_ORDER) {
             $this->_request = $_REQUEST;
@@ -310,6 +319,12 @@ class Request
         return $this->_files;
     }
 
+    /**
+     * Rearrange PHP FILES array
+     *
+     * @param array $files - $_FILES structured array
+     * @return array
+     */
     protected function rearrangeFilesArray($files)
     {
         $arrayForFill = [];
@@ -325,6 +340,14 @@ class Request
         return $arrayForFill;
     }
 
+    /**
+     * Restructure PHP fucking $_FILES array
+     *
+     * @param array $arrayForFill
+     * @param string $currentKey
+     * @param mixed $currentMixedValue
+     * @param string $fileDescriptionParam
+     */
     protected function restructFilesArray(&$arrayForFill, $currentKey, $currentMixedValue, $fileDescriptionParam)
     {
         if (is_array($currentMixedValue)) {
@@ -363,5 +386,42 @@ class Request
     public function getFilesArrayNormalized()
     {
         return $this->rearrangeFilesArray($this->_files);
+    }
+
+    /**
+     * Get cookie by name
+     *
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
+     */
+    public function getCookie($key, $default = null)
+    {
+        if ($this->cookieExists($key)) {
+            return $this->_cookies[$key];
+        }
+        return $default;
+    }
+
+    /**
+     * Check if cookie exists
+     *
+     * @param string $key
+     * @return bool
+     */
+    public function cookieExists($key)
+    {
+        return isset($this->_cookies[$key]);
+    }
+
+    /**
+     * Get cookie by name as object
+     *
+     * @param string $key
+     * @return CookieObject
+     */
+    public function getCookieObject($key)
+    {
+        return CookieObject::forge($key, $this->getCookie($key));
     }
 }

@@ -29,22 +29,14 @@ namespace Magelight\Http;
  *
  * @methos static \Magelight\Http\CookieObject forge($key = null, $value = null)
  *
- * @method \Magelight\Http\CookieObject setTtl(int $ttl)
- * @method \Magelight\Http\CookieObject setKey(string $key)
- * @method \Magelight\Http\CookieObject setValue(string $value)
- * @method \Magelight\Http\CookieObject setDomain(string $domain)
- * @method \Magelight\Http\CookieObject setPath(string $path)
- * @method \Magelight\Http\CookieObject setExpire(int $expire) - overrides TTL
- * @method \Magelight\Http\CookieObject setSecure(bool $secure)
- * @method \Magelight\Http\CookieObject setHttpOnly(bool $httpOnly)
- * @method int getTtl()
- * @method string getKey()
- * @method string|null getValue()
- * @method string getDomain()
- * @method string getPath()
- * @method string getExpire()
- * @method bool getSecure()
- * @method bool getHttpOnly()
+ * @property int    $ttl
+ * @property string $key
+ * @property string $value
+ * @property string $domain
+ * @property string $path
+ * @property string $expire - overrides $ttl
+ * @property string $secure
+ * @property string $httpOnly
  */
 class CookieObject
 {
@@ -141,10 +133,10 @@ class CookieObject
             $this->_httpOnly
         );
     }
-    
+
     /**
      * Setter
-     * 
+     *
      * @param $name
      * @param $value
      *
@@ -156,10 +148,10 @@ class CookieObject
         $this->$name = $value;
         return $this;
     }
-    
+
     /**
      * Getter
-     * 
+     *
      * @param $name
      *
      * @return mixed
