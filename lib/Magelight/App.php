@@ -611,6 +611,7 @@ final class App
     {
         $file = $this->getAppDir() . DS . $this->getConfig('global/setup/executed_scripts/filename');
         if (!file_exists($file)) {
+            mkdir(dirname($file), 755, true);
             file_put_contents($file, '');
         }
         $scripts = json_decode(file_get_contents($file), true);
@@ -629,6 +630,8 @@ final class App
         $file = $this->getAppDir() . DS . $this->getConfig('global/setup/executed_scripts/filename');
         if (file_exists($file)) {
             $scripts = json_decode(file_get_contents($file), true);
+        } else {
+            mkdir(dirname($file), 755, true);
         }
         $scripts[$moduleName][basename($scriptFullPath)] = [date('Y-m-d H:i:s', time()), $scriptFullPath];
         $scripts = json_encode($scripts, JSON_PRETTY_PRINT);
