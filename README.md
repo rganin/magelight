@@ -23,7 +23,3 @@ Requirements
 
 - PHP 5.4.7+
 
-Planned release
----------
-
-- Jan 2013
