@@ -497,10 +497,7 @@ abstract class Orm
         $this->reset();
         $this->isNewRecord = $forceNew || !isset($data[$this->idColumn]) || empty($data[$this->idColumn]);
         $this->data = $data;
-        if ($this->isNewRecord) {
-            unset($this->data[$this->idColumn]);
-        }
-        $this->markAllDirty(!$this->isNewRecord || $forceNew);
+        $this->markAllDirty(!$forceNew);
         return $this;
     }
 
@@ -1081,10 +1078,11 @@ abstract class Orm
         $this->statement = $this->db->execute($query, array_values($values));
         $ret = $this->statement->rowCount();
         if ($ret > 0) {
-            $this->dirtyFields = [];
+
             if ($this->idColumn && $this->isNew()) {
                 $this->setValue($this->idColumn, $this->db->execute('SELECT LAST_INSERT_ID();')->fetchColumn(0));
             }
+            $this->dirtyFields = [];
             $this->isNewRecord = false;
         }
         return true;
