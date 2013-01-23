@@ -474,13 +474,10 @@ abstract class Orm
     /**
      * Mark all fields as dirty
      */
-    private function markAllDirty($skipId = false)
+    private function markAllDirty()
     {
         if (!empty($this->data)) {
             $this->dirtyFields = array_keys($this->data);
-            if ($skipId) {
-                $this->dirtyFields = array_diff($this->dirtyFields, [$this->getIdColumn()]);
-            }
         }
     }
 
@@ -497,7 +494,7 @@ abstract class Orm
         $this->reset();
         $this->isNewRecord = $forceNew || !isset($data[$this->idColumn]) || empty($data[$this->idColumn]);
         $this->data = $data;
-        $this->markAllDirty(!$forceNew);
+        $this->markAllDirty();
         return $this;
     }
 
@@ -533,7 +530,7 @@ abstract class Orm
     {
         $data = [];
         foreach ($this->dirtyFields as $df) {
-            $data[$df] = $this->data[$df];
+            $data[$df] = ($df === $this->idColumn && empty($this->data[$df])) ? null : $this->data[$df];
         }
         return $data;
     }
@@ -1072,13 +1069,12 @@ abstract class Orm
             $query = $this->buildInsert($keys, $ignore, $onDuplicateKeyUpdate);
         } else {
             $query = $this->buildUpdate($keys);
-            $values[$this->idColumn] = $this->data[$this->idColumn];
+            $values[] = $this->data[$this->idColumn];
         }
 
         $this->statement = $this->db->execute($query, array_values($values));
         $ret = $this->statement->rowCount();
         if ($ret > 0) {
-
             if ($this->idColumn && $this->isNew()) {
                 $this->setValue($this->idColumn, $this->db->execute('SELECT LAST_INSERT_ID();')->fetchColumn(0));
             }
