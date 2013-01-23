@@ -31,12 +31,9 @@ class FilterForm extends Form
     {
         parent::loadFromRequest($request);
         if ($this->_useSession && empty($this->_requestFields)) {
-            $data = \Magelight::app()->session()->get('filter_form_' . $this->getAttribute('name'));
-            if (!empty($data)) {
-                $this->_requestFields = $data;
-            }
+            $this->loadFromSession();
         }
-        \Magelight::app()->session()->set('filter_form_' . $this->getAttribute('name'), $this->getRequestFields());
+        $this->saveToSession();
         return $this;
     }
 

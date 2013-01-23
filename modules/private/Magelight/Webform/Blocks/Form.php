@@ -579,4 +579,29 @@ class Form extends Elements\Abstraction\Element
         }
         return null;
     }
+
+    /**
+     * Save form values to user`s session
+     *
+     * @return Form
+     */
+    public function saveToSession()
+    {
+        \Magelight::app()->session()->set('forms-' . $this->getAttribute('name'), $this->getRequestFields());
+        return $this;
+    }
+
+    /**
+     * Load user data from session
+     *
+     * @return Form
+     */
+    public function loadFromSession()
+    {
+        $data = \Magelight::app()->session()->get('forms-' . $this->getAttribute('name'), []);
+        if (!empty($data)) {
+            $this->_requestFields = $data;
+        }
+        return $this;
+    }
 }
