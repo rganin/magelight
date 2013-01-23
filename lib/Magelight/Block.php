@@ -287,7 +287,7 @@ abstract class Block
         }
         $this->beforeToHtml();
         ob_start();
-        include($this->_template);
+        include(str_replace('\\', DS, $this->_template));
         $this->afterToHtml();
         $html = ob_get_clean();
         $this->setToCache($html);
