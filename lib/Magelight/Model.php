@@ -349,4 +349,14 @@ abstract class Model
         }
         return $ret;
     }
+
+    /**
+     * Get models flat collection
+     *
+     * @return Db\Collection
+     */
+    public static function getFlatCollection()
+    {
+        return \Magelight\Db\Collection::forge(self::orm());
+    }
 }

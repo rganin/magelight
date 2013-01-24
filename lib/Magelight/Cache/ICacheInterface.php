@@ -67,16 +67,31 @@ interface ICacheInterface
      *
      * @param string $key
      * @param int $incValue
-     * @return mixed
+     * @param int|null $initialValue
+     * @param int $ttl
+     * @return int|bool
      */
-    public function increment($key, $incValue = 1);
+    public function increment($key, $incValue = 1, $initialValue = 0, $ttl = 360);
 
     /**
      * Decrement cache value
      *
      * @param string $key
      * @param int $decValue
+     * @param int|null $initialValue
+     * @param int $ttl
      * @return mixed
      */
-    public function decrement($key, $decValue = 1);
+    public function decrement($key, $decValue = 1, $initialValue = 0, $ttl = 360);
+
+    /**
+     * Set value if not exists. Returns bool TRUE if value didn`t exist and successfully set.
+     * False - if value alreadye xists
+     *
+     * @param string $key
+     * @param mixed $value
+     * @param int $ttl
+     * @return mixed
+     */
+    public function setNx($key, $value, $ttl = 360);
 }

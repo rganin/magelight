@@ -346,4 +346,45 @@ abstract class Controller
         $this->$action;
         return ob_get_clean();
     }
+
+    /**
+     * Set lock for current controller action (REQUIRES CACHE)
+     *
+     * @param int $ttl
+     * @param string $cacheIndex
+     * @return bool
+     */
+    public function lockCurrentAction($ttl = 60, $cacheIndex = \Magelight\App::DEFAULT_INDEX)
+    {
+        if ($this->app()->cache($cacheIndex)->setNx($this->_getLockKey(), 1, $ttl)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Unlock controller action
+     *
+     * @param string $cacheIndex
+     * @return bool
+     */
+    public function unlockCurrentAction($cacheIndex = \Magelight\App::DEFAULT_INDEX)
+    {
+
+        if ($this->app()->cache($cacheIndex)->del($this->_getLockKey())) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Get action lock key
+     *
+     * @return string
+     */
+    protected function _getLockKey()
+    {
+        ksort($this->_routeAction);
+        return md5(serialize($this->_routeAction) . '_lock');
+    }
 }

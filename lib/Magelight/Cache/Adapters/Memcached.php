@@ -107,22 +107,46 @@ class Memcached extends \Magelight\Cache\AdapterAbstract
      *
      * @param string $key
      * @param int $incValue
-     * @return int|null
+     * @param int|null $initialValue
+     * @param int $ttl
+     * @return int|bool
      */
-    public function increment($key, $incValue = 1)
+    public function increment($key, $incValue = 1, $initialValue = 0, $ttl = 360)
     {
-        return $this->memcached->increment($key, $incValue);
+        return $this->memcached->increment($key, $incValue, $initialValue, $ttl);
     }
 
     /**
-     * Decrement cached value
+     * Decrement cache value
      *
      * @param string $key
      * @param int $decValue
-     * @return int|null
+     * @param int|null $initialValue
+     * @param int $ttl
+     * @return int|bool
      */
-    public function decrement($key, $decValue = 1)
+    public function decrement($key, $decValue = 1, $initialValue = 0, $ttl = 360)
     {
-        return $this->memcached->decrement($key, $decValue);
+        return $this->memcached->decrement($key, $decValue, $initialValue, $ttl);
+    }
+
+    /**
+     * Set value if not exists. Returns bool TRUE if value didn`t exist and successfully set.
+     * False - if value alreadye xists
+     *
+     * Warning! Memcache SETNX operation is not atomic and is vulnerable for collisions.
+     * Could be used for crons only.
+     *
+     * @param string $key
+     * @param mixed $value
+     * @param int $ttl
+     * @return mixed
+     */
+    public function setNx($key, $value, $ttl = 360)
+    {
+        if ($this->get($value, false)) {
+            return false;
+        }
+        return $this->set($key, $value, $ttl);
     }
 }

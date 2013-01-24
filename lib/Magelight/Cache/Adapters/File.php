@@ -124,32 +124,50 @@ class File extends \Magelight\Cache\AdapterAbstract
      *
      * @param string $key
      * @param int $incValue
-     * @return bool
+     * @param int|null $initialValue
+     * @param int $ttl
+     * @return int|bool
      */
-    public function increment($key, $incValue = 1)
+    public function increment($key, $incValue = 1, $initialValue = 0, $ttl = 360)
     {
-        $file = @fopen($this->getFilepath($key), 'r');
-        @flock($file, LOCK_EX);
-        $value = $this->get($file, 0) + $incValue;
-        $result = $this->set($key, $value, 0);
-        @flock($file, LOCK_UN);
-        return $result;
+        $value = $this->get($key, (int)$initialValue) + $incValue;
+        $result = $this->set($key, $value, $ttl);
+        return $result ? $value : false;
     }
 
     /**
-     * Decrement cached value
+     * Decrement cache value
      *
      * @param string $key
      * @param int $decValue
-     * @return bool
+     * @param int|null $initialValue
+     * @param int $ttl
+     * @return int|bool
      */
-    public function decrement($key, $decValue = 1)
+    public function decrement($key, $decValue = 1, $initialValue = 0, $ttl = 360)
     {
-        $file = @fopen($this->getFilepath($key), 'r');
-        @flock($file, LOCK_EX);
-        $value = $this->get($file, 0) - $decValue;
-        $result = $this->set($key, $value, 0);
-        @flock($file, LOCK_UN);
-        return $result;
+        $value = $this->get($key, (int)$initialValue) - $decValue;
+        $result = $this->set($key, $value, $ttl);
+        return $result ? $value : false;
+    }
+
+    /**
+     * Set value if not exists. Returns bool TRUE if value didn`t exist and successfully set.
+     * False - if value alreadye xists
+     *
+     * Warning! Memcache SETNX operation is not atomic and is vulnerable for collisions.
+     * Could be used for crons only.
+     *
+     * @param string $key
+     * @param mixed $value
+     * @param int $ttl
+     * @return mixed
+     */
+    public function setNx($key, $value, $ttl = 360)
+    {
+        if ($this->get($value, false)) {
+            return false;
+        }
+        return $this->set($key, $value, $ttl);
     }
 }
