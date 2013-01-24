@@ -42,6 +42,12 @@ class Message
     const CRLF  = "\r\n";
 
     /**
+     * Message types constants
+     */
+    const TYPE_HTML = 'html';
+    const TYPE_TEXT = 'text';
+
+    /**
      * Line delimiter
      *
      * @var string
@@ -214,11 +220,13 @@ class Message
      * Set message content
      *
      * @param string $content
+     * @param string $type
+     *
      * @return Message
      */
-    public function setContent($content)
+    public function setContent($content, $type = self::TYPE_TEXT)
     {
-        if (strpos($content, '<html>') > 0) {
+        if ($type == self::TYPE_HTML) {
             $this->_htmlContent = $content;
         } else {
             $this->_textContent = $content;
