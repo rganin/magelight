@@ -70,6 +70,13 @@ class Image
     use \Magelight\Traits\TForgery;
 
     /**
+     * Cache TTL for client
+     *
+     * @var int
+     */
+    protected $clientCacheTtl = 864000;
+
+    /**
      * Image resource
      *
      * @var resource
@@ -904,7 +911,12 @@ class Image
      */
     public function render(\Magelight\Http\Response $response)
     {
+        $ts = gmdate("D, d M Y H:i:s", time() + $this->clientCacheTtl) . " GMT";
         $response->addHeader('Content-Type', $this->type);
+        $response->addHeader('Expires', $ts);
+        $response->addHeader('Pragma', 'cache');
+        $response->addHeader('Cache-Control', 'max-age=' . $this->clientCacheTtl);
+
         ob_start();
         switch ($this->type) {
             case self::TYPE_GIF:
