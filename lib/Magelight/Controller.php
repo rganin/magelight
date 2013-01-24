@@ -97,9 +97,10 @@ abstract class Controller
      * @param array $routeAction
      *
      */
-    public function init(\Magelight\Http\Request $request, array $routeAction = [])
+    public function init(\Magelight\Http\Request $request = null, array $routeAction = [])
     {
-        $this->_request = $request;
+        $this->_request = ($request instanceof \Magelight\Http\Request)
+            ? $request :\Magelight\Http\Request::getInstance();
         $this->_routeAction = $routeAction;
         $this->_app = \Magelight::app();
         $this->_response = new \Magelight\Http\Response();
