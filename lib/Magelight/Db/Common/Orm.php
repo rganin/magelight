@@ -327,6 +327,16 @@ abstract class Orm
     protected $_join = [];
 
     /**
+     * Get DB adapter
+     *
+     * @return Adapter
+     */
+    public function getAdapter()
+    {
+        return $this->db;
+    }
+
+    /**
      * Get Orm class by type
      *
      * @param string $type
@@ -421,7 +431,7 @@ abstract class Orm
      */
     public function getProfile()
     {
-        return $this->_profiling;
+        return $this->getAdapter()->getProfiler()->getProfile();
     }
 
     /**
@@ -825,6 +835,7 @@ abstract class Orm
      */
     public function selectFields($fields = [])
     {
+        $this->selectFields = [];
         if (empty($fields)) {
             return $this;
         }
