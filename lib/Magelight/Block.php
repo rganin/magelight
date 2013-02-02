@@ -467,6 +467,9 @@ abstract class Block
             $startPos = $length - 1;
             $startPos = min($startPos, mb_strlen($text, $encoding));
             $length = mb_strpos($text, ' ', $startPos, $encoding);
+            if (!$length) {
+                $length = $startPos;
+            }
         }
         return $this->truncate($text, $length, $addOn, $encoding);
     }

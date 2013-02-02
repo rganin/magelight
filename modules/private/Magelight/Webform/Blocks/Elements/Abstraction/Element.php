@@ -251,7 +251,7 @@ class Element extends \Magelight\Block
     /**
      * Add element content
      *
-     * @param string|Element $content
+     * @param string|Element|\Magelight\Block $content
      * @return Element
      */
     public function addContent($content)
