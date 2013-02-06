@@ -54,7 +54,7 @@ trait TCoalesce
      * @param mixed $variable2
      * @return mixed
      */
-    public function coalesceCallback($callback, $variable1, $variable2)
+    public function coalesceCallback(callable $callback, $variable1, $variable2)
     {
         $arguments = func_get_args();
         array_shift($arguments);
