@@ -28,7 +28,7 @@ Installation
 
 To deploy the framework and application sample:
 - move it to the directory you like
-- create an apache vhost (or nginx server) pointing to this directory
+- create an apache vhost (or nginx server) pointing to app directory
 - copy app/etc/config.xml.dist to app/etc/config.xml and set your database preferences and directory options
 - create a symlink to Magelight private modules code pool
 -- Windows$  mklink /D modules\private X:\{your-magelight-path}\modules\private
