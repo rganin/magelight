@@ -85,14 +85,15 @@ class User extends \Magelight\Model
      */
     public function createViaUlogin($userData, $defaultAvatar = null)
     {
-        $name = isset($userData['first_name'])
-                ? ($userData['first_name'] . (isset($userData['last_name']) ? $userData['last_name'] : ''))
-                : (isset($userData['nickname']) ? $userData['nickname'] : $userData['email']);
+        $user = \Magelight\ArrayWrapper::forge($userData);
+        $name = isset($user->first_name)
+                ? ($user->first_name . (isset($user->last_name) ? $user->first_name : ''))
+                : (isset($user->nickname) ? $user->nickname : $user->email);
 
         $cityId = null;
-        $countryId = \Magelight\Geo\Models\Country::forge()->getCountryIdByName($userData['country']);
+        $countryId = \Magelight\Geo\Models\Country::forge()->getCountryIdByName($user->getData('country', ''));
         if (!empty($countryId)) {
-            $cityId = \Magelight\Geo\Models\City::forge()->getCityIdByName($userData['city']);
+            $cityId = \Magelight\Geo\Models\City::forge()->getCityIdByName($user->getData('city', ''));
         }
         $user = static::forge([
             'is_registered'   => 1,
@@ -104,8 +105,8 @@ class User extends \Magelight\Model
             'email'           => $userData['email'],
             'email_verified'  => $userData['verified_email'] > 0 ? 1 : 0,
             'photo'           => isset($userData['photo']) ? $userData['photo'] : $defaultAvatar,
-            'city'            => $userData['city'],
-            'country'         => $userData['country'],
+            'city'            => isset($userData['city']) ? $userData['city'] : '',
+            'country'         => isset($userData['country']) ? $userData['country'] : '',
             'city_id'         => $cityId,
             'country_id'      => $countryId,
         ], true);
