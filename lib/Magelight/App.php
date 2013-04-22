@@ -87,6 +87,8 @@ final class App
      */
     protected $_developerMode = false;
 
+    protected $_aopEnabled = false;
+
     /**
      * Session cookie name
      *
@@ -328,12 +330,47 @@ final class App
         $this->setRegistryObject('modules', new \Magelight\Components\Modules($this));
         $this->setRegistryObject('config', new \Magelight\Components\Config($this));
         $this->setDeveloperMode((string)$this->getConfig('global/app/developer_mode'));
+        $this->setAopEnabled((bool)$this->config()->getConfigBool('global/app/aop_enabled', false));
+        if ($this->isAopEnabled()) {
+            $this->_loadAspects();
+        }
         $this->config()->loadModulesConfig($this);
         $this->setRegistryObject('router', new \Magelight\Components\Router($this));
         $this->setRegistryObject('session', \Magelight\Http\Session::getInstance());
         $this->session()->setSessionName(self::SESSION_ID_COOKIE_NAME)->start();
         $this->loadClassesOverrides();
         return $this;
+    }
+
+    protected function _loadAspects()
+    {
+        foreach ($this->getConfig('global/app/aspects') as $aspect) {
+            foreach ($aspect->pointcut->point as $point) {
+                \Magelight\Aop\Kernel::getInstance()->registerAspect((string)$point, (string)$aspect->advice);
+            }
+        }
+    }
+
+    /**
+     * Set AOP enabled
+     *
+     * @param bool $flag
+     * @return App
+     */
+    public function setAopEnabled($flag = false)
+    {
+        $this->_aopEnabled = $flag;
+        return $this;
+    }
+
+    /**
+     * Check is AOP enabled for application
+     *
+     * @return bool
+     */
+    public function isAopEnabled()
+    {
+        return $this->_aopEnabled;
     }
 
     /**
