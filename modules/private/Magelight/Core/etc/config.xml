@@ -14,5 +14,13 @@
             <cache_ttl_css>10000</cache_ttl_css>
             <cache_ttl_js>10000</cache_ttl_js>
         </minifier>
+        <aop stackable="1">
+            <aspect>
+                <pointcut>
+                    <point>Magelight\Model->save</point>
+                </pointcut>
+                <advice>Magelight\Core\Advices\Test</advice>
+            </aspect>
+        </aop>
     </global>
 </config>

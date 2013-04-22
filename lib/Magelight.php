@@ -97,8 +97,12 @@ final class Magelight
      */
     public static function autoload($className)
     {
+        $classSig = $className;
         $className = self::getAutoloaderFileNameByClass($className);
         require_once $className;
+        $class = new ReflectionClass($classSig);
+
+        $methods = $class->getMethods();
     }
 
     /**

@@ -27,6 +27,24 @@ class Kernel
         $this->_aspects[$pattern['class']][$pattern['call']] = $advice;
     }
 
+    protected function _getClassStack($className)
+    {
+        $stack = [$className];
+        while ($parent = get_parent_class($className)) {
+            $stack[] = $parent;
+        }
+        return $stack;
+    }
+
+    public function processClass($className)
+    {
+        foreach ($this->_getClassStack($className) as $class) {
+            foreach ($this->_aspects as $classPattern => $aspect) {
+
+            }
+        }
+    }
+
     /**
      * Get pattern disrupted into array of params
      *
