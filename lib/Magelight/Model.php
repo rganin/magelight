@@ -321,7 +321,7 @@ abstract class Model
      *
      * @param $field
      * @param $value
-     * @return Model
+     * @return Model|null
      */
     public static function findBy($field, $value)
     {
@@ -358,5 +358,18 @@ abstract class Model
     public static function getFlatCollection()
     {
         return \Magelight\Db\Collection::forge(self::orm());
+    }
+
+    /**
+     * Merge data with model data
+     *
+     * @param array $data
+     * @param bool $overwrite
+     * @return Model
+     */
+    public function mergeData($data = [], $overwrite = false)
+    {
+        $this->_orm->mergeData($data, $overwrite);
+        return $this;
     }
 }
