@@ -433,8 +433,20 @@ abstract class Block
      */
     public function escapeHtml($text)
     {
+        return static::escapeHtmlStatic($text);
+    }
+
+    /**
+     * Escape HTML special chars in text
+     *
+     * @param string $text
+     * @return string
+     */
+    public static function escapeHtmlStatic($text)
+    {
         return htmlspecialchars($text);
     }
+
 
     /**
      * Truncate text

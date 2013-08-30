@@ -372,4 +372,62 @@ abstract class Model
         $this->_orm->mergeData($data, $overwrite);
         return $this;
     }
+
+    /**
+     * Esccape HTML code in text
+     *
+     * @param string $text
+     * @return string
+     */
+    public static function escapeHtml($text)
+    {
+        return \Magelight\Block::escapeHtmlStatic($text);
+    }
+
+    /**
+     * Properties cleanup HTML code
+     *
+     * @param array $propertiesNamesArray
+     */
+    protected function _escapePropertiesHtml($propertiesNamesArray = [])
+    {
+        foreach ($propertiesNamesArray as $property) {
+            $this->$property = static::escapeHtml($this->$property);
+        }
+    }
+
+    protected function _castPropertiesInt($propertiesNamesArray = [])
+    {
+        foreach ($propertiesNamesArray as $property) {
+            $this->$property = (int)$this->$property;
+        }
+    }
+
+    protected function _castPropertiesString($propertiesNamesArray = [])
+    {
+        foreach ($propertiesNamesArray as $property) {
+            $this->$property = (string)$this->$property;
+        }
+    }
+
+    protected function _castPropertiesFloat($propertiesNamesArray = [])
+    {
+        foreach ($propertiesNamesArray as $property) {
+            $this->$property = floatval($this->$property);
+        }
+    }
+
+    protected function _castPropertiesArray($propertiesNamesArray = [])
+    {
+        foreach ($propertiesNamesArray as $property) {
+            $this->$property = (array)$this->$property;
+        }
+    }
+
+    protected function _castPropertiesObject($propertiesNamesArray = [])
+    {
+        foreach ($propertiesNamesArray as $property) {
+            $this->$property = (object)$this->$property;
+        }
+    }
 }
