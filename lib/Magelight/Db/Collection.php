@@ -24,7 +24,7 @@
 namespace Magelight\Db;
 
 /**
- * @method static \Magelight\Db\Collection forge(\Magelight\Db\Common\Orm $dataSourceOrm)
+ * @method static \Magelight\Db\Collection forge(\Magelight\Db\Common\Orm $dataSourceOrm = null)
  */
 class Collection
 {
@@ -56,9 +56,11 @@ class Collection
      *
      * @param Common\Orm $dataSourceOrm
      */
-    public function __forge(Common\Orm $dataSourceOrm)
+    public function __forge(Common\Orm $dataSourceOrm = null)
     {
-        $this->setDataSource($dataSourceOrm);
+        if ($dataSourceOrm) {
+            $this->setDataSource($dataSourceOrm);
+        }
     }
 
     /**

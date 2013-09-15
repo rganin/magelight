@@ -29,8 +29,7 @@ namespace Magelight\Db\Common;
  * @method \Magelight\Db\Common\Orm     joinLeft($table, $alias = null, $onStatement = null, $onParams = [])
  * @method \Magelight\Db\Common\Orm     joinRight($table, $alias = null, $onStatement = null, $onParams = [])
  * @method \Magelight\Db\Common\Orm     joinCross($table, $alias = null, $onStatement = null, $onParams = [])
- * @method \Magelight\Db\Common\Orm     joinInnerLeft($table, $alias = null, $onStatement = null, $onParams = [])
- * @method \Magelight\Db\Common\Orm     joinInnerRight($table, $alias = null, $onStatement = null, $onParams = [])
+ * @method \Magelight\Db\Common\Orm     joinInner($table, $alias = null, $onStatement = null, $onParams = [])
  * @method \Magelight\Db\Common\Orm     joinOuterLeft($table, $alias = null, $onStatement = null, $onParams = [])
  * @method \Magelight\Db\Common\Orm     joinOuterRight($table, $alias = null, $onStatement = null, $onParams = [])
  *
@@ -180,10 +179,8 @@ abstract class Orm
         'joinLeft'       => 'LEFT JOIN',
         'joinRight'      => 'RIGHT JOIN',
         'joinCross'      => 'CROSS JOIN',
-        'joinInnerLeft'  => 'LEFT INNER JOIN',
-        'joinInnerRight' => 'RIGHT INNER JOIN',
-        'joinOuterLeft'  => 'LEFT OUTER JOIN',
-        'joinOuterRight' => 'RIGHT OUTER JOIN',
+        'joinInner'      => 'INNER JOIN',
+        'joinOuter'      => 'OUTER JOIN',
     ];
 
     /**
@@ -1382,6 +1379,7 @@ abstract class Orm
     public function getTableFields()
     {
         if (empty($this->tableFields)) {
+            $table = $this->describeTable();
             foreach ($this->describeTable() as $value) {
                 $this->tableFields[] = $value[0];
             }
