@@ -77,7 +77,7 @@ abstract class AdapterAbstract implements ICacheInterface
     protected  static function getAdapter($index)
     {
         $config = \Magelight::app()->getConfig('global/cache/' . $index);
-        $type = self::getAdapterClassByType($config->type);
+        $type = self::getAdapterClassByType((bool)$config->disabled ? 'dummy' : $config->type);
         self::$_adapters[$index] = @call_user_func_array([$type, 'forge'], [$config->config]);
         self::$_adapters[$index]->init();
         return self::$_adapters[$index];
