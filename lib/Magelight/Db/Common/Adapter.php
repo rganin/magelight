@@ -180,8 +180,8 @@ abstract class Adapter
      */
     public function execute($query, $params = [])
     {
-        $statement = $this->_db->prepare($query);
         /* @var $statement \PDOStatement*/
+        $statement = $this->_db->prepare($query);
         if ($this->_profilingEnabled) {
             $profileId = $this->getProfiler()->startNewProfiling();
         }
@@ -194,8 +194,7 @@ abstract class Adapter
                 "Error preparing statement:\r\n {$query}\r\n params = {$params}\r\n Database error: {$dbError}"
             );
         }
-
-        if (!$statement->execute(array_values($params))) {
+        if (!$statement->execute($params)) {
             $errorInfo = $statement->errorInfo();
             trigger_error(
                 "Adapter error: `" . var_export($errorInfo, true) . '`'
