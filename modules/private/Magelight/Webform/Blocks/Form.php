@@ -272,6 +272,7 @@ class Form extends Elements\Abstraction\Element
     public function setValidator(\Magelight\Webform\Models\Validator $validator)
     {
         $this->_validator = $validator;
+        $this->_validator->setForm($this);
         return $this;
     }
 
@@ -286,8 +287,7 @@ class Form extends Elements\Abstraction\Element
         if ($this->_validator instanceof \Magelight\Webform\Models\Validator) {
             if (!empty($this->_requestFields)) {
                 $fieldsResult = $this->_processValidation(array_merge($this->_requestFields, (array)$this->_requestUploads));
-//                $uploadsResult = $this->_processValidation($this->_requestUploads);
-                return $fieldsResult;// && $uploadsResult;
+                return $fieldsResult;
             } else {
                 return true;
             }

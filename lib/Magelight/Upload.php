@@ -27,6 +27,20 @@ class Upload
     protected $_fileData = [];
 
     /**
+     * Allowed upload extensions
+     *
+     * @var array
+     */
+    protected $_allowedExtensions = [];
+
+    /**
+     * Restricted upload extensions
+     *
+     * @var array
+     */
+    protected $_restrictedExtensions = [];
+
+    /**
      * Forgery constructor
      *
      * @param array $data
@@ -121,5 +135,69 @@ class Upload
             trigger_error("Moving upload failed. Path {$dir} is not writable.", E_USER_WARNING);
         }
         return move_uploaded_file($this->getTmpName(), $path);
+    }
+
+    /**
+     * Check does upload have allowed extension
+     *
+     * @param array $allowedExtensions
+     * @return bool
+     */
+    public function hasAllowedExtension(array $allowedExtensions = [])
+    {
+        if (empty($allowedExtensions)) {
+            $allowedExtensions = $this->_allowedExtensions;
+        }
+        $filename = $this->getName();
+        foreach ($allowedExtensions as $ext) {
+            if (preg_match('/^.*' . $ext . '$/i', $filename)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Check does upload have restricted extension
+     *
+     * @param array $restrictedExtensions
+     * @return bool
+     */
+    public function hasRestrictedExtension(array $restrictedExtensions = [])
+    {
+        if (empty($restrictedExtensions)) {
+            $restrictedExtensions = $this->_allowedExtensions;
+        }
+        $filename = $this->getName();
+        foreach ($restrictedExtensions as $ext) {
+            if (preg_match('/^.*' . $ext . '$/i', $filename)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Set allowed upload extensions
+     *
+     * @param array $extensions
+     * @return $this
+     */
+    public function setAllowedExtensions(array $extensions)
+    {
+        $this->_allowedExtensions = $extensions;
+        return $this;
+    }
+
+    /**
+     * Set restricted upload extensions
+     *
+     * @param array $extensions
+     * @return $this
+     */
+    public function setRestrictedExtensions(array $extensions)
+    {
+        $this->_restrictedExtensions = $extensions;
+        return $this;
     }
 }

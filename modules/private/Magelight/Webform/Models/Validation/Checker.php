@@ -50,6 +50,8 @@ namespace Magelight\Webform\Models\Validation;
  * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule time24()
  * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule time12()
  * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule in(array $values = [])
+ * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule fileAllowedExtensions(array $extensions = [])
+ * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule fileRestrictedExtensions(array $extensions = [])
  * - field must be in array of values
  */
 class Checker

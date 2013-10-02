@@ -23,16 +23,9 @@
 
 namespace Magelight\Webform\Models\Validation\Rules;
 
-class Time24 extends AbstractRule
+class FileAllowedExtensions extends AbstractRule
 {
-    protected $_error = 'Field %s must be a valid 24h formatted time';
-
-    /**
-     * Fron validator (jQueryValidator) rule name
-     *
-     * @var string
-     */
-    protected $_frontValidatorRule = 'time24';
+    protected $_error = 'File %s must have valid extension';
 
     /**
      * Check value with rule
@@ -45,6 +38,11 @@ class Time24 extends AbstractRule
      */
     public function check($value)
     {
-        return strtotime($value) !== false;
+        foreach ($this->_arguments[0] as $extension) {
+            if (preg_match('/^.*' . $extension . '$/i', $value['name'])) {
+                return true;
+            }
+        }
+        return false;
     }
 }

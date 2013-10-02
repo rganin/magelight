@@ -83,6 +83,35 @@ class Validator extends \Magelight\Model
     protected $_data = [];
 
     /**
+     * Form object
+     *
+     * @var \Magelight\Webform\Blocks\Form
+     */
+    protected $_form;
+
+    /**
+     * Set bound form
+     *
+     * @param \Magelight\Webform\Blocks\Form $form
+     * @return $this
+     */
+    public function setForm(\Magelight\Webform\Blocks\Form $form)
+    {
+        $this->_form = $form;
+        return $this;
+    }
+
+    /**
+     * Get bound form object
+     *
+     * @return \Magelight\Webform\Blocks\Form
+     */
+    public function getForm()
+    {
+        return $this->_form;
+    }
+
+    /**
      * Validate data
      *
      * @param array $data
