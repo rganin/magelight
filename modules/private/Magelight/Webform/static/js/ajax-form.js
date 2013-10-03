@@ -6,7 +6,7 @@ function bindFormsValidation()
         $(this).validate({
             rules: rules,
             messages: messages,
-            errorClass: 'help-inline',
+            errorClass: 'help-inline validation-error',
             highlight: function(label) {
                 $(label).closest('.control-group').removeClass('success').addClass('error');
             },
