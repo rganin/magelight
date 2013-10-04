@@ -212,6 +212,21 @@ class Document extends \Magelight\Block
     }
 
     /**
+     * Set keywords meta header
+     *
+     * @param string $keywords
+     * @return Document
+     */
+    public function setKeywords($keywords)
+    {
+        $this->addMeta([
+            'name'    => 'keywords',
+            'content' => $keywords
+        ]);
+        return $this;
+    }
+
+    /**
      * Add meta tag
      *
      * @param array $arrayOfAttributes
