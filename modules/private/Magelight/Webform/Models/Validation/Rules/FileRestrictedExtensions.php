@@ -38,6 +38,9 @@ class FileRestrictedExtensions extends AbstractRule
      */
     public function check($value)
     {
+        if (empty($value) || empty($value['name'])) {
+            return true;
+        }
         foreach ($this->_arguments[0] as $extension) {
             if (preg_match('/^.*' . $extension . '$/i', $value['name'])) {
                 return false;

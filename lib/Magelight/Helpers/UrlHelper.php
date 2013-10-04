@@ -156,4 +156,15 @@ class UrlHelper
     {
         return $module . '/' . $type . '/' . $path;
     }
+
+    /**
+     * Prepare URL key
+     *
+     * @param string $string
+     * @return string
+     */
+    public function prepareUrlKey($string)
+    {
+        return preg_replace('/[^a-zA-Z0-9\_\-]+/i', '-', TranslitHelper::forge()->transliterateToAscii($string));
+    }
 }
