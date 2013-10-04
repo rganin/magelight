@@ -69,19 +69,22 @@ class UrlHelper
      * @param string $match
      * @param array  $params
      * @param string $type
+     * @param bool $addOnlyMaskParams - add to url only params that are present in URL match mask
      *
      * @return string
      * @throws \Magelight\Exception
      */
-    public function getUrl($match, $params = [], $type = self::TYPE_HTTP)
+    public function getUrl($match, $params = [], $type = self::TYPE_HTTP, $addOnlyMaskParams = false)
     {
         $match = '/' . trim($match, '\\/');
 
-        if (\Magelight::app()->isInDeveloperMode() && !$this->checkParamsWithPlaceholderMask($match, $params)) {
+        if (!$addOnlyMaskParams
+            && \Magelight::app()->isInDeveloperMode()
+            && !$this->checkParamsWithPlaceholderMask($match, $params)) {
             throw new \Magelight\Exception("Passed url params don`t match route mask.", E_USER_NOTICE);
         }
                 
-        return $this->getBaseUrl($type) . $this->makeRequestUri($match, $params);
+        return $this->getBaseUrl($type) . $this->makeRequestUri($match, $params, $addOnlyMaskParams);
     }
 
     /**
@@ -133,12 +136,17 @@ class UrlHelper
      *
      * @param string $match
      * @param string $params
+     * @param bool $addOnlyMaskParams
+     *
      * @return string
      */
-    protected function makeRequestUri($match, $params)
+    protected function makeRequestUri($match, $params, $addOnlyMaskParams = false)
     {
         $paramsTmp = $params;
         $match = $this->setParamsToPlaceholders($match, $paramsTmp);
+        if ($addOnlyMaskParams) {
+            return $match;
+        }
         $q = http_build_query($paramsTmp);
         return !empty($paramsTmp) ? ($match . '?' . $q) : $match;
     }

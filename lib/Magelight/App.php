@@ -682,11 +682,13 @@ final class App
      * @param string $match - url match mask
      * @param array $params - params to be passed to URL
      * @param string $type - URL type (http|https)
+     * @param bool $addOnlyMaskParams - add to url only params that are present in URL match mask
+     *
      * @return string
      */
-    public function url($match, $params = [], $type = \Magelight\Helpers\UrlHelper::TYPE_HTTP)
+    public function url($match, $params = [], $type = \Magelight\Helpers\UrlHelper::TYPE_HTTP, $addOnlyMaskParams = false)
     {
-        $url = \Magelight\Helpers\UrlHelper::getInstance()->getUrl($match, $params, $type);
+        $url = \Magelight\Helpers\UrlHelper::getInstance()->getUrl($match, $params, $type, $addOnlyMaskParams);
         return $url;
     }
 

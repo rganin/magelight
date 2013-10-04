@@ -31,14 +31,24 @@ class Pager extends \Magelight\Block
     /**
      * Page variable URL template
      */
-    const PAGE_TEMPLATE  = '{page:0-9}';
+    const PAGE_TEMPLATE  = '{%1$s:0-9}';
+
+    /**
+     * Page argument name
+     */
+    const PAGE_ARGUMENT_NAME = 'page';
+
+    /**
+     * Default route template
+     */
+    const ROUTE_TEMPLATE = '?%1$s={%1$s:0-9}';
 
     /**
      * Page URI route
      *
      * @var string
      */
-    protected $_route = '?page={page:0-9}';
+    protected $_route;
 
     /**
      * Additional route params
@@ -255,7 +265,27 @@ class Pager extends \Magelight\Block
      */
     public function getDefaultRouteTemplate()
     {
-        return '?page=' . self::PAGE_TEMPLATE;
+        return sprintf(self::ROUTE_TEMPLATE, $this->getPageArgumentName());
+    }
+
+    /**
+     * Get default route template
+     *
+     * @return string
+     */
+    public function getPageArgumentName()
+    {
+        return self::PAGE_ARGUMENT_NAME;
+    }
+
+    /**
+     * Get default route template
+     *
+     * @return string
+     */
+    public function getPageTemplate()
+    {
+        return sprintf(self::PAGE_TEMPLATE, $this->getPageArgumentName());
     }
 
     /**
@@ -268,10 +298,7 @@ class Pager extends \Magelight\Block
      */
     public function setRoute($route = null, $routeParams = [])
     {
-        if (empty($route)) {
-            $route = $this->getDefaultRouteTemplate();
-        }
-        $this->_route = $route;
+        $this->_route = isset($route) ? $route : $this->getDefaultRouteTemplate();
         $this->_routeParams = $routeParams;
         return $this;
     }
@@ -284,8 +311,10 @@ class Pager extends \Magelight\Block
      */
     public function getPageUrl($page = 0)
     {
-        if (strstr($this->_route, self::PAGE_TEMPLATE)) {
-            return $this->url(str_ireplace(self::PAGE_TEMPLATE, $page, $this->_route), $this->_routeParams);
+        if (strstr($this->_route, $this->getPageTemplate())) {
+            $params = $this->_routeParams;
+            unset($params[$this->getPageArgumentName()]);
+            return $this->url(str_ireplace($this->getPageTemplate(), $page, $this->_route), $params);
         }
         $this->_routeParams['page'] = $page;
         return $this->url($this->_route, $this->_routeParams);
