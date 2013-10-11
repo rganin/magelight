@@ -31,17 +31,8 @@ namespace Magelight\Auth\Controllers;
 /**
  * Auth controller
  */
-class Auth extends \Magelight\Controller
+class Auth extends \Magelight\Core\Controllers\BaseController
 {
-    /**
-     * Before execute handler
-     */
-    public function beforeExecute()
-    {
-        $this->_view = \Magelight\Core\Blocks\Document::forge();
-        $this->_view->sectionAppend('body', \Magelight\Core\Blocks\Body::forge());
-    }
-
     /**
      * Login action handler
      */

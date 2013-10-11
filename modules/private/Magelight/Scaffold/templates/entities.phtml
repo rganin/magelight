@@ -1,0 +1,20 @@
+<?php
+/* @var $this \Magelight\Scaffold\Blocks\Entities */
+?>
+
+<table>
+    <thead>
+        <tr>
+            <th>Entity</th>
+            <th>Comment</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($this->entities as $entity) : ?>
+            <tr>
+                <td><a href="<?=$this->url('scaffold/{entity}/page-0', $entity, 'http', true)?>"><?=$entity['entity']?></a></td>
+                <td><?=$entity['comment']?></td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>

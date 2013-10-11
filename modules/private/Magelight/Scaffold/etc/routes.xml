@@ -1,0 +1,10 @@
+<routes>
+    <route match="/scaffold" controller="scaffold" module="Magelight\Scaffold">
+        <route match="/{entity}" action="entity_list">
+            <route match="/page-{page}" />
+            <route match="/{action:(create|read|update|delete)}">
+                <route match="/{id}" />
+            </route>
+        </route>
+    </route>
+</routes>

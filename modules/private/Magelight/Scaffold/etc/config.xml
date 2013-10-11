@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config>
+    <global>
+        <scaffold>
+            <entities_list>
+                <!--<default>-->
+                    <!--<title>*</title>-->
+                    <!--<table>*</table>-->
+                <!--</default>-->
+            </entities_list>
+            <entities>
+                <default>
+                    <block_class>\Magelight\Scaffold\Blocks\EntityForm</block_class>
+                    <model_class>\Magelight\Scaffold\Models\Entity</model_class>
+                    <table_name></table_name> <!-- default empty -->
+                    <id_field></id_field> <!-- default empty - will be set to 'id'-->
+                    <fields>
+                        <default>
+                            <type>input</type>
+                            <class>\Magelight\Webform\Blocks\Elements\Input</class>
+                            <allow_null>1</allow_null>
+                        </default>
+                    </fields>
+                </default>
+            </entities>
+        </scaffold>
+    </global>
+</config>
