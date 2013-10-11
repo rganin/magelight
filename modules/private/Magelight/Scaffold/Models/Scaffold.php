@@ -19,7 +19,7 @@ class Scaffold
 {
     use \Magelight\Traits\TForgery;
 
-    const DEFAULT_MODEL_CLASS = '\\Magelight\\Scaffold\\Models\\Scaffold\\Entity';
+    const DEFAULT_MODEL_CLASS = '\\Magelight\\Scaffold\\Models\\Entity';
 
     protected $_connectionName;
 
@@ -70,9 +70,11 @@ class Scaffold
                 static::$_entities[$table[0]] = [
                     'table_name'  => $table[0],
                     'entity'      => $table[0],
-                    'comment'     => '',
-                    'model_class' => ''
+                    'comment'     => null,
+                    'model_class' => null,
+                    'id_field'    => 'id'
                 ];
+                static::$_entities['count']= $this->getEntityModel($table[0])->orm()->totalCount();
             }
         }
 
@@ -89,12 +91,12 @@ class Scaffold
 
     public function getEntityModel($entity, $data = [], $forceNew = false)
     {
-        $modelClass = isset(static::$_entities[$entity]['table_name'])
-            ? static::$_entities[$entity]['table_name']
+        $modelClass = isset(static::$_entities[$entity]['model_class'])
+            ? static::$_entities[$entity]['model_class']
             : self::DEFAULT_MODEL_CLASS;
 
         /** @var $entityModel \Magelight\Scaffold\Models\Entity */
-        $entityModel = self::callStaticLate([$modelClass, 'forge'], [$data, $forceNew]);
+        $entityModel = static::callStaticLate([\Magelight::app()->getClassName($modelClass), 'forge'], [$data, $forceNew]);
         $entityModel->orm()->setTableName($this->_getEntityTable($entity));
         $entityModel->orm()->setIdColumn($this->_getEntityIdField($entity));
         $entityModel->orm()->setModelName($modelClass);
@@ -106,15 +108,17 @@ class Scaffold
     {
         if (isset(static::$_entities[$entity]['table_name'])) {
             return static::$_entities[$entity]['table_name'];
+        } else {
+            throw new \Magelight\Exception("Entity `{$entity}` table is not defined!");
         }
-        throw new \Magelight\Exception("Entity `{$entity}` table is not defined!");
     }
 
     protected function _getEntityIdField($entity)
     {
         if (isset(static::$_entities[$entity]['id_field'])) {
             return static::$_entities[$entity]['id_field'];
+        } else {
+            throw new \Magelight\Exception("Entity `{$entity}` id field is not defined!");
         }
-        throw new \Magelight\Exception("Entity `{$entity}` id field is not defined!");
     }
 }

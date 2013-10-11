@@ -147,6 +147,13 @@ trait TForgery
      */
     public static function callStaticLate($method, $arguments = [])
     {
-        return call_user_func_array([static::getClassRedefinition(), $method], $arguments);
+
+
+        if (is_array($method) && count($method) > 1) {
+            list ($class, $method) = [\Magelight::app()->getClassName($method[0]), $method[1]];
+        } else {
+            list ($class, $method) = [static::getClassRedefinition(), $method];
+        }
+        return call_user_func_array([$class, $method], $arguments);
     }
 }

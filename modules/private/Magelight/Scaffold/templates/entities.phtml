@@ -7,6 +7,7 @@
         <tr>
             <th>Entity</th>
             <th>Comment</th>
+            <th>Count</th>
         </tr>
     </thead>
     <tbody>
@@ -14,6 +15,7 @@
             <tr>
                 <td><a href="<?=$this->url('scaffold/{entity}/page-0', $entity, 'http', true)?>"><?=$entity['entity']?></a></td>
                 <td><?=$entity['comment']?></td>
+                <td><?=$entity['count']?></td>
             </tr>
         <?php endforeach; ?>
     </tbody>
