@@ -39,6 +39,13 @@ final class App
     const DEFAULT_INDEX = 'default';
 
     /**
+     * Current Action
+     *
+     * @var array
+     */
+    protected $_currentAction = [];
+
+    /**
      * Array of application code pools
      *
      * @var array
@@ -397,6 +404,16 @@ final class App
     }
 
     /**
+     * Get current application dispatched action
+     *
+     * @return array
+     */
+    public function getCurrentAction()
+    {
+        return $this->_currentAction;
+    }
+
+    /**
      * Dispatch action
      * 
      * @param array $action
@@ -407,6 +424,7 @@ final class App
      */
     public function dispatchAction(array $action, \Magelight\Http\Request $request = null)
     {
+        $this->_currentAction = $action;
         $this->fireEvent('app_dispatch_action', ['action' => $action, 'request' => $request]);
         $controllerName = str_replace('/','\\', $action['module'] . '\\Controllers\\' . ucfirst($action['controller']));
         $controllerMethod = $action['action'] . 'Action';

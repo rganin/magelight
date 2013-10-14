@@ -18,4 +18,12 @@ namespace Magelight\Scaffold\Blocks;
 class Entities extends \Magelight\Block
 {
     protected $_template = 'Magelight/Scaffold/templates/entities.phtml';
+
+    protected $_scaffold;
+
+    public function __forge()
+    {
+        $this->_scaffold = \Magelight\Scaffold\Models\Scaffold::forge();
+        $this->entities = $this->_scaffold->loadEntities();
+    }
 }

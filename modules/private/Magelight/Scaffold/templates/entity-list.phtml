@@ -1,0 +1,35 @@
+<?php
+/* @var $this \Magelight\Scaffold\Blocks\EntityList */
+?>
+
+<div class="align-center">
+    <?=$this->section('pager')?>
+</div>
+
+<table class="table">
+    <thead>
+    <tr>
+        <?php foreach ($this->tableFields as $field) : ?>
+            <th><?=$field?></th>
+        <?php endforeach; ?>
+            <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($this->getCollection()->fetchModels() as $model) : ?>
+            <tr>
+                <?php foreach ($this->tableFields as $field) : ?>
+                    <td><?=$model->$field?></td>
+                <?php endforeach; ?>
+                    <td>
+                        <a class="btn btn-small btn-info" href="<?=$this->url('/scaffold/{entity}/read/{id}', [$model->getIdField() => $model->getId(), 'entity' => $this->_entity])?>"><i class="icon-white icon-edit"></i></a>
+                        <a class="btn btn-small btn-danger" href="<?=$this->url('/scaffold/{entity}/delete/{id}', [$model->getIdField() => $model->getId(), 'entity' => $this->_entity])?>"><i class="icon-white icon-remove"></i></a>
+                    </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
+<div class="align-center">
+    <?=$this->section('pager')?>
+</div>

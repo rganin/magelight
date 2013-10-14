@@ -145,7 +145,7 @@ abstract class Model
     /**
      * Get model orm
      *
-     * @return Db\Mysql\Orm
+     * @return Db\Common\Orm
      */
     public static function orm()
     {
@@ -158,6 +158,17 @@ abstract class Model
         $orm->setTableName(static::callStaticLate('getTableName'));
         $orm->setModelName(static::getClassRedefinition());
         return $orm;
+    }
+
+    /**
+     * @return Db\Common\Orm|null
+     */
+    public function getOrm()
+    {
+        if (!$this->_orm instanceof Db\Mysql\Orm) {
+            $this->setOrm(static::callStaticLate('orm'));
+        }
+        return $this->_orm;
     }
 
     /**
@@ -188,6 +199,16 @@ abstract class Model
     public static function getIdField()
     {
         return static::$_idField;
+    }
+
+    /**
+     * Get model ID
+     *
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->{self::getIdField()};
     }
 
     /**

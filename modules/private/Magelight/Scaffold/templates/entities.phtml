@@ -2,7 +2,7 @@
 /* @var $this \Magelight\Scaffold\Blocks\Entities */
 ?>
 
-<table>
+<table class="table">
     <thead>
         <tr>
             <th>Entity</th>
@@ -13,7 +13,7 @@
     <tbody>
         <?php foreach ($this->entities as $entity) : ?>
             <tr>
-                <td><a href="<?=$this->url('scaffold/{entity}/page-0', $entity, 'http', true)?>"><?=$entity['entity']?></a></td>
+                <td><a href="<?=$this->url('scaffold/{entity}/page-0', ['entity' => $entity['entity']])?>"><?=$entity['entity']?></a></td>
                 <td><?=$entity['comment']?></td>
                 <td><?=$entity['count']?></td>
             </tr>

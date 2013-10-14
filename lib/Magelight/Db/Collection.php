@@ -78,11 +78,13 @@ class Collection
     /**
      * Get colelction data source
      *
+     * @param bool $clone
+     *
      * @return Common\Orm|null
      */
-    public function getDataSource()
+    public function getDataSource($clone = false)
     {
-        return $this->_dataSource;
+        return ($clone) ? clone $this->_dataSource : $this->_dataSource;
     }
 
     /**

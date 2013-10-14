@@ -25,8 +25,6 @@ class Scaffold extends \Magelight\Core\Controllers\BaseController
         );
         parent::beforeExecute();
         $this->view()->sectionReplace('top', '');
-        $this->_scaffold = \Magelight\Scaffold\Models\Scaffold::forge();
-        $this->_scaffold->loadEntities();
     }
 
     /**
@@ -35,9 +33,16 @@ class Scaffold extends \Magelight\Core\Controllers\BaseController
     public function indexAction()
     {
         $this->view()->setTitle('Scaffold index action');
-        $entitiesBlock = \Magelight\Scaffold\Blocks\Entities::forge();
-        $entitiesBlock->entities = $this->_scaffold->getEntities();
-        $this->view()->sectionReplace('content', $entitiesBlock);
+        $this->view()->sectionReplace('content', \Magelight\Scaffold\Blocks\Entities::forge());
+        $this->renderView();
+    }
+
+    public function entity_listAction()
+    {
+        $this->view()->sectionReplace('content', 'Scaffold entity_list action');
+        $entity = $this->request()->getGet('entity');
+        $page = $this->request()->getGet('page');
+        $this->view()->sectionReplace('content', \Magelight\Scaffold\Blocks\EntityList::forge($entity, $page));
         $this->renderView();
     }
 
@@ -49,7 +54,10 @@ class Scaffold extends \Magelight\Core\Controllers\BaseController
 
     public function readAction()
     {
-        $this->view()->sectionReplace('content', 'Scaffold read action');
+        $entity = $this->request()->getGet('entity');
+        $id = $this->request()->getGet('id');
+        $content = \Magelight\Scaffold\Blocks\EntityForm::forge($entity, $id);
+        $this->view()->sectionReplace('content', $content);
         $this->renderView();
     }
 
@@ -65,9 +73,5 @@ class Scaffold extends \Magelight\Core\Controllers\BaseController
         $this->renderView();
     }
 
-    public function entity_listAction()
-    {
-        $this->view()->sectionReplace('content', 'Scaffold entity_list action');
-        $this->renderView();
-    }
+
 }
