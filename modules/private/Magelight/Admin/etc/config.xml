@@ -1,0 +1,82 @@
+<config>
+    <global>
+        <perspectives>
+            <admin>
+                <sections>
+                    <body>
+                        <block>\Magelight\Admin\Blocks\Body</block>
+                        <sections>
+                            <admin_navbar>
+                                <block>\Magelight\Admin\Blocks\Navbar</block>
+                            </admin_navbar>
+                            <admin_sections>
+                                <block>\Magelight\Admin\Blocks\Sections</block>
+                            </admin_sections>
+                        </sections>
+                    </body>
+                </sections>
+            </admin>
+        </perspectives>
+    </global>
+    <admin>
+        <navbar>
+            <block>Magelight\Admin\Blocks\Navbar</block>
+            <items stackable="1">
+                <frontend>
+                    <type>link</type>
+                    <link_class>brand</link_class>
+                    <route>/</route>
+                    <title>Frontend</title>
+                    <position>0</position>
+                    <subitems stackable="1">
+
+                    </subitems>
+                    <sections stackable="1">
+                        <block>Magelight\Admin\Blocks\Sections</block>
+                    </sections>
+                </frontend>
+                <dashboard>
+                    <type>link</type>
+                    <route>admin/index</route>
+                    <title>Dashboard</title>
+                    <position>100</position>
+                    <subitems stackable="1">
+
+                    </subitems>
+                    <sections stackable="1">
+                        <block>Magelight\Admin\Blocks\Sections</block>
+                    </sections>
+                </dashboard>
+                <scaffolding>
+                    <type>link</type>
+                    <title>Scaffolding</title>
+                    <position>200</position>
+                    <subitems stackable="1">
+                        <simple>
+                            <type>link</type>
+                            <title>Simple</title>
+                            <position>0</position>
+                        </simple>
+                        <complex>
+                            <type>link</type>
+                            <title>Complex</title>
+                            <position>100</position>
+                            <subitems stackable="1">
+                                <test1>
+                                    <type>link</type>
+                                    <title>Test 1</title>
+                                    <position>100</position>
+                                </test1>
+                                <test2>
+                                    <type>link</type>
+                                    <title>Test 2</title>
+                                    <position>100</position>
+                                </test2>
+                            </subitems>
+                        </complex>
+                    </subitems>
+                </scaffolding>
+            </items>
+        </navbar>
+    </admin>
+</config>

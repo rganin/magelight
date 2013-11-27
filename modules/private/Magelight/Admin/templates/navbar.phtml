@@ -1,0 +1,9 @@
+<?php /* @var $this \Magelight\Admin\Blocks\Navbar */ ?>
+<ul class="nav pull-left">
+    <?php foreach ($this->getItems() as $item): ?>
+        <?php
+        /** @var $item \Magelight\Admin\Blocks\Navbar\Item */
+        echo $item->toHtml();
+        ?>
+    <?php endforeach; ?>
+</ul>

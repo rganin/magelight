@@ -493,7 +493,7 @@ class Block
      * @param string $perspective - path to perspective in config
      * @return Block
      */
-    public function loadPerspective($perspective = 'global/prespectives/default')
+    public function loadPerspective($perspective = 'global/perspectives/default')
     {
         return $this->_processPerspective(\Magelight::app()->config()->getConfig($perspective));
     }
