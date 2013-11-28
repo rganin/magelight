@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-namespace Magelight\Scaffold\Blocks;
+namespace Magelight\Admin\Blocks\Scaffold;
 
 /**
  * Class EntityList
@@ -22,17 +22,17 @@ class EntityList extends \Magelight\Block
     protected $_page;
 
     /**
-     * @var \Magelight\Scaffold\Models\Scaffold
+     * @var \Magelight\Admin\Models\Scaffold\Scaffold
      */
     protected $_scaffold;
 
-    protected $_template = 'Magelight/Scaffold/templates/entity-list.phtml';
+    protected $_template = 'Magelight/Admin/templates/scaffold/entity-list.phtml';
 
     public function __forge($entity, $page)
     {
         $this->setEntity($entity);
         $this->setPage($page);
-        $this->_scaffold = \Magelight\Scaffold\Models\Scaffold::forge();
+        $this->_scaffold = \Magelight\Admin\Models\Scaffold\Scaffold::forge();
         $this->_scaffold->loadEntities();
         $this->sectionReplace('pager', \Magelight\Core\Blocks\Pager::forge($this->getCollection())
             ->setRoute(

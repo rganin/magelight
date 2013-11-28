@@ -15,8 +15,9 @@ class Forgery
 
     /**
      * @param \SimpleXMLElement $config
+     * @param \Magelight\Admin\Blocks\Navbar\Item|null $parentItem
      *
-     * @return Magelight\Admin\Blocks\Navbar\Item
+     * @return \Magelight\Admin\Blocks\Navbar\Item
      * @throws \Magelight\Exception
      */
     public function getForgedItem(\SimpleXMLElement $config, \Magelight\Admin\Blocks\Navbar\Item $parentItem = null)

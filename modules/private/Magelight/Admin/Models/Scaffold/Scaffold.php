@@ -7,19 +7,19 @@
  * To change this template use File | Settings | File Templates.
  */
 
-namespace Magelight\Scaffold\Models;
+namespace Magelight\Admin\Models\Scaffold;
 
 /**
  * Class Scaffold
  * @package Magelight\Scaffold\Models
  *
- * @method static \Magelight\Scaffold\Models\Scaffold forge($connectionName = 'default')
+ * @method static \Magelight\Admin\Models\Scaffold\Scaffold forge($connectionName = 'default')
  */
 class Scaffold
 {
     use \Magelight\Traits\TForgery;
 
-    const DEFAULT_MODEL_CLASS = '\\Magelight\\Scaffold\\Models\\Entity';
+    const DEFAULT_MODEL_CLASS = '\\Magelight\\Admin\\Models\\Scaffold\\Entity';
 
     protected $_connectionName;
 
@@ -66,12 +66,9 @@ class Scaffold
     public function getEntitiesConfig()
     {
         if (empty($this->_entitiesConfig)) {
-            $entitiesConfig = \Magelight::app()->getConfig('global/scaffold/entities');
-
+            $entitiesConfig = \Magelight::app()->getConfig('admin/scaffold/entities');
             $this->_defaultEntityConfig = clone $entitiesConfig->default;
-
             unset($entitiesConfig->default);
-
             foreach ($entitiesConfig->children() as $child) {
                 /** @var $child \SimpleXMLElement */
                 /** @var $draft \SimpleXMLElement */
@@ -209,7 +206,7 @@ class Scaffold
     public function getEntityModel($entity, $data = [], $forceNew = false)
     {
         $modelClass = $this->getEntityModelClass($entity);
-        /** @var $entityModel \Magelight\Scaffold\Models\Entity */
+        /** @var $entityModel \Magelight\Admin\Models\Scaffold\Entity */
         $entityModel = static::callStaticLate([\Magelight::app()->getClassName($modelClass), 'forge'], [$data, $forceNew]);
         if ($modelClass === self::DEFAULT_MODEL_CLASS) {
             $entityModel->getOrm()->setTableName($this->_getEntityTable($entity));

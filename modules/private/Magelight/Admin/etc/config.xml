@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <config>
     <global>
         <perspectives>
@@ -19,6 +20,23 @@
         </perspectives>
     </global>
     <admin>
+        <scaffold>
+            <entities>
+                <default>
+                    <block_class>\Magelight\Admin\Blocks\Scaffold\EntityForm</block_class>
+                    <model_class>\Magelight\Admin\Models\Scaffold\Entity</model_class>
+                    <table_name></table_name> <!-- default empty -->
+                    <comment></comment>
+                    <id_field></id_field> <!-- default empty - will be set to 'id'-->
+                    <fields>
+                        <default>
+                            <class>\Magelight\Webform\Blocks\Elements\Input</class>
+                            <allow_null>0</allow_null>
+                        </default>
+                    </fields>
+                </default>
+            </entities>
+        </scaffold>
         <navbar>
             <block>Magelight\Admin\Blocks\Navbar</block>
             <items stackable="1">
@@ -28,12 +46,6 @@
                     <route>/</route>
                     <title>Frontend</title>
                     <position>0</position>
-                    <subitems stackable="1">
-
-                    </subitems>
-                    <sections stackable="1">
-                        <block>Magelight\Admin\Blocks\Sections</block>
-                    </sections>
                 </frontend>
                 <dashboard>
                     <type>link</type>
@@ -49,32 +61,12 @@
                 </dashboard>
                 <scaffolding>
                     <type>link</type>
+                    <route>admin/scaffold</route>
                     <title>Scaffolding</title>
                     <position>200</position>
-                    <subitems stackable="1">
-                        <simple>
-                            <type>link</type>
-                            <title>Simple</title>
-                            <position>0</position>
-                        </simple>
-                        <complex>
-                            <type>link</type>
-                            <title>Complex</title>
-                            <position>100</position>
-                            <subitems stackable="1">
-                                <test1>
-                                    <type>link</type>
-                                    <title>Test 1</title>
-                                    <position>100</position>
-                                </test1>
-                                <test2>
-                                    <type>link</type>
-                                    <title>Test 2</title>
-                                    <position>100</position>
-                                </test2>
-                            </subitems>
-                        </complex>
-                    </subitems>
+                    <sections stackable="1">
+                        <block>Magelight\Admin\Blocks\Sections</block>
+                    </sections>
                 </scaffolding>
             </items>
         </navbar>

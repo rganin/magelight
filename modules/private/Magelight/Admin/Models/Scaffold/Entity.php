@@ -7,13 +7,13 @@
  * To change this template use File | Settings | File Templates.
  */
 
-namespace Magelight\Scaffold\Models;
+namespace Magelight\Admin\Models\Scaffold;
 
 /**
  * Class Entity
  * @package Magelight\Scaffold\Models
  *
- * @method static \Magelight\Scaffold\Models\Entity forge($data = [], $forceNew = false)
+ * @method static \Magelight\Admin\Models\Scaffold\Entity forge($data = [], $forceNew = false)
  */
 class Entity extends \Magelight\Model
 {

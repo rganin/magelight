@@ -1,5 +1,5 @@
 <?php
-/* @var $this \Magelight\Scaffold\Blocks\EntityList */
+/* @var $this \Magelight\Admin\Blocks\Scaffold\EntityList */
 ?>
 
 <div class="align-center">
@@ -22,8 +22,8 @@
                     <td><?=$model->$field?></td>
                 <?php endforeach; ?>
                     <td>
-                        <a class="btn btn-small btn-info" href="<?=$this->url('/scaffold/{entity}/read/{id}', [$model->getIdField() => $model->getId(), 'entity' => $this->_entity])?>"><i class="icon-white icon-edit"></i></a>
-                        <a class="btn btn-small btn-danger" href="<?=$this->url('/scaffold/{entity}/delete/{id}', [$model->getIdField() => $model->getId(), 'entity' => $this->_entity])?>"><i class="icon-white icon-remove"></i></a>
+                        <a class="btn btn-small btn-info" href="<?=$this->url('admin/scaffold/{entity}/read/{id}', [$model->getIdField() => $model->getId(), 'entity' => $this->_entity])?>"><i class="icon-white icon-edit"></i></a>
+                        <a class="btn btn-small btn-danger" href="<?=$this->url('admin/scaffold/{entity}/delete/{id}', [$model->getIdField() => $model->getId(), 'entity' => $this->_entity])?>"><i class="icon-white icon-remove"></i></a>
                     </td>
             </tr>
         <?php endforeach; ?>

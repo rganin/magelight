@@ -7,17 +7,17 @@
  * To change this template use File | Settings | File Templates.
  */
 
-namespace Magelight\Scaffold\Blocks;
+namespace Magelight\Admin\Blocks\Scaffold;
 
 /**
  * Class EntityForm
- * @package Magelight\Scaffold\Blocks
+ * @package Magelight\Admin\Blocks
  *
  * @method static EntityForm forge($entity, $id)
  */
 class EntityForm extends \Magelight\Webform\Blocks\Form
 {
-    const URL_PATTERN = '/scaffold/{entity}/update/{id}';
+    const URL_PATTERN = 'admin/scaffold/{entity}/update/{id}';
 
     protected $_entity;
 
@@ -29,7 +29,7 @@ class EntityForm extends \Magelight\Webform\Blocks\Form
     {
         $this->_entity = $entity;
         $this->_id = $id;
-        $this->_scaffold = \Magelight\Scaffold\Models\Scaffold::forge();
+        $this->_scaffold = \Magelight\Admin\Models\Scaffold\Scaffold::forge();
         $this->_scaffold->loadEntities();
         $this->setConfigs('scaffold-' .$entity, $this->url(self::URL_PATTERN, ['entity' => $entity, 'id' => $id]));
         $this->setHorizontal();

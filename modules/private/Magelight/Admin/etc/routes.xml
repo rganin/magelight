@@ -1,5 +1,13 @@
 <routes>
     <route match="admin" controller="index" module="Magelight\Admin">
+        <route match="scaffold" controller="scaffold">
+            <route match="/{entity}" action="entity_list">
+                <route match="/page-{page}" />
+                <route match="/{action:(create|read|update|delete)}">
+                    <route match="/{id}" />
+                </route>
+            </route>
+        </route>
         <route match="{controller}">
             <route match="{action}">
 

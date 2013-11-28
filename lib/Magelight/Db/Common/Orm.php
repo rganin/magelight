@@ -101,6 +101,11 @@ namespace Magelight\Db\Common;
 abstract class Orm
 {
     /**
+     * Use forgery
+     */
+    use \Magelight\Traits\TForgery;
+
+    /**
      * Use caching trait
      */
     use \Magelight\Traits\TCache;
