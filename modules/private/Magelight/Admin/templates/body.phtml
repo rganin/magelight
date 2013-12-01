@@ -1,6 +1,6 @@
 <?php /* @var $this \Magelight\Admin\Blocks\Body */ ?>
 <div class="navbar-container">
-    <div class="navbar navbar-static-top">
+    <div class="navbar navbar-default">
         <div class="navbar-inner">
             <?=$this->section('admin_navbar')?>
         </div>
@@ -8,10 +8,10 @@
 </div>
 
 <div class="row-fluid">
-    <div class="span2">
-        <?=$this->section('admin_sections')?>
-    </div>
-    <div class="span10">
-        <?=$this->section('content')?>
+    <div class="span12">
+        <div class="container-fluid">
+            <?=$this->section('breadcrumbs')?>
+            <?=$this->section('content')?>
+        </div>
     </div>
 </div>

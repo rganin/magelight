@@ -10,9 +10,9 @@
                             <admin_navbar>
                                 <block>\Magelight\Admin\Blocks\Navbar</block>
                             </admin_navbar>
-                            <admin_sections>
-                                <block>\Magelight\Admin\Blocks\Sections</block>
-                            </admin_sections>
+                            <!--<admin_sections>-->
+                                <!--<block>\Magelight\Admin\Blocks\Sections</block>-->
+                            <!--</admin_sections>-->
                         </sections>
                     </body>
                 </sections>
@@ -35,6 +35,14 @@
                         </default>
                     </fields>
                 </default>
+                <!--<categories>-->
+                    <!--<table_name>categories</table_name>-->
+                    <!--<fields>-->
+                        <!--<title>-->
+                            <!--<allow_null>1</allow_null>-->
+                        <!--</title>-->
+                    <!--</fields>-->
+                <!--</categories>-->
             </entities>
         </scaffold>
         <navbar>
@@ -55,8 +63,8 @@
                     <subitems stackable="1">
 
                     </subitems>
-                    <sections stackable="1">
-                        <block>Magelight\Admin\Blocks\Sections</block>
+                    <sections>
+
                     </sections>
                 </dashboard>
                 <scaffolding>
@@ -64,8 +72,21 @@
                     <route>admin/scaffold</route>
                     <title>Scaffolding</title>
                     <position>200</position>
-                    <sections stackable="1">
+                    <sections>
                         <block>Magelight\Admin\Blocks\Sections</block>
+                        <items stackable="1">
+                            <test1>
+                                <route>/</route>
+                                <title>test1</title>
+                                <position>100</position>
+                            </test1>
+                            <test2>
+                                <block>Magelight\Admin\Blocks\Sections\Item</block>
+                                <route>/</route>
+                                <title>test2</title>
+                                <position>200</position>
+                            </test2>
+                        </items>
                     </sections>
                 </scaffolding>
             </items>

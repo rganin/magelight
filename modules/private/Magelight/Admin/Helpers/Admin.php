@@ -16,7 +16,7 @@ class Admin
     public function isCurrentUserAdmin()
     {
         $userId = \Magelight::app()->session()->get('user_id');
-        $model = \Magelight\Admin\Models\AdminUser::find($userId);
+        $model = \Magelight\Admin\Models\AdminUser::findBy('user_id', $userId);
         return !empty($model);
     }
 }

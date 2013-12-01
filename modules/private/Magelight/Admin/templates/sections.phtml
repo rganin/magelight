@@ -1,0 +1,6 @@
+<?php /* @var $this \Magelight\Admin\Blocks\Sections */ ?>
+<ul class="nav nav-list">
+    <?php foreach ($this->get('sections', []) as $section): ?>
+        <li><a href="<?=$this->url($section['route_match'], $section['route_params']);?>"><?=$this->escapeHtml($section['title']);?></a></li>
+    <?php endforeach; ?>
+</ul>

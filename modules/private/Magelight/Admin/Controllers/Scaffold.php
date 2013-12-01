@@ -5,9 +5,16 @@ namespace Magelight\Admin\Controllers;
 class Scaffold extends Base
 {
     /**
+     * Entity
+     *
+     * @var string
+     */
+    protected $_entity = null;
+
+    /**
      * @var \Magelight\Admin\Models\Scaffold\Scaffold
      */
-    protected $_scaffold = null;
+    protected $_scaffold;
 
     public function beforeExecute()
     {
@@ -16,7 +23,14 @@ class Scaffold extends Base
                 'user_id' => $this->session()->get('user_id')
             ]
         );
+        $this->_entity = $this->request()->getGet('entity');
         parent::beforeExecute();
+        $this->_breadcrumbsBlock->addBreadcrumb('Scaffolding', 'admin/scaffold');
+        if (!empty($this->_entity)) {
+            $this->_breadcrumbsBlock->addBreadcrumb(
+                $this->_entity, 'admin/scaffold/{entity}/', ['entity' => $this->_entity]
+            );
+        }
     }
 
     /**
@@ -26,42 +40,107 @@ class Scaffold extends Base
     {
         $this->view()->setTitle('Admin - Scaffold index action');
         $this->view()->sectionReplace('content', \Magelight\Admin\Blocks\Scaffold\Entities::forge());
-        $this->renderView();
     }
 
     public function entity_listAction()
     {
-        $this->view()->sectionReplace('content', 'Scaffold entity_list action');
-        $entity = $this->request()->getGet('entity');
+        $this->view()->setTitle('Admin - Scaffold entity_list action');
         $page = $this->request()->getGet('page');
-        $this->view()->sectionReplace('content', \Magelight\Admin\Blocks\Scaffold\EntityList::forge($entity, $page));
-        $this->renderView();
+        $this->view()->sectionReplace(
+            'content',
+            \Magelight\Admin\Blocks\Scaffold\EntityList::forge($this->_entity, $page)
+        );
     }
 
     public function createAction()
     {
-        $this->view()->sectionReplace('content', 'Scaffold create action');
-        $this->renderView();
+        $this->view()->setTitle('Admin - Scaffold create action');
+        $this->_breadcrumbsBlock->addBreadcrumb(
+            'Create ' . $this->_entity, 'admin/scaffold/{entity}/create', ['entity' => $this->_entity]
+        );
+        $this->view()->sectionReplace(
+            'content',
+            \Magelight\Admin\Blocks\Scaffold\EntityForm::forge($this->_entity)
+        );
     }
 
     public function readAction()
     {
-        $entity = $this->request()->getGet('entity');
         $id = $this->request()->getGet('id');
-        $content = \Magelight\Admin\Blocks\Scaffold\EntityForm::forge($entity, $id);
-        $this->view()->sectionReplace('content', $content);
-        $this->renderView();
+        $this->_breadcrumbsBlock->addBreadcrumb(
+            'Edit ' . $this->_entity, 'admin/scaffold/{entity}/read/{id}', [
+                'entity' => $this->_entity,
+                'id' => $id,
+            ]
+        );
+        $this->view()->sectionReplace(
+            'content',
+            \Magelight\Admin\Blocks\Scaffold\EntityForm::forge($this->_entity)
+                ->loadEntityData($id)
+        );
     }
 
     public function updateAction()
     {
-        $this->view()->sectionReplace('content', 'Scaffold update action');
-        $this->renderView();
+
+        $form = \Magelight\Admin\Blocks\Scaffold\EntityForm::forge($this->_entity);
+        $form->loadFromRequest();
+        $scaffold = $form->getScaffold();
+        $id = $form->getFieldValue($scaffold->getEntityIdField($this->_entity));
+        $this->_breadcrumbsBlock->addBreadcrumb(
+            'Edit ' . $this->_entity, 'admin/scaffold/{entity}/read/{id}', [
+                'entity' => $this->_entity,
+                'id' => $id,
+            ]
+        );
+        if (!$form->isEmptyRequest()) {
+            $model = $scaffold->getEntityModel($this->_entity, $form->getRequestFields());
+            try {
+                if ($model->save()) {
+                    $form->addResult("{$this->_entity} entity with ID $id saved.", 'alert-success');
+                } else {
+                    $form->addResult("Cannot save {$this->_entity} entity with ID $id.");
+                }
+            } catch (\Exception $e) {
+                $form->addResult($e->getMessage());
+            }
+        }
+        $this->view()->sectionReplace('content', $form);
     }
 
     public function deleteAction()
     {
-        $this->view()->sectionReplace('content', 'Scaffold delete action');
+        $id = $this->request()->getGet('id');
+        $this->_breadcrumbsBlock->addBreadcrumb(
+            'Delete ' . $this->_entity . ' id=' . $id,
+            'admin/scaffold/{entity}/delete/{id}',
+            [
+                'entity' => $this->_entity,
+                'id' => $id,
+            ]
+        );
+        $block = \Magelight\Admin\Blocks\Scaffold\Delete::forge($this->_entity, $id);
+        $form = $block->getDeleteForm();
+        $form->loadFromRequest();
+        if ($form->isEmptyRequest()) {
+            $this->view()->sectionReplace('content', $block);
+        } else {
+            if ($form->getFieldValue('id') === $id) {
+                $scaffold = \Magelight\Admin\Models\Scaffold\Scaffold::forge();
+                $scaffold->loadEntities();
+                $model = $scaffold->getEntityModel($this->_entity);
+                $form->createResultRow();
+                if ($model->delete($id)) {
+                    $this->redirectInternal('admin/scaffold/{entity}', ['entity' => $this->_entity]);
+                } else {
+                    $form->addResult('Can`t delete');
+                }
+            }
+        }
+    }
+
+    public function afterExecute()
+    {
         $this->renderView();
     }
 }

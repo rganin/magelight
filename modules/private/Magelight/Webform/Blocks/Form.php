@@ -177,8 +177,40 @@ class Form extends Elements\Abstraction\Element
     {
         if ($content instanceof \Magelight\Webform\Blocks\Elements\Abstraction\Element) {
             parent::addContent($content->bindForm($this));
+        } else {
+            parent::addContent($content);
         }
         return $this;
+    }
+
+    /**
+     * Get element or field by ID
+     *
+     * @param string $id
+     *
+     * @return \Magelight\Webform\Blocks\Elements\Abstraction\Element|null
+     */
+    public function getElementById($id)
+    {
+        foreach ($this->_content as $element) {
+            if ($element instanceof \Magelight\Webform\Blocks\Elements\Abstraction\Element) {
+                if ($element->getId() == $id) {
+                    return $element;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get element by name
+     *
+     * @param string $name
+     *
+     * @return Elements\Abstraction\Element|null
+     */
+    public function getElementByName($name) {
+        return $this->getElementById($this->getFieldIdByName($name));
     }
 
     /**

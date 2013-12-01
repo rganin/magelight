@@ -28,8 +28,8 @@ class Body extends \Magelight\Block
             'http-equiv'=> "content-type",
             'content' => "text/html; charset=utf-8",
         ]);
-        $document->addCss('modules/public/Cargo/static/css/bootstrap.css');
-        $document->addCss('modules/public/Cargo/static/css/hint.css');
+        $document->addCss('modules/private/Magelight/Core/static/css/bootstrap.css');
+        $document->addCss('modules/private/Magelight/Core/static/css/hint.css');
         $document->addJs('modules/private/Magelight/Core/static/js/jquery.js');
         $document->addJs('modules/private/Magelight/Core/static/js/bootstrap.min.js');
     }

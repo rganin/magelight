@@ -1,0 +1,10 @@
+<?php
+/* @var $this \Magelight\Admin\Blocks\Scaffold\Delete */
+?>
+
+<div class="align-center">
+    <div class="alert alert-danger">Are you sure to delete <?=$this->escapeHtml($this->entity_title)?> with id = <?=$this->id?>?</div>
+    <div>
+        <?=$this->section('delete-form')?>
+    </div>
+</div>
