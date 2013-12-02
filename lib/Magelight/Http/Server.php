@@ -71,6 +71,21 @@ class Server
     }
 
     /**
+     * Get referer
+     *
+     * @param string $default
+     *
+     * @return string
+     */
+    public function getHttpReferer($default = '')
+    {
+        if (isset($_SERVER['HTTP_REFERER'])) {
+            return $_SERVER['HTTP_REFERER'];
+        }
+        return $default;
+    }
+
+    /**
      * Send header to client
      *
      * @param string $header

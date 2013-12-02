@@ -1,5 +1,8 @@
 <?php /* @var $this \Magelight\Visitors\Blocks\VisitorsSummary */ ?>
-<table>
+
+<?=$this->section('visitors-pager')?>
+
+<table class="table">
     <thead>
         <tr>
             <th>Time</th>
@@ -9,11 +12,22 @@
         </tr>
     </thead>
     <tbody>
+        <?php foreach ($this->get('visitors', []) as $visitor) : ?>
         <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td><?=$this->dateTime($visitor['time'])?></td>
+            <td><?=long2ip($visitor['ip'])?></td>
+            <td><?=$visitor['referer']?></td>
+            <td>
+                <a href="javascript:" onclick="$(this).parent().find('ul').toggle(100);">Show</a>
+                <ul class="visitor-actions" style="display:none;">
+                    <?php foreach (json_decode($visitor['info'], true) as $key => $info): ?>
+                        <li><?=$this->truncate($this->escapeHtml($info['action']), 120)?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </td>
         </tr>
+        <?php endforeach; ?>
     </tbody>
 </table>
+
+<?=$this->section('visitors-pager')?>

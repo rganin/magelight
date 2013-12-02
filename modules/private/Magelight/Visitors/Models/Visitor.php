@@ -72,7 +72,7 @@ class Visitor extends \Magelight\Model
         } else {
             $this->time = $time;
             $this->ip = $ipLong;
-            $this->referer = $_SERVER['HTTP_REFERER'];
+            $this->referer = \Magelight\Http\Server::getInstance()->getHttpReferer('direct');
             $this->info = json_encode([
                 ['action' => $requestRoute]
             ]);
