@@ -22,5 +22,6 @@ class Base extends \Magelight\Controller
         $this->_view = \Magelight\Core\Blocks\Document::forge()->loadPerspective('global/perspectives/admin');
         $this->_view->setGlobal('user_id', $this->session()->get('user_id'));
         $this->view()->sectionAppend('breadcrumbs', $this->_breadcrumbsBlock);
+        $this->view()->sectionAppend('dashboard-content', '');
     }
 }

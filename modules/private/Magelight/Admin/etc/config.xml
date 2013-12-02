@@ -10,9 +10,14 @@
                             <admin_navbar>
                                 <block>\Magelight\Admin\Blocks\Navbar</block>
                             </admin_navbar>
-                            <!--<admin_sections>-->
-                                <!--<block>\Magelight\Admin\Blocks\Sections</block>-->
-                            <!--</admin_sections>-->
+                            <content>
+                                <block>\Magelight\Admin\Blocks\Dashboard</block>
+                                <sections>
+                                    <dashboard-content stackable="1">
+
+                                    </dashboard-content>
+                                </sections>
+                            </content>
                         </sections>
                     </body>
                 </sections>

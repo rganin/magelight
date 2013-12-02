@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config>
+    <admin>
+        <navbar>
+            <items>
+                <visitors>
+                    <route>admin/visitors</route>
+                    <title>Visitors</title>
+                    <position>300</position>
+                </visitors>
+            </items>
+        </navbar>
+    </admin>
+    <global>
+        <perspectives>
+            <admin>
+                <sections>
+                    <dashboard-content stackable="1">
+                        <block>\Magelight\Visitors\Blocks\VisitorsSummary</block>
+                    </dashboard-content>
+                </sections>
+            </admin>
+        </perspectives>
+        <events>
+            <app_controller_initialized>
+                <observer>\Magelight\Visitors\Models\Observer</observer>
+            </app_controller_initialized>
+        </events>
+    </global>
+</config>

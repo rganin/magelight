@@ -82,7 +82,7 @@ class Routes
                 }
             }
         }
-
+        $this->_routes = array_reverse($this->_routes, true);
         return $this;
     }
 

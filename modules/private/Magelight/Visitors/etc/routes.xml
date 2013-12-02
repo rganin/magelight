@@ -1,0 +1,7 @@
+<routes>
+    <route match="admin">
+        <route match="visitors" module="Magelight\Visitors" controller="visitors">
+            <route match="{action}" />
+        </route>
+    </route>
+</routes>

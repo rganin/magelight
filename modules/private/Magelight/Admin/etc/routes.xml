@@ -1,5 +1,10 @@
 <routes>
     <route match="admin" controller="index" module="Magelight\Admin">
+        <route match="{controller}">
+            <route match="{action}">
+
+            </route>
+        </route>
         <route match="scaffold" controller="scaffold">
             <route match="/{entity}" action="entity_list">
                 <route match="/page-{page}" />
@@ -8,10 +13,6 @@
                 </route>
             </route>
         </route>
-        <route match="{controller}">
-            <route match="{action}">
 
-            </route>
-        </route>
     </route>
 </routes>
