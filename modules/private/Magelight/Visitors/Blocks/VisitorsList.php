@@ -78,7 +78,7 @@ class VisitorsList extends \Magelight\Block
     protected function _getPagerBlock()
     {
         $pagerBlock = \Magelight\Core\Blocks\Pager::forge($this->_collection);
-        $pagerBlock->setCurrentPage($this->_currentPage);
+        $pagerBlock->setCurrentPage($this->_currentPage)->setRoute('admin/visitors');
         return $pagerBlock;
     }
 }
