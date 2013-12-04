@@ -100,6 +100,13 @@ class Pager extends \Magelight\Block
     protected $_attributes = [];
 
     /**
+     * Show first and last pages
+     *
+     * @var bool
+     */
+    protected $_showFirstLast = true;
+
+    /**
      * Pager templates
      *
      * @var string
@@ -120,7 +127,7 @@ class Pager extends \Magelight\Block
             $this->setPerPage($this->_collection->getLimit());
             $this->setCurrentPage(floor($this->_collection->getOffset() / $this->_perPage));
         }
-        $this->setNextCaption()->setPrevCaption();
+        $this->setNextCaption()->setPrevCaption()->setFirstCaption()->setLastCaption();
     }
 
     /**
@@ -207,6 +214,30 @@ class Pager extends \Magelight\Block
     public function setNextCaption($caption = '&#x2192;')
     {
         $this->set('next_caption', $caption);
+        return $this;
+    }
+
+    /**
+     * Set caption for first page rewind
+     *
+     * @param string $caption
+     * @return Pager
+     */
+    public function setFirstCaption($caption = '<<')
+    {
+        $this->set('first_caption', $caption);
+        return $this;
+    }
+
+    /**
+     * Set caption for next page nav button
+     *
+     * @param string $caption
+     * @return Pager
+     */
+    public function setLastCaption($caption = '>>')
+    {
+        $this->set('last_caption', $caption);
         return $this;
     }
 
@@ -329,6 +360,15 @@ class Pager extends \Magelight\Block
     {
         $pages = [];
         $pagesCount = ceil($this->_total / $this->_perPage);
+        if ($this->_showFirstLast) {
+            $pages[] = [
+                'page'    => 0,
+                'caption' => $this->first_caption,
+                'url'     => $this->getPageUrl(0),
+                'active'  => false,
+                'disabled' => $this->_currentPage <= 0,
+            ];
+        }
         if ($this->prev_caption) {
             $pages[] = [
                 'page'    => $this->_currentPage,
@@ -364,8 +404,30 @@ class Pager extends \Magelight\Block
                 'disabled' => $this->_currentPage >= $pagesCount -1,
             ];
         }
+        if ($this->_showFirstLast) {
+            $pages[] = [
+                'page'    => $pagesCount - 1,
+                'caption' => $this->last_caption,
+                'url'     => $this->getPageUrl($pagesCount - 1),
+                'active'  => false,
+                'disabled' => $this->_currentPage >= $pagesCount - 1,
+            ];
+        }
         $this->set('pages', $pages);
         unset($pages);
         return parent::init();
+    }
+
+    /**
+     * Set showing first and last
+     *
+     * @param bool $flag
+     *
+     * @return $this
+     */
+    public function setShowFirstLast($flag = true)
+    {
+        $this->_showFirstLast = $flag;
+        return $this;
     }
 }
