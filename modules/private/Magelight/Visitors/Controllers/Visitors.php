@@ -37,7 +37,7 @@ class Visitors extends \Magelight\Admin\Controllers\Base
     {
         $this->_breadcrumbsBlock->addBreadcrumb('Visitors', 'admin/visitors');
         $collection = \Magelight\Db\Collection::forge(
-            \Magelight\Visitors\Models\Visitor::orm()
+            \Magelight\Visitors\Models\Visitor::orm()->orderByDesc('time')
         )->setLimit(30);
         $page = $this->request()->getRequest('page', 0);
         $this->view()->sectionReplace('content', \Magelight\Visitors\Blocks\VisitorsList::forge($collection, $page));
