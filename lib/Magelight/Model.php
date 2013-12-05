@@ -417,6 +417,11 @@ abstract class Model
         }
     }
 
+    /**
+     * Int typecast on properties
+     *
+     * @param array $propertiesNamesArray
+     */
     protected function _castPropertiesInt($propertiesNamesArray = [])
     {
         foreach ($propertiesNamesArray as $property) {
@@ -424,6 +429,11 @@ abstract class Model
         }
     }
 
+    /**
+     * String typecast on properties
+     *
+     * @param array $propertiesNamesArray
+     */
     protected function _castPropertiesString($propertiesNamesArray = [])
     {
         foreach ($propertiesNamesArray as $property) {
@@ -431,6 +441,11 @@ abstract class Model
         }
     }
 
+    /**
+     * Float typecast on properties
+     *
+     * @param array $propertiesNamesArray
+     */
     protected function _castPropertiesFloat($propertiesNamesArray = [])
     {
         foreach ($propertiesNamesArray as $property) {
@@ -438,6 +453,11 @@ abstract class Model
         }
     }
 
+    /**
+     * Array typecast on properties
+     *
+     * @param array $propertiesNamesArray
+     */
     protected function _castPropertiesArray($propertiesNamesArray = [])
     {
         foreach ($propertiesNamesArray as $property) {
@@ -445,10 +465,48 @@ abstract class Model
         }
     }
 
+    /**
+     * Object typecast on properties
+     *
+     * @param array $propertiesNamesArray
+     */
     protected function _castPropertiesObject($propertiesNamesArray = [])
     {
         foreach ($propertiesNamesArray as $property) {
             $this->$property = (object)$this->$property;
         }
     }
+
+    /**
+     * Get random IDs set
+     *
+     * @param int $limit
+     * @return array
+     */
+    public function getRandomIds($limit)
+    {
+        $return = [];
+        $result = $this->_getRandomIdsDataSource($limit)->fetchAll();
+        if ($result) {
+            foreach ($result as $resultRow) {
+                $return[] = $resultRow[$this->getIdField()];
+            }
+        }
+        return $return;
+    }
+
+    /**
+     * Get random IDs data source
+     *
+     * @param int $limit
+     * @return Db\Common\Orm
+     */
+    protected function _getRandomIdsDataSource($limit)
+    {
+        return $this->orm()
+            ->selectFields([$this->getIdField()])
+            ->orderByDesc('RAND()')
+            ->limit($limit);
+    }
+
 }
