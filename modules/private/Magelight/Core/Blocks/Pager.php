@@ -118,7 +118,7 @@ class Pager extends \Magelight\Block
      *
      * @param \Magelight\Db\Collection $collection - collection to build pager for
      */
-    public function __forge(\Magelight\Db\Collection $collection)
+    public function __forge(\Magelight\Db\Collection $collection = null)
     {
         $this->_collection = $collection;
         $this->addClass('pagination');

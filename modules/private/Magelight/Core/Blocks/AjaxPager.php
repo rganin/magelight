@@ -33,7 +33,7 @@ class AjaxPager extends Pager
      *
      * @param \Magelight\Db\Collection $collection - collection to build pager for
      */
-    public function __forge(\Magelight\Db\Collection $collection)
+    public function __forge(\Magelight\Db\Collection $collection = null)
     {
         parent::__forge($collection);
         \Magelight\Core\Blocks\Document::getFromRegistry()
