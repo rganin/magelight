@@ -127,7 +127,7 @@ class Routes
             $route['module'] =  $moduleName = !empty($routeXml->attributes()->module)
                 ? (string) $routeXml->attributes()->module
                 : $moduleName;
-            $route['match'] = (isset($parentRoute['match']) ? $parentRoute['match'] : '' )
+            $route['match'] = (isset($parentRoute['match']) ? rtrim($parentRoute['match'], '\\/') : '' )
                 . '/' 
                 . trim($routeXml->attributes()->match, '\\/');
             
