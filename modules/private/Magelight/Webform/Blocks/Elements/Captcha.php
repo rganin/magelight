@@ -45,6 +45,6 @@ class Captcha extends Abstraction\Field
             $this->_captcha->loadCodeFromSession()->generate()->saveCodeToSession();
             $this->_captcha->save();
         }
-        $this->set('image_url', !empty($renderUrl) ? $renderUrl : $this->_captcha->getSavedFileName());
+        $this->set('image_url', !empty($renderUrl) ? $renderUrl : $this->url($this->_captcha->getSavedFileName()));
     }
 }
