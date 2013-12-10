@@ -67,7 +67,7 @@ class Visitor extends \Magelight\Model
             $info[] = ['action' => $requestRoute];
             $current->info = json_encode($info);
             unset($info);
-            $current->save(true);
+            $current->save(false);
             unset($current);
         } else {
             $this->time = $time;
