@@ -16,7 +16,7 @@
         <tr>
             <td><?=$this->dateTime($visitor['time'])?></td>
             <td><?=long2ip($visitor['ip'])?></td>
-            <td><?=$visitor['referer']?></td>
+            <td><?=$this->escapeHtml(urldecode($visitor['referer']))?></td>
             <td>
                 <a href="javascript:" onclick="$(this).parent().find('ul').toggle(100);">Show</a>
                 <ul class="visitor-actions" style="display:none;">
