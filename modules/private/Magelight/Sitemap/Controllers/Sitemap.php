@@ -20,27 +20,16 @@
  * @copyright Copyright (c) 2013 rganin (rganin@gmail.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-namespace Magelight\Visitors\Models;
 
-/**
- * Class Observer
- * @package Magelight\Visitors\Models
- */
-class Observer extends \Magelight\Observer
+namespace Magelight\Sitemap\Controllers;
+
+class Sitemap extends \Magelight\Admin\Controllers\Base
 {
-    /**
-     * Execute observer
-     *
-     * @return Observer
-     */
-    public function execute()
+    public function generateAction()
     {
-        /** @var $request \Magelight\Http\Request */
-        $request = $this->_arguments['request'];
-        if ($request instanceof \Magelight\Http\Request) {
-            $requestRoute = $request->getRequestRoute();
-            Visitor::forge()->encount($requestRoute);
-        }
-        return $this;
+        set_time_limit(0);
+        $sitemap = \Magelight\Sitemap\Models\Sitemap::forge($this->url('/'));
+        $sitemap->allowUrls([$this->url('/*')]);
+        $sitemap->generate()->saveAsXml($this->_app->getAppDir() . DS . 'sitemap.xml');
     }
 }

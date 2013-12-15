@@ -1,0 +1,7 @@
+<routes>
+    <route match="admin">
+        <route match="sitemap" module="Magelight\Sitemap" controller="sitemap">
+            <route match="{action}" />
+        </route>
+    </route>
+</routes>

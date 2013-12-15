@@ -63,9 +63,9 @@ class Visitor extends \Magelight\Model
             ->fetchModel();
         if ($current instanceof self) {
             $current->time = $time;
-            $info = json_decode($current->info, true);
-            $info[] = ['action' => $requestRoute];
-            $current->info = json_encode($info);
+            $info = json_decode(gzuncompress($current->info), true);
+            $info[$requestRoute] = isset($info[$requestRoute]) ? $info[$requestRoute] + 1 : 1;
+            $current->info = gzcompress(json_encode($info), 8);
             unset($info);
             $current->save(false);
             unset($current);
@@ -73,9 +73,9 @@ class Visitor extends \Magelight\Model
             $this->time = $time;
             $this->ip = $ipLong;
             $this->referer = \Magelight\Http\Server::getInstance()->getHttpReferer('direct');
-            $this->info = json_encode([
-                ['action' => $requestRoute]
-            ]);
+            $this->info = gzcompress(json_encode([
+                $requestRoute => 1
+            ]), 8);
             $this->save(true);
         }
         return $this;
