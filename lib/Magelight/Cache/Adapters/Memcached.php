@@ -102,7 +102,6 @@ class Memcached extends \Magelight\Cache\AdapterAbstract
      */
     public function clear()
     {
-        $key = $this->prepareKey($key);
         return (bool)$this->memcached->flush();
     }
 
