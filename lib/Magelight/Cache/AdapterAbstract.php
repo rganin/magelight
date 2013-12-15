@@ -48,13 +48,43 @@ abstract class AdapterAbstract implements ICacheInterface
     protected $_config = null;
 
     /**
+     * Cache key prefix
+     *
+     * @var string
+     */
+    protected $_cacheKeyPrefix = null;
+
+    /**
      * Forgery constructor
      *
      * @param \SimpleXMLElement $config
+     * @throws \Magelight\Exception
      */
     public function __forge($config)
     {
         $this->_config = $config;
+        if (isset($config['cache_key_prefix'])) {
+            $this->_cacheKeyPrefix = $config['cache_key_prefix'];
+        } else {
+            $this->_cacheKeyPrefix = (string) \Magelight::app()->getConfig('global/base_domain');
+            if (!$this->_cacheKeyPrefix) {
+                $this->_cacheKeyPrefix = md5(\Magelight::app()->getAppDir());
+                if (!$this->_cacheKeyPrefix) {
+                    throw new \Magelight\Exception('Cache key prefix not set, and base domain too. Cache conflicts can appear.');
+                }
+            }
+        }
+    }
+
+    /**
+     * Prepare cache key
+     *
+     * @param string $key
+     * @return string
+     */
+    public function prepareKey($key)
+    {
+        return $this->_cacheKeyPrefix . $key;
     }
 
     /**

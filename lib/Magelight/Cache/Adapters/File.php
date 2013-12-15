@@ -57,6 +57,7 @@ class File extends \Magelight\Cache\AdapterAbstract
      */
     public function getFilepath($key)
     {
+        $key = $this->prepareKey($key);
         return $this->_path . DS . $key;
     }
 
@@ -69,6 +70,7 @@ class File extends \Magelight\Cache\AdapterAbstract
      */
     public function get($key, $default = null)
     {
+        $key = $this->prepareKey($key);
         $data = @file_get_contents($this->getFilepath($key));
         if ($data === false) {
             return $default;
@@ -90,6 +92,7 @@ class File extends \Magelight\Cache\AdapterAbstract
      */
     public function set($key, $value, $ttl = 360)
     {
+        $key = $this->prepareKey($key);
         $data = serialize(['ttl' => time() + $ttl, 'value' => $value]);
         return (bool) @file_put_contents($this->getFilepath($key) , $data);
     }
@@ -102,6 +105,7 @@ class File extends \Magelight\Cache\AdapterAbstract
      */
     public function del($key)
     {
+        $key = $this->prepareKey($key);
         $result = true;
         foreach (glob(trim($this->_path, '\\/') . DS) as $file) {
             $result &= (bool)@unlink($file);
@@ -130,6 +134,7 @@ class File extends \Magelight\Cache\AdapterAbstract
      */
     public function increment($key, $incValue = 1, $initialValue = 0, $ttl = 360)
     {
+        $key = $this->prepareKey($key);
         $value = $this->get($key, (int)$initialValue) + $incValue;
         $result = $this->set($key, $value, $ttl);
         return $result ? $value : false;
@@ -146,6 +151,7 @@ class File extends \Magelight\Cache\AdapterAbstract
      */
     public function decrement($key, $decValue = 1, $initialValue = 0, $ttl = 360)
     {
+        $key = $this->prepareKey($key);
         $value = $this->get($key, (int)$initialValue) - $decValue;
         $result = $this->set($key, $value, $ttl);
         return $result ? $value : false;
@@ -165,6 +171,7 @@ class File extends \Magelight\Cache\AdapterAbstract
      */
     public function setNx($key, $value, $ttl = 360)
     {
+        $key = $this->prepareKey($key);
         if ($this->get($value, false)) {
             return false;
         }

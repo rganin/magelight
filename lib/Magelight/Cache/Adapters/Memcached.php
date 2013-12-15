@@ -62,6 +62,7 @@ class Memcached extends \Magelight\Cache\AdapterAbstract
      */
     public function get($key, $default = null)
     {
+        $key = $this->prepareKey($key);
         if ($data = $this->memcached->get($key)) {
             return $data;
         }
@@ -78,6 +79,7 @@ class Memcached extends \Magelight\Cache\AdapterAbstract
      */
     public function set($key, $value, $ttl = 360)
     {
+        $key = $this->prepareKey($key);
         return $this->memcached->add($key, $value, 0, $ttl);
     }
 
@@ -89,6 +91,7 @@ class Memcached extends \Magelight\Cache\AdapterAbstract
      */
     public function del($key)
     {
+        $key = $this->prepareKey($key);
         return (bool)$this->memcached->delete($key);
     }
 
@@ -99,6 +102,7 @@ class Memcached extends \Magelight\Cache\AdapterAbstract
      */
     public function clear()
     {
+        $key = $this->prepareKey($key);
         return (bool)$this->memcached->flush();
     }
 
@@ -113,6 +117,7 @@ class Memcached extends \Magelight\Cache\AdapterAbstract
      */
     public function increment($key, $incValue = 1, $initialValue = 0, $ttl = 360)
     {
+        $key = $this->prepareKey($key);
         return $this->memcached->increment($key, $incValue, $initialValue, $ttl);
     }
 
@@ -127,6 +132,7 @@ class Memcached extends \Magelight\Cache\AdapterAbstract
      */
     public function decrement($key, $decValue = 1, $initialValue = 0, $ttl = 360)
     {
+        $key = $this->prepareKey($key);
         return $this->memcached->decrement($key, $decValue, $initialValue, $ttl);
     }
 
@@ -144,6 +150,7 @@ class Memcached extends \Magelight\Cache\AdapterAbstract
      */
     public function setNx($key, $value, $ttl = 360)
     {
+        $key = $this->prepareKey($key);
         if ($this->get($value, false)) {
             return false;
         }
