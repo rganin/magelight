@@ -61,6 +61,13 @@ abstract class Adapter
     protected $_dsn = '';
 
     /**
+     * Params
+     *
+     * @var array
+     */
+    protected $_params = [];
+
+    /**
      * Adapter type
      *
      * @var string
@@ -160,6 +167,7 @@ abstract class Adapter
      */
     protected function getDsn(array $options)
     {
+        $this->_params = $options;
         $dsn = $options['type'] . ':';
         $dsnParams = [];
         foreach (['host', 'port', 'dbname', 'unix_socket', 'charset'] as $index) {
@@ -168,6 +176,19 @@ abstract class Adapter
             }
         }
         return $dsn . implode(';', $dsnParams);
+    }
+
+    /**
+     * Prepare unique db server trigger or foreign key name
+     *
+     * @param string $name
+     * @return string
+     */
+    public function prepareUniqueTriggerName($name)
+    {
+        return isset($this->_params['dbname']) ?
+            ($this->_params['dbname'] . '_' . $name) :
+            (md5(time() . md5($this->_params))) . '_' . $name;
     }
 
     /**

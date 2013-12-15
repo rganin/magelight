@@ -36,7 +36,7 @@ $this->getDb()->execute("
         `rights` VARCHAR(2048) NULL,
         INDEX `user_id` (`user_id`),
         PRIMARY KEY (`id`),
-        CONSTRAINT `FK1_users_admin_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
+        CONSTRAINT `{$this->getDb()->prepareUniqueTriggerName('users_admin_users')}` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
     )
     COLLATE='utf8_general_ci'
     ENGINE=InnoDB;
