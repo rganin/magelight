@@ -932,7 +932,7 @@ abstract class Orm
     protected function buildOrderBy()
     {
         $orderParts = [];
-        if (empty($this->groupBy['ASC']) && empty($this->orderBy['DESC'])) {
+        if (empty($this->orderBy['ASC']) && empty($this->orderBy['DESC'])) {
             return null;
         }
 

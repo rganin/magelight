@@ -173,6 +173,7 @@ class UrlHelper
      */
     public function prepareUrlKey($string)
     {
-        return preg_replace('/[^a-zA-Z0-9\_\-]+/i', '-', TranslitHelper::forge()->transliterateToAscii($string));
+        return trim(preg_replace('/[^a-zA-Z0-9\_\-]+/i', '-',
+            TranslitHelper::forge()->transliterateToAscii($string)), '-');
     }
 }

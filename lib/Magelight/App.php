@@ -666,7 +666,9 @@ final class App
     {
         $file = $this->getAppDir() . DS . $this->getConfig('global/setup/executed_scripts/filename');
         if (!file_exists($file)) {
-            mkdir(dirname($file), 755, true);
+            if (!file_exists(dirname($file))) {
+                mkdir(dirname($file), 755, true);
+            }
             file_put_contents($file, '');
         }
         $scripts = json_decode(file_get_contents($file), true);
