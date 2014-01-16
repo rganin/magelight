@@ -77,13 +77,11 @@ class UrlHelper
     public function getUrl($match, $params = [], $type = self::TYPE_HTTP, $addOnlyMaskParams = false)
     {
         $match = '/' . trim($match, '\\/');
-
-        if (!$addOnlyMaskParams
-            && \Magelight::app()->isInDeveloperMode()
-            && !$this->checkParamsWithPlaceholderMask($match, $params)) {
-            throw new \Magelight\Exception("Passed url params don`t match route mask.", E_USER_NOTICE);
+        if (!$addOnlyMaskParams) {
+            if (\Magelight::app()->isInDeveloperMode() && !$this->checkParamsWithPlaceholderMask($match, $params)) {
+                throw new \Magelight\Exception("Passed url params don`t match route mask.", E_USER_NOTICE);
+            }
         }
-                
         return $this->getBaseUrl($type) . $this->makeRequestUri($match, $params, $addOnlyMaskParams);
     }
 

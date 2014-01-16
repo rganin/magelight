@@ -1225,9 +1225,7 @@ abstract class Orm
                 return $data;
             }
         }
-        if (!$this->statement instanceof \PDOStatement) {
-            $this->statement = $this->db->execute($this->buidSelect(), array_values($this->params));
-        }
+        $this->statement = $this->db->execute($this->buidSelect(), array_values($this->params));
         $affectedRows = $this->statement->rowCount();
         $data = $this->statement->fetchAll($array ? \PDO::FETCH_ASSOC : \PDO::FETCH_BOTH);
         if ($this->getCacheKey()) {
