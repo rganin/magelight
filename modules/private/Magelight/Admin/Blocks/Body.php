@@ -34,7 +34,6 @@ class Body extends \Magelight\Block
             if ($user = \Magelight\Auth\Models\User::find($currentUserId)) {
                 $userData = $user->asArray();
                 $this->setGlobal('user_data', $userData);
-                $this->setGlobal('is_current_user_transporter', $user::isTransporter($currentUserId));
             }
         }
         $document = \Magelight\Core\Blocks\Document::getFromRegistry();

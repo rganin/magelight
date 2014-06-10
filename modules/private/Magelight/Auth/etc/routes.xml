@@ -1,0 +1,5 @@
+<routes>
+    <route match="/auth" controller="auth" module="Magelight\Auth">
+        <route match="/{action}" />
+    </route>
+</routes>
