@@ -117,22 +117,6 @@ final class Magelight
     }
 
     /**
-     * Translate string
-     * todo:Implement translator :)
-     *
-     * @param string $traslate
-     * @param int $num
-     * @param string $context
-     * @param array $arguments
-     *
-     * @return string
-     */
-    public static function __($traslate, $num = 1, $context = 'default', $arguments = [])
-    {
-        return vsprintf($traslate, $arguments);
-    }
-
-    /**
      * Fix path directory separators
      *
      * @param string $path
@@ -153,4 +137,18 @@ final class Magelight
     {
         return trim(self::app()->getAppDir(), '\\/') . DS . self::fixPath($path);
     }
+}
+
+/**
+ * Translation function
+ *
+ * @param string $string - translated string
+ * @param array $arguments - arguments
+ * @param int $number - plural number for plural forms
+ * @param string $context - context
+ * @return string
+ */
+function __($string, $arguments = [], $number = 1, $context = 'default')
+{
+    return \Magelight\I18n\Translator::getInstance()->translate($string, $arguments, $number, $context);
 }

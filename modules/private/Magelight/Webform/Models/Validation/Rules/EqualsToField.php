@@ -38,13 +38,6 @@ class EqualsToField extends AbstractRule
     protected $_frontValidatorRule = 'equalTo';
 
     /**
-     * Error string
-     *
-     * @var string
-     */
-    protected $_error = 'Field %s must be equal to field %3$s';
-
-    /**
      * Check value with rule
      * Returns:
      *    - true if rule passed.
@@ -67,5 +60,18 @@ class EqualsToField extends AbstractRule
     public function getFrontValidationParams()
     {
         return $this->_arguments[0];
+    }
+
+    /**
+     * Get error
+     *
+     * @return string
+     */
+    public function getError()
+    {
+        if (!empty($this->_error)) {
+            return $this->_error;
+        }
+        return __('Field %s must be equal to field %3$s', $this->getErrorArguments());
     }
 }

@@ -62,21 +62,21 @@ class Register extends \Magelight\Block
             $config->getConfigString('global/auth/urls/forgot_password_url')
         );
         $fieldset = Fieldset::forge();
-        $fieldset->addRowField(Elements\Input::forge()->setName('name')->setClass('span9'), 'Name');
-        $fieldset->addRowField(Elements\Input::forge()->setName('email')->setClass('span9'), 'E-Mail');
-        $fieldset->addRowField(Elements\PasswordInput::forge()->setName('password')->setClass('span9'), 'Password');
+        $fieldset->addRowField(Elements\Input::forge()->setName('name')->setClass('span9'), __('Name'));
+        $fieldset->addRowField(Elements\Input::forge()->setName('email')->setClass('span9'), __('E-Mail'));
+        $fieldset->addRowField(Elements\PasswordInput::forge()->setName('password')->setClass('span9'), __('Password'));
         $fieldset->addRowField(Elements\PasswordInput::forge()->setName('passconf')->setClass('span9'),
-            'Confirm password');
+            __('Confirm password'));
         $fieldset->addRowField(
             Elements\Captcha::forge(
                 $this->url(\Magelight::app()->config()->getConfigString('global/auth/urls/render_captcha_url'))
             )->setName('captcha')->setClass('span6'),
             null,
-            'Enter protection code'
+            __('Enter protection code')
         );
         return $form->addFieldset($fieldset)
             ->createResultRow(true)
-            ->addButtonsRow(Elements\Button::forge()->setContent('Register')->addClass('btn-primary'))
+            ->addButtonsRow(Elements\Button::forge()->setContent(__('Register'))->addClass('btn-primary'))
             ->loadFromRequest()->setValidator($this->_getRegFormValidator());
     }
 
@@ -89,15 +89,15 @@ class Register extends \Magelight\Block
     {
         $validator = \Magelight\Webform\Models\Validator::forge();
         $validator->fieldRules('captcha')
-            ->validatePermanent()->captcha()->setCustomError('Protection code is incorrect');
+            ->validatePermanent()->captcha()->setCustomError(__('Protection code is incorrect'));
 
-        $validator->fieldRules('password', 'Password')
+        $validator->fieldRules('password', __('Password'))
             ->required()->chainRule()
             ->minLength(3)->chainRule()
             ->maxLength(32)->chainRule();
 
-        $validator->fieldRules('passconf', 'Password confirmation')->required()->chainRule()
-            ->equals(\Magelight\Http\Request::getInstance()->getPost('regform')['password'], 'entered password');
+        $validator->fieldRules('passconf', __('Password confirmation'))->required()->chainRule()
+            ->equals(\Magelight\Http\Request::getInstance()->getPost('regform')['password'], __('entered password'));
 
         $validator->fieldRules('name')
             ->required()->chainRule()

@@ -26,13 +26,6 @@ namespace Magelight\Webform\Models\Validation\Rules;
 class Equals extends AbstractRule
 {
     /**
-     * Validation error pattern
-     *
-     * @var string
-     */
-    protected $_error = 'Field %s must be equal to %3$s';
-
-    /**
      * Fron validator (jQueryValidator) rule name
      *
      * @var string
@@ -53,8 +46,26 @@ class Equals extends AbstractRule
         return $value === $this->_arguments[0];
     }
 
+    /**
+     * Get frontend validation params
+     *
+     * @return array|bool|int|mixed
+     */
     public function getFrontValidationParams()
     {
         return $this->_arguments[0];
+    }
+
+    /**
+     * Get error
+     *
+     * @return string
+     */
+    public function getError()
+    {
+        if (!empty($this->_error)) {
+            return $this->_error;
+        }
+        return __('Field %s must be equal to %2$s', $this->getErrorArguments());
     }
 }

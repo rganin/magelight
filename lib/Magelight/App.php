@@ -68,25 +68,25 @@ final class App
 
     /**
      * Objects registry
-     * 
+     *
      * @var array
-     */   
+     */
     protected $_registry = [];
-        
+
     /**
      * Application directory
-     * 
+     *
      * @var string
      */
     protected $_appDir = './';
-    
+
     /**
      * Framework directory
-     * 
+     *
      * @var string
      */
     protected $_frameworkDir = null;
-    
+
     /**
      * Is app in developer mode
      *
@@ -104,8 +104,15 @@ final class App
     protected $_sessionCookieName = self::SESSION_ID_COOKIE_NAME;
 
     /**
+     * Application language ('en', 'ru', etc)
+     *
+     * @var string
+     */
+    protected $_lang;
+
+    /**
      * Get application directory
-     * 
+     *
      * @return string
      */
     public function getAppDir()
@@ -121,7 +128,7 @@ final class App
      */
     public function setDeveloperMode($value = true)
     {
-        $this->_developerMode = (bool) $value;
+        $this->_developerMode = (bool)$value;
         return $this;
     }
 
@@ -134,10 +141,10 @@ final class App
     {
         return $this->_developerMode;
     }
-    
+
     /**
      * Set application directory
-     * 
+     *
      * @param string $directory
      * @return App
      */
@@ -161,7 +168,7 @@ final class App
 
     /**
      * Get framework directory
-     * 
+     *
      * @return string
      */
     public function getFrameworkDir()
@@ -206,10 +213,10 @@ final class App
             return $default;
         }
     }
-    
+
     /**
      * Set object to registry by index
-     * 
+     *
      * @param string $index
      * @param mixed $object
      * @return App
@@ -219,40 +226,40 @@ final class App
         $this->_registry[$index] = $object;
         return $this;
     }
-    
+
     /**
      * Get router
-     * 
+     *
      * @return \Magelight\Components\Router
      */
     public function router()
     {
         return $this->getRegistryObject('router');
     }
-    
+
     /**
      * Get application modules object
-     * 
+     *
      * @return \Magelight\Components\Modules
      */
     public function modules()
     {
         return $this->getRegistryObject('modules');
     }
-    
+
     /**
      * Get config object
-     * 
+     *
      * @return \Magelight\Components\Config
      */
     public function config()
     {
         return $this->getRegistryObject('config');
     }
-    
+
     /**
      * Get session object
-     * 
+     *
      * @return \Magelight\Http\Session
      */
     public function session()
@@ -306,7 +313,7 @@ final class App
 
     /**
      * Initialize application
-     * 
+     *
      * @return App
      * @throws \Magelight\Exception
      */
@@ -317,7 +324,7 @@ final class App
         }
         $includePath = explode(PS, ini_get('include_path'));
         array_unshift(
-            $includePath, 
+            $includePath,
             $this->_frameworkDir . DS . 'lib'
         );
         foreach (array_reverse($this->_pools) as $pool) {
@@ -331,7 +338,7 @@ final class App
                 realpath($path)
             );
         }
-        
+
         ini_set('include_path', implode(PS, $includePath));
 
         $this->setRegistryObject('modules', new \Magelight\Components\Modules($this));
@@ -346,9 +353,41 @@ final class App
         $this->setRegistryObject('session', \Magelight\Http\Session::getInstance());
         $this->session()->setSessionName(self::SESSION_ID_COOKIE_NAME)->start();
         $this->loadClassesOverrides();
+        $translator = \Magelight\I18n\Translator::getInstance();
+        $lang = $this->session()->get('lang');
+        if (empty($lang)) {
+            $lang = (string)$this->getConfig('global/app/default_lang');
+        }
+        $this->setLang($lang);
         return $this;
     }
 
+    /**
+     * Set application language
+     *
+     * @param string $lang
+     */
+    public function setLang($lang)
+    {
+        $this->_lang = $lang;
+        if (!empty($this->_lang)) {
+            \Magelight\I18n\Translator::getInstance()->loadTranslations($this->_lang);
+        }
+    }
+
+    /**
+     * Get application language
+     *
+     * @return string
+     */
+    public function getLang()
+    {
+        return $this->_lang;
+    }
+
+    /**
+     * Load application aspects
+     */
     protected function _loadAspects()
     {
         foreach ($this->getConfig('global/app/aspects') as $aspect) {

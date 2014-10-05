@@ -37,11 +37,11 @@ abstract class AbstractRule
     const TRANSLATE_CONTEXT = 'validation';
 
     /**
-     * Validation error pattern
+     * Custom error string
      *
      * @var string
      */
-    protected $_error = 'Common validation error';
+    protected $_error;
 
     /**
      * Rule arguments
@@ -140,15 +140,28 @@ abstract class AbstractRule
     }
 
     /**
+     * Get error arguments
+     *
+     * @return array
+     */
+    protected function getErrorArguments()
+    {
+        $args = $this->_arguments;
+        array_unshift($args, $this->_fieldTitle);
+        return $args;
+    }
+
+    /**
      * Get error
      *
      * @return string
      */
     public function getError()
     {
-        $args = $this->_arguments;
-        array_unshift($args, $this->_fieldTitle);
-        return @\Magelight::__($this->_error, 1, self::TRANSLATE_CONTEXT, $args);
+        if (!empty($this->_error)) {
+            return $this->_error;
+        }
+        return __('Common validation error', $args);
     }
 
     /**

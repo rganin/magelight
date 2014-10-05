@@ -52,14 +52,14 @@ class ForgotPassword extends \Magelight\Block
             $this->url($config->getConfigString('global/auth/urls/forgot_password_url'))
         );
         $fieldset = Fieldset::forge();
-        $fieldset->addRowField(Elements\Input::forge()->setName('email'), 'E-Mail');
+        $fieldset->addRowField(Elements\Input::forge()->setName('email'), __('E-Mail', [], 1, 'default'));
 
         $validator = \Magelight\Webform\Models\Validator::forge();
-        $validator->fieldRules('email')->email()->setCustomError('Please enter a valid e-mail!');
+        $validator->fieldRules('email')->email()->setCustomError(__("Please enter " . " a valid e-mail!", [$this->_template], 1));
 
         return $form->addFieldset($fieldset)
             ->createResultRow()
-            ->addButtonsRow([Elements\Button::forge()->setContent('Send new password')->addClass('btn-primary')])
+            ->addButtonsRow([Elements\Button::forge()->setContent(__('Send new password'))->addClass('btn-primary')])
             ->loadFromRequest(\Magelight\Http\Request::getInstance())->setValidator($validator);
     }
 }

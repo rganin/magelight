@@ -97,7 +97,7 @@ final class Modules
         if (!isset($module['path'])) {
             $module['path'] = $module['name'];
         }
-        $module['path'] = str_replace('\\', '/', $module['path']);
+        $module['path'] = \Magelight::fixPath($module['path']);
         
         if (\Magelight::app()->isInDeveloperMode() && !$this->moduleExists($module['path'])) {
             throw new \Magelight\Exception('Module "' .  $module['name'] . '" does not exist or not readable.');

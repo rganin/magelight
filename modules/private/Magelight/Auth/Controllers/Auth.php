@@ -48,7 +48,7 @@ class Auth extends \Magelight\Core\Controllers\BaseController
                 ->whereEq('password', md5($form->getFieldValue('password')))
                 ->fetchModel()
             ) {
-                $form->addResult('Incorrect password or user with specified email is not registered');
+                $form->addResult(__('Incorrect password or user with specified email is not registered'));
             } else {
                 $this->session()->set('user_id', $user->id);
                 $this->redirect($this->url($this->app()->getConfig('global/auth/urls/success_url')));
@@ -64,7 +64,7 @@ class Auth extends \Magelight\Core\Controllers\BaseController
      */
     public function registerAction()
     {
-        $this->_view->setTitle('Register new user');
+        $this->_view->setTitle(__('Register new user'));
 
         $content = \Magelight\Auth\Blocks\User\Register::forge();
         $form = $content->_getRegForm();
@@ -72,7 +72,7 @@ class Auth extends \Magelight\Core\Controllers\BaseController
         if (!$form->isEmptyRequest()) {
             if ($form->validate()) {
                 if (\Magelight\Auth\Models\User::findBy('email', $form->getFieldValue('email'))) {
-                    $form->addResult("User with email {$form->getFieldValue('email')} is already registered!");
+                    $form->addResult(__("User with email %s is already registered!", [$form->getFieldValue('email')]));
                 } else {
                     $user = \Magelight\Auth\Models\User::forge($form->getRequestFields(), true);
                     $user->password = md5($user->password);
@@ -105,21 +105,21 @@ class Auth extends \Magelight\Core\Controllers\BaseController
         if (!$form->isEmptyRequest() && $form->validate()) {
             /* @var $user \Magelight\Auth\Models\User */
             if (!$user = \Magelight\Auth\Models\User::findBy('email', $form->getFieldValue('email'))) {
-                $form->addResult('No user registred with ' . $form->getFieldValue('email') . ' email.');
+                $form->addResult(__('No user registred with %s email.', [$form->getFieldValue('email')]));
             } else {
                 $newPassword = substr(md5(rand(0, 999999999)), 0, 6);
                 $user->password = md5($newPassword);
                 $user->save(true);
                 mail(
                     $user->email,
-                    'Password recovery for' . $this->url(''),
-                    "Your new password is: {$this->url('')}:
-                        {$newPassword}
+                    __('Password recovery for %s', [$this->url('')]),
+                    __("Your new password is: %s.
 
-                    Try to remember it :)",
+                        Try to remember it :)", [$newPassword]),
+
                     "From: " . $this->app()->getConfig('global/auth/robot_email')
                 );
-                $form->addResult('Your new password is sent to your email', 'alert-success');
+                $form->addResult(__('Your new password is sent to your email'), 'alert-success');
             }
         }
         $this->_view->sectionReplace('forgot-password-form', $form);

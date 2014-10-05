@@ -21,23 +21,9 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-/* @var $this \Magelight\Block */
-?>
-<div class="container">
-    <div class="row ">
-        <div class="col-md-12">
-            <?php echo $this->section('top'); ?>
-        </div>
-    </div>
-    <div class="row">
-<!--        <div class="col-md-1">-->
-<!---->
-<!--        </div>-->
-        <div class="col-md-12 main-content">
-            <?php echo $this->section('content'); ?>
-        </div>
-<!--        <div class="col-md-1">-->
-<!---->
-<!--        </div>-->
-    </div>
-</div>
+return [
+    'plural_function' => function ($n) {
+        return (int)($n % 10 == 1 && $n % 100 != 11 ? 0 : ($n %10 >= 2 && $n %10 <= 4 && ($n % 100 < 10 || $n %100 >= 20) ? 1 : 2)) + 1;
+    },
+    'plural_forms' => 3
+];

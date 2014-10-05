@@ -1,21 +1,21 @@
 <?php
 /* @var $this \Magelight\Auth\Blocks\User\Login */
 ?>
-<h1>Sign in</h1>
-<div class="row-fluid">
+<h1><?=__('Sign in')?></h1>
+<div class="row">
 
-    <div class="span8">
+    <div class="col-md-8">
         <div class="page-header">
-            Via e-mail
+            <?=__('Via e-mail')?>
         </div>
         <div>
             <?=$this->section('login-user-main-form')?>
         </div>
     </div>
 
-    <div class="span4">
+    <div class="col-md-4">
         <div class="page-header">
-            Via services
+            <?=__('Via services')?>
         </div>
         <div>
             <?=$this->section('ulogin-widget-register')?>

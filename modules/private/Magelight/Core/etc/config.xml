@@ -14,6 +14,9 @@
             <cache_ttl_css>10000</cache_ttl_css>
             <cache_ttl_js>10000</cache_ttl_js>
         </minifier>
+        <uploads>
+            <path>var/uploads</path>
+        </uploads>
         <aop stackable="1">
             <aspect>
                 <pointcut>

@@ -31,13 +31,6 @@ namespace Magelight\Webform\Models\Validation\Rules;
 class DateRange extends AbstractRule
 {
     /**
-     * Validation error pattern
-     *
-     * @var string
-     */
-    protected $_error = 'Field %s must be a valid date between %s and %s';
-
-    /**
      * Fron validator (jQueryValidator) rule name
      *
      * @var string
@@ -94,5 +87,18 @@ class DateRange extends AbstractRule
     public function getFrontValidationParams()
     {
         return $this->_arguments;
+    }
+
+    /**
+     * Get error
+     *
+     * @return string
+     */
+    public function getError()
+    {
+        if (!empty($this->_error)) {
+            return $this->_error;
+        }
+        return __('Field %s must be a valid date between %s and %s', $this->getErrorArguments());
     }
 }

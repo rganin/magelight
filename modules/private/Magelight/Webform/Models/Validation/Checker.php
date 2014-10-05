@@ -213,9 +213,10 @@ class Checker
 
         if (!$rule instanceof Rules\AbstractRule) {
             throw new \Magelight\Exception(
-                "Trying to add unknown rule '$className' in "
-                . __CLASS__
-                . " for field {$this->_fieldName} ({$this->_fieldAlias})."
+                __(
+                    'Trying to add unknown rule `%s` in `%s` for field `%s` (alias: `%s`).',
+                    [$className, __CLASS__, $this->_fieldName, $this->_fieldAlias]
+                )
             );
         }
         /* @var $rule Rules\AbstractRule */
@@ -289,6 +290,12 @@ class Checker
     }
 
 
+    /**
+     * Get rules JSON object for specified ruleset
+     *
+     * @param string $ruleset
+     * @return \stdClass
+     */
     public function getRulesJson($ruleset)
     {
         $rules = new \stdClass();
@@ -302,6 +309,12 @@ class Checker
         return $rules;
     }
 
+    /**
+     * Get rule messages JSON object for specified ruleset
+     *
+     * @param string $ruleset
+     * @return \stdClass
+     */
     public function getRulesMessagesJson($ruleset)
     {
         $messages = new \stdClass();

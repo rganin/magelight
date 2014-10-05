@@ -25,14 +25,6 @@ namespace Magelight\Webform\Models\Validation\Rules;
 
 class ReCaptcha extends AbstractRule
 {
-
-    /**
-     * Validation error pattern
-     *
-     * @var string
-     */
-    protected $_error = 'Enered captcha text is invalid';
-
     /**
      * Fron validator (jQueryValidator) rule name
      *
@@ -56,5 +48,18 @@ class ReCaptcha extends AbstractRule
         $challenge = $request->getPost(\Magelight\Webform\Models\Captcha\ReCaptcha::CHALLENGE_INDEX);
         $response  = $request->getPost(\Magelight\Webform\Models\Captcha\ReCaptcha::RESPONSE_INDEX);
         return $reCaptcha->recaptchaCheckAnswer($_SERVER['HTTP_HOST'], $challenge, $response)->is_valid;
+    }
+
+    /**
+     * Get error
+     *
+     * @return string
+     */
+    public function getError()
+    {
+        if (!empty($this->_error)) {
+            return $this->_error;
+        }
+        return __('Enered reCaptcha text is invalid', $this->getErrorArguments());
     }
 }

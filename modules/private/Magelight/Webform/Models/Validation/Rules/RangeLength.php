@@ -31,13 +31,6 @@ namespace Magelight\Webform\Models\Validation\Rules;
 class RangeLength extends AbstractRule
 {
     /**
-     * Validation error pattern
-     *
-     * @var string
-     */
-    protected $_error = 'Field %s must contain from %s to %s characters';
-
-    /**
      * Fron validator (jQueryValidator) rule name
      *
      * @var string
@@ -67,6 +60,19 @@ class RangeLength extends AbstractRule
     public function getFrontValidationParams()
     {
         return $this->_arguments;
+    }
+
+    /**
+     * Get error
+     *
+     * @return string
+     */
+    public function getError()
+    {
+        if (!empty($this->_error)) {
+            return $this->_error;
+        }
+        return __('Field %s must contain from %s to %s characters', $this->getErrorArguments());
     }
 
 }

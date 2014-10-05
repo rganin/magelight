@@ -3,7 +3,7 @@
 ?>
 
 <input id="<?php echo $this->getId() ?>-hidden" type="file" style="display:none" name="<?php echo $this->getName() ?>" />
-<div class="input-append">
+<div class="input-group">
     <input id="<?php echo $this->getId() ?>" class="<?php echo $this->getAttribute('class') ?>" type="text" />
     <a class="btn" onclick="$('input[id=<?php echo $this->getId() ?>-hidden]').click();"><?php echo $this->title ?></a>
 </div>

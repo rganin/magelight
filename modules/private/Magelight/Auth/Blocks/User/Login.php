@@ -60,14 +60,14 @@ class Login extends \Magelight\Block
             $this->url($config->getConfigString('global/auth/urls/login_url'))
         );
         $fieldset = Fieldset::forge();
-        $fieldset->addRowField(Elements\Input::forge()->setName('email'), 'E-Mail');
-        $fieldset->addRowField(Elements\PasswordInput::forge()->setName('password'), 'Password');
+        $fieldset->addRowField(Elements\Input::forge()->setName('email'), __('E-Mail'));
+        $fieldset->addRowField(Elements\PasswordInput::forge()->setName('password'), __('Password'));
         return $form->addFieldset($fieldset)
             ->createResultRow(true)
             ->addButtonsRow([
             Elements\Button::forge()->setContent('Enter')->addClass('btn-primary'),
             Elements\Abstraction\Element::forge()->setTag('a')->setAttribute('href', $this->url('remindpass'))
-                ->setContent('Remind password')->setClass('btn')
+                ->setContent(__('Remind password'))->setClass('btn')
         ])
             ->loadFromRequest(\Magelight\Http\Request::getInstance())->setValidator($this->_getLoginFormValidator());
     }

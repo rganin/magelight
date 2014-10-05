@@ -26,13 +26,6 @@ namespace Magelight\Webform\Models\Validation\Rules;
 class Captcha extends AbstractRule
 {
     /**
-     * Validation error pattern
-     *
-     * @var string
-     */
-    protected $_error = 'Please enter a valid protection code';
-
-    /**
      * Fron validator (jQueryValidator) rule name
      *
      * @var string
@@ -51,5 +44,18 @@ class Captcha extends AbstractRule
     public function check($value)
     {
         return \Magelight\Webform\Models\Captcha\Captcha::forge()->check($value);
+    }
+
+    /**
+     * Get error
+     *
+     * @return string
+     */
+    public function getError()
+    {
+        if (!empty($this->_error)) {
+            return $this->_error;
+        }
+        return __('Please enter a valid protection code', $this->getErrorArguments());
     }
 }

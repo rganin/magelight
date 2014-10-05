@@ -5,27 +5,27 @@
 <ul class="nav pull-right">
     <?php if (!$this->getGlobal('user_data', false)): ?>
     <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Войти<b class="caret"></b></a>
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?=__('Sign in')?><b class="caret"></b></a>
         <ul class="dropdown-menu">
             <li>
                 <dl class="login-options">
-                    <dt>Via services</dt>
+                    <dt><?=__('Via services')?></dt>
                     <dd>
                         <?php echo $this->section('ulogin-widget') ?>
                     </dd>
                     <dt>
-                        Standard
+                        <?=__('Standard log in')?>
                     </dt>
                     <dd>
                         <form class="form-inline form-search navbar-form" action="<?php echo $this->url('login')?>" method="post">
                             <div class="controls-row">
-                                <input type="text" class="input-small" name="login-form[email]" placeholder="E-mail" />
-                                <input type="password" class="input-small" name="login-form[password]" placeholder="Password" />
-                                <button class="btn">Sign in</button>
+                                <input type="text" class="input-small" name="login-form[email]" placeholder="<?=__('E-mail')?>" />
+                                <input type="password" class="input-small" name="login-form[password]" placeholder="<?=__('Password')?>" />
+                                <button class="btn"><?=__('Sign in')?></button>
                             </div>
                         </form>
                         <div class="reg-options">
-                            <a href="<?=$this->url('remindpass'); ?>">Remind password</a>
+                            <a href="<?=$this->url('remindpass'); ?>"><?=__('Remind password')?></a>
                         </div>
                     </dd>
                 </dl>
@@ -33,7 +33,7 @@
         </ul>
     </li>
     <li>
-        <a href="<?=$this->url('/register')?>">Register</a>
+        <a href="<?=$this->url('/register')?>"><?=__('Register')?></a>
     </li>
     <?php else: ?>
     <li class="dropdown">
@@ -43,8 +43,8 @@
             <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
-            <li><a><i class="icon-certificate"></i> My profile</a></li>
-            <li><a href="<?=$this->url('logout')?>"><i class="icon-remove"></i> Выход</a></li>
+            <li><a><i class="icon-certificate"></i> <?=__('My profile')?></a></li>
+            <li><a href="<?=$this->url('logout')?>"><i class="icon-remove"></i> <?=__('Exit')?></a></li>
         </ul>
     </li>
     <?php endif; ?>

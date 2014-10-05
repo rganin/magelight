@@ -25,8 +25,6 @@ namespace Magelight\Webform\Models\Validation\Rules;
 
 class Time12 extends AbstractRule
 {
-    protected $_error = 'Field %s must be a valid 12h formatted time (e.g. "09:15 AM")';
-
     /**
      * Fron validator (jQueryValidator) rule name
      *
@@ -46,5 +44,18 @@ class Time12 extends AbstractRule
     public function check($value)
     {
         return strtotime($value) !== false;
+    }
+
+    /**
+     * Get error
+     *
+     * @return string
+     */
+    public function getError()
+    {
+        if (!empty($this->_error)) {
+            return $this->_error;
+        }
+        return __('Field %s must be a valid 12h formatted time (e.g. "09:15 AM")', $this->getErrorArguments());
     }
 }

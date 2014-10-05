@@ -20,24 +20,10 @@
  * @copyright Copyright (c) 2012 rganin (rganin@gmail.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
+return [
+    'plural_function' => function ($number) {
+        return (int)($number != 1) + 1;
+    },
+    'plural_forms' => 2
+];
 
-/* @var $this \Magelight\Block */
-?>
-<div class="container">
-    <div class="row ">
-        <div class="col-md-12">
-            <?php echo $this->section('top'); ?>
-        </div>
-    </div>
-    <div class="row">
-<!--        <div class="col-md-1">-->
-<!---->
-<!--        </div>-->
-        <div class="col-md-12 main-content">
-            <?php echo $this->section('content'); ?>
-        </div>
-<!--        <div class="col-md-1">-->
-<!---->
-<!--        </div>-->
-    </div>
-</div>
