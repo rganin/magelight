@@ -65,7 +65,7 @@ class Login extends \Magelight\Block
         return $form->addFieldset($fieldset)
             ->createResultRow(true)
             ->addButtonsRow([
-            Elements\Button::forge()->setContent('Enter')->addClass('btn-primary'),
+            Elements\Button::forge()->setContent(__('Enter'))->addClass('btn-primary'),
             Elements\Abstraction\Element::forge()->setTag('a')->setAttribute('href', $this->url('remindpass'))
                 ->setContent(__('Remind password'))->setClass('btn')
         ])

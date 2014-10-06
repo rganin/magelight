@@ -226,5 +226,12 @@ return [
             2 => NULL,
             3 => NULL
         ]
+    ],
+    'Enter' => [
+        'default' => [
+            1 => 'Вход',
+            2 => NULL,
+            3 => NULL
+        ]
     ]
 ];

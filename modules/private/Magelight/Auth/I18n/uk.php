@@ -231,5 +231,21 @@ return [
             2 => NULL,
             3 => NULL
         ]
+    ],
+    'Enter' => [
+        'default' => [
+            1 => NULL,
+            2 => NULL,
+            3 => NULL
+        ]
+    ],
+    "Your new password is: %s.
+
+                        Try to remember it :)" => [
+        'default' => [
+            1 => NULL,
+            2 => NULL,
+            3 => NULL
+        ]
     ]
 ];
