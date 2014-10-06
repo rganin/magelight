@@ -30,6 +30,8 @@ namespace Magelight\I18n;
  */
 class Translator
 {
+    const LANG_DEFAULT = 'en';
+
     use \Magelight\Traits\TForgery;
 
     /**
@@ -45,14 +47,6 @@ class Translator
      * @var array
      */
     protected $_plurals;
-
-    /**
-     * Closing constructor
-     */
-    protected static function forge()
-    {
-
-    }
 
     /**
      * Load translations

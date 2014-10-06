@@ -39,6 +39,11 @@ final class App
     const DEFAULT_INDEX = 'default';
 
     /**
+     * Default application language
+     */
+    const DEFAULT_LANGUAGE = 'en';
+
+    /**
      * Current Action
      *
      * @var array
@@ -94,6 +99,11 @@ final class App
      */
     protected $_developerMode = false;
 
+    /**
+     * Is AOP enabled flag
+     *
+     * @var bool
+     */
     protected $_aopEnabled = false;
 
     /**
@@ -353,10 +363,12 @@ final class App
         $this->setRegistryObject('session', \Magelight\Http\Session::getInstance());
         $this->session()->setSessionName(self::SESSION_ID_COOKIE_NAME)->start();
         $this->loadClassesOverrides();
-        $translator = \Magelight\I18n\Translator::getInstance();
         $lang = $this->session()->get('lang');
         if (empty($lang)) {
-            $lang = (string)$this->getConfig('global/app/default_lang');
+            $lang = $this->getConfig('global/app/default_lang');
+        }
+        if (empty($lang)) {
+            $lang = self::DEFAULT_LANGUAGE;
         }
         $this->setLang($lang);
         return $this;
