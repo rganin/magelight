@@ -365,7 +365,7 @@ final class App
         $this->loadClassesOverrides();
         $lang = $this->session()->get('lang');
         if (empty($lang)) {
-            $lang = $this->getConfig('global/app/default_lang');
+            $lang = (string)$this->getConfig('global/app/default_lang');
         }
         if (empty($lang)) {
             $lang = self::DEFAULT_LANGUAGE;
