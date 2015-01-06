@@ -12,7 +12,7 @@ class Base extends \Magelight\Controller
     public function beforeExecute()
     {
         $this->_breadcrumbsBlock = \Magelight\Core\Blocks\Breadcrumbs::forge();
-        $this->_breadcrumbsBlock->addBreadcrumb('Admin', 'admin/index');
+        $this->_breadcrumbsBlock->addBreadcrumb(__('Admin panel'), 'admin/index');
 
 
         if (!\Magelight\Admin\Helpers\Admin::getInstance()->isCurrentUserAdmin()) {

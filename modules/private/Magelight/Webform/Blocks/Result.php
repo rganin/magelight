@@ -42,7 +42,7 @@ class Result extends Elements\Abstraction\Element
 
     public function setErrorClass()
     {
-        return $this->addClass('alert-error');
+        return $this->addClass('alert-danger');
     }
 
     public function setWarningClass()

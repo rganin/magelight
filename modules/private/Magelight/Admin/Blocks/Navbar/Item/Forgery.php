@@ -27,7 +27,9 @@ class Forgery
             $itemBlockClass = static::DEFAULT_ITEM_BLOCK_CLASS;
         } else {
             if (!class_exists($itemBlockClass)) {
-                throw new \Magelight\Exception("Amin navbar element's class $itemBlockClass does not exist");
+                throw new \Magelight\Exception(
+                    __("Amin navbar element's class %s does not exist", $itemBlockClass)
+                );
             }
         }
         return self::callStaticLate([$itemBlockClass, 'forge'], [$config, $parentItem]);

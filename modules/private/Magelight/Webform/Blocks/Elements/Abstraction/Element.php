@@ -167,7 +167,7 @@ class Element extends \Magelight\Block
     {
         if ($name === 'id') {
             throw new \Magelight\Exception(
-                'Direct id assignment is not allowed. Use setId() method to set id attribute.'
+                __('Direct id assignment is not allowed. Use setId() method to set id attribute.')
             );
         }
         $this->_attributes[$name] = ['value' => $value, 'quotation' => $quotaiton];

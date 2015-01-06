@@ -247,5 +247,19 @@ return [
             2 => NULL,
             3 => NULL
         ]
+    ],
+    'Please enter a valid e-mail!' => [
+        'default' => [
+            1 => NULL,
+            2 => NULL,
+            3 => NULL
+        ]
+    ],
+    'Enter via services' => [
+        'default' => [
+            1 => NULL,
+            2 => NULL,
+            3 => NULL
+        ]
     ]
 ];

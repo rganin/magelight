@@ -72,11 +72,14 @@ class Delete extends \Magelight\Block
                 ->setTag('a')
                 ->setClass('btn btn-success')
                 ->setAttribute('href', $this->url('admin/scaffold/{entity}', ['entity' => $this->entity]))
-                ->setContent('Cancel');
-            $this->_deleteForm->addContent(\Magelight\Webform\Blocks\Elements\InputHidden::forge()->setName('id')->setValue($this->id));
+                ->setContent(__('Cancel'));
+
+            $this->_deleteForm->addContent(\Magelight\Webform\Blocks\Elements\InputHidden::forge()->setName('id')
+                ->setValue($this->id));
+
             $this->_deleteForm->addButtonsRow([
                 \Magelight\Webform\Blocks\Elements\Button::forge()
-                    ->setContent('Delete')->setType('submit')->addClass('btn-warning'),
+                    ->setContent(__('Delete'))->setType('submit')->addClass('btn-warning'),
                 $cancelBtn
             ]);
         }

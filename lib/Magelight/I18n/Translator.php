@@ -63,7 +63,7 @@ class Translator
                 $filename = 'modules' . DS . $scope . DS . $module['path'] . DS . 'I18n' . DS . $lang . '.php';
                 if (file_exists($filename)) {
                     $translations = require $filename;
-                    $this->_translations = array_merge_recursive($this->_translations, $translations);
+                    $this->_translations = array_replace_recursive($this->_translations, $translations);
                 }
             }
         }
@@ -85,16 +85,23 @@ class Translator
      */
     public function translate($string, $arguments, $number, $context)
     {
+
         if (!isset($this->_translations[$string][$context])) {
             $context = 'default';
         }
         if (!isset($this->_translations[$string][$context][$this->_plurals['plural_function']($number)])) {
+            if (!empty($arguments) && !is_array($arguments)) {
+                $arguments = [$arguments];
+            }
             if (!isset($this->_translations[$string][$context][1])) {
                 return vsprintf($string, $arguments);
             } else {
                 return vsprintf($this->_translations[$string][$context][1], $arguments);
             }
         } else {
+            if (!empty($arguments) && !is_array($arguments)) {
+                $arguments = [$arguments];
+            }
             return vsprintf(
                 $this->_translations[$string][$context][$this->_plurals['plural_function']($number)], $arguments
             );

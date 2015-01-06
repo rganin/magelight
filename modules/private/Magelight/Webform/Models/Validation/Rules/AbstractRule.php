@@ -161,7 +161,7 @@ abstract class AbstractRule
         if (!empty($this->_error)) {
             return $this->_error;
         }
-        return __('Common validation error', $args);
+        return __('Common validation error');
     }
 
     /**

@@ -208,7 +208,7 @@ class ReCaptcha
         }
         if ($remoteip == null || $remoteip == '') {
             throw new \Magelight\Exception(
-                "For security reasons, you must pass the remote ip to reCAPTCHA"
+                __("For security reasons, you must pass the remote ip to reCAPTCHA")
             );
         }
         if ($challenge == null || strlen($challenge) == 0 || $response == null || strlen($response) == 0) {
@@ -279,7 +279,7 @@ class ReCaptcha
     {
         if (!function_exists ("mcrypt_encrypt")) {
             throw new \Magelight\Exception(
-                'To use reCAPTCHA Mailhide, you need to have the mcrypt php module installed.'
+                __('To use reCAPTCHA Mailhide, you need to have the mcrypt php module installed.')
             );
         }
         $mode = MCRYPT_MODE_CBC;
@@ -310,9 +310,11 @@ class ReCaptcha
     {
         if (empty($this->_publicKey) || empty($this->_privateKey)) {
             throw new \Magelight\Exception(
-                "To use reCAPTCHA Mailhide, you have to sign up for a public and private key, "
+                __(
+                    "To use reCAPTCHA Mailhide, you have to sign up for a public and private key, "
                     . "you can do so at <a href='http://www.google.com/recaptcha/mailhide/apikey'> "
                     . "http://www.google.com/recaptcha/mailhide/apikey</a>"
+                )
             );
         }
         $ky = pack('H*', $this->_privateKey);

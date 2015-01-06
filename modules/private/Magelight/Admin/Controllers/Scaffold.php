@@ -25,7 +25,7 @@ class Scaffold extends Base
         );
         $this->_entity = $this->request()->getGet('entity');
         parent::beforeExecute();
-        $this->_breadcrumbsBlock->addBreadcrumb('Scaffolding', 'admin/scaffold');
+        $this->_breadcrumbsBlock->addBreadcrumb(__('Scaffolding'), 'admin/scaffold');
         if (!empty($this->_entity)) {
             $this->_breadcrumbsBlock->addBreadcrumb(
                 $this->_entity, 'admin/scaffold/{entity}/', ['entity' => $this->_entity]
@@ -38,13 +38,13 @@ class Scaffold extends Base
      */
     public function indexAction()
     {
-        $this->view()->setTitle('Admin - Scaffold index action');
+        $this->view()->setTitle('Admin - '. __('Scaffold index action'));
         $this->view()->sectionReplace('content', \Magelight\Admin\Blocks\Scaffold\Entities::forge());
     }
 
     public function entity_listAction()
     {
-        $this->view()->setTitle('Admin - Scaffold entity_list action');
+        $this->view()->setTitle('Admin - ' . __('Scaffold entity_list action'));
         $page = $this->request()->getGet('page');
         $this->view()->sectionReplace(
             'content',
@@ -54,9 +54,9 @@ class Scaffold extends Base
 
     public function createAction()
     {
-        $this->view()->setTitle('Admin - Scaffold create action');
+        $this->view()->setTitle('Admin - ' . __('Scaffold create action'));
         $this->_breadcrumbsBlock->addBreadcrumb(
-            'Create ' . $this->_entity, 'admin/scaffold/{entity}/create', ['entity' => $this->_entity]
+            __('Create ') . $this->_entity, 'admin/scaffold/{entity}/create', ['entity' => $this->_entity]
         );
         $this->view()->sectionReplace(
             'content',
@@ -68,7 +68,7 @@ class Scaffold extends Base
     {
         $id = $this->request()->getGet('id');
         $this->_breadcrumbsBlock->addBreadcrumb(
-            'Edit ' . $this->_entity, 'admin/scaffold/{entity}/read/{id}', [
+            __('Edit ') . $this->_entity, 'admin/scaffold/{entity}/read/{id}', [
                 'entity' => $this->_entity,
                 'id' => $id,
             ]
@@ -88,7 +88,7 @@ class Scaffold extends Base
         $scaffold = $form->getScaffold();
         $id = $form->getFieldValue($scaffold->getEntityIdField($this->_entity));
         $this->_breadcrumbsBlock->addBreadcrumb(
-            'Edit ' . $this->_entity, 'admin/scaffold/{entity}/read/{id}', [
+            __('Edit ') . $this->_entity, 'admin/scaffold/{entity}/read/{id}', [
                 'entity' => $this->_entity,
                 'id' => $id,
             ]
@@ -97,9 +97,11 @@ class Scaffold extends Base
             $model = $scaffold->getEntityModel($this->_entity, $form->getRequestFields());
             try {
                 if ($model->save()) {
-                    $form->addResult("{$this->_entity} entity with ID $id saved.", 'alert-success');
+                    $form->addResult(
+                        __("%s entity with ID %s saved.", [$this->_entity, $id]), 'alert-success');
                 } else {
-                    $form->addResult("Cannot save {$this->_entity} entity with ID $id.");
+                    $form->addResult(
+                        __("Cannot save %s entity with ID %s.",  [$this->_entity, $id]));
                 }
             } catch (\Exception $e) {
                 $form->addResult($e->getMessage());
@@ -133,7 +135,7 @@ class Scaffold extends Base
                 if ($model->delete($id)) {
                     $this->redirectInternal('admin/scaffold/{entity}', ['entity' => $this->_entity]);
                 } else {
-                    $form->addResult('Can`t delete');
+                    $form->addResult(__('Can`t delete'));
                 }
             }
         }

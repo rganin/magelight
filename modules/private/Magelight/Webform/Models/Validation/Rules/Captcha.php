@@ -56,6 +56,6 @@ class Captcha extends AbstractRule
         if (!empty($this->_error)) {
             return $this->_error;
         }
-        return __('Please enter a valid protection code', $this->getErrorArguments());
+        return __('Please enter a valid protection code', [$this->getErrorArguments()]);
     }
 }

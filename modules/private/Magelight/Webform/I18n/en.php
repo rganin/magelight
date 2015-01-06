@@ -174,5 +174,35 @@ return [
             1 => NULL,
             2 => NULL
         ]
+    ],
+    'Direct id assignment is not allowed. Use setId() method to set id attribute.' => [
+        'default' => [
+            1 => NULL,
+            2 => NULL
+        ]
+    ],
+    'FieldElement must be a string or instance of \\Magelight\\Blocks' => [
+        'default' => [
+            1 => NULL,
+            2 => NULL
+        ]
+    ],
+    'For security reasons, you must pass the remote ip to reCAPTCHA' => [
+        'default' => [
+            1 => NULL,
+            2 => NULL
+        ]
+    ],
+    'To use reCAPTCHA Mailhide, you need to have the mcrypt php module installed.' => [
+        'default' => [
+            1 => NULL,
+            2 => NULL
+        ]
+    ],
+    'To use reCAPTCHA Mailhide, you have to sign up for a public and private key, you can do so at <a href=\'http://www.google.com/recaptcha/mailhide/apikey\'> http://www.google.com/recaptcha/mailhide/apikey</a>' => [
+        'default' => [
+            1 => NULL,
+            2 => NULL
+        ]
     ]
 ];

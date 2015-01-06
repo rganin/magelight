@@ -122,7 +122,7 @@ class Minifier
         $path = $this->getEntriesStaticPath($staticEntries, $type);
         $dir = dirname($path);
         if (!is_writable($dir)) {
-            trigger_error("Static cache directory {$dir} is not writable or does not exist!");
+            trigger_error(__("Static cache directory %s is not writable or does not exist!", [$dir]));
             return $staticEntries;
         }
         if ($isAlreadyMinified = $this->cache()->get($this->buildCacheKey($path), false)) {
@@ -145,7 +145,7 @@ class Minifier
             } else {
                 $buffer = @file_get_contents($entry['path']);
                 if ($buffer === false) {
-                    trigger_error("File {$entry['path']} for minifier cannot be read", E_USER_WARNING);
+                    trigger_error(__("File %s for minifier cannot be read", [$entry['path']]), E_USER_WARNING);
                 }
                 if (\Magelight::app()->config()->getConfigBool('global/minifier/compress_' . $type)) {
                     $buffer = $minifier->minify($buffer);

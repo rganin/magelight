@@ -233,5 +233,19 @@ return [
             2 => NULL,
             3 => NULL
         ]
+    ],
+    'Please enter a valid e-mail!' => [
+        'default' => [
+            1 => 'Введите фалидный e-mail!',
+            2 => NULL,
+            3 => NULL
+        ]
+    ],
+    'Enter via services' => [
+        'default' => [
+            1 => 'Войти через сервисы',
+            2 => NULL,
+            3 => NULL
+        ]
     ]
 ];

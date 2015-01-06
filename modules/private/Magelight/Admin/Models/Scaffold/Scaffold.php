@@ -395,7 +395,9 @@ class Scaffold
         if (isset($this->_entities[$entity]['table_name'])) {
             return $this->_entities[$entity]['table_name'];
         } else {
-            throw new \Magelight\Exception("Entity `{$entity}` table is not defined!");
+            throw new \Magelight\Exception(
+                __("Entity `%s` table is not defined!", $entity)
+            );
         }
     }
 
@@ -411,7 +413,9 @@ class Scaffold
         if (isset($this->_entities[$entity]['id_field'])) {
             return $this->_entities[$entity]['id_field'];
         } else {
-            throw new \Magelight\Exception("Entity `{$entity}` id field is not defined!");
+            throw new \Magelight\Exception(
+                __("Entity `%s` id field is not defined!", $entity)
+            );
         }
     }
 }

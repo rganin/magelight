@@ -2,7 +2,7 @@
 /* @var $this \Magelight\Admin\Blocks\Scaffold\EntityList */
 ?>
 <div class="page-header">
-    <a class="btn btn-info" href="<?=$this->url('admin/scaffold/{entity}/create/', ['entity' => $this->_entity])?>">Create new</a>
+    <a class="btn btn-info" href="<?=$this->url('admin/scaffold/{entity}/create/', ['entity' => $this->_entity])?>"><?=('Create');?></a>
 </div>
 
 <div class="align-center">
@@ -14,7 +14,7 @@
         <?php foreach ($this->tableFields as $field) : ?>
             <th><?=$field?></th>
         <?php endforeach; ?>
-            <th>Actions</th>
+            <th><?=__('Actions')?></th>
     </tr>
     </thead>
     <tbody>

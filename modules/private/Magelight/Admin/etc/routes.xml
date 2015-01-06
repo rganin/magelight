@@ -1,4 +1,5 @@
 <routes>
+    <route match="/admin" controller="index" module="Magelight\Admin"/>
     <route match="admin" controller="index" module="Magelight\Admin">
         <route match="{controller}">
             <route match="{action}">

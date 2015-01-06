@@ -3,7 +3,7 @@
 ?>
 
 <div class="align-center">
-    <div class="alert alert-danger">Are you sure to delete <?=$this->escapeHtml($this->entity_title)?> with id = <?=$this->id?>?</div>
+    <div class="alert alert-danger"><?=__('Are you sure to delete %s with id %s?', [$this->escapeHtml($this->entity_title), $this->id])?></div>
     <div>
         <?=$this->section('delete-form')?>
     </div>
