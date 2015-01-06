@@ -160,4 +160,17 @@ class Auth extends \Magelight\Core\Controllers\BaseController
         $this->session()->unsetData('user_id');
         $this->redirect($this->url($this->app()->getConfig('global/auth/urls/success_url')));
     }
+
+    /**
+     * User profile action
+     */
+    public function userAction()
+    {
+        $userProfileBlock = \Magelight\Auth\Blocks\UserProfile::forge();
+        if (!$userProfileBlock->get('user', false)) {
+            $this->forward('no_route');
+        }
+        $userProfileBlock->sectionAppend('content', $userProfileBlock);
+        $this->renderView();
+    }
 }

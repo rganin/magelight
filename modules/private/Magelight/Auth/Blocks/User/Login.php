@@ -66,10 +66,11 @@ class Login extends \Magelight\Block
             ->createResultRow(true)
             ->addButtonsRow([
             Elements\Button::forge()->setContent(__('Enter'))->addClass('btn-primary'),
-            Elements\Abstraction\Element::forge()->setTag('a')->setAttribute('href', $this->url('remindpass'))
+            Elements\Abstraction\Element::forge()->setTag('a')->setAttribute('href', $this->url('auth/remindpass'))
                 ->setContent(__('Remind password'))->setClass('btn')
         ])
-            ->loadFromRequest(\Magelight\Http\Request::getInstance())->setValidator($this->_getLoginFormValidator());
+            ->loadFromRequest(\Magelight\Http\Request::getInstance())->setValidator($this->_getLoginFormValidator())
+            ->validateOnFront();
     }
 
     /**
@@ -80,7 +81,7 @@ class Login extends \Magelight\Block
     public function _getLoginFormValidator()
     {
         $validator = \Magelight\Webform\Models\Validator::forge();
-        $validator->fieldRules('email')->email()->setCustomError('Enter correct e-mail');
+        $validator->fieldRules('email')->required()->chainRule()->email()->setCustomError('Enter correct e-mail');
         $validator->fieldRules('password', 'Пароль')->required()->setCustomError('Enter password');
         return $validator;
     }

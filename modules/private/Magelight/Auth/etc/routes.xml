@@ -2,4 +2,5 @@
     <route match="/auth" controller="auth" module="Magelight\Auth">
         <route match="/{action}" />
     </route>
+    <route match="/user{id:0-9}" action="user" controller="auth" module="Magelight\Auth"/>
 </routes>

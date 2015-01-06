@@ -20,4 +20,14 @@
         <require>Magelight_Geo</require>
         <path>Magelight\Auth</path>
     </Magelight_Auth>
+    <Magelight_Visitors>
+        <active>1</active>
+        <require>Magelight_Core</require>
+        <path>Magelight\Visitors</path>
+    </Magelight_Visitors>
+    <Magelight_Admin>
+        <active>1</active>
+        <require>Magelight_Auth</require>
+        <path>Magelight\Admin</path>
+    </Magelight_Admin>
 </modules>

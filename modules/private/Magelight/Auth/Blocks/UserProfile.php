@@ -26,11 +26,11 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-namespace SampleApp\Blocks;
+namespace Magelight\Auth\Blocks;
 
 class UserProfile extends \Magelight\Block
 {
-    protected $_template = 'SampleApp/templates/user-profile.phtml';
+    protected $_template = 'Magelight/Auth/templates/user-profile.phtml';
 
     public function __forge()
     {

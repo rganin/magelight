@@ -1,6 +1,9 @@
 <?php
 /* @var \Magelight\Webform\Blocks\Elements\Captcha $this */
 ?>
+<div class="input-group input-group-lg col-sm-3">
+    <input class="<?=$this->getAttribute('class')?> form-control" type="text" name="<?=$this->getName()?>" />
+    <div class="input-group-addon" style="padding:4px;"><img src="<?=$this->get('image_url')?>" alt="Captcha image" /></div>
+</div>
 
-<input class="<?=$this->getAttribute('class')?>" type="text" name="<?=$this->getName()?>" />
-<img src="<?=$this->get('image_url')?>" alt="Captcha image" />
+

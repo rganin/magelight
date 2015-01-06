@@ -34,5 +34,6 @@ class File extends Input
     public function __forge()
     {
         $this->setType('file');
+        $this->addClass('form-control');
     }
 }

@@ -100,9 +100,9 @@ final class Magelight
         $classSig = $className;
         $className = self::getAutoloaderFileNameByClass($className);
         require_once $className;
-        $class = new ReflectionClass($classSig);
-
-        $methods = $class->getMethods();
+//        $class = new ReflectionClass($classSig);
+//
+//        $methods = $class->getMethods();
     }
 
     /**

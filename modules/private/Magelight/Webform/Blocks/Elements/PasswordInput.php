@@ -34,5 +34,6 @@ class PasswordInput extends Input
     public function __forge()
     {
         $this->setAttribute('type', 'password');
+        $this->addClass('form-control');
     }
 }

@@ -1,5 +1,8 @@
-<?php /* @var $this \SampleApp\Blocks\UserProfile */ ?>
-<h1><?=$this->user['name']?></h1>
+<?php /* @var $this \Magelight\Auth\Blocks\UserProfile */ ?>
+<div class="page-header">
+    <h1><?=$this->user['name']?></h1>
+</div>
+
 <img class="thumbnail" alt="<?=$this->user['name']?>" src="<?=$this->user['photo']?>" />
 
 <dl>

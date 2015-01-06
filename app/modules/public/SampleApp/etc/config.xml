@@ -7,5 +7,11 @@
                 <openauth_error>auth/openauth_error</openauth_error>
             </register>
         </auth>
+        <forgery>
+            <override>
+                <old>Magelight\Core\Blocks\Body</old>
+                <new>SampleApp\Blocks\Body</new>
+            </override>
+        </forgery>
     </global>
 </config>

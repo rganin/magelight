@@ -17,4 +17,4 @@
  */
 
 require '../core.php';
-Magelight::app()->setAppDir(dirname(__FILE__))->init()->upgrade()->run();
+Magelight::app()->setAppDir(dirname(__FILE__))->init()->run();

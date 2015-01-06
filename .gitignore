@@ -1,7 +1,5 @@
-/.idea
+.idea
 app/etc/config.xml
 app/etc/modules.xml
-app/var/static/*
-app/var/protected/*
-app/var/cache/*
 app/modules/private
+app/var/*

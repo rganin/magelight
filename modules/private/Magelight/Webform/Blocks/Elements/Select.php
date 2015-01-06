@@ -35,6 +35,14 @@ class Select extends Abstraction\Field
     protected $_tag = 'select';
 
     /**
+     * Forgery
+     */
+    public function __forge()
+    {
+        $this->addClass('form-control');
+    }
+
+    /**
      * Set multi-select
      *
      * @return Select

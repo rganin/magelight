@@ -48,6 +48,7 @@ class Input extends Abstraction\Field
     public function __forge()
     {
         $this->setType('text');
+        $this->addClass('form-control');
     }
 
     /**

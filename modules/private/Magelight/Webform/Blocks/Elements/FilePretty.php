@@ -41,6 +41,7 @@ class FilePretty extends Abstraction\Field
     public function __forge()
     {
         $this->setButtonTitle();
+        $this->addClass('form-control');
     }
 
     /**
