@@ -82,7 +82,7 @@ class Login extends \Magelight\Block
     {
         $validator = \Magelight\Webform\Models\Validator::forge();
         $validator->fieldRules('email')->required()->chainRule()->email()->setCustomError('Enter correct e-mail');
-        $validator->fieldRules('password', 'Пароль')->required()->setCustomError('Enter password');
+        $validator->fieldRules('password', __('Password'))->required()->setCustomError('Enter password');
         return $validator;
     }
 }
