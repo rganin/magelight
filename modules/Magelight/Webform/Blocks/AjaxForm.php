@@ -42,7 +42,7 @@ class AjaxForm extends Form
         $this->setAttribute('data-async', 'true');
         $this->setAttribute('data-async-target', '');
         \Magelight\Core\Blocks\Document::getFromRegistry()
-            ->addJs('modules/private/Magelight/Webform/static/js/ajax-form.js');
+            ->addJs('pub/static/Magelight/Webform/static/js/ajax-form.js');
     }
 
     /**

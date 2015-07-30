@@ -43,7 +43,7 @@
                 <render_captcha_url>auth/render_captcha</render_captcha_url>
             </urls>
             <avatar>
-                <noavatar_url>/modules/private/Magelight/Auth/static/img/no-avatar.png</noavatar_url>
+                <noavatar_url>/Magelight/Auth/static/img/no-avatar.png</noavatar_url>
             </avatar>
         </auth>
     </global>

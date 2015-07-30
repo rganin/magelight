@@ -18,7 +18,9 @@
 
 require_once 'bootstrap.php';
 
-Magelight::app()->setDeveloperMode(true)
+\Magelight::setApp(new \Magelight\App\StaticResource);
+
+\Magelight::app()->addModulesDir(__DIR__ . DS . 'modules')
+    ->setAppDir(__DIR__)
     ->init()
-    ->flushAllCache()
-    ->upgrade();
+    ->run();

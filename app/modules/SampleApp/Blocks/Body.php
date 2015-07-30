@@ -17,32 +17,31 @@
  *
  * @version 1.0
  * @author Roman Ganin
- * @copyright Copyright (c) 2013 rganin (rganin@gmail.com)
+ * @copyright Copyright (c) 2012 rganin (rganin@gmail.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Magelight\Admin\Blocks;
+namespace SampleApp\Blocks;
 
 class Body extends \Magelight\Block
 {
-    protected $_template = 'Magelight/Admin/templates/body.phtml';
+    protected $_template = 'SampleApp/templates/body.phtml';
 
     public function init()
     {
-        $currentUserId = \Magelight::app()->session()->get('user_id');
-        if (!empty($currentUserId)) {
-            if ($user = \Magelight\Auth\Models\User::find($currentUserId)) {
-                $userData = $user->asArray();
-                $this->setGlobal('user_data', $userData);
-            }
-        }
+        $this->sectionAppend('top', Top::forge());
         $document = \Magelight\Core\Blocks\Document::getFromRegistry();
         $document->addMeta([
-            'http-equiv'=> "content-type",
+            'http-equiv' => "content-type",
             'content' => "text/html; charset=utf-8",
         ]);
-        $document->addCss('modules/private/Magelight/Core/static/css/bootstrap.css');
-        $document->addJs('modules/private/Magelight/Core/static/js/jquery.js');
-        $document->addJs('modules/private/Magelight/Core/static/js/bootstrap.min.js');
+        $document->addMeta([
+            'name' => 'keywords',
+            'content' => 'welcome app, magelight'
+        ]);
+        $document->addCss('Magelight/Core/static/css/bootstrap.min.css');
+        $document->addCss('Magelight/Core/static/css/core.css');
+        $document->addJs('Magelight/Core/static/js/jquery.js');
+        $document->addJs('Magelight/Core/static/js/bootstrap.min.js');
     }
 }

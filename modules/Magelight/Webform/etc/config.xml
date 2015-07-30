@@ -9,7 +9,7 @@
             <captcha>
                 <save_path>var/static/captchas</save_path>
                 <charlist>abcdefghijkLmnopqrstuvwxyz0123456789</charlist>
-                <font_file>modules/private/Magelight/Webform/static/fonts/comic.ttf</font_file>
+                <font_file>Magelight/Webform/static/fonts/comic.ttf</font_file>
                 <font_size>18</font_size>
                 <font_color>#373800</font_color>
                 <noise_color>#787878</noise_color>

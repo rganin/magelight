@@ -90,9 +90,11 @@ class Captcha
     public function __forge()
     {
         $this->setGetSetTarget($this->_config);
-        $this->_config =
-            array_merge($this->_config, (array)\Magelight::app()->config()->getConfig('global/document/captcha', []));
-
+        $this->_config = array_merge(
+            $this->_config,
+            (array)\Magelight::app()->config()->getConfig('global/document/captcha', [])
+        );
+        $this->font_file = \Magelight::app()->getRealPathInModules($this->font_file);
         $this->cleanup();
     }
 

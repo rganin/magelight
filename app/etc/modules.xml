@@ -30,4 +30,12 @@
         <require>Magelight_Auth</require>
         <path>Magelight\Admin</path>
     </Magelight_Admin>
+    <SampleApp>
+        <active>1</active>
+        <require>Magelight_Admin</require>
+        <require>Magelight_Core</require>
+        <require>Magelight_Auth</require>
+        <require>Magelight_Webform</require>
+        <path>SampleApp</path>
+    </SampleApp>
 </modules>

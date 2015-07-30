@@ -150,9 +150,9 @@ class Crawler
     public function crawlApp()
     {
         $files = [];
-        foreach (\Magelight::app()->getCodePools() as $scope) {
+        foreach (array_reverse(\Magelight::app()->getModuleDirectories()) as $modulesDir) {
             foreach (\Magelight::app()->modules()->getActiveModules() as $module) {
-                $path = \Magelight::app()->getAppDir() . DS . 'modules' . DS . $scope . DS . $module['path'];
+                $path = $modulesDir . DS . $module['path'];
                 if (is_readable($path)) {
                     foreach ($this->_getModuleFilesList($path) as $foundFile) {
                         $files[$path][$foundFile] = [];
@@ -327,7 +327,7 @@ if (!isset($options['p'])) {
     die();
 }
 
-require_once '../../core.php';
+require_once realpath($options['p']) . '/bootstrap.php';
 Magelight::app()->setAppDir(realpath($options['p']))->init();
 
 $crawler = new Crawler();

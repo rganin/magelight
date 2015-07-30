@@ -58,9 +58,9 @@ class Translator
         if (!is_string($lang)) {
             throw new \InvalidArgumentException('Language must be a string');
         }
-        foreach (\Magelight::app()->getCodePools() as $scope) {
+        foreach (array_reverse(\Magelight::app()->getModuleDirectories()) as $modulesDir) {
             foreach (\Magelight::app()->modules()->getActiveModules() as $module) {
-                $filename = 'modules' . DS . $scope . DS . $module['path'] . DS . 'I18n' . DS . $lang . '.php';
+                $filename = $modulesDir . DS . $module['path'] . DS . 'I18n' . DS . $lang . '.php';
                 if (file_exists($filename)) {
                     $translations = require $filename;
                     $this->_translations = array_replace_recursive($this->_translations, $translations);

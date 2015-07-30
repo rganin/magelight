@@ -2,8 +2,8 @@
 <config>
     <global>
         <app>
-            <cache_modules_config>##cache_modules_config_flag##</cache_modules_config>
-            <developer_mode>##is_in_developer_mode##</developer_mode>
+            <cache_modules_config>0</cache_modules_config>
+            <developer_mode>1</developer_mode>
         </app>
         <view>
             <date_format>d-m-Y</date_format>
@@ -11,11 +11,11 @@
             <cache_ttl>3600</cache_ttl>
         </view>
         <log>
-            <file>##logfile##</file>
+            <file>var/app.log</file>
         </log>
         <setup>
             <executed_scripts>
-                <filename>##executed_scripts_path##</filename>
+                <filename>protected/executed_scripts.json</filename>
             </executed_scripts>
         </setup>
         <base_domain>##application_base_domain##</base_domain>
@@ -27,29 +27,18 @@
                 <user>##default_db_user##</user>
                 <password>##default_db_password##</password>
                 <dbname>##default_db_name##</dbname>
-                <persistent>##default_db_connection_persistent_flag##</persistent>
+                <persistent>0</persistent>
                 <init_connect>SET NAMES utf8 COLLATE utf8_general_ci</init_connect>
-                <profiling>##default_db_profiling_flag##</profiling>
+                <profiling>0</profiling>
             </default>
         </db>
         <cache>
             <default>
-                <type>memcached</type>
-                <config>
-                    <servers stackable="1">
-                        <server>
-                            <host>##memcached_host##</host>
-                            <port>##memcached_port##</port>
-                        </server>
-                    </servers>
-                </config>
-            </default>
-            <other>
                 <type>file</type>
                 <config>
-                    <path>##file_cache_path##</path>
+                    <path>var/cache</path>
                 </config>
-            </other>
+            </default>
         </cache>
         <forgery stackable="1">
 

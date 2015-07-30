@@ -15,10 +15,6 @@
  * @copyright Copyright (c) 2012 rganin (rganin@gmail.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-
-require_once 'bootstrap.php';
-
-Magelight::app()->setDeveloperMode(true)
-    ->init()
-    ->flushAllCache()
-    ->upgrade();
+require __DIR__ . '/../core.php';
+\Magelight::app()->addModulesDir(__DIR__ . DS . 'modules')
+    ->setAppDir(__DIR__);

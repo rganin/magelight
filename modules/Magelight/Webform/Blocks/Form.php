@@ -129,9 +129,9 @@ class Form extends Elements\Abstraction\Element
     public function validateOnFront($ruleset = [])
     {
         \Magelight\Core\Blocks\Document::getFromRegistry()
-            ->addJs('modules/private/Magelight/Webform/static/js/jquery-validation.js');
+            ->addJs('Magelight/Webform/static/js/jquery-validation.js');
         \Magelight\Core\Blocks\Document::getFromRegistry()
-            ->addJs('modules/private/Magelight/Webform/static/js/ajax-form.js');
+            ->addJs('Magelight/Webform/static/js/ajax-form.js');
         $this->setAttribute('data-front-validate', 'true');
         $this->setAttribute(
             'data-validator-rules',
