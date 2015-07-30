@@ -44,6 +44,11 @@ final class Magelight
         return self::$_app;
     }
 
+    public static function setApp(\Magelight\App $app)
+    {
+        self::$_app = $app;
+    }
+
     /**
      * Get session object
      * 

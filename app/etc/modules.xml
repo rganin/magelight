@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<modules>
+    <Magelight_Core>
+        <path>Magelight\Core</path>
+        <active>1</active>
+    </Magelight_Core>
+    <Magelight_Webform>
+        <path>Magelight\Webform</path>
+        <active>1</active>
+        <require>Magelight_Core</require>
+    </Magelight_Webform>
+    <Magelight_Geo>
+        <path>Magelight\Geo</path>
+        <active>1</active>
+        <require>Magelight_Core</require>
+    </Magelight_Geo>
+    <Magelight_Auth>
+        <active>1</active>
+        <require>Magelight_Core</require>
+        <require>Magelight_Geo</require>
+        <path>Magelight\Auth</path>
+    </Magelight_Auth>
+    <Magelight_Visitors>
+        <active>1</active>
+        <require>Magelight_Core</require>
+        <path>Magelight\Visitors</path>
+    </Magelight_Visitors>
+    <Magelight_Admin>
+        <active>1</active>
+        <require>Magelight_Auth</require>
+        <path>Magelight\Admin</path>
+    </Magelight_Admin>
+    <SampleApp>
+        <active>1</active>
+        <require>Magelight_Admin</require>
+        <require>Magelight_Core</require>
+        <require>Magelight_Auth</require>
+        <require>Magelight_Webform</require>
+        <path>SampleApp</path>
+    </SampleApp>
+</modules>

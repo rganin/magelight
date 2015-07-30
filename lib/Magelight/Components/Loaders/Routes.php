@@ -73,9 +73,9 @@ class Routes
     public function loadRoutes()
     {
         $modules= \Magelight::app()->modules()->getActiveModules();
-        foreach (array_reverse(\Magelight::app()->getCodePools()) as $scope) {
+        foreach (array_reverse(\Magelight::app()->getModuleDirectories()) as $modulesPath) {
             foreach ($modules as $module) {
-                $filename = 'modules' . DS . $scope . DS . str_replace('/', DS, $module['path']) . DS . 'etc' . DS . 'routes.xml';
+                $filename = $modulesPath . DS . str_replace('/', DS, $module['path']) . DS . 'etc' . DS . 'routes.xml';
                 if (file_exists($filename)) {
                     $xml = simplexml_load_file($filename);
                     $this->parseModuleRoutes($xml, $module['path']);

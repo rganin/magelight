@@ -117,9 +117,8 @@ final class Modules
     private function moduleExists($path)
     {
         $result = false;
-        $appDir = \Magelight::app()->getAppDir();
-        foreach (\Magelight::app()->getCodePools() as $scope) {
-            $result |= is_readable($appDir . DS . 'modules' . DS . $scope . DS . $path);
+        foreach (\Magelight::app()->getModuleDirectories() as $modulesDir) {
+            $result |= is_readable($modulesDir . DS . $path);
         }
         return $result;
     }
