@@ -1,0 +1,20 @@
+<?php /* @var $this \Magelight\Auth\Blocks\UserProfile */ ?>
+<div class="page-header">
+    <h1><?=$this->user['name']?></h1>
+</div>
+
+<img class="thumbnail" alt="<?=$this->user['name']?>" src="<?=$this->user['photo']?>" />
+
+<dl>
+    <dt>Name</dt>
+    <dd><?=$this->user['name']?></dd>
+
+    <dt>E-mail</dt>
+    <dd><?=$this->user['email']?></dd>
+
+    <dt>Location</dt>
+    <dd><?=$this->user['country']?>, <?=$this->user['city']?></dd>
+
+    <dt>Url</dt>
+    <dd><?=$this->user['openid_identity']?></dd>
+</dl>

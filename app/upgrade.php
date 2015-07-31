@@ -16,11 +16,9 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-require '../core.php';
+require_once 'bootstrap.php';
 
-Magelight::app()
-    ->setAppDir(dirname(__FILE__))
-    ->setDeveloperMode(true)
+Magelight::app()->setDeveloperMode(true)
     ->init()
     ->flushAllCache()
     ->upgrade();

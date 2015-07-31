@@ -26,7 +26,7 @@ namespace Magelight;
 /**
  * Application class (no forgery available)
  */
-final class App
+class App
 {
     /**
      * Session ID cookie name
@@ -55,7 +55,14 @@ final class App
      *
      * @var array
      */
-    protected $_pools = ['public', 'private'];
+    protected $_pools = ['public'];
+
+    /**
+     * Modules directories
+     *
+     * @var string[]
+     */
+    protected $_modulesDirectories = [];
 
     /**
      * Classes overrides
@@ -183,7 +190,7 @@ final class App
      */
     public function getFrameworkDir()
     {
-        return $this->_frameworkDir;
+        return isset($this->_frameworkDir) ? $this->_frameworkDir : FRAMEWORK_DIR;
     }
 
     /**
@@ -305,7 +312,7 @@ final class App
      * @param array $pools
      * @return App
      */
-    public function setCodePools($pools = ['public', 'private'])
+    public function setCodePools($pools = ['public'])
     {
         $this->_pools = $pools;
         return $this;
@@ -321,6 +328,39 @@ final class App
         return $this->_pools;
     }
 
+    public function getRealPathInModules($pathInModules)
+    {
+        foreach (array_reverse($this->getModuleDirectories()) as $directory) {
+            if (is_readable($directory . DS . $pathInModules)) {
+                return realpath($directory . DS . $pathInModules);
+            }
+        }
+        return false;
+    }
+
+    public function addModulesDir($directory)
+    {
+        $this->_modulesDirectories[] = realpath($directory);
+        return $this;
+    }
+
+    public function getModuleDirectories()
+    {
+        return $this->_modulesDirectories;
+    }
+
+    protected function initIncludePaths()
+    {
+        $includePath = explode(PS, ini_get('include_path'));
+        foreach (array_reverse($this->getModuleDirectories()) as $directory) {
+            if (!is_readable($directory)) {
+                throw new Exception("Modules directory {$directory} does not exist or is not readable.");
+            }
+            array_unshift($includePath, realpath($directory));
+        }
+        ini_set('include_path', implode(PS, $includePath));
+    }
+
     /**
      * Initialize application
      *
@@ -329,28 +369,8 @@ final class App
      */
     public function init()
     {
-        if (empty($this->_frameworkDir)) {
-            $this->_frameworkDir = FRAMEWORK_DIR;
-        }
-        $includePath = explode(PS, ini_get('include_path'));
-        array_unshift(
-            $includePath,
-            $this->_frameworkDir . DS . 'lib'
-        );
-        foreach (array_reverse($this->_pools) as $pool) {
-            $path = $this->_appDir . DS . 'modules' . DS . $pool;
-
-            if (!is_readable($path)) {
-                throw new Exception("Code pool {$path} does not exist or is not readable.");
-            }
-            array_unshift(
-                $includePath,
-                realpath($path)
-            );
-        }
-
-        ini_set('include_path', implode(PS, $includePath));
-
+        $this->addModulesDir($this->getFrameworkDir() . DS . 'modules');
+        $this->initIncludePaths();
         $this->setRegistryObject('modules', new \Magelight\Components\Modules($this));
         $this->setRegistryObject('config', new \Magelight\Components\Config($this));
         $this->setDeveloperMode((string)$this->getConfig('global/app/developer_mode'));
@@ -715,7 +735,10 @@ final class App
      */
     protected function isSetupScriptExecuted($moduleName, $scriptName)
     {
-        $file = $this->getAppDir() . DS . $this->getConfig('global/setup/executed_scripts/filename');
+        $file = $this->getAppDir()
+            . DS
+            . $this->getConfig('global/setup/executed_scripts/filename', 'var/executed_setup.json');
+
         if (!file_exists($file)) {
             if (!file_exists(dirname($file))) {
                 mkdir(dirname($file), 755, true);
@@ -735,7 +758,10 @@ final class App
      */
     protected function setSetupScriptExecuted($moduleName, $scriptFullPath)
     {
-        $file = $this->getAppDir() . DS . $this->getConfig('global/setup/executed_scripts/filename');
+        $file = $this->getAppDir()
+            . DS
+            . $this->getConfig('global/setup/executed_scripts/filename', 'var/executed_setup.json');
+
         if (file_exists($file)) {
             $scripts = json_decode(file_get_contents($file), true);
         } else {

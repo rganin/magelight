@@ -69,9 +69,9 @@ class Installer
     {
         $modulePath = str_replace('\\', DS, $modulePath);
         $scripts = [];
-        $pools = \Magelight::app()->getCodePools();
-        foreach ($pools as $pool) {
-            $path = \Magelight::app()->getAppDir() . DS . 'modules' . DS . $pool . DS . $modulePath . DS . 'setup';
+        $modulesDirs = array_reverse(\Magelight::app()->getModuleDirectories());
+        foreach ($modulesDirs as $modulesDir) {
+            $path = $modulesDir . DS . $modulePath . DS . 'setup';
             if (is_readable($path)) {
                 foreach (glob($path . DS . '*[setup|install|upgrade]*.php') as $file) {
                     $basename = basename($file);

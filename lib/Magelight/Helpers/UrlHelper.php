@@ -25,7 +25,7 @@ namespace Magelight\Helpers;
 
 /**
  * Url helper class
- * @static getInstance \Magelight\Helpers\UrlHelper
+ * @method static \Magelight\Helpers\UrlHelper getInstance()
  */
 class UrlHelper
 {
