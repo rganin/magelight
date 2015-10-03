@@ -35,16 +35,16 @@ class StaticResource extends \Magelight\App
             $request = \Magelight\Http\Request::getInstance();
             $this->setRegistryObject('request', $request);
             $resource = $request->getGet('resource');
-            $staticDir = realpath(
-                $this->getAppDir()
-                . DS
-                . $this->config()->getConfigString('global/view/published_static_dir', 'pub/static')
-            );
+            $pubStaticDir = $this->config()->getConfigString('global/view/published_static_dir');
+            if (empty($pubStaticDir)) {
+                $pubStaticDir = 'pub/static';
+            }
+            $staticDir = realpath($this->getAppDir() . DS . $pubStaticDir);
             foreach (array_reverse($this->getModuleDirectories()) as $modulesPath) {
                 $filename = $modulesPath . DS . $resource;
                 if (file_exists($filename)) {
                     if (!is_dir(dirname($staticDir . DS . $resource))) {
-                        mkdir(dirname($staticDir . DS . $resource), 777, true);
+                        mkdir(dirname($staticDir . DS . $resource), 0777, true);
                     }
                     copy(
                         $filename,
