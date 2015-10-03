@@ -129,7 +129,7 @@ final class Magelight
      */
     public static function fixPath($path)
     {
-        return str_replace('\\/', DS, $path);
+        return str_replace(['\\', '/'], DS, $path);
     }
 
     /**
