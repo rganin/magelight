@@ -3,3 +3,5 @@ app/etc/config.xml
 app/var/*
 app/pub/static/*
 app/protected/*
+composer.lock
+vendor/

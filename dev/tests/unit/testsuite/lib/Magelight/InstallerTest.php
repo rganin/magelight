@@ -32,6 +32,6 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
     public function findScriptsTest()
     {
         $installer = Installer::forge();
-        var_dump($installer->findInstallScripts('Board'));
+//        var_dump($installer->findInstallScripts('Board'));
     }
 }

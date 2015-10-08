@@ -1,14 +1,5 @@
 <phpunit bootstrap="./framework/bootstrap.php" colors="true">
     <testsuite name="Magelight core tests">
         <directory suffix="Test.php">testsuite/lib</directory>
-        <directory suffix="Test.php">testsuite/app/modules</directory>
     </testsuite>
-     
-    <filter>
-        <whitelist>
-            <exclude>
-                <directory suffix=".phtml">*</directory>
-            </exclude>
-        </whitelist>
-    </filter>
 </phpunit>
