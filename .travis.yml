@@ -1,0 +1,9 @@
+language: php
+php:
+  - 5.5
+  - 5.6
+env:
+  - TEST_SUITE=unit
+script:
+  # Unit tests
+  - sh -c "if [ '$TEST_SUITE' = 'unit' ]; then phpunit -c dev/tests/unit/phpunit.xml; fi"
