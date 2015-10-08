@@ -46,5 +46,6 @@ class Captcha extends Abstraction\Field
             $this->_captcha->save();
         }
         $this->set('image_url', !empty($renderUrl) ? $renderUrl : $this->url($this->_captcha->getSavedFileName()));
+        $this->addClass('form-group');
     }
 }

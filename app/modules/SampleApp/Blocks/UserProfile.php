@@ -28,10 +28,19 @@
 
 namespace SampleApp\Blocks;
 
+/**
+ * Class UserProfile
+ * @package SampleApp\Blocks
+ *
+ * @method static \SampleApp\Blocks\UserProfile forge()
+ */
 class UserProfile extends \Magelight\Block
 {
     protected $_template = 'SampleApp/templates/user-profile.phtml';
 
+    /**
+     * Forgery constructor
+     */
     public function __forge()
     {
         $user = \Magelight\Auth\Models\User::find(\Magelight\Http\Request::getInstance()->getGet('id'));

@@ -1,26 +1,25 @@
 <?php
     /* @var $this \Magelight\Auth\Blocks\User\Register */
 ?>
-<h1><?=__('Register')?></h1>
+<div class="page-header">
+    <h1><?=__('Register')?></h1>
+</div>
 <div class="row">
 
     <div class="col-md-8">
-        <div class="page-header">
-            <?=__('Via e-mail')?>
-        </div>
         <div>
             <?=$this->section('register-user-form')?>
         </div>
     </div>
 
     <div class="col-md-4">
-        <div class="page-header">
-            <?=__('Via services')?>
-        </div>
+        <h2>
+            <?=__('Enter via services')?>
+        </h2>
         <div>
             <?=$this->section('ulogin-widget-register')?>
             <p></p>
-            <div class="alert alert-info">
+            <div class="alert alert-warning">
                 <?=__('Once you enter via service you`ll be registered automatically')?>
             </div>
         </div>

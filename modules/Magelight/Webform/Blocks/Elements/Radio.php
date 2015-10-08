@@ -34,6 +34,7 @@ class Radio extends Checkbox
     {
         $this->setAttribute('type', 'radio');
         $this->setValue('true');
+        $this->addClass('form-control');
     }
 
     /**

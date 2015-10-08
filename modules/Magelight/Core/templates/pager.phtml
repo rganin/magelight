@@ -2,14 +2,12 @@
 /* @var $this \Magelight\Core\Blocks\Pager */
 ?>
 
-<div <?=$this->renderAttributes()?>>
-    <ul>
-        <?php foreach ($this->get('pages', []) as $page) : ?>
-            <li class="<?php if ($page['disabled']): ?>disabled<?php endif; ?> <?php if ($page['active']): ?>active<?php endif; ?>">
-                <a href="<?=(!$page['disabled']) ? $page['url'] : '#';?>">
-                    <?=$page['caption']?>
-                </a>
-            </li>
-        <?php endforeach; ?>
-    </ul>
-</div>
+<ul <?=$this->renderAttributes()?>>
+    <?php foreach ($this->get('pages', []) as $page) : ?>
+        <li class="<?php if ($page['disabled']): ?>disabled<?php endif; ?> <?php if ($page['active']): ?>active<?php endif; ?>">
+            <a href="<?=(!$page['disabled']) ? $page['url'] : '#';?>">
+                <?=$page['caption']?>
+            </a>
+        </li>
+    <?php endforeach; ?>
+</ul>

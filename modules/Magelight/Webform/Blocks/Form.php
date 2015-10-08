@@ -282,7 +282,7 @@ class Form extends Elements\Abstraction\Element
      */
     public function setHorizontal()
     {
-        return $this->addClass('form-horizontal');
+        return $this;
     }
 
     /**
@@ -483,7 +483,7 @@ class Form extends Elements\Abstraction\Element
      * @param string $class
      * @return Form
      */
-    public function addResult($text = '', $class = 'alert-error')
+    public function addResult($text = '', $class = 'alert-danger')
     {
         $res = Result::forge()->setContent($text)->setClass('alert')->addClass($class);
         if (!$this->_resultRow instanceof Elements\Abstraction\Element) {

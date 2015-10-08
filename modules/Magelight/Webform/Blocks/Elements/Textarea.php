@@ -36,6 +36,14 @@ class Textarea extends Abstraction\Field
     protected $_tag = 'textarea';
 
     /**
+     * Forgery
+     */
+    public function __forge()
+    {
+        $this->addClass('form-control');
+    }
+
+    /**
      * Set textarea content
      *
      * @param string $value

@@ -34,6 +34,7 @@ class Checkbox extends Input
     {
         $this->setAttribute('type', 'checkbox');
         $this->setValue('true');
+        $this->addClass('form-control');
     }
 
     /**

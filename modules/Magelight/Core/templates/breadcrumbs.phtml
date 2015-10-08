@@ -28,9 +28,6 @@
 <ol class="breadcrumb">
     <?php foreach ($this->get('breadcrumbs', []) as $key => $breadcrumb): ?>
         <li>
-            <?php if ($key > 0) : ?>
-                <span class="divider"> => </span>
-            <?php endif; ?>
             <?php if (!empty($breadcrumb['route_match'])): ?>
                 <a href="<?=$this->url($breadcrumb['route_match'], $breadcrumb['route_params'])?>"><?=$this->escapeHtml($breadcrumb['title'])?></a>
             <?php else: ?>

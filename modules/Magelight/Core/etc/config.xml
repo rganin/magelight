@@ -5,10 +5,10 @@
             <default_lang>ru</default_lang>
         </document>
         <minifier>
-            <minify_js>1</minify_js>
-            <minify_css>1</minify_css>
-            <compress_js>1</compress_js>
-            <compress_css>1</compress_css>
+            <minify_js>0</minify_js>
+            <minify_css>0</minify_css>
+            <compress_js>0</compress_js>
+            <compress_css>0</compress_css>
             <public_dir>var/static</public_dir>
             <check_readability>0</check_readability>
             <cache_ttl_css>10000</cache_ttl_css>

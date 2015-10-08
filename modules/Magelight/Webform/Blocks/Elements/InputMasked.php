@@ -39,6 +39,7 @@ class InputMasked extends Abstraction\Field
         );
         $this->addClass('masked-input');
         $this->setAttribute('type', 'text');
+        $this->addClass('form-control');
     }
 
     /**

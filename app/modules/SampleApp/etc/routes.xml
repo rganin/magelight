@@ -10,15 +10,5 @@
 <routes>
     <route match="/" />
     <route match="/404" action="no_route" />
-    <route match="/user{id:0-9}" action="user" />
-
-    <route match="/auth" controller="auth">
-        <route match="/{action:a-z0-9\_\-}" />
-        <!--<route match="/login"           action="login"/>-->
-        <!--<route match="/servicelogin"    action="servicelogin"/>-->
-        <!--<route match="/logout"          action="logout" />-->
-        <!--<route match="/register"        action="register" />-->
-        <!--<route match="/remindpass"      action="remindpass" />-->
-        <!--<route match="/render_captcha"  action="render_captcha" />-->
-    </route>
+    <route match="/forms" action="forms"/>
 </routes>

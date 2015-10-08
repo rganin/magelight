@@ -1,28 +1,36 @@
 <?php
     /* @var $this \SampleApp\Blocks\Top */
 ?>
-<div class="navbar navbar-fixed-top">
-    <div class="navbar-inner">
-        <div class="container">
-            <ul class="nav">
-                <li><a href="<?php echo $this->url('/'); ?>"><i class="icon-home"></i> Home</a></li>
-                <li><a href="<?php echo $this->url('unexistent'); ?>">404</a></li>
-
-            </ul>
-            <ul class="nav pull-right">
-                <?php if ($this->get('user_id', false)) { ?>
-                    <li>
-                        <a class="dropdown-toggle" href="#" data-toggle="dropdown"><?=$this->get('user_data')['name']?> <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="<?=$this->url('user' . $this->get('user_id'))?>"><i class="icon icon-user"></i>&nbsp;&nbsp;Profile</a></li>
-                            <li><a href="<?=$this->url('auth/logout')?>"><i class="icon icon-off"></i>&nbsp;&nbsp;Exit</a></li>
-                        </ul>
-                    </li>
-                <?php } else { ?>
-                    <li><a href="<?php echo $this->url('auth/login'); ?>">Login</a></li>
-                    <li><a href="<?php echo $this->url('auth/register'); ?>">Register</a></li>
-                <?php }; ?>
-            </ul>
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="navbar-collapse collapse">
+            <div class="container">
+                <ul class="navbar-nav nav">
+                    <li><a class="navbar-brand"  href="<?php echo $this->url('/'); ?>"><i class="glyphicon glyphicon-home"></i> Magelight</a></li>
+                    <li><a href="<?php echo $this->url('unexistent'); ?>">404</a></li>
+                </ul>
+                <ul class="navbar-nav nav pull-right">
+                    <?php if ($this->get('user_id', false)) { ?>
+                        <li>
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown"><?=$this->get('user_data')['name']?> <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<?=$this->url('user' . $this->get('user_id'))?>"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Profile</a></li>
+                                <li><a href="<?=$this->url('auth/logout')?>"><i class="glyphicon glyphicon-off"></i>&nbsp;&nbsp;Exit</a></li>
+                            </ul>
+                        </li>
+                    <?php } else { ?>
+                        <li><a href="<?php echo $this->url('auth/login'); ?>">Login</a></li>
+                        <li><a href="<?php echo $this->url('auth/register'); ?>">Register</a></li>
+                    <?php }; ?>
+                </ul>
+            </div>
         </div>
     </div>
 </div>

@@ -40,7 +40,6 @@ class Label extends Abstraction\Element
      */
     public function __forge()
     {
-        $this->addClass('control-label');
     }
 
     /**

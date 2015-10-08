@@ -40,7 +40,7 @@ class Row extends Elements\Abstraction\Element
      */
     public function __forge()
     {
-        $this->addClass('control-group');
+        $this->addClass('form-group');
     }
 
     /**
@@ -59,15 +59,15 @@ class Row extends Elements\Abstraction\Element
         }
         if (!empty($label)) {
             /* @var  Elements\Abstraction\Field $field[0]*/
-            $this->addContent(Elements\Label::forge()->setFor($field[0]->getId())->setContent($label));
+            $this->addContent(Elements\Label::forge()->setFor($field[0]->getId())->addClass('control-label')->setContent($label));
         }
-        $controls =  Elements\Abstraction\Element::forge()->addClass('controls');
+//        $controls =  Elements\Abstraction\Element::forge()->addClass('controls');
 
         foreach ($field as $fieldElement) {
             if (is_string($fieldElement) || $fieldElement instanceof \Magelight\Block) {
                 /* @var $fieldElement Elements\Abstraction\Field*/
-                $controls->addContent($fieldElement);
-                $controls->addContent("\n");
+                $this->addContent($fieldElement);
+                $this->addContent("\n");
             } else {
                 throw new \Magelight\Exception(
                     __('FieldElement must be a string or instance of \\Magelight\\Blocks')
@@ -76,9 +76,9 @@ class Row extends Elements\Abstraction\Element
         }
 
         if (!empty($hint)) {
-            $controls->addContent(Elements\Hint::forge()->setContent($hint));
+            $this->addContent(Elements\Hint::forge()->setContent($hint));
         }
-        $this->addContent($controls);
+//        $this->addContent($controls);
         return $this;
     }
 }

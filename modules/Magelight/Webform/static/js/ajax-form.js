@@ -6,15 +6,15 @@ function bindFormsValidation()
         $(this).validate({
             rules: rules,
             messages: messages,
-            errorClass: 'help-inline validation-error',
+            errorClass: 'help-inline text-danger',
             highlight: function(label) {
-                $(label).closest('.control-group').removeClass('success').addClass('error');
+                $(label).closest('.form-group').removeClass('has-success').addClass('has-error');
             },
             success: function(label) {
-                label.addClass('valid').closest('.control-group').addClass('success');
+                label.addClass('valid').closest('.form-group').removeClass('has-error').addClass('has-success');
             },
             errorPlacement: function(error, element) {
-                error.appendTo(element.closest('.controls'));
+                error.appendTo(element.closest('.form-group'));
             }
         });
     });

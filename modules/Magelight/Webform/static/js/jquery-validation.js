@@ -210,7 +210,7 @@
             rules: {},
             errorClass: "error",
             validClass: "valid",
-            errorElement: "label",
+            errorElement: "span",
             focusInvalid: true,
             errorContainer: $( [] ),
             errorLabelContainer: $( [] ),
