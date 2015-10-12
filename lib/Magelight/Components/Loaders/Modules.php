@@ -22,12 +22,15 @@
  */
 
 namespace Magelight\Components\Loaders;
+use Magelight\Traits\TForgery;
 
 /**
  * Modules loader
  */
 final class Modules
 {
+    use TForgery;
+
     /**
      * Default modules xml node name
      */
@@ -52,7 +55,7 @@ final class Modules
      * 
      * @param \SimpleXMLElement $modulesXmlConfig
      */
-    public function __construct(\SimpleXMLElement $modulesXmlConfig)
+    public function __forge(\SimpleXMLElement $modulesXmlConfig)
     {
         if ($modulesXmlConfig->getName() === self::MODULES_NODE_NAME) {
             foreach ($modulesXmlConfig->children() as $module) {

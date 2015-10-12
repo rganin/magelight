@@ -22,12 +22,15 @@
  */
 
 namespace Magelight\Components;
+use Magelight\Traits\TForgery;
 
 /**
  * Application enabled modules info wrapper
  */
 class Modules
 {
+    use TForgery;
+
     /**
      * Models
      * 
@@ -47,7 +50,7 @@ class Modules
      * 
      * @param \Magelight\App $app
      */
-    public function __construct(\Magelight\App $app)
+    public function __forge(\Magelight\App $app)
     {
         $this->_app = $app;
         //@todo add modules caching just as caching will be implemented
@@ -63,7 +66,7 @@ class Modules
     public function loadModules($modulesXmlFilename)
     {
         $xml = simplexml_load_file($modulesXmlFilename);
-        $modulesLoader = new \Magelight\Components\Loaders\Modules($xml);
+        $modulesLoader = \Magelight\Components\Loaders\Modules::forge($xml);
         $this->_modules = $modulesLoader->getActiveModules();
         unset($modulesLoader);
         return $this;

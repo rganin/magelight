@@ -29,13 +29,49 @@ namespace Magelight\Traits;
 trait TForgery
 {
     /**
+     * Mock objects stack
+     *
+     * @var array
+     */
+    protected static $mockObjects = [];
+
+    /**
+     * Forgery calls by class
+     *
+     * @var array
+     */
+    protected static $calls = [];
+
+    /**
+     * Forgery Instance
+     *
+     * @var \Magelight\Forgery
+     */
+    protected static $_forgery;
+
+    /**
      * Get Forgery instance
      *
      * @return \Magelight\Forgery
      */
     protected static function _getForgery()
     {
-        return \Magelight\Forgery::getInstance();
+        if (!self::$_forgery instanceof \Magelight\Forgery) {
+            self::$_forgery = \Magelight\Forgery::getInstance();
+        }
+        return self::$_forgery;
+    }
+
+    /**
+     * Force forgery to mock objects on iteration
+     *
+     * @param \PHPUnit_Framework_MockObject_MockObject $mockObject
+     * @param null $iteration
+     */
+    public static function forgeMock(\PHPUnit_Framework_MockObject_MockObject $mockObject, $iteration = null)
+    {
+        $className = get_called_class();
+        self::$mockObjects[$className][$iteration] = $mockObject;
     }
 
     /**
@@ -46,7 +82,18 @@ trait TForgery
      */
     public static function forge()
     {
-        $className = self::_getForgery()->getClassName(get_called_class());
+        $className = get_called_class();
+        if (isset(self::$calls[$className])) {
+            self::$calls[$className]++;
+        } else {
+            self::$calls[$className] = 1;
+        }
+        if (isset(self::$mockObjects[$className][self::$calls[$className]])) {
+            return self::$mockObjects[$className][self::$calls[$className]];
+        }
+        if (isset(self::$mockObjects[$className][null])) {
+            return self::$mockObjects[$className][null];
+        }
         if (!self::_checkInterfaces($className)) {
             throw new \Magelight\Exception(
                 "Forgery error: Class {$className} must implement all interfaces described in it`s override container!"
@@ -86,54 +133,14 @@ trait TForgery
     public static function getInstance()
     {
         static $instance;
-        $className = self::_getForgery()->getClassName(get_called_class());
-
+        $className = get_called_class();
+        if (isset(self::$mockObjects[$className][null])) {
+            return self::$mockObjects[$className][null];
+        }
         if (!$instance instanceof $className) {
-            $instance = new $className();
-            if (method_exists($instance, '__forge')) {
-                call_user_func_array([$instance, '__forge'], func_get_args());
-            }
+            $instance = call_user_func_array([$className, 'forge'], func_get_args());
         }
-
         return $instance;
-    }
-
-    /**
-     * Get class redefinition name
-     *
-     * @return mixed
-     */
-    public static function getClassRedefinition()
-    {
-        return self::_getForgery()->getClassName(get_called_class());
-    }
-
-    /**
-     * Get current module name
-     *
-     * @return string|null
-     */
-    public static function getCurrentModuleName()
-    {
-        $namespace = explode('\\', get_called_class());
-        if (!empty($namespace[0])) {
-            return $namespace[0];
-        }
-        return null;
-    }
-
-    /**
-     * Get current module name
-     *
-     * @return string|null
-     */
-    public static function getRedefinitionModuleName()
-    {
-        $namespace = explode('\\', self::_getForgery()->getClassName(get_called_class()));
-        if (!empty($namespace[0])) {
-            return $namespace[0];
-        }
-        return null;
     }
 
     /**
@@ -145,7 +152,7 @@ trait TForgery
      */
     public static function callStatic($method, $arguments = [])
     {
-        return call_user_func_array([self::getClassRedefinition(), $method], $arguments);
+        return call_user_func_array([get_called_class(), $method], $arguments);
     }
 
     /**
@@ -158,9 +165,9 @@ trait TForgery
     public static function callStaticLate($method, $arguments = [])
     {
         if (is_array($method) && count($method) > 1) {
-            list ($class, $method) = [self::_getForgery()->getClassName($method[0]), $method[1]];
+            list ($class, $method) = [$method[0], $method[1]];
         } else {
-            list ($class, $method) = [static::getClassRedefinition(), $method];
+            list ($class, $method) = [get_called_class(), $method];
         }
         return call_user_func_array([$class, $method], $arguments);
     }

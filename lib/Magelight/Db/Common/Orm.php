@@ -399,7 +399,7 @@ abstract class Orm
      * Constructor
      * @param \Magelight\Db\Common\Adapter $db
      */
-    public function __construct(\Magelight\Db\Common\Adapter $db)
+    public function __forge(\Magelight\Db\Common\Adapter $db)
     {
         $this->db = $db;
     }

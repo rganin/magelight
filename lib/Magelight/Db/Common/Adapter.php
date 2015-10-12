@@ -118,16 +118,6 @@ abstract class Adapter
     }
 
     /**
-     * Forge an adapter
-     *
-     * @return Adapter
-     */
-    public static function forge()
-    {
-        return new static();
-    }
-
-    /**
      * Get adapter type
      *
      * @return string

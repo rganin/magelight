@@ -22,12 +22,15 @@
  */
 
 namespace Magelight\Components\Loaders;
+use Magelight\Traits\TForgery;
 
 /**
  * Config loader class
  */
 class Config
 {
+    use TForgery;
+
     /**
      * Configuration
      * 

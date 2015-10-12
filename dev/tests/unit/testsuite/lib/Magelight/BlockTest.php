@@ -32,10 +32,7 @@ namespace Magelight;
 
 class BlockTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @test
-     */
-    public function genericBlockTest()
+    public function testGeneric()
     {
         $block = \UnitTests\TestBlock::forge();
         /* @var $block \UnitTests\TestBlock */
@@ -52,15 +49,5 @@ class BlockTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($block->sectionPrepend('123', $block) instanceof \UnitTests\TestBlock);
         $this->assertTrue($block->sectionReplace('123', $block) instanceof \UnitTests\TestBlock);
         $this->assertTrue($block->sectionDelete('123') instanceof \UnitTests\TestBlock);
-    }
-
-    /**
-     * @test
-     */
-    public function genericBlockForgeryTest()
-    {
-        $block = \UnitTests\TestBlock::forge();
-        /* @var $block \UnitTests\TestBlock */
-        $this->assertTrue(($block->getCurrentModuleName() === 'UnitTests'));
     }
 }

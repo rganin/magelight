@@ -387,7 +387,7 @@ class Block
      */
     public function url($match, $params = [], $type = \Magelight\Helpers\UrlHelper::TYPE_HTTP, $addOnlyMaskParams = false)
     {
-        return \Magelight::app()->url($match, $params, $type, $addOnlyMaskParams);
+        return \Magelight\Helpers\UrlHelper::getInstance()->getUrl($match, $params, $type, $addOnlyMaskParams);
     }
 
     /**

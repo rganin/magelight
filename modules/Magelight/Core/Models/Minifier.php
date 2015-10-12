@@ -134,7 +134,7 @@ class Minifier
                 return [
                     'path'    => $path,
                     'content' => '',
-                    'url'     => \Magelight::app()->url($path),
+                    'url'     => \Magelight\Helpers\UrlHelper::getInstance()->getUrl($path),
                     'inline'  => false
                 ];
             }
@@ -174,7 +174,7 @@ class Minifier
             return [
                 'path'    => $path,
                 'content' => '',
-                'url'     => \Magelight::app()->url($path),
+                'url'     => \Magelight\Helpers\UrlHelper::getInstance()->getUrl($path),
                 'inline'  => false
             ];
         } else {

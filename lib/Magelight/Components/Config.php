@@ -22,6 +22,7 @@
  */
 
 namespace Magelight\Components;
+use Magelight\Traits\TForgery;
 
 /**
  * Config wrapper
@@ -29,6 +30,8 @@ namespace Magelight\Components;
 class Config
 {
     use \Magelight\Traits\TCache;
+
+    use TForgery;
 
     /**
      * Config path prefix
@@ -55,10 +58,10 @@ class Config
      * 
      * @param \Magelight\App $app
      */
-    public function __construct(\Magelight\App $app)
+    public function __forge(\Magelight\App $app)
     {
         /* Loading APP config */
-        $loader = new \Magelight\Components\Loaders\Config();
+        $loader = \Magelight\Components\Loaders\Config::forge();
         $loader->loadConfig($app->getAppDir() . DS . 'etc' . DS . 'config.xml');
         $this->_config = $loader->getConfig();
     }
@@ -76,7 +79,7 @@ class Config
 
         /* Loading modules config */
         if (!$modulesConfig) {
-            $loader = new \Magelight\Components\Loaders\Config();
+            $loader = \Magelight\Components\Loaders\Config::forge();
             $loader->setConfig($this->_config);
             foreach (array_reverse($app->getModuleDirectories()) as $modulesDir) {
                 foreach ($app->modules()->getActiveModules() as $module) {

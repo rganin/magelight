@@ -22,12 +22,15 @@
  */
 
 namespace Magelight\Components\Loaders;
+use Magelight\Traits\TForgery;
 
 /**
  * Routes loader
  */
 class Routes
 {
+    use TForgery;
+
     /**
      * Regular expression for routes matching
      */

@@ -22,12 +22,17 @@
  */
 
 namespace Magelight\Components;
+use Magelight\Traits\TForgery;
 
 /**
  * Application Router
+ *
+ * @method static Router getInstance(\Magelight\App $app)
  */
 class Router
 {
+    use TForgery;
+
     /**
      * Default route if not found
      */
@@ -59,10 +64,10 @@ class Router
      *
      * @param \Magelight\App $app
      */
-    public function __construct(\Magelight\App $app)
+    public function __forge(\Magelight\App $app)
     {
         $this->_app = $app;
-        $loader = new \Magelight\Components\Loaders\Routes();
+        $loader = \Magelight\Components\Loaders\Routes::forge();
         //@todo add routes caching just as cache will be implemented
         $loader->loadRoutes();
 

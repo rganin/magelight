@@ -54,7 +54,7 @@ class ArrayHelperTest extends \PHPUnit_Framework_TestCase
      */
     public function arrayHelperTest($sourceArray, $insert, $after, $result)
     {
-        $helper = \Magelight::helper('Array');
+        $helper = new \Magelight\Helpers\ArrayHelper;
         /* @var $helper \Magelight\Helpers\ArrayHelper */
         $this->assertEmpty(array_diff($helper->insertToArray($sourceArray, $after, $insert), $result));
     }

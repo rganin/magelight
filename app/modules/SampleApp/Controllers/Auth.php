@@ -31,7 +31,7 @@ namespace SampleApp\Controllers;
 /**
  * Auth controller
  */
-class Auth extends \Magelight\Controller
+class Auth extends \Magelight\Auth\Controllers\Auth
 {
     /**
      * Before execute handler

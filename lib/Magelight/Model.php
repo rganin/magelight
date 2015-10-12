@@ -152,7 +152,7 @@ abstract class Model
         $db = \Magelight::app()->db(static::callStaticLate('getDbIndex'));
         $ormClass = \Magelight\Db\Common\Orm::getOrmClassByType($db->getType());
 
-        $orm = new $ormClass($db);
+        $orm = call_user_func_array([$ormClass, 'forge'], [$db]);
         /*  @var $orm \Magelight\Db\Mysql\Orm */
         $orm->setIdColumn(static::callStaticLate('getIdField'));
         $orm->setTableName(static::callStaticLate('getTableName'));

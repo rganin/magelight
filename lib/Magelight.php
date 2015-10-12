@@ -102,12 +102,8 @@ final class Magelight
      */
     public static function autoload($className)
     {
-        $classSig = $className;
         $className = self::getAutoloaderFileNameByClass($className);
         require_once $className;
-//        $class = new ReflectionClass($classSig);
-//
-//        $methods = $class->getMethods();
     }
 
     /**
@@ -129,7 +125,7 @@ final class Magelight
      */
     public static function fixPath($path)
     {
-        return str_replace('\\/', DS, $path);
+        return str_replace(['\\','/'], DS, $path);
     }
 
     /**

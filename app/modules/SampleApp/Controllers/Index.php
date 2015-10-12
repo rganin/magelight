@@ -67,7 +67,7 @@ class Index extends \Magelight\Controller
 
         $block->setTemplate(\SampleApp\Blocks\Error::TEMPLATE_404);
         $this->_view->sectionReplace('content', $block);
-        $this->app()->log('404 - not found ' . $this->request()->getRequestRoute());
+        \Magelight\Log::getInstance()->add('404 - not found ' . $this->request()->getRequestRoute());
         $this->renderView();
     }
 }

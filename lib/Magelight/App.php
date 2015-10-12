@@ -22,12 +22,15 @@
  */
 
 namespace Magelight;
+use Magelight\Traits\TForgery;
 
 /**
  * Application class (no forgery available)
  */
 class App
 {
+    use TForgery;
+
     /**
      * Session ID cookie name
      */
@@ -63,20 +66,6 @@ class App
      * @var string[]
      */
     protected $_modulesDirectories = [];
-
-    /**
-     * Classes overrides
-     *
-     * @var array
-     */
-    protected $_classOverrides = [];
-
-    /**
-     * Interfaces for classes overrides
-     *
-     * @var array
-     */
-    protected $_classOverridesInterfaces = [];
 
     /**
      * Objects registry
@@ -245,23 +234,13 @@ class App
     }
 
     /**
-     * Get router
-     *
-     * @return \Magelight\Components\Router
-     */
-    public function router()
-    {
-        return $this->getRegistryObject('router');
-    }
-
-    /**
      * Get application modules object
      *
      * @return \Magelight\Components\Modules
      */
     public function modules()
     {
-        return $this->getRegistryObject('modules');
+        return \Magelight\Components\Modules::getInstance($this);
     }
 
     /**
@@ -271,7 +250,7 @@ class App
      */
     public function config()
     {
-        return $this->getRegistryObject('config');
+        return \Magelight\Components\Config::getInstance($this);
     }
 
     /**
@@ -281,17 +260,7 @@ class App
      */
     public function session()
     {
-        return $this->getRegistryObject('session');
-    }
-
-    /**
-     * Get request singleton object
-     *
-     * @return \Magelight\Http\Request
-     */
-    public function request()
-    {
-        return $this->getRegistryObject('request');
+        return \Magelight\Http\Session::getInstance();
     }
 
     /**
@@ -306,28 +275,11 @@ class App
     }
 
     /**
-     * Set application code pools (the sequence is an include path sequence,
-     * so classes from the first code pool in the array will be included first)
+     * Get real path in modules
      *
-     * @param array $pools
-     * @return App
+     * @param $pathInModules
+     * @return bool|string
      */
-    public function setCodePools($pools = ['public'])
-    {
-        $this->_pools = $pools;
-        return $this;
-    }
-
-    /**
-     * Get application code pools in loading sequence
-     *
-     * @return array
-     */
-    public function getCodePools()
-    {
-        return $this->_pools;
-    }
-
     public function getRealPathInModules($pathInModules)
     {
         foreach (array_reverse($this->getModuleDirectories()) as $directory) {
@@ -338,17 +290,33 @@ class App
         return false;
     }
 
+    /**
+     * Add modules directory
+     *
+     * @param $directory
+     * @return $this
+     */
     public function addModulesDir($directory)
     {
         $this->_modulesDirectories[] = realpath($directory);
         return $this;
     }
 
+    /**
+     * Get modules directories
+     *
+     * @return \string[]
+     */
     public function getModuleDirectories()
     {
         return $this->_modulesDirectories;
     }
 
+    /**
+     * Initialize include paths
+     *
+     * @throws Exception
+     */
     protected function initIncludePaths()
     {
         $includePath = explode(PS, ini_get('include_path'));
@@ -371,16 +339,8 @@ class App
     {
         $this->addModulesDir($this->getFrameworkDir() . DS . 'modules');
         $this->initIncludePaths();
-        $this->setRegistryObject('modules', new \Magelight\Components\Modules($this));
-        $this->setRegistryObject('config', new \Magelight\Components\Config($this));
         $this->setDeveloperMode((string)$this->getConfig('global/app/developer_mode'));
-        $this->setAopEnabled((bool)$this->config()->getConfigBool('global/app/aop_enabled', false));
-        if ($this->isAopEnabled()) {
-            $this->_loadAspects();
-        }
         $this->config()->loadModulesConfig($this);
-        $this->setRegistryObject('router', new \Magelight\Components\Router($this));
-        $this->setRegistryObject('session', \Magelight\Http\Session::getInstance());
         $this->session()->setSessionName(self::SESSION_ID_COOKIE_NAME)->start();
         $this->loadClassesOverrides();
         $lang = $this->session()->get('lang');
@@ -418,40 +378,6 @@ class App
     }
 
     /**
-     * Load application aspects
-     */
-    protected function _loadAspects()
-    {
-        foreach ($this->getConfig('global/app/aspects') as $aspect) {
-            foreach ($aspect->pointcut->point as $point) {
-                \Magelight\Aop\Kernel::getInstance()->registerAspect((string)$point, (string)$aspect->advice);
-            }
-        }
-    }
-
-    /**
-     * Set AOP enabled
-     *
-     * @param bool $flag
-     * @return App
-     */
-    public function setAopEnabled($flag = false)
-    {
-        $this->_aopEnabled = $flag;
-        return $this;
-    }
-
-    /**
-     * Check is AOP enabled for application
-     *
-     * @return bool
-     */
-    public function isAopEnabled()
-    {
-        return $this->_aopEnabled;
-    }
-
-    /**
      * Run app
      *
      * @param bool $muteExceptions
@@ -462,8 +388,7 @@ class App
         try {
             $this->fireEvent('app_start', ['muteExceptions' => $muteExceptions]);
             $request = \Magelight\Http\Request::getInstance();
-            $this->setRegistryObject('request', $request);
-            $action = $this->router()->getAction((string) $request->getRequestRoute());
+            $action = \Magelight\Components\Router::getInstance($this)->getAction((string)$request->getRequestRoute());
             $request->appendGet($action['arguments']);
             $this->dispatchAction($action, $request);
         } catch (\Exception $e) {
@@ -486,7 +411,7 @@ class App
 
     /**
      * Dispatch action
-     * 
+     *
      * @param array $action
      * @param \Magelight\Http\Request $request
      *
@@ -497,7 +422,7 @@ class App
     {
         $this->_currentAction = $action;
         $this->fireEvent('app_dispatch_action', ['action' => $action, 'request' => $request]);
-        $controllerName = str_replace('/','\\', $action['module'] . '\\Controllers\\' . ucfirst($action['controller']));
+        $controllerName = str_replace('/', '\\', $action['module'] . '\\Controllers\\' . ucfirst($action['controller']));
         $controllerMethod = $action['action'] . 'Action';
         if ($this->isInDeveloperMode()) {
             if (!@include_once(\Magelight::getAutoloaderFileNameByClass($controllerName))) {
@@ -508,7 +433,7 @@ class App
             }
         }
         $controller = call_user_func(array($controllerName, 'forge'));
-        /* @var $controller \Magelight\Controller*/
+        /* @var $controller \Magelight\Controller */
 
         if ($this->isInDeveloperMode() && !is_callable([$controller, $controllerMethod])) {
             throw new \Magelight\Exception(
@@ -517,22 +442,22 @@ class App
         }
         $this->fireEvent('app_controller_init', [
             'controller' => $controller,
-            'action'     => $action,
-            'request'    => $request
+            'action' => $action,
+            'request' => $request
         ]);
         $controller->init($request, $action);
         $this->fireEvent('app_controller_initialized', [
             'controller' => $controller,
-            'action'     => $action,
-            'request'    => $request
+            'action' => $action,
+            'request' => $request
         ]);
         $controller->beforeExecute();
         $controller->$controllerMethod();
         $controller->afterExecute();
         $this->fireEvent('app_controller_executed', [
             'controller' => $controller,
-            'action'     => $action,
-            'request'    => $request
+            'action' => $action,
+            'request' => $request
         ]);
         return $this;
     }
@@ -544,10 +469,10 @@ class App
     {
         die();
     }
-    
+
     /**
      * Load classes overrides from configuration
-     * 
+     *
      * @return App
      */
     public function loadClassesOverrides()
@@ -557,18 +482,20 @@ class App
             if (!is_array($overrides)) {
                 $overrides = [$overrides];
             }
-            foreach($overrides as $override) {
+            foreach ($overrides as $override) {
 
                 if (!empty($override->old) && !empty($override->new)) {
 
-                    $this->addClassOverride(
+                    self::_getForgery()->addClassOverride(
                         trim($override->old, " \\/ "),
                         trim($override->new, " \\/ ")
                     );
 
                     if (!empty($override->interface)) {
                         foreach ($override->interface as $interface) {
-                            $this->addClassOverrideInterface((string) $override->new, trim($interface, " \\/ "));
+                            self::_getForgery()->addClassOverrideInterface(
+                                (string)$override->new, trim($interface, " \\/ ")
+                            );
                         }
                     }
                 }
@@ -590,16 +517,6 @@ class App
     }
 
     /**
-     * Add message to log
-     *
-     * @param string $logMessage
-     */
-    public function log($logMessage)
-    {
-        \Magelight\Log::getInstance()->add($logMessage);
-    }
-
-    /**
      * Get database
      *
      * @param string $index
@@ -615,68 +532,13 @@ class App
             if (is_null($dbConfig)) {
                 throw new \Magelight\Exception("Database `{$index}` configuration not found.");
             }
-            $adapterClass = \Magelight\Db\Common\Adapter::getAdapterClassByType((string) $dbConfig->type);
-            $db = new $adapterClass();
-            /* @var $db \Magelight\Db\Common\Adapter*/
-            $db->init((array) $dbConfig);
+            $adapterClass = \Magelight\Db\Common\Adapter::getAdapterClassByType((string)$dbConfig->type);
+            $db = call_user_func_array([$adapterClass, 'forge'], []);
+            /* @var $db \Magelight\Db\Common\Adapter */
+            $db->init((array)$dbConfig);
             $this->setRegistryObject('database/' . $index, $db);
         }
         return $db;
-    }
-
-    /**
-     * Get class name according to runtime overrides
-     *
-     * @param string $className
-     * @return mixed
-     */
-    final public function getClassName($className)
-    {
-        while (!empty($this->_classOverrides[$className])) {
-            $className = $this->_classOverrides[$className];
-        }
-        return $className;
-    }
-
-    /**
-     * Add class interface check for overriden class
-     *
-     * @param string $className
-     * @return array
-     */
-    final public function getClassInterfaces($className)
-    {
-        return !empty($this->_classOverridesInterfaces[$className])
-            && is_array($this->_classOverridesInterfaces[$className])
-            ? $this->_classOverridesInterfaces[$className]
-            : [];
-    }
-
-    /**
-     * Add class to override
-     *
-     * @static
-     * @param string $sourceClassName
-     * @param string $replacementClassName
-     */
-    final public function addClassOverride($sourceClassName, $replacementClassName)
-    {
-        $this->_classOverrides[$sourceClassName] = $replacementClassName;
-    }
-
-    /**
-     * Add interface check to overriden class
-     *
-     * @static
-     * @param string $className
-     * @param string $interfaceName
-     */
-    final public function addClassOverrideInterface($className, $interfaceName)
-    {
-        if (!isset($this->_classOverridesInterfaces[$className])) {
-            $this->_classOverridesInterfaces[$className] = [];
-        }
-        $this->_classOverridesInterfaces[$className][] = $interfaceName;
     }
 
     /**
@@ -700,7 +562,7 @@ class App
     public function flushAllCache()
     {
         foreach (\Magelight\Cache\AdapterAbstract::getAllAdapters() as $adapter) {
-            /* @var \Magelight\Cache\AdapterAbstract $adapter*/
+            /* @var \Magelight\Cache\AdapterAbstract $adapter */
             $adapter->clear();
         }
         return $this;
@@ -712,7 +574,7 @@ class App
      * @param array $module
      * @return App
      */
-    protected  function upgradeModule($module)
+    protected function upgradeModule($module)
     {
         $installer = Installer::forge();
         $scripts = $installer->findInstallScripts($module['path']);
@@ -741,7 +603,7 @@ class App
 
         if (!file_exists($file)) {
             if (!file_exists(dirname($file))) {
-                mkdir(dirname($file), 755, true);
+                mkdir(dirname($file), 0755, true);
             }
             file_put_contents($file, '');
         }
@@ -765,28 +627,12 @@ class App
         if (file_exists($file)) {
             $scripts = json_decode(file_get_contents($file), true);
         } else {
-            mkdir(dirname($file), 755, true);
+            mkdir(dirname($file), 0755, true);
         }
         $scripts[$moduleName][basename($scriptFullPath)] = [date('Y-m-d H:i:s', time()), $scriptFullPath];
         $scripts = json_encode($scripts, JSON_PRETTY_PRINT);
         file_put_contents($file, $scripts);
         return $this;
-    }
-
-    /**
-     * Fetch url by match mask
-     *
-     * @param string $match - url match mask
-     * @param array $params - params to be passed to URL
-     * @param string $type - URL type (http|https)
-     * @param bool $addOnlyMaskParams - add to url only params that are present in URL match mask
-     *
-     * @return string
-     */
-    public function url($match, $params = [], $type = \Magelight\Helpers\UrlHelper::TYPE_HTTP, $addOnlyMaskParams = false)
-    {
-        $url = \Magelight\Helpers\UrlHelper::getInstance()->getUrl($match, $params, $type, $addOnlyMaskParams);
-        return $url;
     }
 
     /**
@@ -806,7 +652,7 @@ class App
                 $method = isset($observerClass[1]) ? $observerClass[1] : 'execute';
                 $observer = call_user_func_array([$class, 'forge'], [$arguments]);
                 /* @var $observer \Magelight\Observer*/
-                if (!is_callable([$observer, $method])) {
+                if (!method_exists($observer, $method)) {
                     throw new Exception("Observer '{$class}' method '{$method}' does not exist or is not callable!");
                 }
                 $observer->$method();

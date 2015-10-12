@@ -1,0 +1,12 @@
+{
+    "name": "magelight",
+    "description": "Magelight RAD PHP framework",
+    "type": "project",
+    "require-dev": {
+        "phpunit/phpunit": "4.1.0",
+        "phpunit/dbunit": "*",
+        "phpunit/phpunit-story": "*",
+        "phpunit/php-code-coverage": "*",
+        "phpunit/phpunit-selenium": "*"
+    }
+}

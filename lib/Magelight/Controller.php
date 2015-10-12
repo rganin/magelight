@@ -103,7 +103,7 @@ abstract class Controller
             ? $request :\Magelight\Http\Request::getInstance();
         $this->_routeAction = $routeAction;
         $this->_app = \Magelight::app();
-        $this->_response = new \Magelight\Http\Response();
+        $this->_response = \Magelight\Http\Response::forge();
     }
 
     /**
@@ -243,7 +243,7 @@ abstract class Controller
      */
     public function url($match, $params = [], $type = \Magelight\Helpers\UrlHelper::TYPE_HTTP)
     {
-        return \Magelight::app()->url($match, $params, $type);
+        return \Magelight\Helpers\UrlHelper::getInstance()->getUrl($match, $params, $type);
     }
 
     /**

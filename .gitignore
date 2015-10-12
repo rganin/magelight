@@ -5,3 +5,4 @@ app/pub/static/*
 app/protected/*
 composer.lock
 vendor/
+dev/tests/unit/framework/vendor/
