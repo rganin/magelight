@@ -92,7 +92,7 @@ class Captcha
         $this->setGetSetTarget($this->_config);
         $this->_config = array_merge(
             $this->_config,
-            (array)\Magelight::app()->config()->getConfig('global/document/captcha', [])
+            (array)\Magelight\Config::getInstance()->getConfig('global/document/captcha', [])
         );
         $this->font_file = \Magelight::app()->getRealPathInModules($this->font_file);
         $this->cleanup();
@@ -120,7 +120,7 @@ class Captcha
      */
     public function saveCodeToSession()
     {
-        \Magelight::app()->session()->set($this->session_code, $this->_code);
+        \Magelight\Http\Session::getInstance()->set($this->session_code, $this->_code);
         return $this;
     }
 
@@ -131,7 +131,7 @@ class Captcha
      */
     public function loadCodeFromSession()
     {
-        $this->_code = \Magelight::app()->session()->get($this->session_code, null);
+        $this->_code = \Magelight\Http\Session::getInstance()->get($this->session_code, null);
         return $this;
     }
 
@@ -249,11 +249,11 @@ class Captcha
     public function check($code)
     {
         if ($this->case_sensitive) {
-            return $code === \Magelight::app()->session()->get($this->session_code, null);
+            return $code === \Magelight\Http\Session::getInstance()->get($this->session_code, null);
         }
-        $check = \Magelight::app()->session()->get($this->session_code, null);
+        $check = \Magelight\Http\Session::getInstance()->get($this->session_code, null);
         $result = strtolower($code) == strtolower($check);
-        \Magelight::app()->session()->unsetData($this->session_code);
+        \Magelight\Http\Session::getInstance()->unsetData($this->session_code);
         return $result;
     }
 }

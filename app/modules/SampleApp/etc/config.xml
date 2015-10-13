@@ -8,10 +8,10 @@
             </register>
         </auth>
         <forgery>
-            <override>
+            <preference>
                 <old>Magelight\Core\Blocks\Body</old>
                 <new>SampleApp\Blocks\Body</new>
-            </override>
+            </preference>
         </forgery>
     </global>
 </config>

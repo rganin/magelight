@@ -33,7 +33,7 @@ class InputMasked extends Abstraction\Field
      */
     public function __forge()
     {
-        \Magelight\Core\Blocks\Document::getFromRegistry()->addJs(
+        \Magelight\Core\Blocks\Document::getInstance()->addJs(
             'Magelight/Webform/static/js/jquery.maskedinput.js',
             'Magelight/Core/static/js/jquery.js'
         );

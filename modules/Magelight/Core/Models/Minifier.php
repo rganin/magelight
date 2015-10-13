@@ -35,7 +35,7 @@ class Minifier
 
     public function __forge()
     {
-        $this->_staticPath = \Magelight::app()->config()->getConfigString('global/minifier/public_dir');
+        $this->_staticPath = \Magelight\Config::getInstance()->getConfigString('global/minifier/public_dir');
     }
 
     /**
@@ -59,7 +59,7 @@ class Minifier
 
     public function getMinifiedCss($css)
     {
-        if (!\Magelight::app()->config()->getConfigBool('global/minifier/minify_css')) {
+        if (!\Magelight\Config::getInstance()->getConfigBool('global/minifier/minify_css')) {
             return $css;
         }
         $css = $this->splitCssByMedia($css);
@@ -72,7 +72,7 @@ class Minifier
 
     public function getMinifiedJs($js)
     {
-        if (!\Magelight::app()->config()->getConfigBool('global/minifier/minify_js')) {
+        if (!\Magelight\Config::getInstance()->getConfigBool('global/minifier/minify_js')) {
             return $js;
         }
         return [$this->minifyDocumentStatic('js', $js)];
@@ -127,7 +127,7 @@ class Minifier
         }
         if ($isAlreadyMinified = $this->cache()->get($this->buildCacheKey($path), false)) {
             $ok = true;
-            if (\Magelight::app()->config()->getConfigBool('global/minifier/check_readability')) {
+            if (\Magelight\Config::getInstance()->getConfigBool('global/minifier/check_readability')) {
                 $ok = is_readable($path);
             }
             if ($ok) {
@@ -147,7 +147,7 @@ class Minifier
                 if ($buffer === false) {
                     trigger_error(__("File %s for minifier cannot be read", [$entry['path']]), E_USER_WARNING);
                 }
-                if (\Magelight::app()->config()->getConfigBool('global/minifier/compress_' . $type)) {
+                if (\Magelight\Config::getInstance()->getConfigBool('global/minifier/compress_' . $type)) {
                     $buffer = $minifier->minify($buffer);
                 }
 
@@ -169,7 +169,7 @@ class Minifier
             $this->cache()->set(
                 $this->buildCacheKey($path),
                 1,
-                \Magelight::app()->config()->getConfigInt('global/minifier/cache_ttl_' . $type)
+                \Magelight\Config::getInstance()->getConfigInt('global/minifier/cache_ttl_' . $type)
             );
             return [
                 'path'    => $path,

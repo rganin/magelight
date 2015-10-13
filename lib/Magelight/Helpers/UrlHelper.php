@@ -53,7 +53,7 @@ class UrlHelper
      */
     public function getBaseUrl($type = self::TYPE_HTTP)
     {
-        $domain = \Magelight::app()->config()->getConfig('global/base_domain', null);
+        $domain = \Magelight\Config::getInstance()->getConfig('global/base_domain', null);
         if (is_null($domain)) {
             $server = \Magelight\Http\Server::getInstance();
             $domain = $server->getCurrentDomain();

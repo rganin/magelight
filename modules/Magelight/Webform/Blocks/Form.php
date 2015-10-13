@@ -128,9 +128,9 @@ class Form extends Elements\Abstraction\Element
      */
     public function validateOnFront($ruleset = [])
     {
-        \Magelight\Core\Blocks\Document::getFromRegistry()
+        \Magelight\Core\Blocks\Document::getInstance()
             ->addJs('Magelight/Webform/static/js/jquery-validation.js');
-        \Magelight\Core\Blocks\Document::getFromRegistry()
+        \Magelight\Core\Blocks\Document::getInstance()
             ->addJs('Magelight/Webform/static/js/ajax-form.js');
         $this->setAttribute('data-front-validate', 'true');
         $this->setAttribute(
@@ -619,7 +619,7 @@ class Form extends Elements\Abstraction\Element
      */
     public function saveToSession()
     {
-        \Magelight::app()->session()->set('forms-' . $this->getAttribute('name'), $this->getRequestFields());
+        \Magelight\Http\Session::getInstance()->set('forms-' . $this->getAttribute('name'), $this->getRequestFields());
         return $this;
     }
 
@@ -630,7 +630,7 @@ class Form extends Elements\Abstraction\Element
      */
     public function loadFromSession()
     {
-        $data = \Magelight::app()->session()->get('forms-' . $this->getAttribute('name'), []);
+        $data = \Magelight\Http\Session::getInstance()->get('forms-' . $this->getAttribute('name'), []);
         if (!empty($data)) {
             $this->_requestFields = $data;
         }

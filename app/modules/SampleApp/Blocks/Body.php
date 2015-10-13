@@ -30,7 +30,7 @@ class Body extends \Magelight\Block
     public function init()
     {
         $this->sectionAppend('top', Top::forge());
-        $document = \Magelight\Core\Blocks\Document::getFromRegistry();
+        $document = \Magelight\Core\Blocks\Document::getInstance();
         $document->addMeta([
             'http-equiv' => "content-type",
             'content' => "text/html; charset=utf-8",

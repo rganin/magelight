@@ -151,7 +151,7 @@ class Crawler
     {
         $files = [];
         foreach (array_reverse(\Magelight::app()->getModuleDirectories()) as $modulesDir) {
-            foreach (\Magelight::app()->modules()->getActiveModules() as $module) {
+            foreach (\Magelight\Components\Modules::getInstance()->getActiveModules() as $module) {
                 $path = $modulesDir . DS . $module['path'];
                 if (is_readable($path)) {
                     foreach ($this->_getModuleFilesList($path) as $foundFile) {

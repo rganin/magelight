@@ -61,10 +61,12 @@ class ReCaptcha
      */
     public function __forge()
     {
-        $this->setPrivateKey((string)\Magelight::app()
-            ->config()->getConfigString('global/document/re_captcha/private_key'));
-        $this->setPublicKey((string)\Magelight::app()
-            ->config()->getConfigString('global/document/re_captcha/public_key'));
+        $this->setPrivateKey(
+            (string)\Magelight\Config::getInstance()->getConfigString('global/document/re_captcha/private_key')
+        );
+        $this->setPublicKey(
+            (string)\Magelight\Config::getInstance()->getConfigString('global/document/re_captcha/public_key')
+        );
     }
 
     /**

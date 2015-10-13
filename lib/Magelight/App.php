@@ -27,7 +27,7 @@ use Magelight\Traits\TForgery;
 /**
  * Application class (no forgery available)
  */
-class App
+abstract class App
 {
     use TForgery;
 
@@ -234,36 +234,6 @@ class App
     }
 
     /**
-     * Get application modules object
-     *
-     * @return \Magelight\Components\Modules
-     */
-    public function modules()
-    {
-        return \Magelight\Components\Modules::getInstance($this);
-    }
-
-    /**
-     * Get config object
-     *
-     * @return \Magelight\Components\Config
-     */
-    public function config()
-    {
-        return \Magelight\Components\Config::getInstance($this);
-    }
-
-    /**
-     * Get session object
-     *
-     * @return \Magelight\Http\Session
-     */
-    public function session()
-    {
-        return \Magelight\Http\Session::getInstance();
-    }
-
-    /**
      * Get cache adapter
      *
      * @param string $index
@@ -339,11 +309,12 @@ class App
     {
         $this->addModulesDir($this->getFrameworkDir() . DS . 'modules');
         $this->initIncludePaths();
+        \Magelight\Components\Modules::getInstance()->loadModules($this->getAppDir() . DS . 'etc' . DS . 'modules.xml');
+        \Magelight\Config::getInstance()->load($this);
         $this->setDeveloperMode((string)$this->getConfig('global/app/developer_mode'));
-        $this->config()->loadModulesConfig($this);
-        $this->session()->setSessionName(self::SESSION_ID_COOKIE_NAME)->start();
+        \Magelight\Http\Session::getInstance()->setSessionName(self::SESSION_ID_COOKIE_NAME)->start();
         $this->loadClassesOverrides();
-        $lang = $this->session()->get('lang');
+        $lang = \Magelight\Http\Session::getInstance()->get('lang');
         if (empty($lang)) {
             $lang = (string)$this->getConfig('global/app/default_lang');
         }
@@ -380,24 +351,9 @@ class App
     /**
      * Run app
      *
-     * @param bool $muteExceptions
      * @throws \Exception|Exception
      */
-    public function run($muteExceptions = true)
-    {
-        try {
-            $this->fireEvent('app_start', ['muteExceptions' => $muteExceptions]);
-            $request = \Magelight\Http\Request::getInstance();
-            $action = \Magelight\Components\Router::getInstance($this)->getAction((string)$request->getRequestRoute());
-            $request->appendGet($action['arguments']);
-            $this->dispatchAction($action, $request);
-        } catch (\Exception $e) {
-            \Magelight\Log::getInstance()->add($e->getMessage());
-            if (!$muteExceptions || $this->_developerMode) {
-                throw $e;
-            }
-        }
-    }
+    abstract public function run();
 
     /**
      * Get current application dispatched action
@@ -424,22 +380,8 @@ class App
         $this->fireEvent('app_dispatch_action', ['action' => $action, 'request' => $request]);
         $controllerName = str_replace('/', '\\', $action['module'] . '\\Controllers\\' . ucfirst($action['controller']));
         $controllerMethod = $action['action'] . 'Action';
-        if ($this->isInDeveloperMode()) {
-            if (!@include_once(\Magelight::getAutoloaderFileNameByClass($controllerName))) {
-                throw new \Magelight\Exception(
-                    "Unable to load controller {$controllerName} for route {$action['match']} "
-                    . "in module {$action['module']}."
-                );
-            }
-        }
-        $controller = call_user_func(array($controllerName, 'forge'));
+        $controller = call_user_func([$controllerName, 'forge']);
         /* @var $controller \Magelight\Controller */
-
-        if ($this->isInDeveloperMode() && !is_callable([$controller, $controllerMethod])) {
-            throw new \Magelight\Exception(
-                "Trying to run undefined controller action {$controllerMethod} in {$controllerName}"
-            );
-        }
         $this->fireEvent('app_controller_init', [
             'controller' => $controller,
             'action' => $action,
@@ -477,24 +419,24 @@ class App
      */
     public function loadClassesOverrides()
     {
-        $overrides = $this->config()->getConfigSet('global/forgery/override');
-        if (!empty($overrides)) {
-            if (!is_array($overrides)) {
-                $overrides = [$overrides];
+        $preferenceList = \Magelight\Config::getInstance()->getConfigSet('global/forgery/preference');
+        if (!empty($preferenceList)) {
+            if (!is_array($preferenceList)) {
+                $preferenceList = [$preferenceList];
             }
-            foreach ($overrides as $override) {
+            foreach ($preferenceList as $preference) {
 
-                if (!empty($override->old) && !empty($override->new)) {
+                if (!empty($preference->old) && !empty($preference->new)) {
 
-                    self::_getForgery()->addClassOverride(
-                        trim($override->old, " \\/ "),
-                        trim($override->new, " \\/ ")
+                    self::getForgery()->setPreference(
+                        trim($preference->old, " \\/ "),
+                        trim($preference->new, " \\/ ")
                     );
 
-                    if (!empty($override->interface)) {
-                        foreach ($override->interface as $interface) {
-                            self::_getForgery()->addClassOverrideInterface(
-                                (string)$override->new, trim($interface, " \\/ ")
+                    if (!empty($preference->interface)) {
+                        foreach ($preference->interface as $interface) {
+                            self::getForgery()->addClassOverrideInterface(
+                                (string)$preference->new, trim($interface, " \\/ ")
                             );
                         }
                     }
@@ -513,7 +455,7 @@ class App
      */
     public function getConfig($path, $default = null)
     {
-        return $this->config()->getConfig($path, $default);
+        return \Magelight\Config::getInstance()->getConfig($path, $default);
     }
 
     /**
@@ -548,7 +490,7 @@ class App
      */
     public function upgrade()
     {
-        foreach ($this->modules()->getActiveModules() as $module) {
+        foreach (\Magelight\Components\Modules::getInstance()->getActiveModules() as $module) {
             $this->upgradeModule($module);
         }
         return $this;
@@ -644,7 +586,7 @@ class App
      */
     public function fireEvent($eventName, $arguments = [])
     {
-        $observers = (array)$this->config()->getConfigSet('global/events/' . $eventName . '/observer');
+        $observers = (array)\Magelight\Config::getInstance()->getConfigSet('global/events/' . $eventName . '/observer');
         if (!empty($observers)) {
             foreach ($observers as $observerClass) {
                 $observerClass = explode('::', (string)$observerClass);

@@ -36,7 +36,7 @@ class AjaxPager extends Pager
     public function __forge(\Magelight\Db\Collection $collection = null)
     {
         parent::__forge($collection);
-        \Magelight\Core\Blocks\Document::getFromRegistry()
+        \Magelight\Core\Blocks\Document::getInstance()
             ->addJs('Magelight/Core/static/js/ajax-pager.js');
         $this->addClass('ajax-pager');
 

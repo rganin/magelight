@@ -39,7 +39,7 @@ final class Magelight
     public static function app()
     {
         if (empty(self::$_app)) {
-            self::$_app = new \Magelight\App();
+            self::$_app = \Magelight\App::getInstance();
         }
         return self::$_app;
     }

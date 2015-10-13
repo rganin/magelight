@@ -46,10 +46,9 @@ class ForgotPassword extends \Magelight\Block
      */
     public function _getForgotPasswordForm()
     {
-        $config = \Magelight::app()->config();
         $form = Form::forge()->setHorizontal()->setConfigs(
             'remindpass-form',
-            $this->url($config->getConfigString('global/auth/urls/forgot_password_url'))
+            $this->url(\Magelight\Config::getInstance()->getConfigString('global/auth/urls/forgot_password_url'))
         );
         $fieldset = Fieldset::forge();
         $fieldset->addRowField(Elements\Input::forge()->setName('email'), __('E-Mail', [], 1, 'default'));

@@ -9,7 +9,7 @@ class Forgery
      *
      * @var array
      */
-    protected $_classOverrides = [];
+    protected $_classPreferences = [];
 
     /**
      * Interfaces for classes overrides
@@ -44,11 +44,11 @@ class Forgery
      * Add class to override
      *
      * @param string $sourceClassName
-     * @param string $replacementClassName
+     * @param string $preferenceClassName
      */
-    final public function addClassOverride($sourceClassName, $replacementClassName)
+    final public function setPreference($sourceClassName, $preferenceClassName)
     {
-        $this->_classOverrides[$sourceClassName] = $replacementClassName;
+        $this->_classPreferences[$sourceClassName] = $preferenceClassName;
     }
 
     /**
@@ -59,8 +59,8 @@ class Forgery
      */
     final public function getClassName($className)
     {
-        while (!empty($this->_classOverrides[$className])) {
-            $className = $this->_classOverrides[$className];
+        while (!empty($this->_classPreferences[$className])) {
+            $className = $this->_classPreferences[$className];
         }
         return $className;
     }

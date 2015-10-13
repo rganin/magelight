@@ -59,7 +59,7 @@ class Translator
             throw new \InvalidArgumentException('Language must be a string');
         }
         foreach (array_reverse(\Magelight::app()->getModuleDirectories()) as $modulesDir) {
-            foreach (\Magelight::app()->modules()->getActiveModules() as $module) {
+            foreach (\Magelight\Components\Modules::getInstance()->getActiveModules() as $module) {
                 $filename = $modulesDir . DS . $module['path'] . DS . 'I18n' . DS . $lang . '.php';
                 if (file_exists($filename)) {
                     $translations = require $filename;

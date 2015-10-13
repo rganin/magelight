@@ -21,11 +21,13 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Magelight\Components;
+namespace Magelight;
 use Magelight\Traits\TForgery;
 
 /**
  * Config wrapper
+ *
+ * @method static Config getInstance()
  */
 class Config
 {
@@ -39,7 +41,7 @@ class Config
     const CONFIG_PATH_PREFIX = '//config/';
 
     /**
-     * Condif values types
+     * Config values types
      */
     const TYPE_STRING   = 'string';
     const TYPE_ARRAY    = 'array';
@@ -54,26 +56,16 @@ class Config
     protected $_config = null;
 
     /**
-     * Constructor
-     * 
-     * @param \Magelight\App $app
-     */
-    public function __forge(\Magelight\App $app)
-    {
-        /* Loading APP config */
-        $loader = \Magelight\Components\Loaders\Config::forge();
-        $loader->loadConfig($app->getAppDir() . DS . 'etc' . DS . 'config.xml');
-        $this->_config = $loader->getConfig();
-    }
-
-    /**
      * Load config for application modules
      *
      * @param \Magelight\App $app
      */
-    public function loadModulesConfig(\Magelight\App $app)
+    public function load(\Magelight\App $app)
     {
-        $modulesConfig = $app->config()->getConfigBool('global/app/cache_modules_config', false)
+        $loader = \Magelight\Components\Loaders\Config::forge();
+        $loader->loadConfig($app->getAppDir() . DS . 'etc' . DS . 'config.xml');
+        $this->_config = $loader->getConfig();
+        $modulesConfig = \Magelight\Config::getInstance()->getConfigBool('global/app/cache_modules_config', false)
             ? $this->cache()->get($this->buildCacheKey('modules_config'))
             : false;
 
@@ -82,7 +74,7 @@ class Config
             $loader = \Magelight\Components\Loaders\Config::forge();
             $loader->setConfig($this->_config);
             foreach (array_reverse($app->getModuleDirectories()) as $modulesDir) {
-                foreach ($app->modules()->getActiveModules() as $module) {
+                foreach (\Magelight\Components\Modules::getInstance()->getActiveModules() as $module) {
                     $filename = $modulesDir . DS . $module['path'] . DS . 'etc' . DS . 'config.xml';
                     if (is_readable($filename)) {
                         $loader->loadConfig($filename);
@@ -90,7 +82,7 @@ class Config
                 }
             }
             $modulesConfig = $loader->getConfig();
-            if ($app->config()->getConfigBool('global/app/cache_modules_config', false)) {
+            if (\Magelight\Config::getInstance()->getConfigBool('global/app/cache_modules_config', false)) {
                 $this->cache()->set($this->buildCacheKey('modules_config'), $modulesConfig->asXML(), 360);
             }
             $this->_config = $loader->getConfig();

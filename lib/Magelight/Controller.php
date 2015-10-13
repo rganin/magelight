@@ -275,7 +275,7 @@ abstract class Controller
      */
     public function session()
     {
-        return \Magelight::app()->session();
+        return \Magelight\Http\Session::getInstance();
     }
 
     /**

@@ -39,7 +39,7 @@ class Forms extends \Magelight\Block
         $fieldset->addRowField(Elements\PasswordInput::forge()->setName('password'), __('Password'));
         $fieldset->addRowField(
             Elements\Captcha::forge(
-                $this->url(\Magelight::app()->config()->getConfigString('global/auth/urls/render_captcha_url'))
+                $this->url(\Magelight\Config::getInstance()->getConfigString('global/auth/urls/render_captcha_url'))
             )->setName('captcha')->addClass('col-md-6'),             __('Enter protection code')
         );
         return $form->addFieldset($fieldset)

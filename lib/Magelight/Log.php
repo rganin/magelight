@@ -78,7 +78,7 @@ class Log
      */
     protected function init()
     {
-        $this->_file = (string)\Magelight::app()->config()->getConfig('global/log/file', $this->_file);
+        $this->_file = (string)\Magelight\Config::getInstance()->getConfig('global/log/file', $this->_file);
         $this->_initialized = true;
         return $this;
     }

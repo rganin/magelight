@@ -495,7 +495,7 @@ class Block
      */
     public function loadPerspective($perspective = 'global/perspectives/default')
     {
-        return $this->_processPerspective(\Magelight::app()->config()->getConfig($perspective));
+        return $this->_processPerspective(\Magelight\Config::getInstance()->getConfig($perspective));
     }
 
     /**

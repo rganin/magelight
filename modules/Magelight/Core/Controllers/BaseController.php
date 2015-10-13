@@ -37,7 +37,7 @@ class BaseController extends \Magelight\Controller
      */
     public function beforeExecute()
     {
-        $this->_view = \Magelight\Core\Blocks\Document::forge();
+        $this->_view = \Magelight\Core\Blocks\Document::getInstance();
         $this->_view->sectionAppend('body', \Magelight\Core\Blocks\Body::forge());
         return $this;
     }

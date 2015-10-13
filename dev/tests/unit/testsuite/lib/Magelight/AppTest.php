@@ -35,7 +35,7 @@ class AppTest extends \PHPUnit_Framework_TestCase
     protected $modulesMock;
 
     /**
-     * @var \Magelight\Components\Config|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magelight\Config|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $configMock;
 
@@ -59,16 +59,16 @@ class AppTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->app = new App();
+        $this->app = $this->getMockForAbstractClass(App::class, [], '', false, false, true, []);
 
         $this->modulesMock = $this->getMock(\Magelight\Components\Modules::class, [], [], '', false);
-        $this->configMock = $this->getMock(\Magelight\Components\Config::class, [], [], '', false);
+        $this->configMock = $this->getMock(\Magelight\Config::class, [], [], '', false);
         $this->routerMock = $this->getMock(\Magelight\Components\Router::class, [], [], '', false);
         $this->sessionMock = $this->getMock(\Magelight\Http\Session::class, [], [], '', false);
         $this->translatorMock = $this->getMock(\Magelight\I18n\Translator::class, [], [], '', false);
 
         \Magelight\Components\Modules::forgeMock($this->modulesMock);
-        \Magelight\Components\Config::forgeMock($this->configMock);
+        \Magelight\Config::forgeMock($this->configMock);
         \Magelight\Components\Router::forgeMock($this->routerMock);
         \Magelight\Http\Session::forgeMock($this->sessionMock);
         \Magelight\I18n\Translator::forgeMock($this->translatorMock);

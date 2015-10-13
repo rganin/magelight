@@ -40,7 +40,7 @@ class Index extends \Magelight\Controller
      */
     public function beforeExecute()
     {
-        $this->_view = \Magelight\Core\Blocks\Document::forge();
+        $this->_view = \Magelight\Core\Blocks\Document::getInstance();
         $this->_view->sectionAppend('body', \SampleApp\Blocks\Body::forge());
         return $this;
     }
@@ -51,7 +51,7 @@ class Index extends \Magelight\Controller
     {
         $this->_view->set('title', 'Welcome');
         $this->_view->sectionAppend('content', \SampleApp\Blocks\Welcome::forge());
-        \Magelight\Core\Blocks\Document::getFromRegistry()->addMeta(['name' => 'description', 'content' => '123']);
+        \Magelight\Core\Blocks\Document::getInstance()->addMeta(['name' => 'description', 'content' => '123']);
         $this->renderView();
     }
 

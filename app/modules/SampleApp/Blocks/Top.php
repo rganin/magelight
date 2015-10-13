@@ -29,7 +29,7 @@ class Top extends \Magelight\Block
 
     public function init()
     {
-        $currentUserId = \Magelight::app()->session()->get('user_id', false);
+        $currentUserId = \Magelight\Http\Session::getInstance()->get('user_id', false);
         if (
             $currentUserId
             && $userData = \Magelight\Auth\Models\User::find($currentUserId)->asArray()

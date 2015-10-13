@@ -65,7 +65,7 @@ class Register extends \Magelight\Block
             __('Confirm password'));
         $fieldset->addRowField(
             Elements\Captcha::forge(
-                $this->url(\Magelight::app()->config()->getConfigString('global/auth/urls/render_captcha_url'))
+                $this->url(\Magelight\Config::getInstance()->getConfigString('global/auth/urls/render_captcha_url'))
             )->setName('captcha'),
             __('Enter protection code')
         );

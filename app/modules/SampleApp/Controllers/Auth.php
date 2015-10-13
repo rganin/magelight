@@ -38,7 +38,7 @@ class Auth extends \Magelight\Auth\Controllers\Auth
      */
     public function beforeExecute()
     {
-        $this->_view = \Magelight\Core\Blocks\Document::forge();
+        $this->_view = \Magelight\Core\Blocks\Document::getInstance();
         $this->_view->sectionAppend('body', \SampleApp\Blocks\Body::forge());
     }
 

@@ -239,7 +239,7 @@ class Scaffold
                 $this->_setEntityTable(
                     $entity->getName(),
                     static::callStaticLate([
-                        self::_getForgery()->getClassName(
+                        self::getForgery()->getClassName(
                             $this->_entities[$entity->getName()]['model_class']
                         ),
                         'getTableName'
@@ -267,7 +267,7 @@ class Scaffold
                 $this->_setEntityIdField(
                     $entity->getName(),
                     static::callStaticLate([
-                        self::_getForgery()->getClassName(
+                        self::getForgery()->getClassName(
                             $this->_entities[$entity->getName()]['model_class']
                         ),
                         'getIdField'
@@ -359,7 +359,7 @@ class Scaffold
         $modelClass = $this->getEntityModelClass($entity);
         /** @var $entityModel \Magelight\Admin\Models\Scaffold\Entity */
         $entityModel = static::callStaticLate(
-            [self::_getForgery()->getClassName($modelClass), 'forge'], [$data, $forceNew]
+            [self::getForgery()->getClassName($modelClass), 'forge'], [$data, $forceNew]
         );
         if ($modelClass === self::DEFAULT_MODEL_CLASS) {
             $entityModel->getOrm()->setTableName($this->_getEntityTable($entity));
@@ -378,7 +378,7 @@ class Scaffold
      */
     public function loadEntityModel($entity, $id)
     {
-        return static::callStaticLate([self::_getForgery()->getClassName(
+        return static::callStaticLate([self::getForgery()->getClassName(
             $this->getEntityModelClass($entity)), 'find'], [$id]
         );
     }

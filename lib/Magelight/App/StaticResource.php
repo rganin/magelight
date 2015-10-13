@@ -25,40 +25,34 @@ class StaticResource extends \Magelight\App
     /**
      * Run app
      *
-     * @param bool $muteExceptions
      * @throws \Exception|Exception
      */
-    public function run($muteExceptions = true)
+    public function run()
     {
         try {
-            $this->fireEvent('app_start', ['muteExceptions' => $muteExceptions]);
+            $this->fireEvent('app_start', []);
             $request = \Magelight\Http\Request::getInstance();
-            $this->setRegistryObject('request', $request);
             $resource = $request->getGet('resource');
             $staticDir = realpath(
                 $this->getAppDir()
                 . DS
-                . $this->config()->getConfigString('global/view/published_static_dir', 'pub/static')
+                . \Magelight\Config::getInstance()->getConfigString('global/view/published_static_dir', 'pub/static')
             );
             foreach (array_reverse($this->getModuleDirectories()) as $modulesPath) {
                 $filename = $modulesPath . DS . $resource;
+                $targetFilename = $staticDir . DS . $resource;
                 if (file_exists($filename)) {
-                    if (!is_dir(dirname($staticDir . DS . $resource))) {
-                        mkdir(dirname($staticDir . DS . $resource), 777, true);
+                    if (!is_dir(dirname($targetFilename))) {
+                        mkdir(dirname($targetFilename), 0777, true);
                     }
-                    copy(
-                        $filename,
-                        $staticDir . DS . $resource
-                    );
-                    $url = \Magelight\Helpers\UrlHelper::getInstance()->getUrl($resource);
-                    header('Location: ' . $url);
-                    $this->shutdown();
+                    copy($filename, $targetFilename);
+                    header('Location: ' . \Magelight\Helpers\UrlHelper::getInstance()->getUrl($resource));
                     break;
                 }
             }
         } catch (\Exception $e) {
             \Magelight\Log::getInstance()->add($e->getMessage());
-            if (!$muteExceptions || $this->_developerMode) {
+            if ($this->_developerMode) {
                 throw $e;
             }
         }

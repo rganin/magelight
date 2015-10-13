@@ -26,6 +26,8 @@ use Magelight\Traits\TForgery;
 
 /**
  * Application enabled modules info wrapper
+ *
+ * @method static Modules getInstance()
  */
 class Modules
 {
@@ -44,19 +46,7 @@ class Modules
      * @var \Magelight\App
      */
     protected $_app = null;
-    
-    /**
-     * Constructor
-     * 
-     * @param \Magelight\App $app
-     */
-    public function __forge(\Magelight\App $app)
-    {
-        $this->_app = $app;
-        //@todo add modules caching just as caching will be implemented
-        $this->loadModules($app->getAppDir() . DS . 'etc' . DS . 'modules.xml');
-    }
-    
+
     /**
      * Load modules from file
      * 

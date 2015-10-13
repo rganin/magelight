@@ -95,14 +95,6 @@ class Request
     protected $_requestRoute = '/';
 
     /**
-     * Closing forgery. leaving only singleton instance
-     */
-    final private function forge()
-    {
-
-    }
-
-    /**
      * Forgery constructor
      *
      * @param array $get

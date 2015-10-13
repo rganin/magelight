@@ -108,7 +108,7 @@ abstract class AdapterAbstract implements ICacheInterface
     {
         $config = \Magelight::app()->getConfig('global/cache/' . $index);
         $type = self::getAdapterClassByType((bool)$config->disabled ? 'dummy' : $config->type);
-        self::$_adapters[$index] = @call_user_func_array([$type, 'forge'], [$config->config]);
+        self::$_adapters[$index] = call_user_func_array([$type, 'forge'], [$config->config]);
         self::$_adapters[$index]->init();
         return self::$_adapters[$index];
     }

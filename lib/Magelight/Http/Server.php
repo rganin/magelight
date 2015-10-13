@@ -33,16 +33,6 @@ class Server
     use \Magelight\Traits\TForgery;
 
     /**
-     * Overriding forgery
-     *
-     * @return null
-     */
-    public static function forge()
-    {
-        return null;
-    }
-
-    /**
      * Get requested domain
      * 
      * @return string

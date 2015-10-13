@@ -42,7 +42,7 @@ class BlockTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($block->setTemplate('') instanceof \UnitTests\TestBlock);
         $this->assertTrue($block->set('', null) instanceof \UnitTests\TestBlock);
 
-        $this->assertTrue(is_string(@$block->section('123')));
+        $this->assertTrue(is_string($block->section('123')));
         // block genenrates a E_USER_NOTICE on undefined section call so muting all notices
         $this->assertTrue($block->sectionAppend('123', $block) instanceof \UnitTests\TestBlock);
 

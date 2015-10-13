@@ -24,49 +24,22 @@
 namespace Magelight\Core\Blocks;
 
 /**
- * @method static \Magelight\Core\Blocks\Document forge()
+ * @method static \Magelight\Core\Blocks\Document getInstance()
  */
 class Document extends \Magelight\Block
 {
     /**
      * Document template
-     * 
+     *
      * @var string
      */
     protected $_template = 'Magelight/Core/templates/document.phtml';
-    
-    /**
-     * Key to store this document in registry
-     */
-    const REGISTRY_KEY = 'core/document';
-    
+
     /**
      * Constructor
      */
     protected function __construct()
     {
-        $this->saveToRegistry();
-    }
-
-    /**
-     * Get document from registry
-     *
-     * @param string $key
-     * @return \Magelight\Core\Blocks\Document
-     */
-    public static function getFromRegistry($key = self::REGISTRY_KEY)
-    {
-        return \Magelight::app()->getRegistryObject($key);
-    }
-
-    /**
-     * Save object to registry
-     *
-     * @param string $key
-     */
-    public function saveToRegistry($key = self::REGISTRY_KEY)
-    {
-        \Magelight::app()->setRegistryObject($key, $this);
     }
 
     /**
@@ -76,7 +49,7 @@ class Document extends \Magelight\Block
      */
     public function beforeToHtml()
     {
-        $lang = \Magelight::app()->config()->getConfigFirst('global/document/default_lang');
+        $lang = \Magelight\Config::getInstance()->getConfigFirst('global/document/default_lang');
         $this->setLang($lang);
         return $this;
     }

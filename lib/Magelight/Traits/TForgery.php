@@ -33,7 +33,7 @@ trait TForgery
      *
      * @return \Magelight\Forgery
      */
-    protected static function _getForgery()
+    public static function getForgery()
     {
         return \Magelight\Forgery::getInstance();
     }
@@ -46,7 +46,7 @@ trait TForgery
      */
     public static function forge()
     {
-        $className = self::_getForgery()->getClassName(get_called_class());
+        $className = self::getForgery()->getClassName(get_called_class());
         if (!self::_checkInterfaces($className)) {
             throw new \Magelight\Exception(
                 "Forgery error: Class {$className} must implement all interfaces described in it`s override container!"
@@ -68,7 +68,7 @@ trait TForgery
      */
     final static protected function _checkInterfaces($className)
     {
-        $requiredInterfaces = self::_getForgery()->getClassInterfaces($className);
+        $requiredInterfaces = self::getForgery()->getClassInterfaces($className);
         $implementedInterfaces = class_implements($className, true);
         foreach ($requiredInterfaces as $interface) {
             if (!isset($implementedInterfaces[$interface])) {
@@ -86,13 +86,13 @@ trait TForgery
     public static function getInstance()
     {
         static $instance;
-        $className = self::_getForgery()->getClassName(get_called_class());
+        $className = self::getForgery()->getClassName(get_called_class());
 
         if (!$instance instanceof $className) {
-            $instance = new $className();
-            if (method_exists($instance, '__forge')) {
-                call_user_func_array([$instance, '__forge'], func_get_args());
-            }
+            $instance = call_user_func_array([$className, 'forge'], func_get_args());
+//            if (method_exists($instance, '__forge')) {
+//                call_user_func_array([$instance, '__forge'], func_get_args());
+//            }
         }
 
         return $instance;
@@ -105,7 +105,7 @@ trait TForgery
      */
     public static function getClassRedefinition()
     {
-        return self::_getForgery()->getClassName(get_called_class());
+        return self::getForgery()->getClassName(get_called_class());
     }
 
     /**
@@ -129,7 +129,7 @@ trait TForgery
      */
     public static function getRedefinitionModuleName()
     {
-        $namespace = explode('\\', self::_getForgery()->getClassName(get_called_class()));
+        $namespace = explode('\\', self::getForgery()->getClassName(get_called_class()));
         if (!empty($namespace[0])) {
             return $namespace[0];
         }
@@ -158,7 +158,7 @@ trait TForgery
     public static function callStaticLate($method, $arguments = [])
     {
         if (is_array($method) && count($method) > 1) {
-            list ($class, $method) = [self::_getForgery()->getClassName($method[0]), $method[1]];
+            list ($class, $method) = [self::getForgery()->getClassName($method[0]), $method[1]];
         } else {
             list ($class, $method) = [static::getClassRedefinition(), $method];
         }
