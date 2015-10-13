@@ -325,7 +325,7 @@ class Block
     public function section($name)
     {
         $html = '';
-        if (!isset(self::$_sections[$name]) && \Magelight::app()->isInDeveloperMode()) {
+        if (!isset(self::$_sections[$name]) && \Magelight\App::getInstance()->isInDeveloperMode()) {
             trigger_error("Undefined section call - '{$name}' in " . get_called_class(), E_USER_NOTICE);
         } elseif (isset(self::$_sections[$name]) && is_array(self::$_sections[$name])) {
             foreach (self::$_sections[$name] as $sectionBlock) {
