@@ -102,7 +102,7 @@ final class Modules
         }
         $module['path'] = \Magelight::fixPath($module['path']);
         
-        if (\Magelight::app()->isInDeveloperMode() && !$this->moduleExists($module['path'])) {
+        if (\Magelight\App::getInstance()->isInDeveloperMode() && !$this->moduleExists($module['path'])) {
             throw new \Magelight\Exception('Module "' .  $module['name'] . '" does not exist or not readable.');
         }
         
@@ -120,7 +120,7 @@ final class Modules
     private function moduleExists($path)
     {
         $result = false;
-        foreach (\Magelight::app()->getModuleDirectories() as $modulesDir) {
+        foreach (\Magelight\App::getInstance()->getModuleDirectories() as $modulesDir) {
             $result |= is_readable($modulesDir . DS . $path);
         }
         return $result;

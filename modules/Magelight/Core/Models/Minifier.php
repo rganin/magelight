@@ -143,7 +143,7 @@ class Minifier
             if ($entry['inline']) {
                 $content .= $minifier->minify($entry['content']);
             } else {
-                $buffer = @file_get_contents(\Magelight::app()->getRealPathInModules($entry['path']));
+                $buffer = file_get_contents(\Magelight\App::getInstance()->getRealPathInModules($entry['path']));
                 if ($buffer === false) {
                     trigger_error(__("File %s for minifier cannot be read", [$entry['path']]), E_USER_WARNING);
                 }

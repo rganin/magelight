@@ -24,32 +24,6 @@
 final class Magelight
 {
     /**
-     * Application
-     * 
-     * @var \Magelight\App
-     */
-    protected static $_app = null;
-
-    /**
-     * @static
-     * Get application object
-     * 
-     * @return \Magelight\App|null
-     */
-    public static function app()
-    {
-        if (empty(self::$_app)) {
-            self::$_app = \Magelight\App::getInstance();
-        }
-        return self::$_app;
-    }
-
-    public static function setApp(\Magelight\App $app)
-    {
-        self::$_app = $app;
-    }
-
-    /**
      * Get session object
      * 
      * @static
@@ -136,7 +110,7 @@ final class Magelight
      */
     public static function fullPathInApp($path)
     {
-        return trim(self::app()->getAppDir(), '\\/') . DS . self::fixPath($path);
+        return trim(\Magelight\App::getInstance()->getAppDir(), '\\/') . DS . self::fixPath($path);
     }
 }
 

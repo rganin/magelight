@@ -94,7 +94,7 @@ class Captcha
             $this->_config,
             (array)\Magelight\Config::getInstance()->getConfig('global/document/captcha', [])
         );
-        $this->font_file = \Magelight::app()->getRealPathInModules($this->font_file);
+        $this->font_file = \Magelight\App::getInstance()->getRealPathInModules($this->font_file);
         $this->cleanup();
     }
 
@@ -194,7 +194,7 @@ class Captcha
                 trigger_error("Captcha save path {$this->save_path} is not writeable.", E_USER_WARNING);
             }
             $this->_fileName = trim($this->save_path, '\\/') . DS . md5($this->_code) . 'captcha.jpg';
-            \Magelight::app()->cache()
+            \Magelight\App::getInstance()->cache()
                 ->set(realpath(dirname($this->_fileName)) . DS . basename($this->_fileName), 1, $this->ttl);
             imagejpeg($this->_image, $this->_fileName, 75);
         }
@@ -211,7 +211,7 @@ class Captcha
         if (isset($this->save_path)) {
             $files = glob(trim($this->save_path, '\\/') . DS . '*captcha.jpg');
             foreach ($files as $file) {
-                if (!\Magelight::app()->cache()->get(realpath($file), false)) {
+                if (!\Magelight\App::getInstance()->cache()->get(realpath($file), false)) {
                     unlink($file);
                 }
             }

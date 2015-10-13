@@ -39,7 +39,7 @@ trait TCodePoolFetcher
                 explode(
                     DS,
                     str_replace(
-                        \Magelight::app()->getAppDir(),
+                        \Magelight\App::getInstance()->getAppDir(),
                         '',
                         (new \ReflectionObject($this))->getFileName())),
                 function($el){return !empty($el);}

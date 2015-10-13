@@ -43,7 +43,7 @@ class File extends \Magelight\Cache\AdapterAbstract
     public function init()
     {
         $this->_path = isset($this->_config->path)
-            ? \Magelight::app()->getAppDir() . DS . trim((string)$this->_config->path, '\\/')
+            ? \Magelight\App::getInstance()->getAppDir() . DS . trim((string)$this->_config->path, '\\/')
             : $this->_path;
         if (!file_exists($this->_path)) {
             mkdir($this->_path);

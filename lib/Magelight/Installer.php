@@ -52,7 +52,7 @@ class Installer
      */
     public function getDb($index = \Magelight\App::DEFAULT_INDEX)
     {
-        return \Magelight::app()->db($index);
+        return \Magelight\App::getInstance()->db($index);
     }
 
     public function executeScript($file)
@@ -69,7 +69,7 @@ class Installer
     {
         $modulePath = str_replace('\\', DS, $modulePath);
         $scripts = [];
-        $modulesDirs = array_reverse(\Magelight::app()->getModuleDirectories());
+        $modulesDirs = array_reverse(\Magelight\App::getInstance()->getModuleDirectories());
         foreach ($modulesDirs as $modulesDir) {
             $path = $modulesDir . DS . $modulePath . DS . 'setup';
             if (is_readable($path)) {

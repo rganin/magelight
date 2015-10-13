@@ -68,7 +68,7 @@ abstract class AdapterAbstract implements ICacheInterface
         } else {
             $this->_cacheKeyPrefix = (string) \Magelight\Config::getInstance()->getConfig('global/base_domain');
             if (!$this->_cacheKeyPrefix) {
-                $this->_cacheKeyPrefix = md5(\Magelight::app()->getAppDir());
+                $this->_cacheKeyPrefix = md5(\Magelight\App::getInstance()->getAppDir());
                 if (!$this->_cacheKeyPrefix) {
                     throw new \Magelight\Exception('Cache key prefix not set, and base domain too. Cache conflicts can appear.');
                 }

@@ -78,7 +78,10 @@ class UrlHelper
     {
         $match = '/' . trim($match, '\\/');
         if (!$addOnlyMaskParams) {
-            if (\Magelight::app()->isInDeveloperMode() && !$this->checkParamsWithPlaceholderMask($match, $params)) {
+            if (
+                \Magelight\App::getInstance()->isInDeveloperMode()
+                && !$this->checkParamsWithPlaceholderMask($match, $params)
+            ) {
                 throw new \Magelight\Exception("Passed url params don`t match route mask.", E_USER_NOTICE);
             }
         }

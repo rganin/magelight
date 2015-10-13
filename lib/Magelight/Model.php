@@ -149,7 +149,7 @@ abstract class Model
      */
     public static function orm()
     {
-        $db = \Magelight::app()->db(static::callStaticLate('getDbIndex'));
+        $db = \Magelight\App::getInstance()->db(static::callStaticLate('getDbIndex'));
         $ormClass = \Magelight\Db\Common\Orm::getOrmClassByType($db->getType());
 
         $orm = call_user_func_array([$ormClass, 'forge'], [$db]);

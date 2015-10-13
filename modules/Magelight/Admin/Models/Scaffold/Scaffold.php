@@ -88,10 +88,10 @@ class Scaffold
      *
      * @return $this
      */
-    public function setConnection($connectionName = 'default')
+    public function setConnection($connectionName = \Magelight\App::DEFAULT_INDEX)
     {
         $this->_connectionName = $connectionName;
-        $this->_db = \Magelight::app()->db($connectionName);
+        $this->_db = \Magelight\App::getInstance()->db($connectionName);
         return $this;
     }
 

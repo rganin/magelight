@@ -26,6 +26,8 @@ use Magelight\Traits\TForgery;
 
 /**
  * Application class (no forgery available)
+ *
+ * @method static App getInstance()
  */
 abstract class App
 {

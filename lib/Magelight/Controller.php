@@ -102,7 +102,7 @@ abstract class Controller
         $this->_request = ($request instanceof \Magelight\Http\Request)
             ? $request :\Magelight\Http\Request::getInstance();
         $this->_routeAction = $routeAction;
-        $this->_app = \Magelight::app();
+        $this->_app = \Magelight\App::getInstance();
         $this->_response = \Magelight\Http\Response::forge();
     }
 
@@ -242,7 +242,7 @@ abstract class Controller
     public function redirect($url)
     {
         \Magelight\Http\Server::getInstance()->sendHeader("Location: $url");
-        \Magelight::app()->shutdown();
+        \Magelight\App::getInstance()->shutdown();
     }
 
     /**

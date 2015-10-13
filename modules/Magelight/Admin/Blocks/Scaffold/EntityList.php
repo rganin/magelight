@@ -50,7 +50,7 @@ class EntityList extends \Magelight\Block
         $this->_scaffold->loadEntities();
         $this->sectionReplace('pager', \Magelight\Core\Blocks\Pager::forge($this->getCollection())
             ->setRoute(
-                \Magelight::app()->getCurrentAction()['match'],
+                \Magelight\App::getInstance()->getCurrentAction()['match'],
                 ['entity' => $entity]
             )->addClass('pagination-small')
             ->addClass('pagination-centered'));

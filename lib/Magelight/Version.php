@@ -56,6 +56,7 @@ class Version
      * Version to string
      *
      * @return string
+     * @codeCoverageIgnore
      */
     public function __toString()
     {

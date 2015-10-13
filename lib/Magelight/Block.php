@@ -279,7 +279,7 @@ class Block
         }
         $class = get_called_class();
         if (empty($this->_template)) {
-            if (\Magelight::app()->isInDeveloperMode()) {
+            if (\Magelight\App::getInstance()->isInDeveloperMode()) {
                 throw new \Magelight\Exception("Undeclared template in block '{$class}'");
             } else {
                 return '';
