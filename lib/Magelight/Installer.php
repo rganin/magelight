@@ -86,4 +86,57 @@ class Installer
         }
         return $scripts;
     }
+
+    /**
+     * Check was setup script executed before
+     *
+     * @param string $moduleName
+     * @param string $scriptName
+     * @return bool
+     */
+    public function isSetupScriptExecuted($moduleName, $scriptName)
+    {
+        $file = \Magelight\App::getInstance()->getAppDir()
+            . DS
+            . \Magelight\Config::getInstance()->getConfig(
+                'global/setup/executed_scripts/filename',
+                'var/executed_setup.json'
+            );
+
+        if (!file_exists($file)) {
+            if (!file_exists(dirname($file))) {
+                mkdir(dirname($file), 0755, true);
+            }
+            file_put_contents($file, '');
+        }
+        $scripts = json_decode(file_get_contents($file), true);
+        return isset($scripts[$moduleName][basename($scriptName)]);
+    }
+
+    /**
+     * Set script as executed
+     *
+     * @param string $moduleName
+     * @param string $scriptFullPath
+     * @return App
+     */
+    public function setSetupScriptExecuted($moduleName, $scriptFullPath)
+    {
+        $file = \Magelight\App::getInstance()->getAppDir()
+            . DS
+            . \Magelight\Config::getInstance()->getConfig(
+                'global/setup/executed_scripts/filename',
+                'var/executed_setup.json'
+            );
+
+        if (file_exists($file)) {
+            $scripts = json_decode(file_get_contents($file), true);
+        } else {
+            mkdir(dirname($file), 0755, true);
+        }
+        $scripts[$moduleName][basename($scriptFullPath)] = [date('Y-m-d H:i:s', time()), $scriptFullPath];
+        $scripts = json_encode($scripts, JSON_PRETTY_PRINT);
+        file_put_contents($file, $scripts);
+        return $this;
+    }
 }

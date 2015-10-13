@@ -398,7 +398,7 @@ class Block
      */
     public function date($value)
     {
-        $dateFormat = \Magelight::app()->getConfig('global/view/date_format', 'Y-m-d');
+        $dateFormat = \Magelight\Config::getInstance()->getConfig('global/view/date_format', 'Y-m-d');
         return date($dateFormat, $value);
     }
 
@@ -410,7 +410,7 @@ class Block
      */
     public function dateTime($value)
     {
-        $dateFormat = \Magelight::app()->getConfig('global/view/date_time_format', 'Y-m-d H:i:s');
+        $dateFormat = \Magelight\Config::getInstance()->getConfig('global/view/date_time_format', 'Y-m-d H:i:s');
         return date($dateFormat, $value);
     }
 

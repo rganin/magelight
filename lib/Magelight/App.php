@@ -290,12 +290,12 @@ abstract class App
         $this->initIncludePaths();
         \Magelight\Components\Modules::getInstance()->loadModules($this->getAppDir() . DS . 'etc' . DS . 'modules.xml');
         \Magelight\Config::getInstance()->load($this);
-        $this->setDeveloperMode((string)$this->getConfig('global/app/developer_mode'));
+        $this->setDeveloperMode((string)\Magelight\Config::getInstance()->getConfig('global/app/developer_mode'));
         \Magelight\Http\Session::getInstance()->setSessionName(self::SESSION_ID_COOKIE_NAME)->start();
         $this->loadPreferences();
         $lang = \Magelight\Http\Session::getInstance()->get('lang');
         if (empty($lang)) {
-            $lang = (string)$this->getConfig('global/app/default_lang');
+            $lang = (string)\Magelight\Config::getInstance()->getConfig('global/app/default_lang');
         }
         if (empty($lang)) {
             $lang = self::DEFAULT_LANGUAGE;
@@ -397,46 +397,13 @@ abstract class App
      * Load forgery preferences from configuration
      *
      * @return App
+     * @codeCoverageIgnore
      */
     public function loadPreferences()
     {
-        $preferenceList = \Magelight\Config::getInstance()->getConfigSet('global/forgery/preference');
-        if (!empty($preferenceList)) {
-            if (!is_array($preferenceList)) {
-                $preferenceList = [$preferenceList];
-            }
-            foreach ($preferenceList as $preference) {
-
-                if (!empty($preference->old) && !empty($preference->new)) {
-
-                    self::getForgery()->setPreference(
-                        trim($preference->old, " \\/ "),
-                        trim($preference->new, " \\/ ")
-                    );
-
-                    if (!empty($preference->interface)) {
-                        foreach ($preference->interface as $interface) {
-                            self::getForgery()->addClassOverrideInterface(
-                                (string)$preference->new, trim($interface, " \\/ ")
-                            );
-                        }
-                    }
-                }
-            }
-        }
+        $preferenceList = (array)\Magelight\Config::getInstance()->getConfigSet('global/forgery/preference');
+        self::getForgery()->loadPreferences($preferenceList);
         return $this;
-    }
-
-    /**
-     * get config element by path
-     *
-     * @param $path
-     * @param null $default
-     * @return \SimpleXMLElement|mixed
-     */
-    public function getConfig($path, $default = null)
-    {
-        return \Magelight\Config::getInstance()->getConfig($path, $default);
     }
 
     /**
@@ -449,7 +416,7 @@ abstract class App
     public function db($index = self::DEFAULT_INDEX)
     {
         if (!isset($this->_dbs[$index])) {
-            $dbConfig = $this->getConfig('/global/db/' . $index, null);
+            $dbConfig = \Magelight\Config::getInstance()->getConfig('/global/db/' . $index, null);
             if (is_null($dbConfig)) {
                 throw new \Magelight\Exception("Database `{$index}` configuration not found.");
             }
@@ -470,7 +437,15 @@ abstract class App
     public function upgrade()
     {
         foreach (\Magelight\Components\Modules::getInstance()->getActiveModules() as $module) {
-            $this->upgradeModule($module);
+            $installer = Installer::forge();
+            $scripts = $installer->findInstallScripts($module['path']);
+            foreach ($scripts as $script) {
+                if (!$installer->isSetupScriptExecuted($module['name'], $script)) {
+                    $installer->executeScript($script);
+                    $installer->setSetupScriptExecuted($module['name'], $script);
+                }
+            }
+            unset($installer);
         }
         return $this;
     }
@@ -486,73 +461,6 @@ abstract class App
             /* @var \Magelight\Cache\AdapterAbstract $adapter */
             $adapter->clear();
         }
-        return $this;
-    }
-
-    /**
-     * Upgrade module
-     *
-     * @param array $module
-     * @return App
-     */
-    protected function upgradeModule($module)
-    {
-        $installer = Installer::forge();
-        $scripts = $installer->findInstallScripts($module['path']);
-        foreach ($scripts as $script) {
-            if (!$this->isSetupScriptExecuted($module['name'], $script)) {
-                $installer->executeScript($script);
-                $this->setSetupScriptExecuted($module['name'], $script);
-            }
-        }
-        unset($installer);
-        return $this;
-    }
-
-    /**
-     * Check was setup script executed before
-     *
-     * @param string $moduleName
-     * @param string $scriptName
-     * @return bool
-     */
-    protected function isSetupScriptExecuted($moduleName, $scriptName)
-    {
-        $file = $this->getAppDir()
-            . DS
-            . $this->getConfig('global/setup/executed_scripts/filename', 'var/executed_setup.json');
-
-        if (!file_exists($file)) {
-            if (!file_exists(dirname($file))) {
-                mkdir(dirname($file), 0755, true);
-            }
-            file_put_contents($file, '');
-        }
-        $scripts = json_decode(file_get_contents($file), true);
-        return isset($scripts[$moduleName][basename($scriptName)]);
-    }
-
-    /**
-     * Set script as executed
-     *
-     * @param string $moduleName
-     * @param string $scriptFullPath
-     * @return App
-     */
-    protected function setSetupScriptExecuted($moduleName, $scriptFullPath)
-    {
-        $file = $this->getAppDir()
-            . DS
-            . $this->getConfig('global/setup/executed_scripts/filename', 'var/executed_setup.json');
-
-        if (file_exists($file)) {
-            $scripts = json_decode(file_get_contents($file), true);
-        } else {
-            mkdir(dirname($file), 0755, true);
-        }
-        $scripts[$moduleName][basename($scriptFullPath)] = [date('Y-m-d H:i:s', time()), $scriptFullPath];
-        $scripts = json_encode($scripts, JSON_PRETTY_PRINT);
-        file_put_contents($file, $scripts);
         return $this;
     }
 }

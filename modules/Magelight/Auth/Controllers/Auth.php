@@ -51,7 +51,11 @@ class Auth extends \Magelight\Core\Controllers\BaseController
                 $form->addResult(__('Incorrect password or user with specified email is not registered'));
             } else {
                 $this->session()->set('user_id', $user->id);
-                $this->redirect($this->url($this->app()->getConfig('global/auth/urls/success_url')));
+                $this->redirect(
+                    $this->url(
+                        \Magelight\Config::getInstance()->getConfig('global/auth/urls/success_url')
+                    )
+                );
             }
         }
         $this->_view->sectionAppend('content', $contentBlock);
@@ -78,7 +82,11 @@ class Auth extends \Magelight\Core\Controllers\BaseController
                     $user->password = md5($user->password);
                     $user->save(true);
                     $this->session()->set('user_id', $user->id);
-                    $this->redirect($this->url($this->app()->getConfig('global/auth/urls/success_url')));
+                    $this->redirect(
+                        $this->url(
+                            \Magelight\Config::getInstance()->getConfig('global/auth/urls/success_url')
+                        )
+                    );
                 }
             }
         }
@@ -117,7 +125,7 @@ class Auth extends \Magelight\Core\Controllers\BaseController
 
                         Try to remember it :)", [$newPassword]),
 
-                    "From: " . $this->app()->getConfig('global/auth/robot_email')
+                    "From: " . \Magelight\Config::getInstance()->getConfig('global/auth/robot_email')
                 );
                 $form->addResult(__('Your new password is sent to your email'), 'alert-success');
             }
@@ -141,14 +149,14 @@ class Auth extends \Magelight\Core\Controllers\BaseController
         if (!$user) {
             $user = \Magelight\Auth\Models\User::forge()->createViaUlogin(
                 $userData,
-                $this->url($this->app()->getConfig('global/auth/avatar/noavatar_url'))
+                $this->url(\Magelight\Config::getInstance()->getConfig('global/auth/avatar/noavatar_url'))
             );
         }
         if ($user) {
             $this->session()->set('user_id', $user->id);
-            $this->redirect($this->url($this->app()->getConfig('global/auth/urls/success_url')));
+            $this->redirect($this->url(\Magelight\Config::getInstance()->getConfig('global/auth/urls/success_url')));
         } else {
-            $this->redirect($this->url($this->app()->getConfig('global/auth/urls/openauth_error')));
+            $this->redirect($this->url(\Magelight\Config::getInstance()->getConfig('global/auth/urls/openauth_error')));
         }
     }
 
@@ -158,7 +166,7 @@ class Auth extends \Magelight\Core\Controllers\BaseController
     public function logoutAction()
     {
         $this->session()->unsetData('user_id');
-        $this->redirect($this->url($this->app()->getConfig('global/auth/urls/success_url')));
+        $this->redirect($this->url(\Magelight\Config::getInstance()->getConfig('global/auth/urls/success_url')));
     }
 
     /**

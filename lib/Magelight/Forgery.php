@@ -110,4 +110,32 @@ class Forgery
         }
         return true;
     }
+
+    /**
+     * Load classes preferences from array
+     *
+     * @param array $preferenceList
+     * @return $this
+     */
+    final public function loadPreferences(array $preferenceList)
+    {
+        if (!empty($preferenceList)) {
+            foreach ($preferenceList as $preference) {
+                if (!empty($preference->old) && !empty($preference->new)) {
+                    $this->setPreference(
+                        trim($preference->old, " \\/ "),
+                        trim($preference->new, " \\/ ")
+                    );
+                    if (!empty($preference->interface)) {
+                        foreach ($preference->interface as $interface) {
+                            $this->addClassOverrideInterface(
+                                (string)$preference->new, trim($interface, " \\/ ")
+                            );
+                        }
+                    }
+                }
+            }
+        }
+        return $this;
+    }
 }

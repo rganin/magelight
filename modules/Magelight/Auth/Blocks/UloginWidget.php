@@ -66,7 +66,9 @@ class UloginWidget extends \Magelight\Block
      */
     public function getUloginData()
     {
-        $config = (array) \Magelight::app()->getConfig('global/auth/ulogin/instances/' . $this->_index . '/options');
+        $config = (array) \Magelight\Config::getInstance()->getConfig(
+            'global/auth/ulogin/instances/' . $this->_index . '/options'
+        );
 
 
         if (isset($config['redirect_route'])) {
@@ -86,7 +88,9 @@ class UloginWidget extends \Magelight\Block
      */
     public function getUloginHtmlId()
     {
-        return (string) \Magelight::app()->getConfig('global/auth/ulogin/instances/' . $this->_index . '/html_id');
+        return (string) \Magelight\Config::getInstance()->getConfig(
+            'global/auth/ulogin/instances/' . $this->_index . '/html_id'
+        );
     }
 
     /**
@@ -96,6 +100,6 @@ class UloginWidget extends \Magelight\Block
      */
     public function getUloginScriptUrl()
     {
-        return (string) \Magelight::app()->getConfig('global/auth/ulogin/ulogin_script_url');
+        return (string) \Magelight\Config::getInstance()->getConfig('global/auth/ulogin/ulogin_script_url');
     }
 }

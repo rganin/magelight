@@ -25,7 +25,7 @@ class Sections extends \Magelight\Block
 
     protected function _loadItems()
     {
-        $items = \Magelight::app()->getConfig('admin/navbar/items');
+        $items = \Magelight\Config::getInstance()->getConfig('admin/navbar/items');
         $this->_items = $this->getItemForgery()->forgeItems($items);
     }
 

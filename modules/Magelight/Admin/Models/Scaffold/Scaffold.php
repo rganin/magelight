@@ -103,7 +103,7 @@ class Scaffold
     public function getEntitiesConfig()
     {
         if (empty($this->_entitiesConfig)) {
-            $entitiesConfig = clone \Magelight::app()->getConfig('admin/scaffold/entities');
+            $entitiesConfig = clone \Magelight\Config::getInstance()->getConfig('admin/scaffold/entities');
             $this->_defaultEntityConfig = clone $entitiesConfig->default;
             unset($entitiesConfig->default);
             foreach ($entitiesConfig->children() as $child) {

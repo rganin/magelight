@@ -108,7 +108,7 @@ class Config
      * @param      $path
      * @param null $default
      *
-     * @return array|null
+     * @return array|null|\SimpleXMLElement
      */
     public function getConfig($path, $default = null)
     {

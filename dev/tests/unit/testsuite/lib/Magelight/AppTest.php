@@ -214,4 +214,36 @@ class AppTest extends \Magelight\TestCase
         $this->app->dispatchAction($action, $requestMock);
         $this->assertEquals($action, $this->app->getCurrentAction());
     }
+
+    public function testUpgrade()
+    {
+        $installerMock = $this->getMock(\Magelight\Installer::class, [], [], '', false);
+        \Magelight\Installer::forgeMock($installerMock);
+
+        $installerMock->expects($this->at(0))
+            ->method('findInstallScripts')
+            ->with('Magelight\Module1')
+            ->will($this->returnValue(['setup-0.0.0.1.php']));
+
+        $activeModules = [
+            [
+                'path' => 'Magelight\Module1',
+                'active' => '1',
+                'name' => 'Magelight_Module1'
+            ],
+        ];
+        $this->modulesMock->expects($this->once())
+            ->method('getActiveModules')
+            ->will($this->returnValue($activeModules));
+
+        $installerMock->expects($this->once())
+            ->method('isSetupScriptExecuted')
+            ->with('Magelight_Module1', 'setup-0.0.0.1.php')
+            ->will($this->returnValue(false));
+
+        $installerMock->expects($this->once())
+            ->method('executeScript')
+            ->with('setup-0.0.0.1.php');
+        $this->app->upgrade();
+    }
 }

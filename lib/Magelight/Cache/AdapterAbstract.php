@@ -66,7 +66,7 @@ abstract class AdapterAbstract implements ICacheInterface
         if (isset($config['cache_key_prefix'])) {
             $this->_cacheKeyPrefix = $config['cache_key_prefix'];
         } else {
-            $this->_cacheKeyPrefix = (string) \Magelight::app()->getConfig('global/base_domain');
+            $this->_cacheKeyPrefix = (string) \Magelight\Config::getInstance()->getConfig('global/base_domain');
             if (!$this->_cacheKeyPrefix) {
                 $this->_cacheKeyPrefix = md5(\Magelight::app()->getAppDir());
                 if (!$this->_cacheKeyPrefix) {
@@ -106,7 +106,7 @@ abstract class AdapterAbstract implements ICacheInterface
      */
     protected  static function getAdapter($index)
     {
-        $config = \Magelight::app()->getConfig('global/cache/' . $index);
+        $config = \Magelight\Config::getInstance()->getConfig('global/cache/' . $index);
         $type = self::getAdapterClassByType((bool)$config->disabled ? 'dummy' : $config->type);
         self::$_adapters[$index] = call_user_func_array([$type, 'forge'], [$config->config]);
         self::$_adapters[$index]->init();
@@ -135,7 +135,7 @@ abstract class AdapterAbstract implements ICacheInterface
     public static function getAllAdapters()
     {
         $adapters = [];
-        $config = \Magelight::app()->getConfig('global/cache');
+        $config = \Magelight\Config::getInstance()->getConfig('global/cache');
         foreach ($config->children() as $index => $cache) {
             $adapters[] = self::getAdapter($index);
         }
