@@ -107,18 +107,6 @@ abstract class Controller
     }
 
     /**
-     * Get object from application registry
-     *
-     * @param $key
-     * @param null $default
-     * @return mixed
-     */
-    public function getRegistryObject($key, $default = null)
-    {
-        return $this->app()->getRegistryObject($key, $default);
-    }
-
-    /**
      * Set view object or class name
      * 
      * @param \Magelight\Block|string $view

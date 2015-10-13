@@ -117,6 +117,13 @@ abstract class App
     protected $_lang;
 
     /**
+     * Database objects
+     *
+     * @var array
+     */
+    protected $_dbs = [];
+
+    /**
      * Get application directory
      *
      * @return string
@@ -205,35 +212,6 @@ abstract class App
     }
 
     /**
-     * Get object from app registry
-     *
-     * @param string $index
-     * @param mixed $default
-     * @return mixed
-     */
-    public function getRegistryObject($index, $default = null)
-    {
-        if (isset($this->_registry[$index]) && !empty($this->_registry[$index])) {
-            return $this->_registry[$index];
-        } else {
-            return $default;
-        }
-    }
-
-    /**
-     * Set object to registry by index
-     *
-     * @param string $index
-     * @param mixed $object
-     * @return App
-     */
-    public function setRegistryObject($index, $object)
-    {
-        $this->_registry[$index] = $object;
-        return $this;
-    }
-
-    /**
      * Get cache adapter
      *
      * @param string $index
@@ -313,7 +291,7 @@ abstract class App
         \Magelight\Config::getInstance()->load($this);
         $this->setDeveloperMode((string)$this->getConfig('global/app/developer_mode'));
         \Magelight\Http\Session::getInstance()->setSessionName(self::SESSION_ID_COOKIE_NAME)->start();
-        $this->loadClassesOverrides();
+        $this->loadPreferences();
         $lang = \Magelight\Http\Session::getInstance()->get('lang');
         if (empty($lang)) {
             $lang = (string)$this->getConfig('global/app/default_lang');
@@ -413,11 +391,11 @@ abstract class App
     }
 
     /**
-     * Load classes overrides from configuration
+     * Load forgery preferences from configuration
      *
      * @return App
      */
-    public function loadClassesOverrides()
+    public function loadPreferences()
     {
         $preferenceList = \Magelight\Config::getInstance()->getConfigSet('global/forgery/preference');
         if (!empty($preferenceList)) {
@@ -467,9 +445,7 @@ abstract class App
      */
     public function db($index = self::DEFAULT_INDEX)
     {
-        $db = $this->getRegistryObject('database/' . $index);
-
-        if (!$db instanceof \Magelight\Db\Common\Adapter) {
+        if (!isset($this->_dbs[$index])) {
             $dbConfig = $this->getConfig('/global/db/' . $index, null);
             if (is_null($dbConfig)) {
                 throw new \Magelight\Exception("Database `{$index}` configuration not found.");
@@ -478,9 +454,9 @@ abstract class App
             $db = call_user_func_array([$adapterClass, 'forge'], []);
             /* @var $db \Magelight\Db\Common\Adapter */
             $db->init((array)$dbConfig);
-            $this->setRegistryObject('database/' . $index, $db);
+            $this->_dbs[$index] = $db;
         }
-        return $db;
+        return $this->_dbs[$index];
     }
 
     /**

@@ -17,13 +17,5 @@
         <uploads>
             <path>var/uploads</path>
         </uploads>
-        <aop stackable="1">
-            <aspect>
-                <pointcut>
-                    <point>Magelight\Model->save</point>
-                </pointcut>
-                <advice>Magelight\Core\Advices\Test</advice>
-            </aspect>
-        </aop>
     </global>
 </config>

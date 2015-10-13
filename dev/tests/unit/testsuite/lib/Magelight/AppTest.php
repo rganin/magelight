@@ -79,7 +79,6 @@ class AppTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->app->setAppDir('') instanceof App);
         $this->assertTrue($this->app->setDeveloperMode(true) instanceof App);
         $this->assertTrue($this->app->setSessionCookieName('SESSION') instanceof App);
-        $this->assertTrue($this->app->setRegistryObject('dfs', $this) instanceof App);
         $this->assertTrue(is_string($this->app->getSessionCookieName()));
         $this->assertTrue($this->app->getSessionCookieName() === 'SESSION');
     }
@@ -162,9 +161,16 @@ class AppTest extends \PHPUnit_Framework_TestCase
         );
         $index = \Magelight\App::DEFAULT_INDEX;
         $mysqlDbAdapterMock = $this->getMock(\Magelight\Db\Mysql\Adapter::class, ['init'], [], '', false);
-        $mysqlDbAdapterMock->expects($this->once())->method('init')->with((array)$mysqlConfig);
+        $mysqlDbAdapterMock->expects($this->once())
+            ->method('init')
+            ->with((array)$mysqlConfig);
+
         \Magelight\Db\Mysql\Adapter::forgeMock($mysqlDbAdapterMock);
-        $this->configMock->expects($this->once())->method('getConfig')->with('/global/db/' . $index, null)->will($this->returnValue($mysqlConfig));
+        $this->configMock->expects($this->once())
+            ->method('getConfig')
+            ->with('/global/db/' . $index, null)
+            ->will($this->returnValue($mysqlConfig));
+
         $this->assertInstanceOf(\Magelight\Db\Mysql\Adapter::class, $this->app->db());
     }
 }
