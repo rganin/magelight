@@ -40,7 +40,7 @@ class ArrayHelper
      * @param string $after
      * @return array
      */
-    public static function insertToArray($array, $key, $value, $after = null)
+    public function insertToArray($array, $key, $value, $after = null)
     {
         if (empty($after)) {
             $array[$key] = $value; 

@@ -152,7 +152,7 @@ class Auth extends \Magelight\Auth\Controllers\Auth
         $s = file_get_contents('http://ulogin.ru/token.php?token='
             . $this->request()->getPost('token')
             . '&host='
-            . $this->server()->getCurrentDomain());
+            . \Magelight\Http\Server::getInstance()->getCurrentDomain());
         $userData = json_decode($s, true);
         $user = \Magelight\Auth\Models\User::forge()->authorizeViaUlogin($userData);
         if (!$user) {

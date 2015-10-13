@@ -246,7 +246,7 @@ class Document extends \Magelight\Block
         foreach ($jsOrCss as $path => $script) {
             if (!empty($script['after'])) {
                 unset($jsOrCss[$path]);
-                $jsOrCss = \Magelight\Helpers\ArrayHelper::getInstance()
+                $jsOrCss = \Magelight\Helpers\ArrayHelper::forge()
                     ->insertToArray($jsOrCss, $path, $script, $script['after']);
             }
         }
