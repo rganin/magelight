@@ -43,23 +43,13 @@ trait TForgery
     protected static $calls = [];
 
     /**
-     * Forgery Instance
-     *
-     * @var \Magelight\Forgery
-     */
-    protected static $_forgery;
-
-    /**
      * Get Forgery instance
      *
      * @return \Magelight\Forgery
      */
-    protected static function _getForgery()
+    public static function getForgery()
     {
-        if (!self::$_forgery instanceof \Magelight\Forgery) {
-            self::$_forgery = \Magelight\Forgery::getInstance();
-        }
-        return self::$_forgery;
+        return \Magelight\Forgery::getInstance();
     }
 
     /**
@@ -71,7 +61,7 @@ trait TForgery
     public static function forgeMock(\PHPUnit_Framework_MockObject_MockObject $mockObject, $iteration = null)
     {
         $className = get_called_class();
-        self::$mockObjects[$className][$iteration] = $mockObject;
+        \Magelight\Forgery\MockContainer::getInstance()->addMockObject($className, $mockObject, $iteration);
     }
 
     /**
@@ -83,16 +73,9 @@ trait TForgery
     public static function forge()
     {
         $className = get_called_class();
-        if (isset(self::$calls[$className])) {
-            self::$calls[$className]++;
-        } else {
-            self::$calls[$className] = 1;
-        }
-        if (isset(self::$mockObjects[$className][self::$calls[$className]])) {
-            return self::$mockObjects[$className][self::$calls[$className]];
-        }
-        if (isset(self::$mockObjects[$className][null])) {
-            return self::$mockObjects[$className][null];
+        $object = \Magelight\Forgery\MockContainer::getInstance()->getMock($className);
+        if ($object instanceof $className) {
+            return $object;
         }
         if (!self::_checkInterfaces($className)) {
             throw new \Magelight\Exception(
@@ -115,7 +98,7 @@ trait TForgery
      */
     final static protected function _checkInterfaces($className)
     {
-        $requiredInterfaces = self::_getForgery()->getClassInterfaces($className);
+        $requiredInterfaces = self::getForgery()->getClassInterfaces($className);
         $implementedInterfaces = class_implements($className, true);
         foreach ($requiredInterfaces as $interface) {
             if (!isset($implementedInterfaces[$interface])) {
@@ -134,8 +117,9 @@ trait TForgery
     {
         static $instance;
         $className = get_called_class();
-        if (isset(self::$mockObjects[$className][null])) {
-            return self::$mockObjects[$className][null];
+        $object = \Magelight\Forgery\MockContainer::getInstance()->getMock($className);
+        if ($object instanceof $className) {
+            return $object;
         }
         if (!$instance instanceof $className) {
             $instance = call_user_func_array([$className, 'forge'], func_get_args());

@@ -18,7 +18,7 @@ class Scaffold extends Base
 
     public function beforeExecute()
     {
-        $this->app()->fireEvent('access_scaffolding', [
+        \Magelight\Event\Manager::getInstance()->dispatchEvent('access_scaffolding', [
                 'controller' => $this,
                 'user_id' => $this->session()->get('user_id')
             ]

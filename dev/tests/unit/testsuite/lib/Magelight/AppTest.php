@@ -22,7 +22,8 @@
  */
 namespace Magelight;
 
-class AppTest extends \PHPUnit_Framework_TestCase
+
+class AppTest extends \Magelight\TestCase
 {
     /**
      * @var App
@@ -55,6 +56,11 @@ class AppTest extends \PHPUnit_Framework_TestCase
     protected $translatorMock;
 
     /**
+     * @var \Magelight\Event\Manager|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $eventManagerMock;
+
+    /**
      * Set up before test
      */
     public function setUp()
@@ -66,12 +72,14 @@ class AppTest extends \PHPUnit_Framework_TestCase
         $this->routerMock = $this->getMock(\Magelight\Components\Router::class, [], [], '', false);
         $this->sessionMock = $this->getMock(\Magelight\Http\Session::class, [], [], '', false);
         $this->translatorMock = $this->getMock(\Magelight\I18n\Translator::class, [], [], '', false);
+        $this->eventManagerMock = $this->getMock(\Magelight\Event\Manager::class, [], [], '', false);
 
         \Magelight\Components\Modules::forgeMock($this->modulesMock);
         \Magelight\Config::forgeMock($this->configMock);
         \Magelight\Components\Router::forgeMock($this->routerMock);
         \Magelight\Http\Session::forgeMock($this->sessionMock);
         \Magelight\I18n\Translator::forgeMock($this->translatorMock);
+        \Magelight\Event\Manager::forgeMock($this->eventManagerMock);
     }
 
     public function testGeneric()
@@ -118,39 +126,6 @@ class AppTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(\Magelight\App::DEFAULT_LANGUAGE, $this->app->getLang());
     }
 
-    public function testFireEvent()
-    {
-        $eventName = 'test_event';
-        $observerClass1 = '\Magelight\Observer::execute';
-        $observers = [$observerClass1];
-        $this->configMock->expects($this->once())
-            ->method('getConfigSet')
-            ->with('global/events/' . $eventName . '/observer')
-            ->will($this->returnValue($observers));
-        $observerMock = $this->getMockForAbstractClass('\Magelight\Observer', [], '', false, false, true, ['execute']);
-        \Magelight\Observer::forgeMock($observerMock);
-        $observerMock->expects($this->once())->method('execute');
-        $this->app->fireEvent('test_event');
-    }
-
-    /**
-     * @expectedException \Magelight\Exception
-     * @expectedExceptionMessage Observer '\Magelight\Observer' method 'unexistentMethod' does not exist or is not callable!
-     */
-    public function testFireEventException()
-    {
-        $eventName = 'test_event';
-        $observerClass1 = '\Magelight\Observer::unexistentMethod';
-        $observers = [$observerClass1];
-        $this->configMock->expects($this->once())
-            ->method('getConfigSet')
-            ->with('global/events/' . $eventName . '/observer')
-            ->will($this->returnValue($observers));
-        $observerMock = $this->getMockForAbstractClass('\Magelight\Observer', [], '', false, false, true, ['execute']);
-        \Magelight\Observer::forgeMock($observerMock);
-        $this->app->fireEvent('test_event');
-    }
-
     public function testDbMysql()
     {
         $mysqlConfig = new \SimpleXMLElement(
@@ -172,5 +147,71 @@ class AppTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($mysqlConfig));
 
         $this->assertInstanceOf(\Magelight\Db\Mysql\Adapter::class, $this->app->db());
+    }
+
+    /**
+     * @expectedException \Magelight\Exception
+     * @expectedExceptionMessage Database `default` configuration not found.
+     */
+    public function testDbEmptyConfig()
+    {
+        $mysqlConfig = null;
+        $index = \Magelight\App::DEFAULT_INDEX;
+        $this->configMock->expects($this->once())
+            ->method('getConfig')
+            ->with('/global/db/' . $index, null)
+            ->will($this->returnValue($mysqlConfig));
+
+        $this->app->db();
+    }
+
+    public function testDispatchAction()
+    {
+        $action = ['module' => 'Magelight', 'controller' => 'controller', 'action' => 'index'];
+        $requestMock = $this->getMock(\Magelight\Http\Request::class, [], [], '', false);
+        \Magelight\Http\Request::forgeMock($requestMock);
+
+        class_alias(\Magelight\Controller::class, '\Magelight\Controllers\Controller');
+        $controllerMock = $this->getMockForAbstractClass(
+            \Magelight\Controller::class, [], '', false, false, false, ['indexAction', 'init', 'beforeExecute', 'afterExecute']
+        );
+        \Magelight\Controller::forgeMock($controllerMock);
+
+        $controllerMock->expects($this->once())
+            ->method('indexAction');
+        $controllerMock->expects($this->once())
+            ->method('init')->with($requestMock, $action);
+        $controllerMock->expects($this->once())
+            ->method('beforeExecute');
+        $controllerMock->expects($this->once())
+            ->method('afterExecute');
+
+        $this->eventManagerMock->expects($this->at(0))
+            ->method('dispatchEvent')
+            ->with('app_dispatch_action', ['action' => $action, 'request' => $requestMock]);
+
+        $this->eventManagerMock->expects($this->at(1))
+            ->method('dispatchEvent')
+            ->with(
+                'app_controller_init',
+                ['controller' => $controllerMock, 'action' => $action, 'request' => $requestMock]
+            );
+
+        $this->eventManagerMock->expects($this->at(2))
+            ->method('dispatchEvent')
+            ->with(
+                'app_controller_initialized',
+                ['controller' => $controllerMock, 'action' => $action, 'request' => $requestMock]
+            );
+
+        $this->eventManagerMock->expects($this->at(3))
+            ->method('dispatchEvent')
+            ->with(
+                'app_controller_executed',
+                ['controller' => $controllerMock, 'action' => $action, 'request' => $requestMock]
+            );
+
+        $this->app->dispatchAction($action, $requestMock);
+        $this->assertEquals($action, $this->app->getCurrentAction());
     }
 }

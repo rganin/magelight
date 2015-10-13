@@ -227,6 +227,7 @@ abstract class App
      *
      * @param $pathInModules
      * @return bool|string
+     * @codeCoverageIgnore
      */
     public function getRealPathInModules($pathInModules)
     {
@@ -355,18 +356,19 @@ abstract class App
     public function dispatchAction(array $action, \Magelight\Http\Request $request = null)
     {
         $this->_currentAction = $action;
-        $this->fireEvent('app_dispatch_action', ['action' => $action, 'request' => $request]);
+        $eventManager = \Magelight\Event\Manager::getInstance();
+        $eventManager->dispatchEvent('app_dispatch_action', ['action' => $action, 'request' => $request]);
         $controllerName = str_replace('/', '\\', $action['module'] . '\\Controllers\\' . ucfirst($action['controller']));
         $controllerMethod = $action['action'] . 'Action';
         $controller = call_user_func([$controllerName, 'forge']);
         /* @var $controller \Magelight\Controller */
-        $this->fireEvent('app_controller_init', [
+        $eventManager->dispatchEvent('app_controller_init', [
             'controller' => $controller,
             'action' => $action,
             'request' => $request
         ]);
         $controller->init($request, $action);
-        $this->fireEvent('app_controller_initialized', [
+        $eventManager->dispatchEvent('app_controller_initialized', [
             'controller' => $controller,
             'action' => $action,
             'request' => $request
@@ -374,7 +376,7 @@ abstract class App
         $controller->beforeExecute();
         $controller->$controllerMethod();
         $controller->afterExecute();
-        $this->fireEvent('app_controller_executed', [
+        $eventManager->dispatchEvent('app_controller_executed', [
             'controller' => $controller,
             'action' => $action,
             'request' => $request
@@ -384,6 +386,7 @@ abstract class App
 
     /**
      * Shutdown application handler
+     * @codeCoverageIgnore
      */
     public function shutdown()
     {
@@ -551,30 +554,5 @@ abstract class App
         $scripts = json_encode($scripts, JSON_PRETTY_PRINT);
         file_put_contents($file, $scripts);
         return $this;
-    }
-
-    /**
-     * Fire application event (executes all observers that were bound to this event)
-     *
-     * @param string $eventName
-     * @param array $arguments
-     * @throws \Magelight\Exception
-     */
-    public function fireEvent($eventName, $arguments = [])
-    {
-        $observers = (array)\Magelight\Config::getInstance()->getConfigSet('global/events/' . $eventName . '/observer');
-        if (!empty($observers)) {
-            foreach ($observers as $observerClass) {
-                $observerClass = explode('::', (string)$observerClass);
-                $class = $observerClass[0];
-                $method = isset($observerClass[1]) ? $observerClass[1] : 'execute';
-                $observer = call_user_func_array([$class, 'forge'], [$arguments]);
-                /* @var $observer \Magelight\Observer*/
-                if (!method_exists($observer, $method)) {
-                    throw new Exception("Observer '{$class}' method '{$method}' does not exist or is not callable!");
-                }
-                $observer->$method();
-            }
-        }
     }
 }

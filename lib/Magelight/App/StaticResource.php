@@ -30,7 +30,7 @@ class StaticResource extends \Magelight\App
     public function run()
     {
         try {
-            $this->fireEvent('app_start', []);
+            \Magelight\Event\Manager::getInstance()->dispatchEvent('app_start', []);
             $request = \Magelight\Http\Request::getInstance();
             $resource = $request->getGet('resource');
             $staticDir = realpath(
