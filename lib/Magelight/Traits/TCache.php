@@ -73,17 +73,7 @@ trait TCache
      */
     public function cache()
     {
-        return \Magelight\Cache\AdapterAbstract::getAdapterInstance($this->getCacheIndex());
-    }
-
-    /**
-     * Get cache adapter instance
-     *
-     * @return \Magelight\Cache\AdapterAbstract
-     */
-    public function allCacheInstances()
-    {
-        return \Magelight\Cache\AdapterAbstract::getAllAdapters();
+        return \Magelight\Cache\AdapterPool::getInstance()->getAdapter($this->getCacheIndex());
     }
 
     /**

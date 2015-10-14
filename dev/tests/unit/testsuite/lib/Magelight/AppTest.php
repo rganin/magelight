@@ -173,7 +173,13 @@ class AppTest extends \Magelight\TestCase
 
         class_alias(\Magelight\Controller::class, '\Magelight\Controllers\Controller');
         $controllerMock = $this->getMockForAbstractClass(
-            \Magelight\Controller::class, [], '', false, false, false, ['indexAction', 'init', 'beforeExecute', 'afterExecute']
+            \Magelight\Controller::class,
+            [],
+            '',
+            false,
+            false,
+            false,
+            ['indexAction', 'init', 'beforeExecute', 'afterExecute']
         );
         \Magelight\Controller::forgeMock($controllerMock);
 
@@ -245,5 +251,52 @@ class AppTest extends \Magelight\TestCase
             ->method('executeScript')
             ->with('setup-0.0.0.1.php');
         $this->app->upgrade();
+    }
+
+    public function testFlushAllCache()
+    {
+        $cacheConfig = new \SimpleXMLElement('<cache>
+            <default>
+                <type>file</type>
+                <config>
+                    <path>var/cache</path>
+                </config>
+            </default>
+            <other>
+                <memcache>
+                    <server>
+                        <host>127.0.0.1</host>
+                        <port>11211</port>
+                    </server>
+                </memcache>
+            </other>
+        </cache>');
+        $this->configMock->expects($this->once())
+            ->method('getConfig')
+            ->with('global/cache')
+            ->will($this->returnValue($cacheConfig));
+        $adapterPoolMock = $this->getMock(\Magelight\Cache\AdapterPool::class, [], [], '', false);
+        \Magelight\Cache\AdapterPool::forgeMock($adapterPoolMock);
+
+        $adapterMock = $this->getMockForAbstractClass(
+            \Magelight\Cache\AdapterAbstract::class,
+            [],
+            '',
+            false,
+            false,
+            true,
+            ['clear']
+        );
+
+        $adapterMock->expects($this->exactly(2))->method('clear');
+
+        $adapterPoolMock->expects($this->at(0))->method('getAdapter')
+            ->with('default')
+            ->will($this->returnValue($adapterMock));
+
+        $adapterPoolMock->expects($this->at(1))->method('getAdapter')
+            ->with('other')
+            ->will($this->returnValue($adapterMock));
+        $this->app->flushAllCache();
     }
 }

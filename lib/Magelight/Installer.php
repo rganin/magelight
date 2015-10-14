@@ -34,14 +34,26 @@ class Installer
 
     use Traits\TForgery;
 
+    /**
+     * Start setup
+     *
+     * @param string $index
+     * @return $this
+     */
     public function startSetup($index = \Magelight\App::DEFAULT_INDEX)
     {
-
+        return $this;
     }
 
+    /**
+     * End setup
+     *
+     * @param string $index
+     * @return $this
+     */
     public function endSetup($index = \Magelight\App::DEFAULT_INDEX)
     {
-
+        return $this;
     }
 
     /**
@@ -55,6 +67,12 @@ class Installer
         return \Magelight\App::getInstance()->db($index);
     }
 
+    /**
+     * Execute setup script
+     *
+     * @param $file
+     * @throws Exception
+     */
     public function executeScript($file)
     {
         if (!is_readable($file)) {
@@ -65,6 +83,12 @@ class Installer
         $this->endSetup();
     }
 
+    /**
+     * Find install scripts
+     *
+     * @param $modulePath
+     * @return array
+     */
     public function findInstallScripts($modulePath)
     {
         $modulePath = str_replace('\\', DS, $modulePath);

@@ -21,10 +21,10 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Magelight\Cache\Adapters;
+namespace Magelight\Cache\Adapter;
 
 /**
- * @method static \Magelight\Cache\Adapters\Memcached forge($config)
+ * @method static \Magelight\Cache\Adapter\Memcached forge($config)
  */
 class Memcached extends \Magelight\Cache\AdapterAbstract
 {
@@ -39,7 +39,7 @@ class Memcached extends \Magelight\Cache\AdapterAbstract
     /**
      * Initialize memcache
      *
-     * @return \Magelight\Cache\Adapters\Memcached
+     * @return \Magelight\Cache\Adapter\Memcached
      */
     public function init()
     {

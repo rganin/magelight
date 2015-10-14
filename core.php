@@ -27,5 +27,20 @@ define('FRAMEWORK_DIR', dirname(__FILE__));
 $includePath = explode(PS, ini_get('include_path'));
 array_unshift($includePath, realpath(FRAMEWORK_DIR . DS . 'lib'));
 ini_set('include_path', implode(PS, $includePath));
-require 'lib' . DS . 'Magelight.php';
-spl_autoload_register(array('Magelight', 'autoload'));
+require 'lib' . DS . 'Magelight' . DS . 'Autoload.php';
+$autoloader = new \Magelight\Autoload();
+spl_autoload_register([$autoloader, 'autoload']);
+
+/**
+ * Translation function
+ *
+ * @param string $string - translated string
+ * @param array $arguments - arguments
+ * @param int $number - plural number for plural forms
+ * @param string $context - context
+ * @return string
+ */
+function __($string, $arguments = [], $number = 1, $context = \Magelight\App::DEFAULT_INDEX)
+{
+    return \Magelight\I18n\Translator::getInstance()->translate($string, $arguments, $number, $context);
+}

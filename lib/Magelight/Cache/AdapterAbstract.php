@@ -24,9 +24,9 @@
 namespace Magelight\Cache;
 
 /**
- * @method static \Magelight\Cache\AdapterAbstract forge($config)
+ * @method static \Magelight\Cache\AdapterAbstract getInstance($config)
  */
-abstract class AdapterAbstract implements ICacheInterface
+abstract class AdapterAbstract
 {
     /**
      * Use forgery
@@ -63,17 +63,20 @@ abstract class AdapterAbstract implements ICacheInterface
     public function __forge($config)
     {
         $this->_config = $config;
-        if (isset($config['cache_key_prefix'])) {
-            $this->_cacheKeyPrefix = $config['cache_key_prefix'];
+        if (isset($config->cache_key_prefix)) {
+            $this->_cacheKeyPrefix = (string) $config->cache_key_prefix;
         } else {
             $this->_cacheKeyPrefix = (string) \Magelight\Config::getInstance()->getConfig('global/base_domain');
             if (!$this->_cacheKeyPrefix) {
                 $this->_cacheKeyPrefix = md5(\Magelight\App::getInstance()->getAppDir());
                 if (!$this->_cacheKeyPrefix) {
-                    throw new \Magelight\Exception('Cache key prefix not set, and base domain too. Cache conflicts can appear.');
+                    throw new \Magelight\Exception(
+                        'Cache key prefix not set, and base domain too. Cache conflicts can appear.'
+                    );
                 }
             }
         }
+        $this->init();
     }
 
     /**
@@ -88,64 +91,76 @@ abstract class AdapterAbstract implements ICacheInterface
     }
 
     /**
-     * Get adapter class by type string
-     *
-     * @param string $type
-     * @return string
-     */
-    public static function getAdapterClassByType($type)
-    {
-        return '\\Magelight\\Cache\\Adapters\\' . ucfirst(strtolower($type));
-    }
-
-    /**
-     * Get adapter by index
-     *
-     * @param string $index
-     * @return \Magelight\Cache\AdapterAbstract
-     */
-    protected  static function getAdapter($index)
-    {
-        $config = \Magelight\Config::getInstance()->getConfig('global/cache/' . $index);
-        $type = self::getAdapterClassByType((bool)$config->disabled ? 'dummy' : $config->type);
-        self::$_adapters[$index] = call_user_func_array([$type, 'forge'], [$config->config]);
-        self::$_adapters[$index]->init();
-        return self::$_adapters[$index];
-    }
-
-    /**
-     * Get adapter instance by index
-     *
-     * @param string $index
-     * @return \Magelight\Cache\AdapterAbstract
-     */
-    public static function getAdapterInstance($index)
-    {
-        if (isset(self::$_adapters[$index]) && self::$_adapters[$index] instanceof self) {
-            return self::$_adapters[$index];
-        }
-        return self::getAdapter($index);
-    }
-
-    /**
-     * Get all cache adapters described in config
-     *
-     * @return array
-     */
-    public static function getAllAdapters()
-    {
-        $adapters = [];
-        $config = \Magelight\Config::getInstance()->getConfig('global/cache');
-        foreach ($config->children() as $index => $cache) {
-            $adapters[] = self::getAdapter($index);
-        }
-        return $adapters;
-    }
-
-    /**
      * Init adapter
      *
      * @return AdapterAbstract
      */
     abstract public function init();
+
+    /**
+     * Get cached value by key
+     *
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
+     */
+    abstract public function get($key, $default = null);
+
+    /**
+     * Set value to cache
+     *
+     * @param string $key
+     * @param mixed $value
+     * @param int $ttl
+     * @return mixed
+     */
+    abstract public function set($key, $value, $ttl = 360);
+
+    /**
+     * Delete value from cache by key
+     *
+     * @param string $key
+     * @return mixed
+     */
+    abstract public function del($key);
+
+    /**
+     * Clear cache
+     *
+     * @return mixed
+     */
+    abstract public function clear();
+
+    /**
+     * Increment cache value
+     *
+     * @param string $key
+     * @param int $incValue
+     * @param int|null $initialValue
+     * @param int $ttl
+     * @return int|bool
+     */
+    abstract public function increment($key, $incValue = 1, $initialValue = 0, $ttl = 360);
+
+    /**
+     * Decrement cache value
+     *
+     * @param string $key
+     * @param int $decValue
+     * @param int|null $initialValue
+     * @param int $ttl
+     * @return mixed
+     */
+    abstract public function decrement($key, $decValue = 1, $initialValue = 0, $ttl = 360);
+
+    /**
+     * Set value if not exists. Returns bool TRUE if value didn`t exist and successfully set.
+     * False - if value alreadye xists
+     *
+     * @param string $key
+     * @param mixed $value
+     * @param int $ttl
+     * @return mixed
+     */
+    abstract public function setNx($key, $value, $ttl = 360);
 }

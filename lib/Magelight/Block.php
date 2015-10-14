@@ -168,6 +168,7 @@ class Block
      *
      * @param string $name
      * @param mixed $value
+     * @codeCoverageIgnore
      */
     public function __set($name, $value)
     {
@@ -179,6 +180,7 @@ class Block
      *
      * @param string $name
      * @return mixed
+     * @codeCoverageIgnore
      */
     public function __get($name)
     {
@@ -190,6 +192,7 @@ class Block
      *
      * @param string $name
      * @return bool
+     * @codeCoverageIgnore
      */
     public function __isset($name)
     {
@@ -298,6 +301,7 @@ class Block
      * Before render to HTML event
      *
      * @return Block
+     * @codeCoverageIgnore
      */
     protected function beforeToHtml()
     {
@@ -309,6 +313,7 @@ class Block
      * After render to Html event
      *
      * @return Block
+     * @codeCoverageIgnore
      */
     protected function afterToHtml()
     {
@@ -356,6 +361,7 @@ class Block
      * Initialize Blocks
      *
      * @return Block
+     * @codeCoverageIgnore
      */
     public function init()
     {

@@ -21,12 +21,12 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Magelight\Cache\Adapters;
+namespace Magelight\Cache\Adapter;
 
 use Magelight\Cache\AdapterAbstract;
 
 /**
- * @method static \Magelight\Cache\Adapters\File forge($config)
+ * @method static \Magelight\Cache\Adapter\File forge($config)
  */
 class Dummy extends \Magelight\Cache\AdapterAbstract
 {

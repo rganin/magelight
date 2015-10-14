@@ -221,7 +221,7 @@ abstract class App
      */
     public function cache($index = self::DEFAULT_INDEX)
     {
-        return \Magelight\Cache\AdapterAbstract::getAdapterInstance($index);
+        return \Magelight\Cache\AdapterPool::getInstance()->getAdapter($index);
     }
 
     /**
@@ -459,9 +459,9 @@ abstract class App
      */
     public function flushAllCache()
     {
-        foreach (\Magelight\Cache\AdapterAbstract::getAllAdapters() as $adapter) {
-            /* @var \Magelight\Cache\AdapterAbstract $adapter */
-            $adapter->clear();
+        $config = \Magelight\Config::getInstance()->getConfig('global/cache');
+        foreach ($config->children() as $index => $cache) {
+            $adapters[] = \Magelight\Cache\AdapterPool::getInstance()->getAdapter($index)->clear();
         }
         return $this;
     }
