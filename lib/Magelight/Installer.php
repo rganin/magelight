@@ -44,6 +44,7 @@ class Installer
      * Start setup
      *
      * @return $this
+     * @codeCoverageIgnore
      */
     public function startSetup()
     {
@@ -54,6 +55,7 @@ class Installer
      * End setup
      *
      * @return $this
+     * @codeCoverageIgnore
      */
     public function endSetup()
     {

@@ -106,7 +106,7 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function setSetupScriptExecutedTest()
+    public function testSetSetupScriptExecuted()
     {
         $this->appMock->expects($this->any())->method('db')->will($this->returnValue($this->dbMock));
         $this->dbMock->expects($this->at(0))->method('execute')->with(
