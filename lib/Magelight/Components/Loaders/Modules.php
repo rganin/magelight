@@ -59,9 +59,7 @@ final class Modules
     {
         if ($modulesXmlConfig->getName() === self::MODULES_NODE_NAME) {
             foreach ($modulesXmlConfig->children() as $module) {
-                if ($module->active) {
-                    $this->enqueue($module);
-                }
+                $this->enqueue($module);
             }
             
             while (!empty($this->_loadQueue)) {
@@ -129,29 +127,37 @@ final class Modules
     /**
      * Check are the required modules loaded
      * 
-     * @param \SimpleXMLElement $moduleXml
+     * @param \SimpleXMLElement $moduleConfig
      * @return bool
      * @throws \Magelight\Exception
      */
-    private function requiredModulesLoaded(\SimpleXMLElement $moduleXml)
+    private function requiredModulesLoaded(\SimpleXMLElement $moduleConfig)
     {
-        
         $result = true;
-        foreach ($moduleXml->xpath('require') as $require) {
-            $require = (string) $require;
-            if (!isset($this->_loadQueue[$require]) && !isset($this->_modules[$require])) {
-                throw new \Magelight\Exception(
-                    'Module "' 
-                    . $require 
-                    . '" required in "' 
-                    . $moduleXml->getName() 
-                    . '" is not configured for loading.'
-                );
+        $path = str_replace(['\\', '/'], DS, $moduleConfig->path)
+            . DS
+            . 'etc'
+            . DS
+            . 'module.xml';
+        foreach (\Magelight\App::getInstance()->getModuleDirectories() as $modulesDir) {
+            if (is_readable($modulesDir . DS . $path)) {
+                $moduleXml = simplexml_load_file($modulesDir . DS . $path);
+                foreach ($moduleXml->xpath('require') as $require) {
+                    $require = (string) $require;
+                    if (!isset($this->_loadQueue[$require]) && !isset($this->_modules[$require])) {
+                        throw new \Magelight\Exception(
+                            'Module "'
+                            . $require
+                            . '" required in "'
+                            . $moduleXml->getName()
+                            . '" is not configured for loading.'
+                        );
+                    }
+                    $result &= isset($this->_modules[$require]);
+
+                }
             }
-            $result &= isset($this->_modules[$require]);
-            
         }
-        
         return $result;
     }
     
@@ -164,9 +170,7 @@ final class Modules
     {
         $modules = [];
         foreach ($this->_modules as $name => $module) {
-            if ($module['active']) {
-                $modules[$name] = $module;
-            }
+            $modules[$name] = $module;
         }
         return $modules;
     }

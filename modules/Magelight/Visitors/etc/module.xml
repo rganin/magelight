@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<module>
+    <name>Magelight_Visitors</name>
+    <require>Magelight_Core</require>
+    <require>Magelight_Admin</require>
+</module>

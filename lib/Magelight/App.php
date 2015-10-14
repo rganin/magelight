@@ -291,6 +291,7 @@ abstract class App
         $this->addModulesDir($this->getFrameworkDir() . DS . 'modules');
         $this->initIncludePaths();
         \Magelight\Components\Modules::getInstance()->loadModules($this->getAppDir() . DS . 'etc' . DS . 'modules.xml');
+        \Magelight\Components\Modules::getInstance()->getActiveModules();
         \Magelight\Config::getInstance()->load($this);
         $this->setDeveloperMode((string)\Magelight\Config::getInstance()->getConfig('global/app/developer_mode'));
         \Magelight\Http\Session::getInstance()->setSessionName(self::SESSION_ID_COOKIE_NAME)->start();

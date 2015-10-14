@@ -127,13 +127,12 @@ class Routes
     public function parseRoute(\SimpleXMLElement $routeXml, $moduleName, $parentRoute = null)
     {
         if ($routeXml->getName() === 'route') {
-            $route['module'] =  $moduleName = !empty($routeXml->attributes()->module)
-                ? (string) $routeXml->attributes()->module
-                : $moduleName;
             $route['match'] = (isset($parentRoute['match']) ? rtrim($parentRoute['match'], '\\/') : '' )
                 . '/' 
                 . trim($routeXml->attributes()->match, '\\/');
-            
+            $route['module'] =  $moduleName = !empty($routeXml->attributes()->module)
+                ? (string) $routeXml->attributes()->module
+                : (isset($this->_routes[$route['match']]) ? $this->_routes[$route['match']]['module'] : $moduleName);
             if (is_null($route['match'])) {
                 throw new \Magelight\Exception('Route without match in module ' . $moduleName);
             } else {

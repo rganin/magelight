@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<module>
+    <name>SampleApp</name>
+    <require>Magelight_Admin</require>
+    <require>Magelight_Core</require>
+    <require>Magelight_Auth</require>
+    <require>Magelight_Webform</require>
+</module>
