@@ -30,17 +30,22 @@ namespace Magelight;
  */
 class Installer
 {
-    const DEFAULT_DB_INDEX = 'default';
-
     use Traits\TForgery;
+
+    /**
+     * Forgery constructor
+     */
+    public function __forge()
+    {
+        $this->createVersionTableIfNotExists();
+    }
 
     /**
      * Start setup
      *
-     * @param string $index
      * @return $this
      */
-    public function startSetup($index = \Magelight\App::DEFAULT_INDEX)
+    public function startSetup()
     {
         return $this;
     }
@@ -48,23 +53,21 @@ class Installer
     /**
      * End setup
      *
-     * @param string $index
      * @return $this
      */
-    public function endSetup($index = \Magelight\App::DEFAULT_INDEX)
+    public function endSetup()
     {
         return $this;
     }
 
     /**
+     * Get DB instance
      *
-     *
-     * @param string $index
      * @return Db\Common\Adapter
      */
-    public function getDb($index = \Magelight\App::DEFAULT_INDEX)
+    public function getDb()
     {
-        return \Magelight\App::getInstance()->db($index);
+        return \Magelight\App::getInstance()->db();
     }
 
     /**
@@ -72,6 +75,7 @@ class Installer
      *
      * @param $file
      * @throws Exception
+     * @codeCoverageIgnore
      */
     public function executeScript($file)
     {
@@ -84,10 +88,60 @@ class Installer
     }
 
     /**
+     * Get version table
+     *
+     * @return string
+     * @codeCoverageIgnore
+     */
+    public function getVersionTable()
+    {
+        return 'magelight_version';
+    }
+
+    /**
+     * Create version table
+     *
+     * @throws Exception
+     */
+    protected function createVersionTableIfNotExists()
+    {
+        $this->getDb()->execute(
+            "CREATE TABLE IF NOT EXISTS`{$this->getVersionTable()}` (
+                `module_name` VARCHAR(64) NOT NULL,
+                `setup_script` VARCHAR(32) NOT NULL,
+                INDEX `module_name` (`module_name`),
+                INDEX `setup_script` (`setup_script`),
+                UNIQUE INDEX `module_name_setup_script` (`module_name`, `setup_script`)
+            )ENGINE=InnoDB;"
+        );
+    }
+
+    /**
+     * Upgrade modules
+     *
+     * @return Installer
+     * @codeCoverageIgnore
+     */
+    public function upgrade()
+    {
+        foreach (\Magelight\Components\Modules::getInstance()->getActiveModules() as $module) {
+            $scripts = $this->findInstallScripts($module['path']);
+            foreach ($scripts as $script => $filename) {
+                if (!$this->isSetupScriptExecuted($module['name'], $script)) {
+                    $this->executeScript($filename);
+                    $this->setSetupScriptExecuted($module['name'], $script);
+                }
+            }
+        }
+        return $this;
+    }
+
+    /**
      * Find install scripts
      *
      * @param $modulePath
      * @return array
+     * @codeCoverageIgnore
      */
     public function findInstallScripts($modulePath)
     {
@@ -100,7 +154,7 @@ class Installer
                 foreach (glob($path . DS . '*[setup|install|upgrade]*.php') as $file) {
                     $basename = basename($file);
                     /**
-                     * Finding install scripts in code pools with code pools sequence and not allowing to override them
+                     * Finding install scripts in modules sequence and not allowing to override them
                      */
                     if (!isset($scripts[$basename])) {
                         $scripts[$basename] = $file;
@@ -120,47 +174,30 @@ class Installer
      */
     public function isSetupScriptExecuted($moduleName, $scriptName)
     {
-        $file = \Magelight\App::getInstance()->getAppDir()
-            . DS
-            . \Magelight\Config::getInstance()->getConfig(
-                'global/setup/executed_scripts/filename',
-                'var/executed_setup.json'
-            );
+        $result = (int)$this->getDb()->execute(
+            "SELECT COUNT(*) FROM {$this->getVersionTable()} WHERE module_name=? AND setup_script=?",
+            [$moduleName, $scriptName]
+        )->fetchColumn();
 
-        if (!file_exists($file)) {
-            if (!file_exists(dirname($file))) {
-                mkdir(dirname($file), 0755, true);
-            }
-            file_put_contents($file, '');
-        }
-        $scripts = json_decode(file_get_contents($file), true);
-        return isset($scripts[$moduleName][basename($scriptName)]);
+        return $result > 0;
     }
 
     /**
      * Set script as executed
      *
      * @param string $moduleName
-     * @param string $scriptFullPath
-     * @return App
+     * @param string $scriptName
+     * @return $this
      */
-    public function setSetupScriptExecuted($moduleName, $scriptFullPath)
+    public function setSetupScriptExecuted($moduleName, $scriptName)
     {
-        $file = \Magelight\App::getInstance()->getAppDir()
-            . DS
-            . \Magelight\Config::getInstance()->getConfig(
-                'global/setup/executed_scripts/filename',
-                'var/executed_setup.json'
-            );
-
-        if (file_exists($file)) {
-            $scripts = json_decode(file_get_contents($file), true);
-        } else {
-            mkdir(dirname($file), 0755, true);
-        }
-        $scripts[$moduleName][basename($scriptFullPath)] = [date('Y-m-d H:i:s', time()), $scriptFullPath];
-        $scripts = json_encode($scripts, JSON_PRETTY_PRINT);
-        file_put_contents($file, $scripts);
+        $this->getDb()->execute(
+            "INSERT INTO `{$this->getVersionTable()}` (module_name, setup_script) VALUES (?, ?)",
+            [
+                $moduleName,
+                $scriptName
+            ]
+        );
         return $this;
     }
 }

@@ -23,6 +23,7 @@
     <Magelight_Visitors>
         <active>1</active>
         <require>Magelight_Core</require>
+        <require>Magelight_Admin</require>
         <path>Magelight\Visitors</path>
     </Magelight_Visitors>
     <Magelight_Admin>

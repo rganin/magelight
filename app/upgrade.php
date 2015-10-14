@@ -22,5 +22,5 @@ require __DIR__ . '/../core.php';
     ->setAppDir(__DIR__)
     ->setDeveloperMode(true)
     ->init()
-    ->flushAllCache()
-    ->upgrade();
+    ->flushAllCache();
+\Magelight\Installer::forge()->upgrade();

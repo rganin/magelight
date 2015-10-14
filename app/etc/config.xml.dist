@@ -13,11 +13,6 @@
         <log>
             <file>var/app.log</file>
         </log>
-        <setup>
-            <executed_scripts>
-                <filename>protected/executed_scripts.json</filename>
-            </executed_scripts>
-        </setup>
         <base_domain>##application_base_domain##</base_domain>
         <db>
             <default>

@@ -432,27 +432,6 @@ abstract class App
     }
 
     /**
-     * Upgrade application
-     *
-     * @return App
-     */
-    public function upgrade()
-    {
-        foreach (\Magelight\Components\Modules::getInstance()->getActiveModules() as $module) {
-            $installer = Installer::forge();
-            $scripts = $installer->findInstallScripts($module['path']);
-            foreach ($scripts as $script) {
-                if (!$installer->isSetupScriptExecuted($module['name'], $script)) {
-                    $installer->executeScript($script);
-                    $installer->setSetupScriptExecuted($module['name'], $script);
-                }
-            }
-            unset($installer);
-        }
-        return $this;
-    }
-
-    /**
      * Flush all application caches
      *
      * @return App
