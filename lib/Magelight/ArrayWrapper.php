@@ -88,7 +88,7 @@ class ArrayWrapper
      * @param mixed $default
      * @return mixed
      */
-    public function getData($name, $default)
+    public function getData($name, $default = null)
     {
         return isset($this->_array[$name]) ? $this->_array[$name] : $default;
     }
@@ -145,6 +145,6 @@ class ArrayWrapper
         foreach ($elements as $index) {
             $result &= isset($this->_array[$index]);
         }
-        return $result;
+        return (bool)$result;
     }
 }

@@ -33,7 +33,6 @@ class Autoload
      * Just autoloader
      *
      * @param string $className
-     * @codeCoverageIgnore
      */
     public function autoload($className)
     {

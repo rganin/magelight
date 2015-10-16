@@ -40,11 +40,8 @@ class Adapter extends \Magelight\Db\Common\Adapter
 
         $user = isset($options['user']) ? $options['user'] : null;
         $pass = isset($options['password']) ? $options['password'] : null;
-        $this->_db = new \PDO($this->_dsn, $user, $pass, $this->preparePdoOptions($options));
 
-        if ($this->_db instanceof \PDO) {
-            $this->_isInitialized = true;
-        }
+        $this->_db = new \PDO($this->_dsn, $user, $pass, $this->preparePdoOptions($options));
 
         if (isset($options['use_database'])) {
             $this->_db->exec('USE ' . $options['database']);
@@ -54,6 +51,7 @@ class Adapter extends \Magelight\Db\Common\Adapter
             $this->enableProfilig();
         }
 
+        $this->_isInitialized = true;
         return $this;
     }
 
