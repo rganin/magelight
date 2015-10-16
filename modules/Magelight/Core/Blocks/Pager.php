@@ -356,7 +356,7 @@ class Pager extends \Magelight\Block
      *
      * @return \Magelight\Block|void
      */
-    public function init()
+    protected function initBlock()
     {
         $pages = [];
         $pagesCount = ceil($this->_total / $this->_perPage);
@@ -415,7 +415,7 @@ class Pager extends \Magelight\Block
         }
         $this->set('pages', $pages);
         unset($pages);
-        return parent::init();
+        return parent::initBlock();
     }
 
     /**

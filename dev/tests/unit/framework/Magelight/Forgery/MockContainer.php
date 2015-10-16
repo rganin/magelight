@@ -5,8 +5,12 @@ use Magelight\Exception;
 
 class MockContainer
 {
+    /**
+     * Mock objects stack
+     *
+     * @var array
+     */
     protected static $mockObjects = [];
-
 
     /**
      * Forgery calls by class
@@ -15,6 +19,13 @@ class MockContainer
      */
     protected static $calls = [];
 
+    /**
+     * Add mock object to container
+     *
+     * @param string $calledClass
+     * @param \PHPUnit_Framework_MockObject_MockObject $mockObject
+     * @param int|null $iteration
+     */
     public function addMockObject(
         $calledClass,
         \PHPUnit_Framework_MockObject_MockObject $mockObject,

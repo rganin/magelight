@@ -16,7 +16,7 @@ class Web extends \Magelight\App
             $request = \Magelight\Http\Request::getInstance();
             $action = \Magelight\Components\Router::getInstance($this)->getAction((string)$request->getRequestRoute());
             $request->appendGet($action['arguments']);
-            $this->dispatchAction($action, $request);
+            $this->dispatchAction($action);
         } catch (\Exception $e) {
             \Magelight\Log::getInstance()->add($e->getMessage());
             if ($this->_developerMode) {

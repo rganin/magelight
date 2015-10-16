@@ -93,14 +93,12 @@ abstract class Controller
     /**
      * Constructor
      * 
-     * @param Http\Request $request
      * @param array $routeAction
      *
      */
-    public function init(\Magelight\Http\Request $request = null, array $routeAction = [])
+    public function init(array $routeAction = [])
     {
-        $this->_request = ($request instanceof \Magelight\Http\Request)
-            ? $request :\Magelight\Http\Request::getInstance();
+        $this->_request = \Magelight\Http\Request::getInstance();
         $this->_routeAction = $routeAction;
         $this->_app = \Magelight\App::getInstance();
         $this->_response = \Magelight\Http\Response::forge();
@@ -187,6 +185,7 @@ abstract class Controller
      * Before execution
      * 
      * @return \Magelight\Controller
+     * @codeCoverageIgnore
      */
     public function beforeExecute()
     {
@@ -197,6 +196,7 @@ abstract class Controller
      * After execution
      * 
      * @return \Magelight\Controller
+     * @codeCoverageIgnore
      */
     public function afterExecute()
     {
@@ -214,7 +214,7 @@ abstract class Controller
     public function forward($action)
     {
         $action = $action . 'Action';
-        if ($this->_app->isInDeveloperMode() && !is_callable([$this, $action])) {
+        if (!is_callable([$this, $action])) {
             $controller = get_class($this);
             throw new \Magelight\Exception("Forwarding to undefined controller action {$action} in {$controller}");
         }
@@ -281,8 +281,7 @@ abstract class Controller
                 'module' => $module,
                 'controller' => $controller,
                 'action' => $action
-            ],
-            $this->request()
+            ]
         );
     }
 

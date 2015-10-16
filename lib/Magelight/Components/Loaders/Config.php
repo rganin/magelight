@@ -26,6 +26,8 @@ use Magelight\Traits\TForgery;
 
 /**
  * Config loader class
+ *
+ * @method static $this forge()
  */
 class Config
 {
@@ -47,6 +49,7 @@ class Config
      */
     public function loadConfig($filename)
     {
+        $filename = str_replace(['\\', '/'], DS, $filename);
         $xml = simplexml_load_file($filename, 'SimpleXMLElement');
         if (!$this->_config instanceof \SimpleXMLElement) {
             $this->_config = $xml;
@@ -54,6 +57,22 @@ class Config
             self::mergeConfig($this->_config, $xml);
         }
         return $this;
+    }
+
+    /**
+     * Get module configuration file by module config if exists
+     *
+     * @param $modulesDir
+     * @param $module
+     * @return null|string
+     */
+    public function getModulesConfigFilePath($modulesDir, $module)
+    {
+        $filename = $modulesDir . DS . $module['path'] . DS . 'etc' . DS . 'config.xml';
+        if (is_readable($filename)) {
+            return $filename;
+        }
+        return null;
     }
 
     /**
@@ -137,6 +156,12 @@ class Config
         return $this->_config;
     }
 
+    /**
+     * Set config XML
+     *
+     * @param \SimpleXMLElement $config
+     * @return $this
+     */
     public function setConfig(\SimpleXMLElement $config)
     {
         $this->_config = $config;

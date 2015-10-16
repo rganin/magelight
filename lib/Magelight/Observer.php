@@ -46,6 +46,8 @@ abstract class Observer
      * Forgery constructor
      *
      * @param array $arguments
+     *
+     * @codeCoverageIgnore
      */
     public function __forge($arguments = [])
     {
@@ -64,6 +66,8 @@ abstract class Observer
      *
      * @param string $name
      * @param mixed $value
+     *
+     * @codeCoverageIgnore
      */
     public function __set($name, $value)
     {
@@ -75,6 +79,8 @@ abstract class Observer
      *
      * @param string $name
      * @return mixed|null
+     *
+     * @codeCoverageIgnore
      */
     public function __get($name)
     {
@@ -86,6 +92,8 @@ abstract class Observer
      *
      * @param string $name
      * @return bool
+     *
+     * @codeCoverageIgnore
      */
     public function __isset($name)
     {
@@ -96,6 +104,8 @@ abstract class Observer
      * Unset magic
      *
      * @param $name
+     *
+     * @codeCoverageIgnore
      */
     public function __unset($name)
     {

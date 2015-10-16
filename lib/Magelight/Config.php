@@ -58,36 +58,36 @@ class Config
     /**
      * Load config for application modules
      *
-     * @param \Magelight\App $app
+     * @return void
      */
-    public function load(\Magelight\App $app)
+    public function load()
     {
+        $app = \Magelight\App::getInstance();
         $loader = \Magelight\Components\Loaders\Config::forge();
         $loader->loadConfig($app->getAppDir() . DS . 'etc' . DS . 'config.xml');
         $this->_config = $loader->getConfig();
-        $modulesConfig = \Magelight\Config::getInstance()->getConfigBool('global/app/cache_modules_config', false)
+        $modulesConfigString = $this->getConfigBool('global/app/cache_modules_config', false)
             ? $this->cache()->get($this->buildCacheKey('modules_config'))
             : false;
 
         /* Loading modules config */
-        if (!$modulesConfig) {
-            $loader = \Magelight\Components\Loaders\Config::forge();
+        if (!$modulesConfigString) {
             $loader->setConfig($this->_config);
             foreach (array_reverse($app->getModuleDirectories()) as $modulesDir) {
                 foreach (\Magelight\Components\Modules::getInstance()->getActiveModules() as $module) {
-                    $filename = $modulesDir . DS . $module['path'] . DS . 'etc' . DS . 'config.xml';
-                    if (is_readable($filename)) {
+                    $filename = $loader->getModulesConfigFilePath($modulesDir, $module);
+                    if ($filename) {
                         $loader->loadConfig($filename);
                     }
                 }
             }
             $modulesConfig = $loader->getConfig();
-            if (\Magelight\Config::getInstance()->getConfigBool('global/app/cache_modules_config', false)) {
-                $this->cache()->set($this->buildCacheKey('modules_config'), $modulesConfig->asXML(), 360);
+            if ($this->getConfigBool('global/app/cache_modules_config', false)) {
+                $this->cache()->set($this->buildCacheKey('modules_config'), $modulesConfig->asXML(), 3600);
             }
-            $this->_config = $loader->getConfig();
+            $this->_config = $modulesConfig;
         } else {
-            $this->_config = simplexml_load_string($modulesConfig);
+            $this->_config = simplexml_load_string($modulesConfigString);
         }
         unset($loader);
     }
@@ -170,9 +170,10 @@ class Config
      * @param mixed $default
      * @return array
      */
-    public function getConfigArray($path, $default = null)
+    public function getConfigArray($path, $default = [])
     {
-        return (array)(string)$this->getConfig($path, $default);
+        $data = (array)$this->getConfig($path, $default);
+        return (array)$data;
     }
 
     /**
@@ -189,82 +190,17 @@ class Config
     }
 
     /**
-     * Get config first definition
-     *
-     * @param $path
-     * @param string $type
-     * @param null $default
-     * @return array|bool|float|int|null|\SimpleXMLElement|string
-     */
-    public function getConfigFirst($path, $type = self::TYPE_STRING, $default = null)
-    {
-        $value = $this->getConfig($path);
-        if (count($value) < 1) {
-            return $default;
-        }
-        return $this->_getByType($value[0], $type);
-    }
-
-    /**
-     * Get config last definition
-     *
-     * @param $path
-     * @param string $type
-     * @param null $default
-     * @return array|bool|float|int|null|\SimpleXMLElement|string
-     */
-    public function getConfigLast($path, $type = self::TYPE_STRING, $default = null)
-    {
-        $value = $this->getConfig($path);
-        if (count($value) < 1) {
-            return $default;
-        }
-        return $this->_getByType(array_pop($value), $type);
-    }
-
-    /**
-     * Turn  value to config type
-     *
-     * @param $value
-     * @param string $type
-     * @return array|bool|float|int|\SimpleXMLElement|string
-     */
-    protected function _getByType($value, $type = self::TYPE_STRING)
-    {
-        /* @var $value \SimpleXMLElement*/
-        switch ($type) {
-            case self::TYPE_STRING:
-                return (string) $value;
-                break;
-            case self::TYPE_ARRAY:
-                return (array) $value;
-                break;
-            case self::TYPE_BOOLEAN:
-                return (bool) $value;
-                break;
-            case self::TYPE_INT:
-                return (int) $value;
-                break;
-            case self::TYPE_FLOAT:
-                return (float) $value;
-                break;
-            default:
-                return $value;
-        }
-    }
-
-    /**
      * Get configuration element attribute by path
      * 
      * @param      $path
      * @param      $attribute
      * @param null $default
      *
-     * @return array|null
+     * @return string
      */
     public function getConfigAttribute($path, $attribute, $default = null)
     {
-        return $this->getConfigByPath($path, $attribute, false, $default);
+        return (string)$this->getConfigByPath($path, $attribute, false, $default);
     }
 
     /**
@@ -280,14 +216,15 @@ class Config
     protected function getConfigByPath($path, $attribute = null, $getSet = false, $default = null)
     {
         $path = self::CONFIG_PATH_PREFIX . ltrim($path, '\\/ ');
+
         $conf = $this->_config->xpath($path);
-        if ($conf === false) {
+        if ($conf === false || is_array($conf) && empty($conf)) {
             return $default;
         }
         if (empty($attribute)) {
             return $getSet ? $conf : (is_array($conf) ? array_pop($conf) : $conf);
         } else {
-            return isset($conf[0]->$attribute) ? $conf[0]->$attribute : $default;
+            return isset($conf[0]->attributes()->$attribute) ? $conf[0]->attributes()->$attribute : $default;
         }
     }
 }

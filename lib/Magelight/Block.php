@@ -119,6 +119,7 @@ class Block
      * @param string $name
      * @param mixed $value
      * @return Block
+     * @codeCoverageIgnore
      */
     public function set($name, $value)
     {
@@ -132,6 +133,7 @@ class Block
      * @param string $name
      * @param mixed $default
      * @return mixed
+     * @codeCoverageIgnore
      */
     public function get($name, $default = null)
     {
@@ -144,6 +146,7 @@ class Block
      * @param string $name
      * @param mixed $value
      * @return Block
+     * @codeCoverageIgnore
      */
     public function setGlobal($name, $value)
     {
@@ -157,6 +160,7 @@ class Block
      * @param string $name
      * @param mixed $default
      * @return mixed
+     * @codeCoverageIgnore
      */
     public function getGlobal($name, $default = null)
     {
@@ -209,7 +213,7 @@ class Block
     public function sectionAppend($name, $block)
     {
         if ($block instanceof \Magelight\Block) {
-            $block->initBlock();
+            $block->init();
         }
         if (!isset(self::$_sections[$name]) || !is_array(self::$_sections[$name])) {
             return $this->sectionReplace($name, $block);
@@ -228,12 +232,12 @@ class Block
     public function sectionPrepend($name, $block)
     {
         if ($block instanceof \Magelight\Block) {
-            $block->initBlock();
+            $block->init();
         }
         if (!isset(self::$_sections[$name]) || !is_array(self::$_sections[$name])) {
             return $this->sectionReplace($name, $block);
         }
-        self::$_sections = array_unshift(self::$_sections[$name], $block);
+        array_unshift(self::$_sections[$name], $block);
         return $this;
     }
 
@@ -247,7 +251,7 @@ class Block
     public function sectionReplace($name, $block)
     {
         if ($block instanceof \Magelight\Block) {
-            $block->initBlock();
+            $block->init();
         }
         if (!is_array(self::$_sections)) {
             self::$_sections = [];
@@ -276,21 +280,17 @@ class Block
      */
     public function toHtml()
     {
-        $this->initBlock();
+        $this->init();
         if ($html = $this->getFromCache(null)) {
             return $html;
         }
         $class = get_called_class();
         if (empty($this->_template)) {
-            if (\Magelight\App::getInstance()->isInDeveloperMode()) {
-                throw new \Magelight\Exception("Undeclared template in block '{$class}'");
-            } else {
-                return '';
-            }
+            throw new \Magelight\Exception("Undeclared template in block '{$class}'");
         }
         $this->beforeToHtml();
         ob_start();
-        include(str_replace('\\', DS, $this->_template));
+        include(str_replace(['\\', '/'], DS, $this->_template));
         $this->afterToHtml();
         $html = ob_get_clean();
         $this->setToCache($html);
@@ -330,8 +330,8 @@ class Block
     public function section($name)
     {
         $html = '';
-        if (!isset(self::$_sections[$name]) && \Magelight\App::getInstance()->isInDeveloperMode()) {
-            trigger_error("Undefined section call - '{$name}' in " . get_called_class(), E_USER_NOTICE);
+        if (!isset(self::$_sections[$name])) {
+            throw new \Magelight\Exception("Undefined section call - '{$name}' in " . get_called_class());
         } elseif (isset(self::$_sections[$name]) && is_array(self::$_sections[$name])) {
             foreach (self::$_sections[$name] as $sectionBlock) {
                 if ($sectionBlock instanceof Block) {
@@ -350,6 +350,7 @@ class Block
      *
      * @param string $template
      * @return Block
+     * @codeCoverageIgnore
      */
     public function setTemplate($template)
     {
@@ -363,7 +364,7 @@ class Block
      * @return Block
      * @codeCoverageIgnore
      */
-    public function init()
+    protected function initBlock()
     {
         return $this;
     }
@@ -372,11 +373,12 @@ class Block
      * Initialize block if it wasn`t initialized
      *
      * @return Block
+     * @codeCoverageIgnore
      */
-    public function initBlock()
+    public function init()
     {
         if (!$this->_initialized) {
-            $this->init();
+            $this->initBlock();
             $this->_initialized = true;
         }
         return $this;
@@ -391,8 +393,12 @@ class Block
      * @param bool $addOnlyMaskParams - add to url only params that are present in URL match mask
      * @return string
      */
-    public function url($match, $params = [], $type = \Magelight\Helpers\UrlHelper::TYPE_HTTP, $addOnlyMaskParams = false)
-    {
+    public function url(
+        $match,
+        $params = [],
+        $type = \Magelight\Helpers\UrlHelper::TYPE_HTTP,
+        $addOnlyMaskParams = false
+    ) {
         return \Magelight\Helpers\UrlHelper::getInstance()->getUrl($match, $params, $type, $addOnlyMaskParams);
     }
 
@@ -440,20 +446,8 @@ class Block
      */
     public function escapeHtml($text)
     {
-        return static::escapeHtmlStatic($text);
-    }
-
-    /**
-     * Escape HTML special chars in text
-     *
-     * @param string $text
-     * @return string
-     */
-    public static function escapeHtmlStatic($text)
-    {
         return htmlspecialchars($text);
     }
-
 
     /**
      * Truncate text

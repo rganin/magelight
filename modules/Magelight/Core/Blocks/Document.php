@@ -49,7 +49,7 @@ class Document extends \Magelight\Block
      */
     public function beforeToHtml()
     {
-        $lang = \Magelight\Config::getInstance()->getConfigFirst('global/document/default_lang');
+        $lang = \Magelight\Config::getInstance()->getConfigString('global/document/default_lang');
         $this->setLang($lang);
         return $this;
     }

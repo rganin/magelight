@@ -27,7 +27,7 @@ class Body extends \Magelight\Block
 {
     protected $_template = 'SampleApp/templates/body.phtml';
 
-    public function init()
+    public function initBlock()
     {
         $this->sectionAppend('top', Top::forge());
         $document = \Magelight\Core\Blocks\Document::getInstance();

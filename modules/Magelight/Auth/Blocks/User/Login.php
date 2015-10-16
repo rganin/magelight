@@ -39,7 +39,7 @@ class Login extends \Magelight\Block
      *
      * @return \Magelight\Block|void
      */
-    public function init()
+    public function initBlock()
     {
         $this->sectionReplace(
             'ulogin-widget-register',

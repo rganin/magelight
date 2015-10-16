@@ -186,7 +186,7 @@ class AppTest extends \Magelight\TestCase
         $controllerMock->expects($this->once())
             ->method('indexAction');
         $controllerMock->expects($this->once())
-            ->method('init')->with($requestMock, $action);
+            ->method('init')->with($action);
         $controllerMock->expects($this->once())
             ->method('beforeExecute');
         $controllerMock->expects($this->once())
@@ -217,7 +217,7 @@ class AppTest extends \Magelight\TestCase
                 ['controller' => $controllerMock, 'action' => $action, 'request' => $requestMock]
             );
 
-        $this->app->dispatchAction($action, $requestMock);
+        $this->app->dispatchAction($action);
         $this->assertEquals($action, $this->app->getCurrentAction());
     }
 

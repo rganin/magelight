@@ -292,7 +292,7 @@ abstract class App
         $this->initIncludePaths();
         \Magelight\Components\Modules::getInstance()->loadModules($this->getAppDir() . DS . 'etc' . DS . 'modules.xml');
         \Magelight\Components\Modules::getInstance()->getActiveModules();
-        \Magelight\Config::getInstance()->load($this);
+        \Magelight\Config::getInstance()->load();
         $this->setDeveloperMode((string)\Magelight\Config::getInstance()->getConfig('global/app/developer_mode'));
         \Magelight\Http\Session::getInstance()->setSessionName(self::SESSION_ID_COOKIE_NAME)->start();
         $this->loadPreferences();
@@ -351,15 +351,15 @@ abstract class App
      * Dispatch action
      *
      * @param array $action
-     * @param \Magelight\Http\Request $request
      *
      * @return App
      * @throws \Magelight\Exception
      */
-    public function dispatchAction(array $action, \Magelight\Http\Request $request = null)
+    public function dispatchAction(array $action)
     {
         $this->_currentAction = $action;
         $eventManager = \Magelight\Event\Manager::getInstance();
+        $request = \Magelight\Http\Request::getInstance();
         $eventManager->dispatchEvent('app_dispatch_action', ['action' => $action, 'request' => $request]);
         $controllerName = str_replace('/', '\\', $action['module'] . '\\Controllers\\' . ucfirst($action['controller']));
         $controllerMethod = $action['action'] . 'Action';
@@ -370,7 +370,7 @@ abstract class App
             'action' => $action,
             'request' => $request
         ]);
-        $controller->init($request, $action);
+        $controller->init($action);
         $eventManager->dispatchEvent('app_controller_initialized', [
             'controller' => $controller,
             'action' => $action,

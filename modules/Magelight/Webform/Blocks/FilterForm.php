@@ -78,7 +78,7 @@ class FilterForm extends Form
      *
      * @return \Magelight\Block|void
      */
-    public function init()
+    public function initBlock()
     {
         $this->addClass('filter-form');
     }

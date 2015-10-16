@@ -27,7 +27,7 @@ class Top extends \Magelight\Block
 {
     protected $_template = 'SampleApp/templates/top.phtml';
 
-    public function init()
+    public function initBlock()
     {
         $currentUserId = \Magelight\Http\Session::getInstance()->get('user_id', false);
         if (

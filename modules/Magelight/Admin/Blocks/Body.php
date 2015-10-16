@@ -27,7 +27,7 @@ class Body extends \Magelight\Block
 {
     protected $_template = 'Magelight/Admin/templates/body.phtml';
 
-    public function init()
+    public function initBlock()
     {
         $currentUserId = \Magelight\Http\Session::getInstance()->get('user_id');
         if (!empty($currentUserId)) {

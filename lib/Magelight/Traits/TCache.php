@@ -42,7 +42,7 @@ trait TCache
     /**
      * Cache key
      *
-     * @var bool
+     * @var bool|string
      */
     protected $_cacherTraitCacheKey = false;
 
