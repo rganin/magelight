@@ -94,24 +94,6 @@ class Forgery
     }
 
     /**
-     * Check class interfaces (checks that class is derived from one of overriden ones)
-     *
-     * @param string $className
-     * @return bool
-     */
-    final protected function _checkInterfaces($className)
-    {
-        $requiredInterfaces = $this->getClassInterfaces($className);
-        $implementedInterfaces = class_implements($className, true);
-        foreach ($requiredInterfaces as $interface) {
-            if (!isset($implementedInterfaces[$interface])) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
      * Load classes preferences from array
      *
      * @param array $preferenceList

@@ -155,4 +155,14 @@ trait TForgery
         }
         return call_user_func_array([$class, $method], $arguments);
     }
+
+    /**
+     * Get class redefinition name
+     *
+     * @return mixed
+     */
+    public static function getClassRedefinition()
+    {
+        return self::getForgery()->getClassName(get_called_class());
+    }
 }

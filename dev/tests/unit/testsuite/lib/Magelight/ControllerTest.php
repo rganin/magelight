@@ -249,7 +249,7 @@ class ControllerTest extends \Magelight\TestCase
      *
      * @dataProvider testLockActionDataProvider
      */
-    public function testLocckAction($cacheReturnValue, $expectedResult)
+    public function testLockAction($cacheReturnValue, $expectedResult)
     {
         $ttl = 33;
         $cacheMock = $this->getMockForAbstractClass(
@@ -262,8 +262,11 @@ class ControllerTest extends \Magelight\TestCase
             ['setNx']
         );
 
-        $this->appMock->expects($this->any())
-            ->method('cache')
+        $adapterPoolMock = $this->getMock(\Magelight\Cache\AdapterPool::class, [], [], '', false);
+        \Magelight\Cache\AdapterPool::forgeMock($adapterPoolMock);
+
+        $adapterPoolMock->expects($this->any())
+            ->method('getAdapter')
             ->will($this->returnValue($cacheMock));
 
         $cacheMock->expects($this->any())
@@ -301,8 +304,11 @@ class ControllerTest extends \Magelight\TestCase
             ['del']
         );
 
-        $this->appMock->expects($this->any())
-            ->method('cache')
+        $adapterPoolMock = $this->getMock(\Magelight\Cache\AdapterPool::class, [], [], '', false);
+        \Magelight\Cache\AdapterPool::forgeMock($adapterPoolMock);
+
+        $adapterPoolMock->expects($this->any())
+            ->method('getAdapter')
             ->will($this->returnValue($cacheMock));
 
         $cacheMock->expects($this->any())

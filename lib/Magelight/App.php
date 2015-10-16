@@ -214,17 +214,6 @@ abstract class App
     }
 
     /**
-     * Get cache adapter
-     *
-     * @param string $index
-     * @return Cache\AdapterAbstract
-     */
-    public function cache($index = self::DEFAULT_INDEX)
-    {
-        return \Magelight\Cache\AdapterPool::getInstance()->getAdapter($index);
-    }
-
-    /**
      * Get real path in modules
      *
      * @param $pathInModules

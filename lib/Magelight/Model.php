@@ -26,7 +26,7 @@ namespace Magelight;
 /**
  * @method static \Magelight\Model forge($data = [], $forceNew = false)
  */
-abstract class Model
+class Model
 {
     /**
      * Use forgery
@@ -71,7 +71,7 @@ abstract class Model
      *
      * @var \Magelight\Db\Mysql\Orm
      */
-    protected $_orm = null;
+    protected $_orm;
 
     /**
      * Forgery constructor
@@ -346,7 +346,8 @@ abstract class Model
      */
     public static function findBy($field, $value)
     {
-        return self::orm()->whereEq($field, $value)->fetchModel();
+        $orm = static::callStaticLate('orm');
+        return $orm->whereEq($field, $value)->fetchModel();
     }
 
     /**
@@ -378,7 +379,7 @@ abstract class Model
      */
     public static function getFlatCollection()
     {
-        return \Magelight\Db\Collection::forge(self::orm());
+        return \Magelight\Db\Collection::forge(static::callStaticLate('orm'));
     }
 
     /**
@@ -395,17 +396,6 @@ abstract class Model
     }
 
     /**
-     * Esccape HTML code in text
-     *
-     * @param string $text
-     * @return string
-     */
-    public static function escapeHtml($text)
-    {
-        return \Magelight\Block::escapeHtmlStatic($text);
-    }
-
-    /**
      * Properties cleanup HTML code
      *
      * @param array $propertiesNamesArray
@@ -413,7 +403,7 @@ abstract class Model
     protected function _escapePropertiesHtml($propertiesNamesArray = [])
     {
         foreach ($propertiesNamesArray as $property) {
-            $this->$property = static::escapeHtml($this->$property);
+            $this->$property = htmlspecialchars($this->$property);
         }
     }
 

@@ -29,5 +29,8 @@ class ArrayWrapperTest extends \Magelight\TestCase
         $arrayWrapper->other_data = 'other';
         $this->assertEquals('other', $arrayWrapper->other_data);
         $this->assertEquals('other', $arrayWrapper->getData('other_data'));
+
+        $this->assertFalse($arrayWrapper->allElementsExist('node_1', 'node_2', 'node_3'));
+        $this->assertFalse($arrayWrapper->allElementsExist());
     }
 }

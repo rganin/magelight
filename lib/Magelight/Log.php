@@ -31,6 +31,13 @@ namespace Magelight;
 class Log
 {
     /**
+     * Default log file name
+     */
+    const DEFAUL_LOG_FILE = 'log.log';
+
+    const DATE_TIME_FORMAT = 'd-m-Y H:i:s';
+
+    /**
      * Use forgery
      */
     use \Magelight\Traits\TForgery;
@@ -40,7 +47,7 @@ class Log
      *
      * @var string
      */
-    protected $_file = 'log.log';
+    protected $_file = self::DEFAUL_LOG_FILE;
 
     /**
      * Is logger initialized
@@ -60,7 +67,7 @@ class Log
         if (!$this->_initialized) {
             $this->init();
         }
-        $time = date('d-m-Y H:i:s', time());
+        $time = date(self::DATE_TIME_FORMAT, time());
         $message = "{$time} - {$logMessage}";
         $this->writeMessage($message);
         return $this;
@@ -70,6 +77,7 @@ class Log
      * Write message to log file
      *
      * @param $message
+     * @codeCoverageIgnore
      */
     protected function writeMessage($message)
     {
@@ -88,7 +96,7 @@ class Log
      */
     protected function init()
     {
-        $this->_file = (string)\Magelight\Config::getInstance()->getConfig('global/log/file', $this->_file);
+        $this->_file = (string)\Magelight\Config::getInstance()->getConfig('global/log/file', self::DEFAUL_LOG_FILE);
         $this->_initialized = true;
         return $this;
     }

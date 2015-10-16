@@ -12,6 +12,10 @@
                 <old>Magelight\Core\Blocks\Body</old>
                 <new>SampleApp\Blocks\Body</new>
             </preference>
+            <preference>
+                <old>Magelight\Core\Blocks\Header</old>
+                <new>SampleApp\Blocks\Header</new>
+            </preference>
         </forgery>
     </global>
 </config>

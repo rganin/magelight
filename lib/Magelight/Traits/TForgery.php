@@ -90,9 +90,6 @@ trait TForgery
 
         if (!$instance instanceof $className) {
             $instance = call_user_func_array([$className, 'forge'], func_get_args());
-//            if (method_exists($instance, '__forge')) {
-//                call_user_func_array([$instance, '__forge'], func_get_args());
-//            }
         }
 
         return $instance;

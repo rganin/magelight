@@ -342,7 +342,7 @@ class Controller
      */
     public function lockCurrentAction($ttl = 60)
     {
-        if ($this->app()->cache()->setNx($this->_getLockKey(), 1, $ttl)) {
+        if (\Magelight\Cache\AdapterPool::getInstance()->getAdapter()->setNx($this->_getLockKey(), 1, $ttl)) {
             return true;
         }
         return false;
@@ -356,7 +356,7 @@ class Controller
     public function unlockCurrentAction()
     {
 
-        if ($this->app()->cache()->del($this->_getLockKey())) {
+        if (\Magelight\Cache\AdapterPool::getInstance()->getAdapter()->del($this->_getLockKey())) {
             return true;
         }
         return false;
