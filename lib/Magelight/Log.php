@@ -62,6 +62,17 @@ class Log
         }
         $time = date('d-m-Y H:i:s', time());
         $message = "{$time} - {$logMessage}";
+        $this->writeMessage($message);
+        return $this;
+    }
+
+    /**
+     * Write message to log file
+     *
+     * @param $message
+     */
+    protected function writeMessage($message)
+    {
         $f = @fopen($this->_file, 'a+');
         if (!$f) {
             trigger_error("Log file or directory {$this->_file} is not writeable!", E_USER_WARNING);
@@ -70,7 +81,6 @@ class Log
         fwrite($f, $message . PHP_EOL);
         flock($f, LOCK_UN);
         fclose($f);
-        return $this;
     }
 
     /**

@@ -28,7 +28,7 @@ namespace Magelight;
  *
  * @method static \Magelight\Controller forge()
  */
-abstract class Controller
+class Controller
 {
     /**
      * Use forgery
@@ -111,7 +111,7 @@ abstract class Controller
      *
      * @return Controller
      */
-    protected function setView($view)
+    public function setView($view)
     {
         $this->_view = $view;
         return $this;
@@ -132,7 +132,7 @@ abstract class Controller
      * 
      * @return Http\Request|null
      */
-    protected function request()
+    public function request()
     {
         return $this->_request;
     }
@@ -142,7 +142,7 @@ abstract class Controller
      * 
      * @return Http\Response|null
      */
-    protected function response()
+    public function response()
     {
         return $this->_response;
     }
@@ -152,7 +152,7 @@ abstract class Controller
      * 
      * @return \Magelight\Block|null
      */
-    protected function view()
+    public function view()
     {
         if (!$this->_view instanceof \Magelight\Block && is_string($this->_view)) {
             $this->_view = call_user_func([$this->_view, 'forge']);
@@ -161,11 +161,11 @@ abstract class Controller
     }
 
     /**
-     * Get server srapper object
+     * Get server wrapper object
      *
      * @return \Magelight\Http\Server
      */
-    protected function server()
+    public function server()
     {
         return \Magelight\Http\Server::getInstance();
     }
@@ -175,7 +175,7 @@ abstract class Controller
      * 
      * @return Controller
      */
-    protected function renderView()
+    public function renderView()
     {
         $this->response()->setContent($this->view()->toHtml())->send();
         return $this;
@@ -275,7 +275,7 @@ abstract class Controller
      */
     public function forwardController($controller, $action)
     {
-        $module = $this->getCurrentModuleName();
+        $module = $this->app()->getCurrentAction()[0]['module'];
         return $this->app()->dispatchAction(
             [
                 'module' => $module,
@@ -294,7 +294,7 @@ abstract class Controller
      */
     public function generateToken($index = self::DEFAULT_TOKEN_SESSION_INDEX)
     {
-        $this->session()->set($index, md5(rand(0,999999999)));
+        $this->session()->set($index, md5(rand(0, 999999999)));
         return $this;
     }
 
@@ -330,7 +330,7 @@ abstract class Controller
     public function silent($action)
     {
         ob_start();
-        $this->$action;
+        $this->$action();
         return ob_get_clean();
     }
 
@@ -338,12 +338,11 @@ abstract class Controller
      * Set lock for current controller action (REQUIRES CACHE)
      *
      * @param int $ttl
-     * @param string $cacheIndex
      * @return bool
      */
-    public function lockCurrentAction($ttl = 60, $cacheIndex = \Magelight\App::DEFAULT_INDEX)
+    public function lockCurrentAction($ttl = 60)
     {
-        if ($this->app()->cache($cacheIndex)->setNx($this->_getLockKey(), 1, $ttl)) {
+        if ($this->app()->cache()->setNx($this->_getLockKey(), 1, $ttl)) {
             return true;
         }
         return false;
@@ -352,13 +351,12 @@ abstract class Controller
     /**
      * Unlock controller action
      *
-     * @param string $cacheIndex
      * @return bool
      */
-    public function unlockCurrentAction($cacheIndex = \Magelight\App::DEFAULT_INDEX)
+    public function unlockCurrentAction()
     {
 
-        if ($this->app()->cache($cacheIndex)->del($this->_getLockKey())) {
+        if ($this->app()->cache()->del($this->_getLockKey())) {
             return true;
         }
         return false;
