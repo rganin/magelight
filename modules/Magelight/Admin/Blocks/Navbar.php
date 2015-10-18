@@ -4,29 +4,52 @@ namespace Magelight\Admin\Blocks;
 
 class Navbar extends \Magelight\Block
 {
+    /**
+     * @var string
+     */
     protected $template = 'Magelight/Admin/templates/navbar.phtml';
 
-    protected $_items = [];
+    /**
+     * @var \Magelight\Admin\Blocks\Navbar\Item[]
+     */
+    protected $items = [];
 
+    /**
+     * Forgery constructor
+     */
     public function __forge()
     {
-        $this->_loadItems();
+        $this->loadItems();
     }
 
-    protected function _addItem($order, $item)
+    /**
+     * Add item
+     *
+     * @param int $order
+     * @param \Magelight\Admin\Blocks\Navbar\Item $item
+     */
+    protected function addItem($order, $item)
     {
-        $this->_items[$order] = $item;
+        $this->items[$order] = $item;
     }
 
+    /**
+     * Get navbar items
+     *
+     * @return \Magelight\Admin\Blocks\Navbar\Item[]
+     */
     public function getItems()
     {
-        return $this->_items;
+        return $this->items;
     }
 
-    protected function _loadItems()
+    /**
+     * Load navbar items
+     */
+    protected function loadItems()
     {
         $items = \Magelight\Config::getInstance()->getConfig('admin/navbar/items');
-        $this->_items = $this->getItemForgery()->forgeItems($items);
+        $this->items = $this->getItemForgery()->forgeItems($items);
     }
 
     /**

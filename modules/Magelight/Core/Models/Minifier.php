@@ -31,16 +31,24 @@ class Minifier
     use \Magelight\Traits\TForgery;
     use \Magelight\Traits\TCache;
 
-    protected $_staticPath = 'var/static';
+    /**
+     * @var string
+     */
+    protected $staticPath = 'pub/static';
 
+    /**
+     * Forgery constructor
+     */
     public function __forge()
     {
-        $this->_staticPath = \Magelight\Config::getInstance()->getConfigString('global/minifier/public_dir');
+        $this->staticPath = \Magelight\Config::getInstance()->getConfigString('global/minifier/public_dir');
     }
 
     /**
+     * Get minifier object by type
+     *
      * @param string $type
-     * @return Minifier\IMinifierInterface
+     * @return Minifier\MinifierInterface
      */
     protected function getMinifierByType($type = 'css')
     {
@@ -48,6 +56,12 @@ class Minifier
         return new $class;
     }
 
+    /**
+     * Split css by media type
+     *
+     * @param array $entries
+     * @return array
+     */
     protected function splitCssByMedia($entries = [])
     {
         $mediaCss = [];
@@ -57,6 +71,12 @@ class Minifier
         return $mediaCss;
     }
 
+    /**
+     * Minify CSS and return
+     *
+     * @param string $css
+     * @return array
+     */
     public function getMinifiedCss($css)
     {
         if (!\Magelight\Config::getInstance()->getConfigBool('global/minifier/minify_css')) {
@@ -70,6 +90,12 @@ class Minifier
         return $result;
     }
 
+    /**
+     * Minify JS and return
+     *
+     * @param string $js
+     * @return array
+     */
     public function getMinifiedJs($js)
     {
         if (!\Magelight\Config::getInstance()->getConfigBool('global/minifier/minify_js')) {
@@ -88,7 +114,7 @@ class Minifier
     protected function fixCssUrls($css, $entryPath)
     {
         $entryPath = preg_replace('/[\\\]+/', '/', dirname($entryPath));
-        $staticOffset = preg_replace('/([^\\\\\/]+)/i', '..', $this->_staticPath);
+        $staticOffset = preg_replace('/([^\\\\\/]+)/i', '..', $this->staticPath);
         $staticOffset = preg_replace('/[\\\]+/', '/', $staticOffset);
         $css = preg_replace(
             "/url\s*\(\s*[\"']?([^\"']+)[\"']?\s*\)/i",
@@ -98,13 +124,20 @@ class Minifier
         return $css;
     }
 
+    /**
+     * Get entries files paths
+     *
+     * @param array $entries
+     * @param string $type
+     * @return string
+     */
     protected function getEntriesStaticPath($entries, $type)
     {
         $path = '';
         foreach ($entries as $entry) {
             $path .= $entry['path'];
         }
-        return $this->_staticPath . '/' . md5($path) . '.' . $type;
+        return $this->staticPath . '/' . md5($path) . '.' . $type;
     }
 
     /**

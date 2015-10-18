@@ -1,10 +1,21 @@
 <?php
+
+
 namespace Magelight\Admin\Blocks\Navbar;
 
 class Item extends \Magelight\Block
 {
+    /**
+     * @var string
+     */
     protected $template = 'Magelight/Admin/templates/navbar/item.phtml';
 
+    /**
+     * Forgery constructor
+     *
+     * @param \SimpleXMLElement $itemConfig
+     * @param Item|null $parentItem
+     */
     public function __forge(\SimpleXMLElement $itemConfig, \Magelight\Admin\Blocks\Navbar\Item $parentItem = null)
     {
         $this->title = (string)$itemConfig->title;

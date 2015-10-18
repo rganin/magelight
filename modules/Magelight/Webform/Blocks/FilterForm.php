@@ -33,7 +33,7 @@ class FilterForm extends Form
      *
      * @var bool
      */
-    protected $_useSession = true;
+    protected $useSessionStorage = true;
 
     /**
      * Load filter form from request
@@ -44,7 +44,7 @@ class FilterForm extends Form
     public function loadFromRequest(\Magelight\Http\Request $request = null)
     {
         parent::loadFromRequest($request);
-        if ($this->_useSession && empty($this->_requestFields)) {
+        if ($this->useSessionStorage && empty($this->requestFields)) {
             $this->loadFromSession();
         }
         $this->saveToSession();
@@ -59,7 +59,7 @@ class FilterForm extends Form
      */
     public function useSession($flag = true)
     {
-        $this->_useSession = $flag;
+        $this->useSessionStorage = $flag;
         return $this;
     }
 

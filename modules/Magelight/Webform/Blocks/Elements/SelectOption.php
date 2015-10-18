@@ -32,7 +32,7 @@ class SelectOption extends Abstraction\Field
      *
      * @var string
      */
-    protected $_tag = 'option';
+    protected $tag = 'option';
 
     /**
      * Set option attributes and content

@@ -51,21 +51,21 @@ class Sitemap
      *
      * @var array
      */
-    protected $_allowedUrls = ['*'];
+    protected $allowedUrls = ['*'];
 
     /**
      * Disallowed urls masks
      *
      * @var array
      */
-    protected $_disallowedUrls = [];
+    protected $disallowedUrls = [];
 
     /**
      * Priority masks (processed in direct way (fom firt to last))
      *
      * @var array
      */
-    protected $_priorityMasks = [
+    protected $priorityMasks = [
         '*' => 1
     ];
 
@@ -74,19 +74,19 @@ class Sitemap
      *
      * @var array
      */
-    protected $_changeFrequencyMasks = [
+    protected $changeFrequencyMasks = [
         '*' => 'daily'
     ];
 
     /**
      * Array of urls in sitemap format
      */
-    protected $_urls = [];
+    protected $urls = [];
 
     /**
      * @var Crawler
      */
-    protected $_crawler;
+    protected $crawler;
 
     /**
      * Forgery constructor
@@ -95,7 +95,7 @@ class Sitemap
      */
     public function __forge($startUrl)
     {
-        $this->_crawler = Crawler::forge($startUrl, $this);
+        $this->crawler = Crawler::forge($startUrl, $this);
     }
 
     /**
@@ -106,7 +106,7 @@ class Sitemap
      */
     public function setPriorityMasks(array $priorityMasks = ['*' => 1])
     {
-        $this->_priorityMasks = $priorityMasks;
+        $this->priorityMasks = $priorityMasks;
         return $this;
     }
 
@@ -118,7 +118,7 @@ class Sitemap
      */
     public function setChangeFrequencyMasks(array $changeFrequencyMasks = ['*' => 'daily'])
     {
-        $this->_changeFrequencyMasks = $changeFrequencyMasks;
+        $this->changeFrequencyMasks = $changeFrequencyMasks;
         return $this;
     }
 
@@ -130,7 +130,7 @@ class Sitemap
      */
     public function allowUrls(array $wildcardMaskArray = ['*'])
     {
-        $this->_allowedUrls = $wildcardMaskArray;
+        $this->allowedUrls = $wildcardMaskArray;
         return $this;
     }
 
@@ -142,7 +142,7 @@ class Sitemap
      */
     public function disallowUrls(array $wildcardMaskArray = [])
     {
-        $this->_disallowedUrls = $wildcardMaskArray;
+        $this->disallowedUrls = $wildcardMaskArray;
         return $this;
     }
 
@@ -152,9 +152,9 @@ class Sitemap
      * @param string $url
      * @return float
      */
-    protected function _getUrlPriority($url)
+    protected function getUrlPriority($url)
     {
-        foreach ($this->_priorityMasks as $priorityMask => $priority) {
+        foreach ($this->priorityMasks as $priorityMask => $priority) {
             if (fnmatch($priorityMask, $url)) {
                 return $priority;
             }
@@ -168,9 +168,9 @@ class Sitemap
      * @param string $url
      * @return string
      */
-    protected function _getUrlChangeFrequency($url)
+    protected function getUrlChangeFrequency($url)
     {
-        foreach ($this->_changeFrequencyMasks as $changeFrequencyMask => $frequency) {
+        foreach ($this->changeFrequencyMasks as $changeFrequencyMask => $frequency) {
             if (fnmatch($changeFrequencyMask, $url)) {
                 return $frequency;
             }
@@ -187,7 +187,7 @@ class Sitemap
     public function isUrlAllowed($url)
     {
         $result = true;
-        foreach ($this->_allowedUrls as $mask) {
+        foreach ($this->allowedUrls as $mask) {
             $result &= fnmatch($mask, $url);
         }
         return $result;
@@ -201,7 +201,7 @@ class Sitemap
      */
     public function isUrlDisallowed($url)
     {
-        foreach ($this->_disallowedUrls as $mask) {
+        foreach ($this->disallowedUrls as $mask) {
             if (fnmatch($mask, $url)) {
                 return true;
             }
@@ -216,12 +216,12 @@ class Sitemap
      */
     public function generate()
     {
-        $this->_crawler->crawl();
-        foreach ($this->_crawler->getFoundUrls() as $url => $found) {
-            $this->_urls[] = [
+        $this->crawler->crawl();
+        foreach ($this->crawler->getFoundUrls() as $url => $found) {
+            $this->urls[] = [
                 'loc' => $url,
-                'priority' => $this->_getUrlPriority($url),
-                'changefreq' => $this->_getUrlChangeFrequency($url),
+                'priority' => $this->getUrlPriority($url),
+                'changefreq' => $this->getUrlChangeFrequency($url),
             ];
         }
         return $this;
@@ -234,7 +234,7 @@ class Sitemap
      */
     public function getSitemapArray()
     {
-        return $this->_urls;
+        return $this->urls;
     }
 
     /**

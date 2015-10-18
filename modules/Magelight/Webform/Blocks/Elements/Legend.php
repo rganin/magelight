@@ -33,5 +33,5 @@ class Legend extends Abstraction\Element
      *
      * @var string
      */
-    protected $_tag = 'legend';
+    protected $tag = 'legend';
 }

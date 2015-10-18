@@ -39,7 +39,7 @@ class FileRestrictedExtensions extends AbstractRule
         if (empty($value) || empty($value['name'])) {
             return true;
         }
-        foreach ($this->_arguments[0] as $extension) {
+        foreach ($this->arguments[0] as $extension) {
             if (preg_match('/^.*' . $extension . '$/i', $value['name'])) {
                 return false;
             }
@@ -54,8 +54,8 @@ class FileRestrictedExtensions extends AbstractRule
      */
     public function getError()
     {
-        if (!empty($this->_error)) {
-            return $this->_error;
+        if (!empty($this->error)) {
+            return $this->error;
         }
         return __('File %s must have valid extension', $this->getErrorArguments());
     }

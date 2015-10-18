@@ -33,7 +33,7 @@ class Hint extends Abstraction\Element
      *
      * @var string
      */
-    protected $_tag = 'span';
+    protected $tag = 'span';
 
     /**
      * Forgery constructor

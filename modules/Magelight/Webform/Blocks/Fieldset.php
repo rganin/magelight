@@ -33,7 +33,7 @@ class Fieldset extends Row
      *
      * @var string
      */
-    protected $_tag = 'fieldset';
+    protected $tag = 'fieldset';
 
     /**
      * Add row to fieldset
@@ -67,7 +67,7 @@ class Fieldset extends Row
      */
     public function setLegend($legendText)
     {
-        array_unshift($this->_content, Elements\Legend::forge()->setContent($legendText));
+        array_unshift($this->content, Elements\Legend::forge()->setContent($legendText));
         return $this;
     }
 

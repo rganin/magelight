@@ -2,7 +2,7 @@
 /* @var $this \Magelight\Admin\Blocks\Scaffold\EntityList */
 ?>
 <div class="page-header">
-    <a class="btn btn-info" href="<?=$this->url('admin/scaffold/{entity}/create/', ['entity' => $this->_entity])?>"><?=('Create');?></a>
+    <a class="btn btn-info" href="<?=$this->url('admin/scaffold/{entity}/create/', ['entity' => $this->entity])?>"><?=('Create');?></a>
 </div>
 
 <div class="align-center">
@@ -24,8 +24,8 @@
                     <td><?=$model->$field?></td>
                 <?php endforeach; ?>
                     <td>
-                        <a class="btn btn-sm btn-info" href="<?=$this->url('admin/scaffold/{entity}/read/{id}', [$model->getIdField() => $model->getId(), 'entity' => $this->_entity])?>"><i class="glyphicon glyphicon-white glyphicon-edit"></i></a>
-                        <a class="btn btn-sm btn-danger" href="<?=$this->url('admin/scaffold/{entity}/delete/{id}', [$model->getIdField() => $model->getId(), 'entity' => $this->_entity])?>"><i class="glyphicon glyphicon-white glyphicon-remove"></i></a>
+                        <a class="btn btn-sm btn-info" href="<?=$this->url('admin/scaffold/{entity}/read/{id}', [$model->getIdField() => $model->getId(), 'entity' => $this->entity])?>"><i class="glyphicon glyphicon-white glyphicon-edit"></i></a>
+                        <a class="btn btn-sm btn-danger" href="<?=$this->url('admin/scaffold/{entity}/delete/{id}', [$model->getIdField() => $model->getId(), 'entity' => $this->entity])?>"><i class="glyphicon glyphicon-white glyphicon-remove"></i></a>
                     </td>
             </tr>
         <?php endforeach; ?>

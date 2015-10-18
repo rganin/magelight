@@ -44,14 +44,14 @@ class VisitorsList extends \Magelight\Block
      *
      * @var \Magelight\Db\Collection
      */
-    protected $_collection;
+    protected $collection;
 
     /**
      * Current page
      *
      * @var int
      */
-    protected $_currentPage;
+    protected $currentPage;
 
     /**
      * Forgery constructor
@@ -61,13 +61,13 @@ class VisitorsList extends \Magelight\Block
      */
     public function __forge(\Magelight\Db\Collection $visitorsCollection, $currentPage = 0)
     {
-        $this->_collection = $visitorsCollection;
-        $this->_currentPage = $currentPage;
-        $this->_collection->setPage($currentPage);
+        $this->collection = $visitorsCollection;
+        $this->currentPage = $currentPage;
+        $this->collection->setPage($currentPage);
         $total = 0;
-        $this->visitors = $this->_collection->fetchAll(true, $total);
+        $this->visitors = $this->collection->fetchAll(true, $total);
         $this->total = $total;
-        $this->sectionAppend('visitors-pager', $this->_getPagerBlock());
+        $this->sectionAppend('visitors-pager', $this->getPagerBlock());
     }
 
     /**
@@ -75,10 +75,10 @@ class VisitorsList extends \Magelight\Block
      *
      * @return \Magelight\Core\Blocks\Pager
      */
-    protected function _getPagerBlock()
+    protected function getPagerBlock()
     {
-        $pagerBlock = \Magelight\Core\Blocks\Pager::forge($this->_collection);
-        $pagerBlock->setCurrentPage($this->_currentPage)->setRoute('admin/visitors');
+        $pagerBlock = \Magelight\Core\Blocks\Pager::forge($this->collection);
+        $pagerBlock->setCurrentPage($this->currentPage)->setRoute('admin/visitors');
         return $pagerBlock;
     }
 }

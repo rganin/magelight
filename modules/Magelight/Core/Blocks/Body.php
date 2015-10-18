@@ -27,5 +27,8 @@ namespace Magelight\Core\Blocks;
  */
 class Body extends \Magelight\Block
 {
+    /**
+     * @var string
+     */
     protected $template = "Magelight/Core/templates/body.phtml";
 }

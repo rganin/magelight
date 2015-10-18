@@ -54,7 +54,7 @@ class Register extends \Magelight\Block
      *
      * @return \Magelight\Webform\Blocks\Form
      */
-    public function _getRegForm()
+    public function getRegForm()
     {
         $form = Form::forge()->setConfigs('regform', $this->url('auth/register'));
         $fieldset = Fieldset::forge();
@@ -72,7 +72,7 @@ class Register extends \Magelight\Block
         return $form->addFieldset($fieldset)
             ->createResultRow(true)
             ->addButtonsRow(Elements\Button::forge()->setContent(__('Register'))->addClass('btn-primary'))
-            ->loadFromRequest()->setValidator($this->_getRegFormValidator())->validateOnFront();
+            ->loadFromRequest()->setValidator($this->getRegFormValidator())->validateOnFront();
     }
 
     /**
@@ -80,7 +80,7 @@ class Register extends \Magelight\Block
      *
      * @return \Magelight\Webform\Models\Validator
      */
-    public function _getRegFormValidator()
+    public function getRegFormValidator()
     {
         $validator = \Magelight\Webform\Models\Validator::forge();
         $validator->fieldRules('captcha')

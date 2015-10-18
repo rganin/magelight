@@ -36,19 +36,19 @@ class Crawler
      *
      * @var array
      */
-    protected $_urls = [];
+    protected $urls = [];
 
     /**
      * Processed urls in sitemap format
      *
      * @var array
      */
-    protected $_processedUrls = [];
+    protected $processedUrls = [];
 
     /**
      * @var Sitemap
      */
-    protected $_sitemap;
+    protected $sitemap;
 
     /**
      * Using forgery
@@ -63,22 +63,22 @@ class Crawler
      */
     public function __forge($startUrl, Sitemap $sitemapObject)
     {
-        $this->_urls[] = $startUrl;
-        $this->_sitemap = $sitemapObject;
+        $this->urls[] = $startUrl;
+        $this->sitemap = $sitemapObject;
     }
 
     /**
-     * Crawl
+     * Crawl site by urls
      */
     public function crawl()
     {
-        while (!empty($this->_urls)) {
-            $url = array_shift($this->_urls);
+        while (!empty($this->urls)) {
+            $url = array_shift($this->urls);
             if (!$this->isUrlProcessed($url)) {
-                if ($content = $this->_loadPage($url)) {
-                    $links = @$this->_fetchLinksFromContent($content);
+                if ($content = $this->loadPage($url)) {
+                    $links = @$this->fetchLinksFromContent($content);
                     $this->appendUrls($links);
-                    $this->_setUrlProcessed($url);
+                    $this->setUrlProcessed($url);
                 }
             }
         }
@@ -93,8 +93,8 @@ class Crawler
     protected function appendUrls(array $urls)
     {
         foreach ($urls as $url) {
-            if ($this->_canProcessUrl($url)) {
-                $this->_urls[] = $url;
+            if ($this->canProcessUrl($url)) {
+                $this->urls[] = $url;
             }
         }
         return $this;
@@ -106,9 +106,9 @@ class Crawler
      * @param string $url
      * @return $this
      */
-    protected function _setUrlProcessed($url)
+    protected function setUrlProcessed($url)
     {
-        $this->_processedUrls[$url] = 1;
+        $this->processedUrls[$url] = 1;
         return $this;
     }
 
@@ -120,7 +120,7 @@ class Crawler
      */
     public function isUrlProcessed($url)
     {
-        return isset($this->_processedUrls[$url]);
+        return isset($this->processedUrls[$url]);
     }
 
 
@@ -131,7 +131,7 @@ class Crawler
      */
     public function getProcessedUrls()
     {
-        return $this->_processedUrls;
+        return $this->processedUrls;
     }
 
     /**
@@ -150,7 +150,7 @@ class Crawler
      * @param string $content
      * @return array
      */
-    protected function _fetchLinksFromContent($content)
+    protected function fetchLinksFromContent($content)
     {
         $links = [];
         $dom = new \DOMDocument();
@@ -171,9 +171,9 @@ class Crawler
      * @param string $url
      * @return bool
      */
-    protected function _canProcessUrl($url)
+    protected function canProcessUrl($url)
     {
-        return $this->_sitemap->isUrlAllowed($url) && !$this->_sitemap->isUrlDisallowed($url);
+        return $this->sitemap->isUrlAllowed($url) && !$this->sitemap->isUrlDisallowed($url);
     }
 
     /**
@@ -182,9 +182,9 @@ class Crawler
      * @param string $url
      * @return null|string
      */
-    protected function _loadPage($url)
+    protected function loadPage($url)
     {
-        $content = @file_get_contents($url);
+        $content = file_get_contents($url);
         if (preg_match('/<body>(.*)<\/body>/s', $content, $matches)) {
             if (isset($matches[1])) {
                 $content = $matches[1];

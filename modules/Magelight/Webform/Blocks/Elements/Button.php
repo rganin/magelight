@@ -34,7 +34,7 @@ class Button extends Abstraction\Element
      *
      * @var string
      */
-    protected $_tag = 'button';
+    protected $tag = 'button';
 
     /**
      * Forgery constructor

@@ -29,15 +29,33 @@ namespace Magelight\Core\Blocks;
  */
 class Breadcrumbs extends \Magelight\Block
 {
+    /**
+     * Active bradcrumb CSS class name
+     */
     const CLASS_ACTIVE = 'active';
 
+    /**
+     * @var string
+     */
     protected $template = "Magelight/Core/templates/breadcrumbs.phtml";
 
+    /**
+     * Forgery constructor
+     */
     public function __forge()
     {
         $this->breadcrumbs = [];
     }
 
+    /**
+     * Add breadcrumb
+     *
+     * @param string $title
+     * @param string|null $routeMatch
+     * @param array $routeParams
+     * @param string $class
+     * @return $this
+     */
     public function addBreadcrumb($title, $routeMatch = null, $routeParams = [], $class = '')
     {
         $breadcrumbs = $this->breadcrumbs;

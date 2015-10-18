@@ -33,17 +33,20 @@ class EntityForm extends \Magelight\Webform\Blocks\Form
 {
     const URL_PATTERN = 'admin/scaffold/{entity}/update';
 
-    protected $_entity;
+    /**
+     * @var string
+     */
+    protected $entity;
 
     /**
      * @var \Magelight\Admin\Models\Scaffold\Scaffold
      */
-    protected $_scaffold;
+    protected $scaffold;
 
     /**
      * @var \Magelight\Model
      */
-    protected $_model;
+    protected $model;
 
     /**
      * Forgery constructor
@@ -52,9 +55,9 @@ class EntityForm extends \Magelight\Webform\Blocks\Form
      */
     public function __forge($entity)
     {
-        $this->_entity = $entity;
-        $this->_scaffold = \Magelight\Admin\Models\Scaffold\Scaffold::forge();
-        $this->_scaffold->loadEntities();
+        $this->entity = $entity;
+        $this->scaffold = \Magelight\Admin\Models\Scaffold\Scaffold::forge();
+        $this->scaffold->loadEntities();
 
         $this->setConfigs('scaffold-' . $entity, $this->url(self::URL_PATTERN, ['entity' => $entity]));
 
@@ -62,11 +65,11 @@ class EntityForm extends \Magelight\Webform\Blocks\Form
 
         $fieldSet = \Magelight\Webform\Blocks\FieldSet::forge();
 
-        $this->_model = $this->_scaffold->getEntityModel($this->_entity);
+        $this->model = $this->scaffold->getEntityModel($this->entity);
 
 
-        foreach ($this->_scaffold->getEntityFields($this->_entity) as $field) {
-            $fieldConfig = $this->_scaffold->getEntityFieldConfig($this->_entity, $field);
+        foreach ($this->scaffold->getEntityFields($this->entity) as $field) {
+            $fieldConfig = $this->scaffold->getEntityFieldConfig($this->entity, $field);
             $row = \Magelight\Webform\Blocks\Row::forge();
             /** @var $fieldInput  \Magelight\Webform\Blocks\Elements\Input */
             $fields = [];
@@ -96,7 +99,7 @@ class EntityForm extends \Magelight\Webform\Blocks\Form
      */
     public function getScaffold()
     {
-        return $this->_scaffold;
+        return $this->scaffold;
     }
 
     /**
@@ -110,15 +113,15 @@ class EntityForm extends \Magelight\Webform\Blocks\Form
         if (is_null($id)) {
             return $this;
         }
-        $this->_model = $this->_model->getOrm()->whereEq($this->_model->getIdField(), $id)->fetchModel();
-        if (empty($this->_model)) {
+        $this->model = $this->model->getOrm()->whereEq($this->model->getIdField(), $id)->fetchModel();
+        if (empty($this->model)) {
             return $this;
         }
-        $this->setFormValues($this->_model->asArray());
-        foreach ($this->_scaffold->getEntityFields($this->_entity) as $field) {
-            $fieldConfig = $this->_scaffold->getEntityFieldConfig($this->_entity, $field);
+        $this->setFormValues($this->model->asArray());
+        foreach ($this->scaffold->getEntityFields($this->entity) as $field) {
+            $fieldConfig = $this->scaffold->getEntityFieldConfig($this->entity, $field);
             if ((bool)(string)$fieldConfig->allow_null) {
-                if (is_null($this->_model->$field)) {
+                if (is_null($this->model->$field)) {
                     $checkboxNull = $this->getElementByName("set-null[$field]");
                     if ($checkboxNull instanceof \Magelight\Webform\Blocks\Elements\Checkbox) {
                         $checkboxNull->setChecked();

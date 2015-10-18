@@ -40,6 +40,7 @@ class Auth extends \Magelight\Auth\Controllers\Auth
     {
         $this->view = \Magelight\Core\Blocks\Document::getInstance();
         $this->view->sectionAppend('body', \SampleApp\Blocks\Body::forge());
+        return parent::beforeExecute();
     }
 
     /**
@@ -49,7 +50,7 @@ class Auth extends \Magelight\Auth\Controllers\Auth
     {
         $contentBlock = \Magelight\Auth\Blocks\User\Login::forge();
 
-        $form = $contentBlock->_getLoginForm();
+        $form = $contentBlock->getLoginForm();
         if (!$form->isEmptyRequest() && $form->validate()) {
             /* @var $user \Magelight\Auth\Models\User */
             if (!$user = \Magelight\Auth\Models\User::orm()
@@ -80,7 +81,7 @@ class Auth extends \Magelight\Auth\Controllers\Auth
         $this->view->setTitle('Register new user');
 
         $content = \Magelight\Auth\Blocks\User\Register::forge();
-        $form = $content->_getRegForm();
+        $form = $content->getRegForm();
 
         if (!$form->isEmptyRequest()) {
             if ($form->validate()) {
@@ -118,7 +119,7 @@ class Auth extends \Magelight\Auth\Controllers\Auth
     public function remindpassAction()
     {
         $contentBlock = \Magelight\Auth\Blocks\User\ForgotPassword::forge();
-        $form = $contentBlock->_getForgotPasswordForm();
+        $form = $contentBlock->getForgotPasswordForm();
         if (!$form->isEmptyRequest() && $form->validate()) {
             /* @var $user \Magelight\Auth\Models\User */
             if (!$user = \Magelight\Auth\Models\User::findBy('email', $form->getFieldValue('email'))) {

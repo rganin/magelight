@@ -35,7 +35,7 @@ class Range extends AbstractRule
      *
      * @var string
      */
-    protected $_frontValidatorRule = 'range';
+    protected $frontValidatorRule = 'range';
 
     /**
      * Check value with rule
@@ -48,7 +48,7 @@ class Range extends AbstractRule
      */
     public function check($value)
     {
-        return ($value >= $this->_arguments[0]) && $value >= $this->_arguments[1];
+        return ($value >= $this->arguments[0]) && $value >= $this->arguments[1];
     }
 
     /**
@@ -58,7 +58,7 @@ class Range extends AbstractRule
      */
     public function getFrontValidationParams()
     {
-        return $this->_arguments;
+        return $this->arguments;
     }
 
     /**
@@ -68,8 +68,8 @@ class Range extends AbstractRule
      */
     public function getError()
     {
-        if (!empty($this->_error)) {
-            return $this->_error;
+        if (!empty($this->error)) {
+            return $this->error;
         }
         return __('Field %s must be between %s and %s', $this->getErrorArguments());
     }

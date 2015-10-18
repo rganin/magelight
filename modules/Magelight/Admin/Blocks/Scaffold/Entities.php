@@ -33,11 +33,17 @@ class Entities extends \Magelight\Block
 {
     protected $template = 'Magelight/Admin/templates/scaffold/entities.phtml';
 
-    protected $_scaffold;
+    /**
+     * @var \Magelight\Admin\Models\Scaffold\Scaffold
+     */
+    protected $scaffold;
 
+    /**
+     * Forgery
+     */
     public function __forge()
     {
-        $this->_scaffold = \Magelight\Admin\Models\Scaffold\Scaffold::forge();
-        $this->entities = $this->_scaffold->loadEntities();
+        $this->scaffold = \Magelight\Admin\Models\Scaffold\Scaffold::forge();
+        $this->entities = $this->scaffold->loadEntities();
     }
 }

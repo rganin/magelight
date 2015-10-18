@@ -30,7 +30,7 @@ class Captcha extends AbstractRule
      *
      * @var string
      */
-    protected $_frontValidatorRule = 'captcha';
+    protected $frontValidatorRule = 'captcha';
 
     /**
      * Check value with rule
@@ -53,8 +53,8 @@ class Captcha extends AbstractRule
      */
     public function getError()
     {
-        if (!empty($this->_error)) {
-            return $this->_error;
+        if (!empty($this->error)) {
+            return $this->error;
         }
         return __('Please enter a valid protection code', [$this->getErrorArguments()]);
     }

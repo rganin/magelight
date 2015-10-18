@@ -25,9 +25,15 @@ namespace SampleApp\Blocks;
 
 class Error extends \Magelight\Block
 {
+    /**
+     * Error templates
+     */
     const TEMPLATE_404 = 'SampleApp/templates/errors/404.phtml';
     const TEMPLATE_403 = 'SampleApp/templates/errors/403.phtml';
     const TEMPLATE_401 = 'SampleApp/templates/errors/401.phtml';
 
+    /**
+     * @var string
+     */
     protected $template = self::TEMPLATE_404;
 }

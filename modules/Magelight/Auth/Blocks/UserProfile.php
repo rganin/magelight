@@ -30,8 +30,14 @@ namespace Magelight\Auth\Blocks;
 
 class UserProfile extends \Magelight\Block
 {
+    /**
+     * @var string
+     */
     protected $template = 'Magelight/Auth/templates/user-profile.phtml';
 
+    /**
+     * Forgery constructor
+     */
     public function __forge()
     {
         $user = \Magelight\Auth\Models\User::find(\Magelight\Http\Request::getInstance()->getGet('id'));

@@ -3,8 +3,16 @@ namespace Magelight\Admin\Blocks\Sections;
 
 class Item extends \Magelight\Block
 {
+    /**
+     * @var string
+     */
     protected $template = 'Magelight/Admin/templates/sections/item.phtml';
 
+    /**
+     * Forgery constructor
+     *
+     * @param \SimpleXMLElement $itemConfig
+     */
     public function __forge(\SimpleXMLElement $itemConfig)
     {
         $this->title = (string)$itemConfig->title;

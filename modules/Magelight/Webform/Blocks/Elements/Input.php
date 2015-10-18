@@ -33,14 +33,14 @@ class Input extends Abstraction\Field
      *
      * @var string
      */
-    protected $_tag = 'input';
+    protected $tag = 'input';
 
     /**
      * Is element empty flag
      *
      * @var bool
      */
-    protected $_empty = true;
+    protected $empty = true;
 
     /**
      * Forgery constructor

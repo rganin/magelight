@@ -25,8 +25,14 @@ namespace SampleApp\Blocks;
 
 class Top extends \Magelight\Block
 {
+    /**
+     * @var string
+     */
     protected $template = 'SampleApp/templates/top.phtml';
 
+    /**
+     * {@inheritdoc}
+     */
     public function initBlock()
     {
         $currentUserId = \Magelight\Http\Session::getInstance()->get('user_id', false);
@@ -37,5 +43,6 @@ class Top extends \Magelight\Block
             $this->set('user_id', $currentUserId);
             $this->set('user_data', $userData);
         }
+        return parent::initBlock();
     }
 }

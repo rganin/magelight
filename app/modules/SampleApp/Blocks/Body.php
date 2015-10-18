@@ -25,8 +25,14 @@ namespace SampleApp\Blocks;
 
 class Body extends \Magelight\Block
 {
+    /**
+     * @var string
+     */
     protected $template = 'SampleApp/templates/body.phtml';
 
+    /**
+     * {@inheritdoc}
+     */
     public function initBlock()
     {
         $this->sectionAppend('top', Top::forge());
@@ -43,5 +49,6 @@ class Body extends \Magelight\Block
         $document->addCss('Magelight/Core/static/css/core.css');
         $document->addJs('Magelight/Core/static/js/jquery.js');
         $document->addJs('Magelight/Core/static/js/bootstrap.min.js');
+        return parent::initBlock();
     }
 }

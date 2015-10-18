@@ -33,28 +33,54 @@ namespace Magelight\Webform\Blocks;
  */
 class Result extends Elements\Abstraction\Element
 {
-    protected $_tag = 'div';
+    /**
+     * {@inheritdoc}
+     */
+    protected $tag = 'div';
 
+    /**
+     * Forgery constructor
+     */
     public function __forge()
     {
         $this->addClass('alert');
     }
 
+    /**
+     * Set class to 'error'
+     *
+     * @return Elements\Abstraction\Element
+     */
     public function setErrorClass()
     {
         return $this->addClass('alert-danger');
     }
 
+    /**
+     * Set class to warning
+     *
+     * @return Elements\Abstraction\Element
+     */
     public function setWarningClass()
     {
         return $this->addClass('alert-warning');
     }
 
+    /**
+     * set class to info
+     *
+     * @return Elements\Abstraction\Element
+     */
     public function setInfoClass()
     {
         return $this->addClass('alert-info');
     }
 
+    /**
+     * Set class to success
+     *
+     * @return Elements\Abstraction\Element
+     */
     public function setSuccessClass()
     {
         return $this->addClass('alert-success');

@@ -35,7 +35,7 @@ class EqualsToField extends AbstractRule
      *
      * @var string
      */
-    protected $_frontValidatorRule = 'equalTo';
+    protected $frontValidatorRule = 'equalTo';
 
     /**
      * Check value with rule
@@ -49,7 +49,7 @@ class EqualsToField extends AbstractRule
     public function check($value)
     {
         return $this->checker()->getValidator()->getFieldValue($value)
-            == $this->checker()->getValidator()->getFieldValue($this->_arguments[0]);
+            == $this->checker()->getValidator()->getFieldValue($this->arguments[0]);
     }
 
     /**
@@ -59,7 +59,7 @@ class EqualsToField extends AbstractRule
      */
     public function getFrontValidationParams()
     {
-        return $this->_arguments[0];
+        return $this->arguments[0];
     }
 
     /**
@@ -69,8 +69,8 @@ class EqualsToField extends AbstractRule
      */
     public function getError()
     {
-        if (!empty($this->_error)) {
-            return $this->_error;
+        if (!empty($this->error)) {
+            return $this->error;
         }
         return __('Field %s must be equal to field %3$s', $this->getErrorArguments());
     }

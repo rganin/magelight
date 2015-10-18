@@ -34,14 +34,14 @@ class Field extends Element
      *
      * @var string
      */
-    protected $_tag = 'input';
+    protected $tag = 'input';
 
     /**
      * Linked row element
      *
      * @var \Magelight\Webform\Blocks\Row|null
      */
-    protected $_row = null;
+    protected $row = null;
 
     /**
      * Set element name attribute
@@ -52,7 +52,7 @@ class Field extends Element
     public function setName($name)
     {
         $this->setAttribute('name', $name);
-        $this->setId($this->_tag . '-' . preg_replace("([^a-z0-9]+)", '', $name));
+        $this->setId($this->tag . '-' . preg_replace("([^a-z0-9]+)", '', $name));
         return $this;
     }
 
@@ -116,8 +116,8 @@ class Field extends Element
      */
     public function beforeToHtml()
     {
-        if ($this->_form instanceof \Magelight\Webform\Blocks\Form) {
-            $this->setAttribute('name', $this->_form->wrapName($this->getAttribute('name')));
+        if ($this->form instanceof \Magelight\Webform\Blocks\Form) {
+            $this->setAttribute('name', $this->form->wrapName($this->getAttribute('name')));
         }
         return parent::beforeToHtml();
     }
@@ -148,7 +148,7 @@ class Field extends Element
      */
     public function setRow(\Magelight\Webform\Blocks\Row $row)
     {
-        $this->_row = $row;
+        $this->row = $row;
         return $this;
     }
 
@@ -159,6 +159,6 @@ class Field extends Element
      */
     public function getRow()
     {
-        return $this->_row;
+        return $this->row;
     }
 }

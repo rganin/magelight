@@ -35,14 +35,14 @@ class Result
      *
      * @var bool
      */
-    protected $_success = true;
+    protected $success = true;
 
     /**
      * Array of error objects
      *
      * @var array
      */
-    protected $_errors = [];
+    protected $errors = [];
 
     /**
      * Forgery constructor
@@ -52,7 +52,7 @@ class Result
      */
     public function __forge($success, $error = null)
     {
-        $this->_success = (bool) $success;
+        $this->success = (bool) $success;
         $this->addError($error);
     }
 
@@ -65,7 +65,7 @@ class Result
     public function addError($error)
     {
         if ($error instanceof Error) {
-            $this->_errors[] = $error;
+            $this->errors[] = $error;
         }
         return $this;
     }
@@ -77,7 +77,7 @@ class Result
      */
     public function setFail()
     {
-        $this->_success = false;
+        $this->success = false;
         return $this;
     }
 
@@ -88,7 +88,7 @@ class Result
      */
     public function setSuccess()
     {
-        $this->_success = true;
+        $this->success = true;
         return $this;
     }
 
@@ -99,7 +99,7 @@ class Result
      */
     public function isSuccess()
     {
-        return $this->_success;
+        return $this->success;
     }
 
     /**
@@ -109,6 +109,6 @@ class Result
      */
     public function getErrors()
     {
-        return $this->_errors;
+        return $this->errors;
     }
 }

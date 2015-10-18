@@ -48,63 +48,63 @@ class Pager extends \Magelight\Block
      *
      * @var string
      */
-    protected $_route;
+    protected $route;
 
     /**
      * Additional route params
      *
      * @var array
      */
-    protected $_routeParams = [];
+    protected $routeParams = [];
 
     /**
      * Items per page
      *
      * @var int
      */
-    protected $_perPage = 10;
+    protected $perPage = 10;
 
     /**
      * Total items count
      *
      * @var int
      */
-    protected $_total = 0;
+    protected $total = 0;
 
     /**
      * Current page
      *
      * @var int
      */
-    protected $_currentPage = 0;
+    protected $currentPage = 0;
 
     /**
      * Pager current page siblings count
      *
      * @var int
      */
-    protected $_siblings = 2;
+    protected $siblingsCount = 2;
 
     /**
      * Collection
      *
      * @var \Magelight\Db\Collection
      */
-    protected $_collection = null;
+    protected $collection;
 
     /**
      * Element attributes
      *
-     * @var array
+     * @var string[]
      */
-    protected $_attributes = [];
+    protected $attributes = [];
 
     /**
      * Show first and last pages
      *
      * @var bool
      */
-    protected $_showFirstLast = true;
+    protected $showFirstLast = true;
 
     /**
      * Pager templates
@@ -120,12 +120,12 @@ class Pager extends \Magelight\Block
      */
     public function __forge(\Magelight\Db\Collection $collection = null)
     {
-        $this->_collection = $collection;
+        $this->collection = $collection;
         $this->addClass('pagination');
-        if ($this->_collection instanceof \Magelight\Db\Collection) {
-            $this->setTotal($this->_collection->totalCount());
-            $this->setPerPage($this->_collection->getLimit());
-            $this->setCurrentPage(floor($this->_collection->getOffset() / $this->_perPage));
+        if ($this->collection instanceof \Magelight\Db\Collection) {
+            $this->setTotal($this->collection->totalCount());
+            $this->setPerPage($this->collection->getLimit());
+            $this->setCurrentPage(floor($this->collection->getOffset() / $this->perPage));
         }
         $this->setNextCaption()->setPrevCaption()->setFirstCaption()->setLastCaption();
     }
@@ -139,7 +139,7 @@ class Pager extends \Magelight\Block
      */
     public function setAttribute($attribute, $value = null)
     {
-        $this->_attributes[$attribute] = $value;
+        $this->attributes[$attribute] = $value;
         return $this;
     }
 
@@ -151,7 +151,7 @@ class Pager extends \Magelight\Block
     public function renderAttributes()
     {
         $render = '';
-        foreach ($this->_attributes as $name => $attr) {
+        foreach ($this->attributes as $name => $attr) {
             $render .= ' ' . $name . '=' . '"' . $attr . '"';
         }
         return $render;
@@ -165,7 +165,7 @@ class Pager extends \Magelight\Block
      */
     public function setPerPage($perPage = 10)
     {
-        $this->_perPage = $perPage;
+        $this->perPage = $perPage;
         return $this;
     }
 
@@ -177,7 +177,7 @@ class Pager extends \Magelight\Block
      */
     public function setTotal($total = 0)
     {
-        $this->_total = $total;
+        $this->total = $total;
         return $this;
     }
 
@@ -189,7 +189,7 @@ class Pager extends \Magelight\Block
      */
     public function setCurrentPage($currentPage = 0)
     {
-        $this->_currentPage = $currentPage;
+        $this->currentPage = $currentPage;
         return $this;
     }
 
@@ -262,7 +262,7 @@ class Pager extends \Magelight\Block
      */
     public function getAttribute($name, $default = '')
     {
-        return isset($this->_attributes[$name]) ? $this->_attributes[$name] : $default;
+        return isset($this->attributes[$name]) ? $this->attributes[$name] : $default;
     }
 
     /**
@@ -329,8 +329,8 @@ class Pager extends \Magelight\Block
      */
     public function setRoute($route = null, $routeParams = [])
     {
-        $this->_route = isset($route) ? $route : $this->getDefaultRouteTemplate();
-        $this->_routeParams = $routeParams;
+        $this->route = isset($route) ? $route : $this->getDefaultRouteTemplate();
+        $this->routeParams = $routeParams;
         return $this;
     }
 
@@ -342,13 +342,13 @@ class Pager extends \Magelight\Block
      */
     public function getPageUrl($page = 0)
     {
-        if (strstr($this->_route, $this->getPageTemplate())) {
-            $params = $this->_routeParams;
+        if (strstr($this->route, $this->getPageTemplate())) {
+            $params = $this->routeParams;
             unset($params[$this->getPageArgumentName()]);
-            return $this->url(str_ireplace($this->getPageTemplate(), $page, $this->_route), $params);
+            return $this->url(str_ireplace($this->getPageTemplate(), $page, $this->route), $params);
         }
-        $this->_routeParams['page'] = $page;
-        return $this->url($this->_route, $this->_routeParams);
+        $this->routeParams['page'] = $page;
+        return $this->url($this->route, $this->routeParams);
     }
 
     /**
@@ -359,31 +359,31 @@ class Pager extends \Magelight\Block
     protected function initBlock()
     {
         $pages = [];
-        $pagesCount = ceil($this->_total / $this->_perPage);
-        if ($this->_showFirstLast) {
+        $pagesCount = ceil($this->total / $this->perPage);
+        if ($this->showFirstLast) {
             $pages[] = [
                 'page'    => 0,
                 'caption' => $this->first_caption,
                 'url'     => $this->getPageUrl(0),
                 'active'  => false,
-                'disabled' => $this->_currentPage <= 0,
+                'disabled' => $this->currentPage <= 0,
             ];
         }
         if ($this->prev_caption) {
             $pages[] = [
-                'page'    => $this->_currentPage,
+                'page'    => $this->currentPage,
                 'caption' => $this->prev_caption,
-                'url'     => $this->getPageUrl($this->_currentPage - 1),
+                'url'     => $this->getPageUrl($this->currentPage - 1),
                 'active'  => false,
-                'disabled' => $this->_currentPage <= 0,
+                'disabled' => $this->currentPage <= 0,
             ];
         }
-        $start = ($this->_currentPage - $this->_siblings) > 0
-            ? ($this->_currentPage - $this->_siblings)
+        $start = ($this->currentPage - $this->siblingsCount) > 0
+            ? ($this->currentPage - $this->siblingsCount)
             : 0;
 
-        $finish = ($this->_currentPage + $this->_siblings +1) < $pagesCount
-            ? ($this->_currentPage + $this->_siblings +1)
+        $finish = ($this->currentPage + $this->siblingsCount +1) < $pagesCount
+            ? ($this->currentPage + $this->siblingsCount +1)
             : $pagesCount;
 
         for ($i = $start; $i < $finish; $i++) {
@@ -391,26 +391,26 @@ class Pager extends \Magelight\Block
                 'page'    => $i,
                 'caption' => $i + 1,
                 'url'     => $this->getPageUrl($i),
-                'active' => $i == (int) $this->_currentPage,
+                'active' => $i == (int) $this->currentPage,
                 'disabled' => false,
             ];
         }
         if ($this->next_caption) {
             $pages[] = [
-                'page'    => $this->_currentPage,
+                'page'    => $this->currentPage,
                 'caption' => $this->next_caption,
-                'url'     => $this->getPageUrl($this->_currentPage + 1),
+                'url'     => $this->getPageUrl($this->currentPage + 1),
                 'active' => false,
-                'disabled' => $this->_currentPage >= $pagesCount -1,
+                'disabled' => $this->currentPage >= $pagesCount -1,
             ];
         }
-        if ($this->_showFirstLast) {
+        if ($this->showFirstLast) {
             $pages[] = [
                 'page'    => $pagesCount - 1,
                 'caption' => $this->last_caption,
                 'url'     => $this->getPageUrl($pagesCount - 1),
                 'active'  => false,
-                'disabled' => $this->_currentPage >= $pagesCount - 1,
+                'disabled' => $this->currentPage >= $pagesCount - 1,
             ];
         }
         $this->set('pages', $pages);
@@ -427,7 +427,7 @@ class Pager extends \Magelight\Block
      */
     public function setShowFirstLast($flag = true)
     {
-        $this->_showFirstLast = $flag;
+        $this->showFirstLast = $flag;
         return $this;
     }
 }

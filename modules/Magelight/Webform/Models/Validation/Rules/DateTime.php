@@ -34,7 +34,7 @@ class DateTime extends AbstractRule
      *
      * @var string
      */
-    protected $_frontValidatorRule = 'datetime';
+    protected $frontValidatorRule = 'datetime';
 
     /**
      * Check value with rule
@@ -57,8 +57,8 @@ class DateTime extends AbstractRule
      */
     public function getError()
     {
-        if (!empty($this->_error)) {
-            return $this->_error;
+        if (!empty($this->error)) {
+            return $this->error;
         }
         return __('Field %s must be a valid date or date and time', $this->getErrorArguments());
     }

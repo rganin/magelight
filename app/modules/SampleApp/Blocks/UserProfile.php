@@ -36,6 +36,9 @@ namespace SampleApp\Blocks;
  */
 class UserProfile extends \Magelight\Block
 {
+    /**
+     * @var string
+     */
     protected $template = 'SampleApp/templates/user-profile.phtml';
 
     /**

@@ -2,8 +2,6 @@
 
 namespace Magelight\Admin\Blocks\Sections\Item;
 
-use Magelight\Exception;
-
 class Forgery
 {
     use \Magelight\Traits\TForgery;

@@ -35,7 +35,7 @@ class DateRange extends AbstractRule
      *
      * @var string
      */
-    protected $_frontValidatorRule = 'daterange';
+    protected $frontValidatorRule = 'daterange';
 
     /**
      * Set arguments for checking
@@ -69,13 +69,13 @@ class DateRange extends AbstractRule
     public function check($value)
     {
         $dateRule = new DateTime();
-        $dateRule->setArguments([$this->_arguments[0]]);
+        $dateRule->setArguments([$this->arguments[0]]);
         if (!$dateRule->check($value)) {
             return false;
         } else {
             $ret = true;
             $value = strtotime($value);
-            return ($value >= strtotime($this->_arguments[0])) && ($value <= strtotime($this->_arguments[1]));
+            return ($value >= strtotime($this->arguments[0])) && ($value <= strtotime($this->arguments[1]));
         }
     }
 
@@ -86,7 +86,7 @@ class DateRange extends AbstractRule
      */
     public function getFrontValidationParams()
     {
-        return $this->_arguments;
+        return $this->arguments;
     }
 
     /**
@@ -96,8 +96,8 @@ class DateRange extends AbstractRule
      */
     public function getError()
     {
-        if (!empty($this->_error)) {
-            return $this->_error;
+        if (!empty($this->error)) {
+            return $this->error;
         }
         return __('Field %s must be a valid date between %s and %s', $this->getErrorArguments());
     }

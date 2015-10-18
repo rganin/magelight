@@ -36,7 +36,7 @@ class In extends AbstractRule
      */
     public function check($value)
     {
-        return is_array($this->_arguments[0]) ? in_array($value, $this->_arguments[0]) : false;
+        return is_array($this->arguments[0]) ? in_array($value, $this->arguments[0]) : false;
     }
 
     /**
@@ -46,8 +46,8 @@ class In extends AbstractRule
      */
     public function getError()
     {
-        if (!empty($this->_error)) {
-            return $this->_error;
+        if (!empty($this->error)) {
+            return $this->error;
         }
         return __('Field %s must have a valid value', $this->getErrorArguments());
     }

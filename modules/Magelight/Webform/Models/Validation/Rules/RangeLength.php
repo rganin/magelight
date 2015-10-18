@@ -35,7 +35,7 @@ class RangeLength extends AbstractRule
      *
      * @var string
      */
-    protected $_frontValidatorRule = 'rangelength';
+    protected $frontValidatorRule = 'rangelength';
 
     /**
      * Check value with rule
@@ -49,7 +49,7 @@ class RangeLength extends AbstractRule
     public function check($value)
     {
         $value = trim($value);
-        return (strlen($value) >= $this->_arguments[0]) && (strlen($value) <= $this->_arguments[1]);
+        return (strlen($value) >= $this->arguments[0]) && (strlen($value) <= $this->arguments[1]);
     }
 
     /**
@@ -59,7 +59,7 @@ class RangeLength extends AbstractRule
      */
     public function getFrontValidationParams()
     {
-        return $this->_arguments;
+        return $this->arguments;
     }
 
     /**
@@ -69,8 +69,8 @@ class RangeLength extends AbstractRule
      */
     public function getError()
     {
-        if (!empty($this->_error)) {
-            return $this->_error;
+        if (!empty($this->error)) {
+            return $this->error;
         }
         return __('Field %s must contain from %s to %s characters', $this->getErrorArguments());
     }

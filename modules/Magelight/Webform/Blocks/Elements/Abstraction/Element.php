@@ -38,42 +38,42 @@ class Element extends \Magelight\Block
      *
      * @var \Magelight\Webform\Blocks\Form
      */
-    protected $_form = null;
+    protected $form = null;
 
     /**
      * Element tag
      *
      * @var string
      */
-    protected $_tag = 'div';
+    protected $tag = 'div';
 
     /**
      * Is element empty flag (if true, element is closed with ' />' and has no content)
      *
      * @var bool
      */
-    protected $_empty = false;
+    protected $empty = false;
 
     /**
      * Element content blocks
      *
      * @var array
      */
-    protected $_content = [];
+    protected $content = [];
 
     /**
      * Element attributes
      *
      * @var array
      */
-    protected $_attributes = [];
+    protected $attributes = [];
 
     /**
      * Registered ids
      *
      * @var array
      */
-    protected static $_registeredIds = [];
+    protected static $registeredIds = [];
 
     /**
      * Set element empty flag
@@ -83,7 +83,7 @@ class Element extends \Magelight\Block
      */
     public function setEmpty($empty = true)
     {
-        $this->_empty = $empty;
+        $this->empty = $empty;
         return $this;
     }
 
@@ -98,21 +98,21 @@ class Element extends \Magelight\Block
             return parent::toHtml();
         }
         $this->beforeToHtml();
-        $html = '<' . $this->_tag . ' ' . $this->renderAttributes();
-        if ($this->_empty) {
+        $html = '<' . $this->tag . ' ' . $this->renderAttributes();
+        if ($this->empty) {
             $html .= ' />';
             return $html;
         } else {
             $html .= '>';
         }
-        foreach ($this->_content as $content) {
+        foreach ($this->content as $content) {
             if ($content instanceof \Magelight\Block) {
                 $html .= $content->toHtml();
             } elseif (is_string($content)) {
                 $html .= $content;
             }
         }
-        $html .= '</' . $this->_tag . '>';
+        $html .= '</' . $this->tag . '>';
         $this->afterToHtml();
         return $html;
     }
@@ -125,7 +125,7 @@ class Element extends \Magelight\Block
     public function renderAttributes()
     {
         $render = '';
-        foreach ($this->_attributes as $name => $attr) {
+        foreach ($this->attributes as $name => $attr) {
             if (!isset($attr['quotation'])) {
                 $attr['quotation'] = self::QUOTATION_DEFAULT;
             }
@@ -170,7 +170,7 @@ class Element extends \Magelight\Block
                 __('Direct id assignment is not allowed. Use setId() method to set id attribute.')
             );
         }
-        $this->_attributes[$name] = ['value' => $value, 'quotation' => $quotaiton];
+        $this->attributes[$name] = ['value' => $value, 'quotation' => $quotaiton];
         return $this;
     }
 
@@ -193,10 +193,10 @@ class Element extends \Magelight\Block
      */
     public function addClass($class)
     {
-        if (!isset($this->_attributes['class'])) {
-            $this->_attributes['class']['value'] = '';
+        if (!isset($this->attributes['class'])) {
+            $this->attributes['class']['value'] = '';
         }
-        return $this->setAttribute('class', $this->_attributes['class']['value'] . ' ' . $class);
+        return $this->setAttribute('class', $this->attributes['class']['value'] . ' ' . $class);
     }
 
     /**
@@ -207,10 +207,10 @@ class Element extends \Magelight\Block
      */
     public function removeClass($class)
     {
-        if (!isset($this->_attributes['class'])) {
-            $this->_attributes['class']['value'] = '';
+        if (!isset($this->attributes['class'])) {
+            $this->attributes['class']['value'] = '';
         }
-        return $this->setAttribute('class', str_replace($class, '', $this->_attributes['class']['value']));
+        return $this->setAttribute('class', str_replace($class, '', $this->attributes['class']['value']));
     }
 
     /**
@@ -222,7 +222,7 @@ class Element extends \Magelight\Block
      */
     public function getAttribute($name, $default = null)
     {
-        return isset($this->_attributes[$name]['value']) ? $this->_attributes[$name]['value'] : $default;
+        return isset($this->attributes[$name]['value']) ? $this->attributes[$name]['value'] : $default;
     }
 
     /**
@@ -234,7 +234,7 @@ class Element extends \Magelight\Block
     public function setId($id)
     {
         $id = $this->wrapId($id);
-        $this->_attributes['id']['value'] = $id;
+        $this->attributes['id']['value'] = $id;
         return $this->registerId($id);
     }
 
@@ -245,7 +245,7 @@ class Element extends \Magelight\Block
      */
     public function getId()
     {
-        return $this->_attributes['id']['value'];
+        return $this->attributes['id']['value'];
     }
 
     /**
@@ -256,7 +256,7 @@ class Element extends \Magelight\Block
      */
     public function addContent($content)
     {
-        $this->_content[] = $content;
+        $this->content[] = $content;
         return $this;
     }
 
@@ -268,7 +268,7 @@ class Element extends \Magelight\Block
      */
     protected function registerId($id)
     {
-        self::$_registeredIds[$id] = $this;
+        self::$registeredIds[$id] = $this;
         return $this;
     }
 
@@ -279,7 +279,7 @@ class Element extends \Magelight\Block
      */
     protected function isIdRegistered($id)
     {
-        return isset(self::$_registeredIds[$id]);
+        return isset(self::$registeredIds[$id]);
     }
 
     /**
@@ -292,7 +292,7 @@ class Element extends \Magelight\Block
     {
         $newId = $id;
         $suffix = 0;
-        while (isset(self::$_registeredIds[$newId])) {
+        while (isset(self::$registeredIds[$newId])) {
             $newId = $id . '-' . $suffix;
             $suffix++;
         }
@@ -318,7 +318,7 @@ class Element extends \Magelight\Block
      */
     public function setTag($tag)
     {
-        $this->_tag = $tag;
+        $this->tag = $tag;
         return $this;
     }
 
@@ -330,7 +330,7 @@ class Element extends \Magelight\Block
      */
     public function setForm(\Magelight\Webform\Blocks\Form $form)
     {
-        $this->_form = $form;
+        $this->form = $form;
         return $this;
     }
 
@@ -342,11 +342,11 @@ class Element extends \Magelight\Block
      */
     public function bindForm(\Magelight\Webform\Blocks\Form $form = null)
     {
-        $this->_form = $form;
-        foreach ($this->_content as $child) {
+        $this->form = $form;
+        foreach ($this->content as $child) {
             if ($child instanceof \Magelight\Webform\Blocks\Elements\Abstraction\Element) {
                 /* @var $child \Magelight\Webform\Blocks\Elements\Abstraction\Element */
-                $child->bindForm($this->_form);
+                $child->bindForm($this->form);
             }
         }
         return $this;
@@ -359,6 +359,6 @@ class Element extends \Magelight\Block
      */
     public function getForm()
     {
-        return $this->_form;
+        return $this->form;
     }
 }

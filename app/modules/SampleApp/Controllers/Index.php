@@ -42,7 +42,7 @@ class Index extends \Magelight\Controller
     {
         $this->view = \Magelight\Core\Blocks\Document::getInstance();
         $this->view->sectionAppend('body', \SampleApp\Blocks\Body::forge());
-        return $this;
+        return parent::beforeExecute();
     }
     /**
      * Index action

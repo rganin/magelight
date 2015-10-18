@@ -35,7 +35,7 @@ class Required extends AbstractRule
      *
      * @var string
      */
-    protected $_frontValidatorRule = 'required';
+    protected $frontValidatorRule = 'required';
 
     /**
      * Check value with rule
@@ -61,8 +61,8 @@ class Required extends AbstractRule
      */
     public function getError()
     {
-        if (!empty($this->_error)) {
-            return $this->_error;
+        if (!empty($this->error)) {
+            return $this->error;
         }
         return __('Field %s is required', $this->getErrorArguments());
     }

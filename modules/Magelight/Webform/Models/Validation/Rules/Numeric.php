@@ -35,7 +35,7 @@ class Numeric extends AbstractRule
      *
      * @var string
      */
-    protected $_frontValidatorRule = 'number';
+    protected $frontValidatorRule = 'number';
 
     /**
      * Check value with rule
@@ -58,8 +58,8 @@ class Numeric extends AbstractRule
      */
     public function getError()
     {
-        if (!empty($this->_error)) {
-            return $this->_error;
+        if (!empty($this->error)) {
+            return $this->error;
         }
         return __('Field %s must be numeric', $this->getErrorArguments());
     }

@@ -35,14 +35,14 @@ class Error
      *
      * @var string
      */
-    protected $_errorString = '';
+    protected $errorString = '';
 
     /**
      * Highlight element ID
      *
      * @var string
      */
-    protected $_highlightId = '';
+    protected $highlightId = '';
 
     /**
      * Forgery constructor
@@ -52,8 +52,8 @@ class Error
      */
     public function __forge($errorString, $highlightId)
     {
-        $this->_errorString = $errorString;
-        $this->_highlightId = $highlightId;
+        $this->errorString = $errorString;
+        $this->highlightId = $highlightId;
     }
 
     /**
@@ -63,6 +63,6 @@ class Error
      */
     public function getErrorString()
     {
-        return $this->_errorString;
+        return $this->errorString;
     }
 }

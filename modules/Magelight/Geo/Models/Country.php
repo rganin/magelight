@@ -30,6 +30,9 @@ namespace Magelight\Geo\Models;
  */
 class Country extends \Magelight\Model
 {
+    /**
+     * @var string
+     */
     protected static $tableName = 'geo_countries';
 
     /**

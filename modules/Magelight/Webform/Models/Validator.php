@@ -31,63 +31,63 @@ class Validator extends \Magelight\Model
     /**
      * Empty field data constant
      */
-    const EMPTY_DATA = null;
+    const EMPTY_DATA_PATTERN = null;
 
     /**
      * Validation result
      *
      * @var Validation\Result
      */
-    protected $_result = null;
+    protected $result = null;
 
     /**
      * Checkers for fields
      *
      * @var array
      */
-    protected $_checkers = [];
+    protected $checkers = [];
 
     /**
      * Checkers for fields group
      *
      * @var array
      */
-    protected $_groupCheckers = [];
+    protected $groupCheckers = [];
 
     /**
      * Field checkers with flat (query string) indexes
      *
      * @var array
      */
-    protected $_flatNameCheckers = [];
+    protected $flatNameCheckers = [];
 
     /**
      * Break on first error flag
      *
      * @var bool
      */
-    protected $_breakOnFirst = false;
+    protected $breakOnFirst = false;
 
     /**
      * Errors limit to render
      *
      * @var int
      */
-    protected $_errorsLimit = 10000;
+    protected $errorsLimit = 10000;
 
     /**
      * Data to validate
      *
      * @var array
      */
-    protected $_data = [];
+    protected $data = [];
 
     /**
      * Form object
      *
      * @var \Magelight\Webform\Blocks\Form
      */
-    protected $_form;
+    protected $form;
 
     /**
      * Set bound form
@@ -97,7 +97,7 @@ class Validator extends \Magelight\Model
      */
     public function setForm(\Magelight\Webform\Blocks\Form $form)
     {
-        $this->_form = $form;
+        $this->form = $form;
         return $this;
     }
 
@@ -108,7 +108,7 @@ class Validator extends \Magelight\Model
      */
     public function getForm()
     {
-        return $this->_form;
+        return $this->form;
     }
 
     /**
@@ -119,9 +119,9 @@ class Validator extends \Magelight\Model
      */
     public function validate($data)
     {
-        $this->_result = Validation\Result::forge(true, []);
-        $this->_data = &$data;
-        return $this->_validateRecursive($this->_data, $this->_checkers);
+        $this->result = Validation\Result::forge(true, []);
+        $this->data = &$data;
+        return $this->validateRecursive($this->data, $this->checkers);
     }
 
     /**
@@ -131,30 +131,30 @@ class Validator extends \Magelight\Model
      * @param array $checkers
      * @return Validator
      */
-    protected function _validateRecursive(&$data, &$checkers = [])
+    protected function validateRecursive(&$data, &$checkers = [])
     {
         foreach ($checkers as $fieldName => $checker) {
 
             $validationData = empty($fieldName) ? $data :
-                (isset($data[$fieldName]) ? $data[$fieldName] : self::EMPTY_DATA);
+                (isset($data[$fieldName]) ? $data[$fieldName] : self::EMPTY_DATA_PATTERN);
 
 
             if (is_array($checker)) {
                 $validationData = empty($fieldName) ? $data :
-                    (isset($data[$fieldName]) ? $data[$fieldName] : [self::EMPTY_DATA]);
+                    (isset($data[$fieldName]) ? $data[$fieldName] : [self::EMPTY_DATA_PATTERN]);
 
                 foreach ($checker as $key => $subChecker) {
                     if (empty($key)) {
                         foreach ($validationData as $dataField) {
-                            $this->_validateRecursive($dataField, $checker);
+                            $this->validateRecursive($dataField, $checker);
                         }
                     } else {
                         $subChecker = [$key=> $subChecker];
-                        $this->_validateRecursive($validationData, $subChecker);
+                        $this->validateRecursive($validationData, $subChecker);
                     }
                 }
             } elseif ($checker instanceof Validation\Checker) {
-                $this->_processValidation($validationData, $checker);
+                $this->processValidation($validationData, $checker);
             }
         }
         return $this;
@@ -167,26 +167,26 @@ class Validator extends \Magelight\Model
      * @param Validation\Checker $checker
      * @return Validator
      */
-    protected function _processValidation($data, Validation\Checker $checker)
+    protected function processValidation($data, Validation\Checker $checker)
     {
         if ($this->isEmptyField($data) && !$checker->hasRuleRequired() && !$checker->hasPernanentValidation()) {
 
         } else {
-            if ($this->_breakOnFirst) {
+            if ($this->breakOnFirst) {
                 $checker->breakOnFirst(true);
             }
             if (!$checker->check($data)) {
-                if ($this->_errorsLimit) {
+                if ($this->errorsLimit) {
                     foreach ($checker->getErrors() as $error) {
-                        if ($this->_errorsLimit--) {
-                            $this->_result->addError($error);
+                        if ($this->errorsLimit--) {
+                            $this->result->addError($error);
                         } else {
                             break;
                         }
                     }
                 }
-                $this->_result->setFail();
-                if ($this->_breakOnFirst) {
+                $this->result->setFail();
+                if ($this->breakOnFirst) {
                     return $this;
                 }
             }
@@ -217,13 +217,13 @@ class Validator extends \Magelight\Model
      */
     public function breakOnFirst($flag = true)
     {
-        $this->_breakOnFirst = $flag;
+        $this->breakOnFirst = $flag;
         return $this;
     }
 
     public function setErrorsLimit($limit = 10000)
     {
-        $this->_errorsLimit = $limit;
+        $this->errorsLimit = $limit;
         return $this;
     }
 
@@ -234,7 +234,7 @@ class Validator extends \Magelight\Model
      */
     public function result()
     {
-        return $this->_result;
+        return $this->result;
     }
 
     /**
@@ -262,11 +262,11 @@ class Validator extends \Magelight\Model
         }
 
         $index = array_shift($fieldAddress);
-        if (!isset($this->_checkers[$index])) {
-            $this->_checkers[$index] = null;
+        if (!isset($this->checkers[$index])) {
+            $this->checkers[$index] = null;
         }
 
-        $pointer = &$this->_checkers[$index];
+        $pointer = &$this->checkers[$index];
 
         foreach ($fieldAddress as $index) {
             if (!isset($pointer[$index])) {
@@ -288,7 +288,7 @@ class Validator extends \Magelight\Model
      */
     public function setFlatChecker($flatFieldAddress, Validation\Checker $checker)
     {
-        $this->_flatNameCheckers[$flatFieldAddress] = $checker;
+        $this->flatNameCheckers[$flatFieldAddress] = $checker;
         return $this;
     }
 
@@ -298,17 +298,17 @@ class Validator extends \Magelight\Model
      * @param array $fieldAddress
      * @return Validation\Checker|null
      */
-    protected function _getChecker(array $fieldAddress)
+    protected function getChecker(array $fieldAddress)
     {
         if (empty($fieldAddress)) {
             return null;
         }
         $index = array_shift($fieldAddress);
-        if (!isset($this->_checkers[$index])) {
+        if (!isset($this->checkers[$index])) {
             return null;
         }
 
-        $pointer = &$this->_checkers[$index];
+        $pointer = &$this->checkers[$index];
         foreach ($fieldAddress as $index) {
             if (!isset($pointer[$index])) {
                 return null;
@@ -330,10 +330,10 @@ class Validator extends \Magelight\Model
     {
         $fieldAddress = $this->queryStringToArray($fieldName);
         $fieldAddressLast = array_reverse($fieldAddress)[0];
-        $checker = $this->_getChecker($fieldAddress);
+        $checker = $this->getChecker($fieldAddress);
         if (empty($checker)) {
             $checker = Validation\Checker::forge($fieldAddressLast, $fieldAlias, $this)
-                ->breakOnFirst($this->_breakOnFirst);
+                ->breakOnFirst($this->breakOnFirst);
             $this->setChecker($fieldAddress, $checker);
             $this->setFlatChecker($fieldName, $checker);
         }
@@ -369,7 +369,7 @@ class Validator extends \Magelight\Model
             $ruleset = $this->getDefaultFrontValidationRuleset();
         }
         $rules = new \stdClass();
-        foreach ($this->_flatNameCheckers as $fieldName => $checker) {
+        foreach ($this->flatNameCheckers as $fieldName => $checker) {
             /* @var $checker \Magelight\Webform\Models\Validation\Checker */
             $fieldName = \Magelight\Webform\Blocks\Form::wrapFieldName($fieldName, $formName);
             $rules->$fieldName = $checker->getRulesJson($ruleset);
@@ -383,7 +383,7 @@ class Validator extends \Magelight\Model
             $ruleset = $this->getDefaultFrontValidationRuleset();
         }
         $messages = new \stdClass();
-        foreach ($this->_flatNameCheckers as $fieldName => $checker) {
+        foreach ($this->flatNameCheckers as $fieldName => $checker) {
             /* @var $checker \Magelight\Webform\Models\Validation\Checker */
             $fieldName = \Magelight\Webform\Blocks\Form::wrapFieldName($fieldName, $formName);
             $messages->$fieldName = $checker->getRulesMessagesJson($ruleset);

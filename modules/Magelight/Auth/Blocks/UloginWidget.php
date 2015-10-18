@@ -45,7 +45,7 @@ class UloginWidget extends \Magelight\Block
      *
      * @var string
      */
-    protected $_index = \Magelight\App::DEFAULT_INDEX;
+    protected $index = \Magelight\App::DEFAULT_INDEX;
 
     /**
      * Set block configuration index
@@ -55,7 +55,7 @@ class UloginWidget extends \Magelight\Block
      */
     public function setConfigIndex($configIndex)
     {
-        $this->_index = $configIndex;
+        $this->index = $configIndex;
         return $this;
     }
 
@@ -67,7 +67,7 @@ class UloginWidget extends \Magelight\Block
     public function getUloginData()
     {
         $config = (array) \Magelight\Config::getInstance()->getConfig(
-            'global/auth/ulogin/instances/' . $this->_index . '/options'
+            'global/auth/ulogin/instances/' . $this->index . '/options'
         );
 
 
@@ -89,7 +89,7 @@ class UloginWidget extends \Magelight\Block
     public function getUloginHtmlId()
     {
         return (string) \Magelight\Config::getInstance()->getConfig(
-            'global/auth/ulogin/instances/' . $this->_index . '/html_id'
+            'global/auth/ulogin/instances/' . $this->index . '/html_id'
         );
     }
 

@@ -30,9 +30,9 @@ class LabeledRadio extends LabeledCheckbox
      */
     public function __forge()
     {
-        $this->_checkbox = Radio::forge();
-        $this->_label = Label::forge()->removeClass('control-label');
-        $this->_label->addContent($this->_checkbox);
-        $this->_label->addClass('checkbox');
+        $this->checkbox = Radio::forge();
+        $this->label = Label::forge()->removeClass('control-label');
+        $this->label->addContent($this->checkbox);
+        $this->label->addClass('checkbox');
     }
 }

@@ -32,7 +32,7 @@ class Select extends Abstraction\Field
      *
      * @var string
      */
-    protected $_tag = 'select';
+    protected $tag = 'select';
 
     /**
      * Forgery

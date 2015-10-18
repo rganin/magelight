@@ -25,6 +25,9 @@ namespace Magelight\Sitemap\Controllers;
 
 class Sitemap extends \Magelight\Admin\Controllers\Base
 {
+    /**
+     * Generate sitemap action
+     */
     public function generateAction()
     {
         set_time_limit(0);

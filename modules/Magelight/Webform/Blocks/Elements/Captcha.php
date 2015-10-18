@@ -33,19 +33,30 @@ namespace Magelight\Webform\Blocks\Elements;
  */
 class Captcha extends Abstraction\Field
 {
+    /**
+     * @var string
+     */
     protected $template = 'Magelight/Webform/templates/webform/elements/captcha.phtml';
 
-    protected $_captcha = null;
+    /**
+     * @var \Magelight\Webform\Models\Captcha\Captcha
+     */
+    protected $captcha;
 
+    /**
+     * Forgery constructor
+     *
+     * @param string $renderUrl
+     */
     public function __forge($renderUrl = null)
     {
-        $this->_captcha = \Magelight\Webform\Models\Captcha\Captcha::forge();
+        $this->captcha = \Magelight\Webform\Models\Captcha\Captcha::forge();
 
         if (empty($renderUrl)) {
-            $this->_captcha->loadCodeFromSession()->generate()->saveCodeToSession();
-            $this->_captcha->save();
+            $this->captcha->loadCodeFromSession()->generate()->saveCodeToSession();
+            $this->captcha->save();
         }
-        $this->set('image_url', !empty($renderUrl) ? $renderUrl : $this->url($this->_captcha->getSavedFileName()));
+        $this->set('image_url', !empty($renderUrl) ? $renderUrl : $this->url($this->captcha->getSavedFileName()));
         $this->addClass('form-group');
     }
 }

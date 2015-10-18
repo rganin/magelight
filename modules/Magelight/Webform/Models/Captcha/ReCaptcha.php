@@ -47,14 +47,14 @@ class ReCaptcha
      *
      * @var string
      */
-    protected $_privateKey = '';
+    protected $privateKey = '';
 
     /**
      * Public captcha key
      *
      * @var string
      */
-    protected $_publicKey  = '';
+    protected $publicKey  = '';
 
     /**
      * Forgery constructor
@@ -77,7 +77,7 @@ class ReCaptcha
      */
     public function setPrivateKey($key)
     {
-        $this->_privateKey = $key;
+        $this->privateKey = $key;
     }
 
     /**
@@ -88,7 +88,7 @@ class ReCaptcha
      */
     public function setPublicKey($key)
     {
-        return $this->_publicKey = $key;
+        return $this->publicKey = $key;
     }
 
     /**
@@ -113,7 +113,7 @@ class ReCaptcha
      * @param array $data
      * @return string
      */
-    protected function _recaptchaQsEncode($data)
+    protected function recaptchaQsEncode($data)
     {
         $req = '';
         foreach ($data as $key => $value) {
@@ -132,9 +132,9 @@ class ReCaptcha
      * @return array
      * @throws \Magelight\Exception
      */
-    protected function _recaptchaHttpPost($host, $path, $data, $port = 80)
+    protected function recaptchaHttpPost($host, $path, $data, $port = 80)
     {
-        $req = $this->_recaptchaQsEncode ($data);
+        $req = $this->recaptchaQsEncode ($data);
         $httpRequest  = "POST $path HTTP/1.0\r\n";
         $httpRequest .= "Host: $host\r\n";
         $httpRequest .= "Content-Type: application/x-www-form-urlencoded;\r\n";
@@ -166,7 +166,7 @@ class ReCaptcha
      */
     public function recaptchaGetHtml($error = null, $useSsl = false)
     {
-        if (empty($this->_publicKey)) {
+        if (empty($this->publicKey)) {
             $this->triggerKeyError();
         }
         if ($useSsl) {
@@ -180,12 +180,12 @@ class ReCaptcha
         }
         return '<script type="text/javascript" src="'
             . $server
-            . '/challenge?k=' . $this->_publicKey . $errorPart . '"></script>
+            . '/challenge?k=' . $this->publicKey . $errorPart . '"></script>
         <noscript>
             <iframe src="'
             . $server
             . '/noscript?k='
-            . $this->_publicKey
+            . $this->publicKey
             . $errorPart
             . '" height="300" width="500" frameborder="0"></iframe><br/>
             <textarea name="recaptcha_challenge_field" rows="3" cols="40"></textarea>
@@ -205,7 +205,7 @@ class ReCaptcha
      */
     public function recaptchaCheckAnswer($remoteip, $challenge, $response = null, $extraParams = [])
     {
-        if (empty($this->_privateKey)) {
+        if (empty($this->privateKey)) {
             $this->triggerKeyError();
         }
         if ($remoteip == null || $remoteip == '') {
@@ -219,9 +219,9 @@ class ReCaptcha
             $recaptchaResponse->error = 'incorrect-captcha-sol';
             return $recaptchaResponse;
         }
-        $response = $this->_recaptchaHttpPost(self::RECAPTCHA_VERIFY_SERVER, "/recaptcha/api/verify",
+        $response = $this->recaptchaHttpPost(self::RECAPTCHA_VERIFY_SERVER, "/recaptcha/api/verify",
             [
-                'privatekey' => $this->_privateKey,
+                'privatekey' => $this->privateKey,
                 'remoteip' => $remoteip,
                 'challenge' => $challenge,
                 'response' => $response
@@ -251,7 +251,7 @@ class ReCaptcha
      */
     public function recaptchaGetSignupUrl($domain = null, $appname = null)
     {
-        return "https://www.google.com/recaptcha/admin/create?" .  $this->_recaptchaQsEncode(
+        return "https://www.google.com/recaptcha/admin/create?" .  $this->recaptchaQsEncode(
             ['domains' => $domain, 'app' => $appname]
         );
     }
@@ -262,7 +262,7 @@ class ReCaptcha
      * @param string $val
      * @return string
      */
-    protected function _recaptchaAesPad($val)
+    protected function recaptchaAesPad($val)
     {
         $block_size = 16;
         $numpad = $block_size - (strlen($val) % $block_size);
@@ -277,7 +277,7 @@ class ReCaptcha
      * @return string
      * @throws \Magelight\Exception
      */
-    protected function _recaptchaAesEncrypt($val, $ky)
+    protected function recaptchaAesEncrypt($val, $ky)
     {
         if (!function_exists ("mcrypt_encrypt")) {
             throw new \Magelight\Exception(
@@ -286,7 +286,7 @@ class ReCaptcha
         }
         $mode = MCRYPT_MODE_CBC;
         $enc  = MCRYPT_RIJNDAEL_128;
-        $val  = $this->_recaptchaAesPad($val);
+        $val  = $this->recaptchaAesPad($val);
         return mcrypt_encrypt($enc, $ky, $val, $mode, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0");
     }
 
@@ -296,7 +296,7 @@ class ReCaptcha
      * @param string $x
      * @return string
      */
-    protected function _recaptchaMailhideUrlBase64($x)
+    protected function recaptchaMailhideUrlBase64($x)
     {
         return strtr(base64_encode ($x), '+/', '-_');
     }
@@ -310,7 +310,7 @@ class ReCaptcha
      */
     public function recaptchaMailhideUrl($email)
     {
-        if (empty($this->_publicKey) || empty($this->_privateKey)) {
+        if (empty($this->publicKey) || empty($this->privateKey)) {
             throw new \Magelight\Exception(
                 __(
                     "To use reCAPTCHA Mailhide, you have to sign up for a public and private key, "
@@ -319,12 +319,12 @@ class ReCaptcha
                 )
             );
         }
-        $ky = pack('H*', $this->_privateKey);
-        $cryptmail = $this->_recaptchaAesEncrypt($email, $ky);
+        $ky = pack('H*', $this->privateKey);
+        $cryptmail = $this->recaptchaAesEncrypt($email, $ky);
         return "http://www.google.com/recaptcha/mailhide/d?k="
-            . $this->_publicKey
+            . $this->publicKey
             . "&c="
-            . $this->_recaptchaMailhideUrlBase64($cryptmail);
+            . $this->recaptchaMailhideUrlBase64($cryptmail);
     }
 
     /**
@@ -334,7 +334,7 @@ class ReCaptcha
      * @param string $email
      * @return array
      */
-    protected function _recaptchaMailhideEmailParts($email)
+    protected function recaptchaMailhideEmailParts($email)
     {
         $arr = preg_split("/@/", $email );
         if (strlen ($arr[0]) <= 4) {
@@ -356,7 +356,7 @@ class ReCaptcha
      */
     public function recaptchaMailhideHtml($email)
     {
-        $emailParts = $this->_recaptchaMailhideEmailParts($email);
+        $emailParts = $this->recaptchaMailhideEmailParts($email);
         $url = $this->recaptchaMailhideUrl($email);
         return htmlentities($emailParts[0])
             . "<a href='" . htmlentities ($url)

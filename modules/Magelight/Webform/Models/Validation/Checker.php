@@ -24,7 +24,7 @@
 namespace Magelight\Webform\Models\Validation;
 
 /**
- * @method static \Magelight\Webform\Models\Validation\Checker forge($fieldName, $fieldAlias = null) - forgery
+ * @method static \Magelight\Webform\Models\Validation\Checker forge($fieldName, $fieldAlias = null, \Magelight\Webform\Models\Validator $validator = null) - forgery
  * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule equals($value, $displayValue = null)
  * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule equalsToField($fullFieldIndex, $displayFieldName = null)
  * - Must be equal to this value. Display value will be displayed on frontend
@@ -63,54 +63,56 @@ class Checker
      *
      * @var string
      */
-    protected $_fieldName = null;
+    protected $fieldName = null;
 
     /**
      * Field alias
      *
      * @var string
      */
-    protected $_fieldAlias = null;
+    protected $fieldAlias = null;
 
     /**
      * Form highlight id
      *
      * @var string
      */
-    protected $_highlightId = null;
+    protected $highlightId = null;
 
     /**
      * Rules to check with
      *
      * @var array
      */
-    protected $_rules = [];
+    protected $rules = [];
 
     /**
+     * Collected errors
+     *
      * @var array
      */
-    protected $_errors = [];
+    protected $errors = [];
 
     /**
      * Break on first error flag
      *
      * @var bool
      */
-    protected $_breakOnFirst = false;
+    protected $breakOnFirstError = false;
 
     /**
      * Permanent validation even if data is empty or not set
      *
      * @var bool
      */
-    protected $_validatePermanent = false;
+    protected $validatePermanent = false;
 
     /**
      * Validator object
      *
      * @var \Magelight\Webform\Models\Validator
      */
-    protected $_validator = null;
+    protected $validator = null;
 
     /**
      * Forgery constructor
@@ -121,9 +123,9 @@ class Checker
      */
     public function __forge($fieldName, $fieldAlias = null, \Magelight\Webform\Models\Validator $validator = null)
     {
-        $this->_fieldName = $fieldName;
+        $this->fieldName = $fieldName;
         $this->setFieldAlias($fieldAlias);
-        $this->_validator = $validator;
+        $this->validator = $validator;
     }
 
     /**
@@ -133,7 +135,7 @@ class Checker
      */
     public function getValidator()
     {
-        return $this->_validator;
+        return $this->validator;
     }
 
     /**
@@ -144,7 +146,7 @@ class Checker
      */
     public function validatePermanent($flag = true)
     {
-        $this->_validatePermanent = $flag;
+        $this->validatePermanent = $flag;
         return $this;
     }
 
@@ -155,7 +157,7 @@ class Checker
      */
     public function hasPernanentValidation()
     {
-        return $this->_validatePermanent;
+        return $this->validatePermanent;
     }
 
     /**
@@ -167,9 +169,9 @@ class Checker
     public function setFieldAlias($fieldAlias = null)
     {
         if (empty($fieldAlias)) {
-            $this->_fieldAlias = $this->_fieldName;
+            $this->fieldAlias = $this->fieldName;
         } else {
-            $this->_fieldAlias = $fieldAlias;
+            $this->fieldAlias = $fieldAlias;
         }
         return $this;
     }
@@ -182,7 +184,7 @@ class Checker
      */
     public function setHighlightId($fieldId)
     {
-        $this->_highlightId = $fieldId;
+        $this->highlightId = $fieldId;
         return $this;
     }
 
@@ -194,7 +196,7 @@ class Checker
      */
     public function addRule(Rules\AbstractRule $rule)
     {
-        $this->_rules[get_class($rule)] = $rule;
+        $this->rules[get_class($rule)] = $rule;
         return $this;
     }
 
@@ -215,12 +217,12 @@ class Checker
             throw new \Magelight\Exception(
                 __(
                     'Trying to add unknown rule `%s` in `%s` for field `%s` (alias: `%s`).',
-                    [$className, __CLASS__, $this->_fieldName, $this->_fieldAlias]
+                    [$className, __CLASS__, $this->fieldName, $this->fieldAlias]
                 )
             );
         }
         /* @var $rule Rules\AbstractRule */
-        $this->addRule($rule->setArguments($arguments)->setFieldTitle($this->_fieldAlias));
+        $this->addRule($rule->setArguments($arguments)->setFieldTitle($this->fieldAlias));
         return $rule;
     }
 
@@ -233,11 +235,11 @@ class Checker
     public function check($value)
     {
         $result = true;
-        foreach ($this->_rules as $rule) {
+        foreach ($this->rules as $rule) {
             /* @var $rule Rules\AbstractRule */
             if (!$rule->check($value)) {
-                $this->_errors[get_class($rule)] = Error::forge($rule->getError(), $this->_highlightId);
-                if ($this->_breakOnFirst) {
+                $this->errors[get_class($rule)] = Error::forge($rule->getError(), $this->highlightId);
+                if ($this->breakOnFirstError) {
                     return false;
                 }
                 $result = false;
@@ -254,7 +256,7 @@ class Checker
      */
     public function hasRule($ruleClass = 'Magelight\\Webform\\Models\\Validation\\Rules\\Required')
     {
-        return isset($this->_rules[$ruleClass]);
+        return isset($this->rules[$ruleClass]);
     }
 
     /**
@@ -275,7 +277,7 @@ class Checker
      */
     public function breakOnFirst($flag = true)
     {
-        $this->_breakOnFirst = $flag;
+        $this->breakOnFirstError = $flag;
         return $this;
     }
 
@@ -286,7 +288,7 @@ class Checker
      */
     public function getErrors()
     {
-        return $this->_errors;
+        return $this->errors;
     }
 
 
@@ -299,7 +301,7 @@ class Checker
     public function getRulesJson($ruleset)
     {
         $rules = new \stdClass();
-        foreach ($this->_rules as $rule) {
+        foreach ($this->rules as $rule) {
             /* @var $rule \Magelight\Webform\Models\Validation\Rules\AbstractRule */
             $propertyName = $rule->getFrontValidationRuleName();
             if (in_array($propertyName, $ruleset)) {
@@ -318,7 +320,7 @@ class Checker
     public function getRulesMessagesJson($ruleset)
     {
         $messages = new \stdClass();
-        foreach ($this->_rules as $rule) {
+        foreach ($this->rules as $rule) {
             /* @var $rule \Magelight\Webform\Models\Validation\Rules\AbstractRule */
             $propertyName = $rule->getFrontValidationRuleName();
             if (in_array($propertyName, $ruleset)) {

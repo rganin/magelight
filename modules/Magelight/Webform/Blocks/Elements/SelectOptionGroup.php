@@ -32,7 +32,7 @@ class SelectOptionGroup extends Abstraction\Field
      *
      * @var string
      */
-    protected $_tag = 'optgroup';
+    protected $tag = 'optgroup';
 
     /**
      * Set option group title

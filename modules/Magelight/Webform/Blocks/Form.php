@@ -37,70 +37,70 @@ class Form extends Elements\Abstraction\Element
      *
      * @var string
      */
-    protected $_tag = 'form';
+    protected $tag = 'form';
 
     /**
      * Wrap index
      *
      * @var string
      */
-    protected $_wrapIndex = '';
+    protected $wrapIndex = '';
 
     /**
      * Fields IDs that were filled from request
      *
      * @var array
      */
-    protected $_filledIds = [];
+    protected $filledIds = [];
 
     /**
      * Feild values loaded from request
      *
      * @var array
      */
-    protected $_requestFields = [];
+    protected $requestFields = [];
 
     /**
      * Upload request fields
      *
      * @var array
      */
-    protected $_requestUploads = [];
+    protected $requestUploads = [];
 
     /**
      * Feild values loaded from request with plaintext addresses
      *
      * @var array
      */
-    protected $_requestFieldsPlain = [];
+    protected $requestFieldsPlain = [];
 
     /**
      * Validator object
      *
      * @var null|\Magelight\Webform\Models\Validator
      */
-    protected $_validator = null;
+    protected $validator = null;
 
     /**
      * Result object
      *
      * @var null|\Magelight\Webform\Blocks\Elements\Abstraction\Element
      */
-    protected $_resultRow = null;
+    protected $resultRow = null;
 
     /**
      * Is form data loaded from request flag
      *
      * @var bool
      */
-    protected $_loadedFromRequest = false;
+    protected $loadedFromRequest = false;
 
     /**
      * Form data (loaded from request)
      *
      * @var array
      */
-    protected $_formData = [];
+    protected $formData = [];
 
     /**
      * Set form configuration
@@ -113,7 +113,7 @@ class Form extends Elements\Abstraction\Element
      */
     public function setConfigs($name, $action, $enctype = 'multipart/form-data', $method = 'post')
     {
-        $this->_wrapIndex = $name;
+        $this->wrapIndex = $name;
         return $this->setAttribute('name', $name)
             ->setAttribute('action', $action)
             ->setAttribute('enctype', $enctype)
@@ -135,11 +135,11 @@ class Form extends Elements\Abstraction\Element
         $this->setAttribute('data-front-validate', 'true');
         $this->setAttribute(
             'data-validator-rules',
-            $this->_validator->getValidationRulesJson($this->getAttribute('name')), $this::QUOTATION_SINGLE
+            $this->validator->getValidationRulesJson($this->getAttribute('name')), $this::QUOTATION_SINGLE
         );
         $this->setAttribute(
             'data-validator-messages',
-            $this->_validator->getValidationMessagesJson($this->getAttribute('name')), $this::QUOTATION_SINGLE
+            $this->validator->getValidationMessagesJson($this->getAttribute('name')), $this::QUOTATION_SINGLE
         );
         return $this;
     }
@@ -152,7 +152,7 @@ class Form extends Elements\Abstraction\Element
      */
     public function wrapName($name)
     {
-        return self::wrapFieldName($name, $this->_wrapIndex);
+        return self::wrapFieldName($name, $this->wrapIndex);
     }
 
     /**
@@ -192,7 +192,7 @@ class Form extends Elements\Abstraction\Element
      */
     public function getElementById($id)
     {
-        foreach ($this->_content as $element) {
+        foreach ($this->content as $element) {
             if ($element instanceof \Magelight\Webform\Blocks\Elements\Abstraction\Element) {
                 if ($element->getId() == $id) {
                     return $element;
@@ -231,7 +231,7 @@ class Form extends Elements\Abstraction\Element
      */
     public function isEmptyRequest()
     {
-        return empty($this->_requestFields);
+        return empty($this->requestFields);
     }
 
     /**
@@ -241,7 +241,7 @@ class Form extends Elements\Abstraction\Element
      */
     public function getRequestFields()
     {
-        return $this->_requestFields;
+        return $this->requestFields;
     }
 
     /**
@@ -303,8 +303,8 @@ class Form extends Elements\Abstraction\Element
      */
     public function setValidator(\Magelight\Webform\Models\Validator $validator)
     {
-        $this->_validator = $validator;
-        $this->_validator->setForm($this);
+        $this->validator = $validator;
+        $this->validator->setForm($this);
         return $this;
     }
 
@@ -316,9 +316,9 @@ class Form extends Elements\Abstraction\Element
      */
     public function validate()
     {
-        if ($this->_validator instanceof \Magelight\Webform\Models\Validator) {
-            if (!empty($this->_requestFields)) {
-                $fieldsResult = $this->_processValidation(array_merge($this->_requestFields, (array)$this->_requestUploads));
+        if ($this->validator instanceof \Magelight\Webform\Models\Validator) {
+            if (!empty($this->requestFields)) {
+                $fieldsResult = $this->processValidation(array_merge($this->requestFields, (array)$this->requestUploads));
                 return $fieldsResult;
             } else {
                 return true;
@@ -334,9 +334,9 @@ class Form extends Elements\Abstraction\Element
      * @param array $data
      * @return bool
      */
-    protected function _processValidation($data)
+    protected function processValidation($data)
     {
-        $result = $this->_validator->validate($data)->result();
+        $result = $this->validator->validate($data)->result();
         if (!$result->isSuccess()) {
             foreach ($result->getErrors() as $error) {
                 /** @var $error \Magelight\Webform\Models\Validation\Error */
@@ -355,9 +355,9 @@ class Form extends Elements\Abstraction\Element
      */
     public function createResultRow($insertToContent = false)
     {
-        $this->_resultRow = Elements\Abstraction\Element::forge()->setTag('div')->addClass('form-result');
+        $this->resultRow = Elements\Abstraction\Element::forge()->setTag('div')->addClass('form-result');
         if ($insertToContent) {
-            $this->addContent($this->_resultRow);
+            $this->addContent($this->resultRow);
         }
         return $this;
     }
@@ -369,7 +369,7 @@ class Form extends Elements\Abstraction\Element
      */
     public function getResultRow()
     {
-        return $this->_resultRow;
+        return $this->resultRow;
     }
 
     /**
@@ -396,7 +396,7 @@ class Form extends Elements\Abstraction\Element
     public function setFieldValue($index, $value)
     {
         $address = $this->queryStringToArray($index);
-        $this->_setFieldValueRecursive($address, $value, $this->_requestFields);
+        $this->_setFieldValueRecursive($address, $value, $this->requestFields);
         return $this;
     }
 
@@ -436,7 +436,7 @@ class Form extends Elements\Abstraction\Element
     public function getFieldValue($index, $default = null)
     {
         $address = $this->queryStringToArray($index);
-        return $this->_getFieldValueRecursive($address, $default, $this->_requestFields);
+        return $this->getFieldValueRecursive($address, $default, $this->requestFields);
     }
 
     /**
@@ -447,7 +447,7 @@ class Form extends Elements\Abstraction\Element
      * @param array $fields
      * @return mixed|null
      */
-    protected function _getFieldValueRecursive($address, $default = null, &$fields = [])
+    protected function getFieldValueRecursive($address, $default = null, &$fields = [])
     {
         if (!is_array($address)) {
             return $default;
@@ -461,7 +461,7 @@ class Form extends Elements\Abstraction\Element
         if (empty($address)) {
             return $pointer;
         } else {
-            return $this->_getFieldValueRecursive($address, $default, $pointer);
+            return $this->getFieldValueRecursive($address, $default, $pointer);
         }
     }
 
@@ -486,10 +486,10 @@ class Form extends Elements\Abstraction\Element
     public function addResult($text = '', $class = 'alert-danger')
     {
         $res = Result::forge()->setContent($text)->setClass('alert')->addClass($class);
-        if (!$this->_resultRow instanceof Elements\Abstraction\Element) {
+        if (!$this->resultRow instanceof Elements\Abstraction\Element) {
             $this->createResultRow(false);
         }
-        $this->_resultRow->addContent($res);
+        $this->resultRow->addContent($res);
         return $this;
     }
 
@@ -506,15 +506,15 @@ class Form extends Elements\Abstraction\Element
         }
         $method = $this->getAttribute('method', 'post');
         $methodName = 'get' . ucfirst(strtolower($method));
-        if (!empty($this->_wrapIndex)) {
-            $this->_requestFields = $request->$methodName($this->_wrapIndex, []);
-            $this->_requestUploads = $request->getFilesNormalized($this->_wrapIndex, []);
+        if (!empty($this->wrapIndex)) {
+            $this->requestFields = $request->$methodName($this->wrapIndex, []);
+            $this->requestUploads = $request->getFilesNormalized($this->wrapIndex, []);
         } else {
             $methodName .= 'Array';
-            $this->_requestFields = $request->$methodName();
-            $this->_requestUploads = $request->getFilesArrayNormalized();
+            $this->requestFields = $request->$methodName();
+            $this->requestUploads = $request->getFilesArrayNormalized();
         }
-        return $this->setFormValuesFromRequestFields($this->_requestFields);
+        return $this->setFormValuesFromRequestFields($this->requestFields);
     }
 
     /**
@@ -524,8 +524,8 @@ class Form extends Elements\Abstraction\Element
      */
     public function setFormValues($data = [])
     {
-        $this->_requestFields = $data;
-        $this->setFormValuesFromRequestFields($this->_requestFields);
+        $this->requestFields = $data;
+        $this->setFormValuesFromRequestFields($this->requestFields);
     }
 
     /**
@@ -546,16 +546,16 @@ class Form extends Elements\Abstraction\Element
                 } else {
                     $name = $fieldName;
                 }
-                $id = $this->getFieldIdByName($name, $this->_filledIds);
+                $id = $this->getFieldIdByName($name, $this->filledIds);
                 if (!empty($id)) {
-                    if (isset(self::$_registeredIds[$id])
+                    if (isset(self::$registeredIds[$id])
                         &&
-                        self::$_registeredIds[$id] instanceof Elements\Abstraction\Field
+                        self::$registeredIds[$id] instanceof Elements\Abstraction\Field
                     ) {
-                        $field = self::$_registeredIds[$id];
+                        $field = self::$registeredIds[$id];
                         /* @var $field Elements\Abstraction\Field*/
                         $field->setFieldValueFromRequest($fieldValue);
-                        $this->_filledIds = $id;
+                        $this->filledIds = $id;
                     }
                 }
             }
@@ -572,7 +572,7 @@ class Form extends Elements\Abstraction\Element
      */
     public function getFieldIdByName($name, $skipIds = [])
     {
-        foreach (self::$_registeredIds as $id => $field) {
+        foreach (self::$registeredIds as $id => $field) {
             /* @var $field Elements\Abstraction\Field*/
             if ($field->getAttribute('name') === $name) {
                 if (!isset($skipIds[$id])) {
@@ -593,7 +593,7 @@ class Form extends Elements\Abstraction\Element
     public function getUpload($index, $default = [])
     {
         $address = $this->queryStringToArray($index);
-        return $this->_getFieldValueRecursive($address, $default, $this->_requestUploads);
+        return $this->getFieldValueRecursive($address, $default, $this->requestUploads);
     }
 
     /**
@@ -605,7 +605,7 @@ class Form extends Elements\Abstraction\Element
     public function getUploadObject($index)
     {
         $address = $this->queryStringToArray($index);
-        $array = $this->_getFieldValueRecursive($address, [], $this->_requestUploads);
+        $array = $this->getFieldValueRecursive($address, [], $this->requestUploads);
         if (isset($array['name'], $array['tmp_name'], $array['error'], $array['size'], $array['type'])) {
             return \Magelight\Upload::forge($array);
         }
@@ -632,7 +632,7 @@ class Form extends Elements\Abstraction\Element
     {
         $data = \Magelight\Http\Session::getInstance()->get('forms-' . $this->getAttribute('name'), []);
         if (!empty($data)) {
-            $this->_requestFields = $data;
+            $this->requestFields = $data;
         }
         return $this;
     }

@@ -28,5 +28,8 @@ namespace Magelight\Auth\Models;
  */
 class Contact extends \Magelight\Model
 {
+    /**
+     * @var string
+     */
     protected static $tableName = 'contacts';
 }

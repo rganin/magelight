@@ -35,7 +35,7 @@ class Visitors extends \Magelight\Admin\Controllers\Base
      */
     public function indexAction()
     {
-        $this->_breadcrumbsBlock->addBreadcrumb('Visitors', 'admin/visitors');
+        $this->breadcrumbsBlock->addBreadcrumb('Visitors', 'admin/visitors');
         $collection = \Magelight\Db\Collection::forge(
             \Magelight\Visitors\Models\Visitor::orm()->orderByDesc('time')
         )->setLimit(30);

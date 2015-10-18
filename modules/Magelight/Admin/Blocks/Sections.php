@@ -4,29 +4,54 @@ namespace Magelight\Admin\Blocks;
 
 class Sections extends \Magelight\Block
 {
+    /**
+     * @var string
+     */
     protected $template = 'Magelight/Admin/templates/sections.phtml';
 
-    protected $_items = [];
+    /**
+     * @var \Magelight\Admin\Blocks\Sections\Item[]
+     */
+    protected $items = [];
 
+    /**
+     * Forgery constructor
+     *
+     * @param string $itemsPath
+     */
     public function __forge($itemsPath)
     {
-        $this->_loadItems();
+        $this->loadItems();
     }
 
+    /**
+     * Add item
+     *
+     * @param int $order
+     * @param \Magelight\Admin\Blocks\Sections\Item $item
+     */
     public function addItem($order, $item)
     {
-        $this->_items[$order] = $item;
+        $this->items[$order] = $item;
     }
 
+    /**
+     * Get items
+     *
+     * @return Sections\Item[]
+     */
     public function getItems()
     {
-        return $this->_items;
+        return $this->items;
     }
 
-    protected function _loadItems()
+    /**
+     * Load items
+     */
+    protected function loadItems()
     {
         $items = \Magelight\Config::getInstance()->getConfig('admin/navbar/items');
-        $this->_items = $this->getItemForgery()->forgeItems($items);
+        $this->items = $this->getItemForgery()->forgeItems($items);
     }
 
     /**

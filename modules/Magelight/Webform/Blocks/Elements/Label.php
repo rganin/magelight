@@ -33,7 +33,7 @@ class Label extends Abstraction\Element
      *
      * @var string
      */
-    protected $_tag = 'label';
+    protected $tag = 'label';
 
     /**
      * Forgery constructor

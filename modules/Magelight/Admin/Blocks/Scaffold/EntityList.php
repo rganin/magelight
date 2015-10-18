@@ -31,23 +31,38 @@ namespace Magelight\Admin\Blocks\Scaffold;
  */
 class EntityList extends \Magelight\Block
 {
-    protected $_entity;
+    /**
+     * @var string
+     */
+    protected $entity;
 
-    protected $_page;
+    /**
+     * @var int
+     */
+    protected $page;
 
     /**
      * @var \Magelight\Admin\Models\Scaffold\Scaffold
      */
-    protected $_scaffold;
+    protected $scaffold;
 
+    /**
+     * @var string
+     */
     protected $template = 'Magelight/Admin/templates/scaffold/entity-list.phtml';
 
+    /**
+     * Forgery
+     *
+     * @param $entity
+     * @param $page
+     */
     public function __forge($entity, $page)
     {
         $this->setEntity($entity);
         $this->setPage($page);
-        $this->_scaffold = \Magelight\Admin\Models\Scaffold\Scaffold::forge();
-        $this->_scaffold->loadEntities();
+        $this->scaffold = \Magelight\Admin\Models\Scaffold\Scaffold::forge();
+        $this->scaffold->loadEntities();
         $this->sectionReplace('pager', \Magelight\Core\Blocks\Pager::forge($this->getCollection())
             ->setRoute(
                 \Magelight\App::getInstance()->getCurrentAction()['match'],
@@ -56,19 +71,37 @@ class EntityList extends \Magelight\Block
             ->addClass('pagination-centered'));
     }
 
+    /**
+     * Set entity
+     *
+     * @param string $entity
+     * @return $this
+     */
     public function setEntity($entity)
     {
-        $this->_entity = $entity;
+        $this->entity = $entity;
+        return $this;
     }
 
+    /**
+     * Set page
+     *
+     * @param int $page
+     * @return $this
+     */
     public function setPage($page)
     {
-        $this->_page = $page;
+        $this->page = $page;
+        return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function beforeToHtml()
     {
-        $this->tableFields = $this->_scaffold->getEntityFields($this->_entity);
+        $this->tableFields = $this->scaffold->getEntityFields($this->entity);
+        return parent::beforeToHtml();
     }
 
     /**
@@ -79,7 +112,7 @@ class EntityList extends \Magelight\Block
     public function getCollection()
     {
         return \Magelight\Db\Collection::forge(
-            $this->_scaffold->getEntityModel($this->_entity)->getOrm()
-        )->setLimit(10)->setPage($this->_page);
+            $this->scaffold->getEntityModel($this->entity)->getOrm()
+        )->setLimit(10)->setPage($this->page);
     }
 }

@@ -33,14 +33,14 @@ class ReCaptcha extends Abstraction\Field
      *
      * @var \Magelight\Webform\Models\Captcha\ReCaptcha
      */
-    protected $_model = null;
+    protected $reCaptchaModel = null;
 
     /**
      * Forgery constructor
      */
     public function __forge()
     {
-        $this->_model = \Magelight\Webform\Models\Captcha\ReCaptcha::forge();
+        $this->reCaptchaModel = \Magelight\Webform\Models\Captcha\ReCaptcha::forge();
     }
 
     /**
@@ -50,6 +50,6 @@ class ReCaptcha extends Abstraction\Field
      */
     public function toHtml()
     {
-        return $this->_model->recaptchaGetHtml();
+        return $this->reCaptchaModel->recaptchaGetHtml();
     }
 }

@@ -33,7 +33,7 @@ class Row extends Elements\Abstraction\Element
      *
      * @var string
      */
-    protected $_tag = 'div';
+    protected $tag = 'div';
 
     /**
      * Forgery constructor
@@ -61,7 +61,6 @@ class Row extends Elements\Abstraction\Element
             /* @var  Elements\Abstraction\Field $field[0]*/
             $this->addContent(Elements\Label::forge()->setFor($field[0]->getId())->addClass('control-label')->setContent($label));
         }
-//        $controls =  Elements\Abstraction\Element::forge()->addClass('controls');
 
         foreach ($field as $fieldElement) {
             if (is_string($fieldElement) || $fieldElement instanceof \Magelight\Block) {
@@ -78,7 +77,6 @@ class Row extends Elements\Abstraction\Element
         if (!empty($hint)) {
             $this->addContent(Elements\Hint::forge()->setContent($hint));
         }
-//        $this->addContent($controls);
         return $this;
     }
 }

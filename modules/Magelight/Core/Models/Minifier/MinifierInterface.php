@@ -28,7 +28,7 @@ namespace Magelight\Core\Models\Minifier;
  *
  * @package Magelight\Core\Models\Minifier
  */
-interface IMinifierInterface
+interface MinifierInterface
 {
     /**
      * Minify entry

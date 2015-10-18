@@ -30,7 +30,7 @@ class Time24 extends AbstractRule
      *
      * @var string
      */
-    protected $_frontValidatorRule = 'time24';
+    protected $frontValidatorRule = 'time24';
 
     /**
      * Check value with rule
@@ -53,8 +53,8 @@ class Time24 extends AbstractRule
      */
     public function getError()
     {
-        if (!empty($this->_error)) {
-            return $this->_error;
+        if (!empty($this->error)) {
+            return $this->error;
         }
         return __('Field %s must be a valid 24h formatted time', $this->getErrorArguments());
     }

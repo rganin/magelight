@@ -35,7 +35,7 @@ class PregMatch extends AbstractRule
      *
      * @var string
      */
-    protected $_frontValidatorRule = 'regex';
+    protected $frontValidatorRule = 'regex';
 
     /**
      * Check value with rule
@@ -48,8 +48,8 @@ class PregMatch extends AbstractRule
      */
     public function check($value)
     {
-        if (isset($this->_arguments[0])) {
-            return preg_match($this->_arguments[0], $value) > 0;
+        if (isset($this->arguments[0])) {
+            return preg_match($this->arguments[0], $value) > 0;
         }
         return false;
     }
@@ -71,8 +71,8 @@ class PregMatch extends AbstractRule
      */
     public function getError()
     {
-        if (!empty($this->_error)) {
-            return $this->_error;
+        if (!empty($this->error)) {
+            return $this->error;
         }
         return __('Field %s must match regexp "%s"', $this->getErrorArguments());
     }

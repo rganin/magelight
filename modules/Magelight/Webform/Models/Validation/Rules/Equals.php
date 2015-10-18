@@ -30,7 +30,7 @@ class Equals extends AbstractRule
      *
      * @var string
      */
-    protected $_frontValidatorRule = 'equals';
+    protected $frontValidatorRule = 'equals';
 
     /**
      * Check value with rule
@@ -43,7 +43,7 @@ class Equals extends AbstractRule
      */
     public function check($value)
     {
-        return $value === $this->_arguments[0];
+        return $value === $this->arguments[0];
     }
 
     /**
@@ -53,7 +53,7 @@ class Equals extends AbstractRule
      */
     public function getFrontValidationParams()
     {
-        return $this->_arguments[0];
+        return $this->arguments[0];
     }
 
     /**
@@ -63,8 +63,8 @@ class Equals extends AbstractRule
      */
     public function getError()
     {
-        if (!empty($this->_error)) {
-            return $this->_error;
+        if (!empty($this->error)) {
+            return $this->error;
         }
         return __('Field %s must be equal to %2$s', $this->getErrorArguments());
     }

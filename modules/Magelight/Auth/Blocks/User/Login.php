@@ -52,7 +52,7 @@ class Login extends \Magelight\Block
      *
      * @return \Magelight\Webform\Blocks\Form
      */
-    public function _getLoginForm()
+    public function getLoginForm()
     {
         $form = Form::forge()->setHorizontal()->setConfigs(
             'remindpass-form',
@@ -68,7 +68,7 @@ class Login extends \Magelight\Block
             Elements\Abstraction\Element::forge()->setTag('a')->setAttribute('href', $this->url('remindpass'))
                 ->setContent(__('Remind password'))->setClass('btn')
         ])
-            ->loadFromRequest(\Magelight\Http\Request::getInstance())->setValidator($this->_getLoginFormValidator());
+            ->loadFromRequest(\Magelight\Http\Request::getInstance())->setValidator($this->getLoginFormValidator());
     }
 
     /**
@@ -76,7 +76,7 @@ class Login extends \Magelight\Block
      *
      * @return \Magelight\Webform\Models\Validator
      */
-    public function _getLoginFormValidator()
+    public function getLoginFormValidator()
     {
         $validator = \Magelight\Webform\Models\Validator::forge();
         $validator->fieldRules('email')->required()->chainRule()->email()->setCustomError('Enter correct e-mail');

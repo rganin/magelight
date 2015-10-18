@@ -25,8 +25,15 @@ namespace Magelight\Admin\Blocks;
 
 class Body extends \Magelight\Block
 {
+    /**
+     * @var string
+     */
     protected $template = 'Magelight/Admin/templates/body.phtml';
 
+
+    /**
+     * {@inheritdoc}
+     */
     public function initBlock()
     {
         $currentUserId = \Magelight\Http\Session::getInstance()->get('user_id');
@@ -45,5 +52,6 @@ class Body extends \Magelight\Block
         $document->addCss('Magelight/Core/static/css/hint.css');
         $document->addJs('Magelight/Core/static/js/jquery.js');
         $document->addJs('Magelight/Core/static/js/bootstrap.min.js');
+        return parent::initBlock();
     }
 }

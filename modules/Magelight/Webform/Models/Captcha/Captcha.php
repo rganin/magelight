@@ -48,7 +48,7 @@ class Captcha
      *
      * @var array
      */
-    protected $_config = [
+    protected $config = [
         'charlist'          => '1234567890',
         'save_path'         => null,
         'code_length'       => 5,
@@ -68,30 +68,30 @@ class Captcha
      *
      * @var resource|null
      */
-    protected $_image = null;
+    protected $image = null;
 
     /**
      * Captcha code
      *
      * @var null
      */
-    protected $_code = null;
+    protected $code = null;
 
     /**
      * Save filename
      *
      * @var null
      */
-    protected $_fileName = null;
+    protected $fileName = null;
 
     /**
      * Forgery constructor
      */
     public function __forge()
     {
-        $this->setGetSetTargetArray($this->_config);
-        $this->_config = array_merge(
-            $this->_config,
+        $this->setGetSetTargetArray($this->config);
+        $this->config = array_merge(
+            $this->config,
             (array)\Magelight\Config::getInstance()->getConfig('global/document/captcha', [])
         );
         $this->font_file = \Magelight\App::getInstance()->getRealPathInModules($this->font_file);
@@ -120,7 +120,7 @@ class Captcha
      */
     public function saveCodeToSession()
     {
-        \Magelight\Http\Session::getInstance()->set($this->session_code, $this->_code);
+        \Magelight\Http\Session::getInstance()->set($this->session_code, $this->code);
         return $this;
     }
 
@@ -131,7 +131,7 @@ class Captcha
      */
     public function loadCodeFromSession()
     {
-        $this->_code = \Magelight\Http\Session::getInstance()->get($this->session_code, null);
+        $this->code = \Magelight\Http\Session::getInstance()->get($this->session_code, null);
         return $this;
     }
 
@@ -142,28 +142,28 @@ class Captcha
      */
     public function generate()
     {
-        if (!$this->_code) {
-            $this->_code = $this->generateCode();
+        if (!$this->code) {
+            $this->code = $this->generateCode();
         }
 
         $font_size = isset($this->font_size) ? $this->font_size : $this->height * 0.75;
-        $this->_image = @imagecreate($this->width, $this->height);
-        if (!$this->_image) {
+        $this->image = @imagecreate($this->width, $this->height);
+        if (!$this->image) {
             trigger_error("Unable to allocate image", E_USER_WARNING);
             return $this;
         }
         $colorHelper = \Magelight\Helpers\ColorHelper::forge();
 
-        $bgColor = $colorHelper->allocateImageColorCss($this->_image, $this->background_color);
-        $textColor = $colorHelper->allocateImageColorCss($this->_image, $this->font_color);
-        $noiseColor = $colorHelper->allocateImageColorCss($this->_image, $this->noise_color);
+        $bgColor = $colorHelper->allocateImageColorCss($this->image, $this->background_color);
+        $textColor = $colorHelper->allocateImageColorCss($this->image, $this->font_color);
+        $noiseColor = $colorHelper->allocateImageColorCss($this->image, $this->noise_color);
 
         for( $i=0; $i<($this->width * $this->height)/3; $i++ ) {
-            imagefilledellipse($this->_image, mt_rand(0, $this->width), mt_rand(0,$this->height), 1, 1, $noiseColor);
+            imagefilledellipse($this->image, mt_rand(0, $this->width), mt_rand(0,$this->height), 1, 1, $noiseColor);
         }
 
         for( $i=0; $i<($this->width * $this->height)/150; $i++ ) {
-            imageline($this->_image,
+            imageline($this->image,
                 mt_rand(0,$this->width),
                 mt_rand(0,$this->height),
                 mt_rand(0,$this->width),
@@ -172,10 +172,10 @@ class Captcha
             );
         }
 
-        $textbox = imagettfbbox($font_size, 0, $this->font_file, $this->_code);
+        $textbox = imagettfbbox($font_size, 0, $this->font_file, $this->code);
         $x = ($this->width - $textbox[4])/2;
         $y = ($this->height - $textbox[5])/2;
-        imagettftext($this->_image, $font_size, 0, $x, $y, $textColor, $this->font_file , $this->_code);
+        imagettftext($this->image, $font_size, 0, $x, $y, $textColor, $this->font_file , $this->code);
         return $this;
     }
 
@@ -193,10 +193,10 @@ class Captcha
             if (!is_writeable($this->save_path)) {
                 trigger_error("Captcha save path {$this->save_path} is not writeable.", E_USER_WARNING);
             }
-            $this->_fileName = trim($this->save_path, '\\/') . DS . md5($this->_code) . 'captcha.jpg';
+            $this->fileName = trim($this->save_path, '\\/') . DS . md5($this->code) . 'captcha.jpg';
             \Magelight\Cache\AdapterPool::getInstance()->getAdapter()
-                ->set(realpath(dirname($this->_fileName)) . DS . basename($this->_fileName), 1, $this->ttl);
-            imagejpeg($this->_image, $this->_fileName, 75);
+                ->set(realpath(dirname($this->fileName)) . DS . basename($this->fileName), 1, $this->ttl);
+            imagejpeg($this->image, $this->fileName, 75);
         }
         return $this;
     }
@@ -226,7 +226,7 @@ class Captcha
      */
     public function getSavedFileName()
     {
-        return $this->_fileName;
+        return $this->fileName;
     }
 
     /**
@@ -236,7 +236,7 @@ class Captcha
      */
     public function render()
     {
-        imagejpeg($this->_image);
+        imagejpeg($this->image);
         return $this;
     }
 

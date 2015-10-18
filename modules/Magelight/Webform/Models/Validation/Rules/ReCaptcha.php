@@ -30,7 +30,7 @@ class ReCaptcha extends AbstractRule
      *
      * @var string
      */
-    protected $_frontValidatorRule = 'reCaptcha';
+    protected $frontValidatorRule = 'reCaptcha';
 
     /**
      * Check value with rule
@@ -57,8 +57,8 @@ class ReCaptcha extends AbstractRule
      */
     public function getError()
     {
-        if (!empty($this->_error)) {
-            return $this->_error;
+        if (!empty($this->error)) {
+            return $this->error;
         }
         return __('Enered reCaptcha text is invalid', $this->getErrorArguments());
     }

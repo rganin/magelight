@@ -47,29 +47,29 @@ class Scaffold
      *
      * @var string
      */
-    protected $_connectionName;
+    protected $connectionName;
 
     /**
      * Entities configuration array
      *
      * @var array
      */
-    protected $_entities = [];
+    protected $entities = [];
 
     /**
      * @var \Magelight\Db\Common\Adapter
      */
-    protected $_db;
+    protected $db;
 
     /**
      * @var \SimpleXMLElement
      */
-    protected $_entitiesConfig;
+    protected $entitiesConfig;
 
     /**
      * @var \SimpleXMLElement
      */
-    protected $_defaultEntityConfig;
+    protected $defaultEntityConfig;
 
     /**
      * Forgery constructor
@@ -90,8 +90,8 @@ class Scaffold
      */
     public function setConnection($connectionName = \Magelight\App::DEFAULT_INDEX)
     {
-        $this->_connectionName = $connectionName;
-        $this->_db = \Magelight\App::getInstance()->db($connectionName);
+        $this->connectionName = $connectionName;
+        $this->db = \Magelight\App::getInstance()->db($connectionName);
         return $this;
     }
 
@@ -102,16 +102,16 @@ class Scaffold
      */
     public function getEntitiesConfig()
     {
-        if (empty($this->_entitiesConfig)) {
+        if (empty($this->entitiesConfig)) {
             $entitiesConfig = clone \Magelight\Config::getInstance()->getConfig('admin/scaffold/entities');
-            $this->_defaultEntityConfig = clone $entitiesConfig->default;
+            $this->defaultEntityConfig = clone $entitiesConfig->default;
             unset($entitiesConfig->default);
             foreach ($entitiesConfig->children() as $child) {
                 /** @var $child \SimpleXMLElement */
                 /** @var $draft \SimpleXMLElement */
                 /** @var $fieldDraft \SimpleXMLElement */
 
-                $draft = clone $this->_defaultEntityConfig;
+                $draft = clone $this->defaultEntityConfig;
                 \Magelight\Components\Loaders\Config::mergeConfig($draft, $child);
                 \Magelight\Components\Loaders\Config::mergeConfig($entitiesConfig->{$child->getName()}, $draft);
 
@@ -126,9 +126,9 @@ class Scaffold
                     );
                 }
             }
-            $this->_entitiesConfig = $entitiesConfig;
+            $this->entitiesConfig = $entitiesConfig;
         }
-        return $this->_entitiesConfig;
+        return $this->entitiesConfig;
     }
 
     /**
@@ -139,12 +139,12 @@ class Scaffold
      */
     public function getEntityConfigByTableName($tableName)
     {
-        foreach ($this->_entitiesConfig->children() as $child) {
+        foreach ($this->entitiesConfig->children() as $child) {
             if (!empty($child->table_name) && (string)$child->table_name == $tableName) {
-                return $this->_entitiesConfig->{$child->getName()};
+                return $this->entitiesConfig->{$child->getName()};
             }
         }
-        return $this->_defaultEntityConfig;
+        return $this->defaultEntityConfig;
     }
 
     /**
@@ -155,9 +155,9 @@ class Scaffold
      */
     public function getEntityFields($entity)
     {
-        $fields = [$this->_entities[$entity]['id_field']];
-        if (!empty($this->_entitiesConfig->$entity->fields)) {
-            foreach ($this->_entitiesConfig->$entity->fields->children() as $field) {
+        $fields = [$this->entities[$entity]['id_field']];
+        if (!empty($this->entitiesConfig->$entity->fields)) {
+            foreach ($this->entitiesConfig->$entity->fields->children() as $field) {
                 $fields[] = $field->getName();
             }
             return $fields;
@@ -175,10 +175,10 @@ class Scaffold
      */
     public function getEntityFieldConfig($entity, $field)
     {
-        if (!empty($this->_entitiesConfig->$entity->fields->$field)) {
-            return $this->_entitiesConfig->$entity->fields->$field;
+        if (!empty($this->entitiesConfig->$entity->fields->$field)) {
+            return $this->entitiesConfig->$entity->fields->$field;
         } else {
-            return $this->_defaultEntityConfig->fields->default;
+            return $this->defaultEntityConfig->fields->default;
         }
     }
 
@@ -190,38 +190,38 @@ class Scaffold
      */
     public function loadEntities()
     {
-        if (empty($this->_entities)) {
+        if (empty($this->entities)) {
             $configEntities = $this->getEntitiesConfig()->children();
 
             if (!empty($configEntities)) {
                 foreach ($configEntities as $entity) {
                     /** @var $entity \SimpleXMLElement */
-                    $this->_entities[$entity->getName()] = [
+                    $this->entities[$entity->getName()] = [
                         'entity'      => $entity->getName(),
                         'comment'     => (string)$entity->comment,
                         'model_class' => !empty($entity->model_class)
                             ? (string)$entity->model_class
                             : self::DEFAULT_MODEL_CLASS,
                     ];
-                    $this->_defineEntityIdFieldName($entity)->_defineEntityTableName($entity);
-                    $this->_entities[$entity->getName()]['count']= $this->getEntityModel($entity->getName())
+                    $this->defineEntityIdFieldName($entity)->defineEntityTableName($entity);
+                    $this->entities[$entity->getName()]['count']= $this->getEntityModel($entity->getName())
                         ->getOrm()
                         ->totalCount();
                 }
             } else {
-                foreach ($this->_db->execute('SHOW TABLES;')->fetchAll() as $table) {
-                    $this->_entities[$table[0]] = [
+                foreach ($this->db->execute('SHOW TABLES;')->fetchAll() as $table) {
+                    $this->entities[$table[0]] = [
                         'table_name'  => $table[0],
                         'entity'      => $table[0],
                         'comment'     => null,
                         'model_class' => null,
                         'id_field'    => 'id'
                     ];
-                    $this->_entities[$table[0]]['count']= $this->getEntityModel($table[0])->getOrm()->totalCount();
+                    $this->entities[$table[0]]['count']= $this->getEntityModel($table[0])->getOrm()->totalCount();
                 }
             }
         }
-        return $this->_entities;
+        return $this->entities;
     }
 
     /**
@@ -230,23 +230,23 @@ class Scaffold
      * @param \SimpleXMLElement $entity
      * @return $this
      */
-    protected function _defineEntityTableName(\SimpleXMLElement $entity)
+    protected function defineEntityTableName(\SimpleXMLElement $entity)
     {
         if (!empty($entity->table_name)) {
-            $this->_setEntityTable($entity->getName(), (string)$entity->table_name);
+            $this->setEntityTable($entity->getName(), (string)$entity->table_name);
         } else {
             if ((string)$entity->model_class !== self::DEFAULT_MODEL_CLASS) {
-                $this->_setEntityTable(
+                $this->setEntityTable(
                     $entity->getName(),
                     static::callStaticLate([
                         self::getForgery()->getClassName(
-                            $this->_entities[$entity->getName()]['model_class']
+                            $this->entities[$entity->getName()]['model_class']
                         ),
                         'getTableName'
                     ])
                 );
             } else {
-                $this->_setEntityTable($entity->getName(), $entity->getName());
+                $this->setEntityTable($entity->getName(), $entity->getName());
             }
         }
         return $this;
@@ -258,7 +258,7 @@ class Scaffold
      * @param \SimpleXMLElement $entity
      * @return $this
      */
-    protected function _defineEntityIdFieldName(\SimpleXMLElement $entity)
+    protected function defineEntityIdFieldName(\SimpleXMLElement $entity)
     {
         if (!empty($entity->id_field)) {
             $this->_setEntityIdField($entity->getName(), (string)$entity->id_field);
@@ -268,7 +268,7 @@ class Scaffold
                     $entity->getName(),
                     static::callStaticLate([
                         self::getForgery()->getClassName(
-                            $this->_entities[$entity->getName()]['model_class']
+                            $this->entities[$entity->getName()]['model_class']
                         ),
                         'getIdField'
                     ])
@@ -286,9 +286,9 @@ class Scaffold
      * @param string $entity
      * @param string $table
      */
-    protected function _setEntityTable($entity, $table)
+    protected function setEntityTable($entity, $table)
     {
-        $this->_entities[$entity]['table_name'] = $table;
+        $this->entities[$entity]['table_name'] = $table;
     }
 
     /**
@@ -299,7 +299,7 @@ class Scaffold
      */
     protected function _setEntityIdField($entity, $idFieldName)
     {
-        $this->_entities[$entity]['id_field'] = $idFieldName;
+        $this->entities[$entity]['id_field'] = $idFieldName;
     }
 
     /**
@@ -310,7 +310,7 @@ class Scaffold
      */
     public function getEntityIdField($entityName)
     {
-        return $this->_entities[$entityName]['id_field'];
+        return $this->entities[$entityName]['id_field'];
     }
 
     /**
@@ -321,7 +321,7 @@ class Scaffold
      */
     public function getEntityTableName($entityName)
     {
-        return $this->_entities[$entityName]['id_field'];
+        return $this->entities[$entityName]['id_field'];
     }
 
     /**
@@ -331,7 +331,7 @@ class Scaffold
      */
     public function getEntities()
     {
-        return $this->_entities;
+        return $this->entities;
     }
 
     /**
@@ -341,8 +341,8 @@ class Scaffold
      * @return string
      */
     public function getEntityModelClass($entity) {
-        return isset($this->_entities[$entity]['model_class'])
-            ? $this->_entities[$entity]['model_class']
+        return isset($this->entities[$entity]['model_class'])
+            ? $this->entities[$entity]['model_class']
             : self::DEFAULT_MODEL_CLASS;
     }
 
@@ -392,8 +392,8 @@ class Scaffold
      */
     protected function _getEntityTable($entity)
     {
-        if (isset($this->_entities[$entity]['table_name'])) {
-            return $this->_entities[$entity]['table_name'];
+        if (isset($this->entities[$entity]['table_name'])) {
+            return $this->entities[$entity]['table_name'];
         } else {
             throw new \Magelight\Exception(
                 __("Entity `%s` table is not defined!", $entity)
@@ -410,8 +410,8 @@ class Scaffold
      */
     protected function _getEntityIdField($entity)
     {
-        if (isset($this->_entities[$entity]['id_field'])) {
-            return $this->_entities[$entity]['id_field'];
+        if (isset($this->entities[$entity]['id_field'])) {
+            return $this->entities[$entity]['id_field'];
         } else {
             throw new \Magelight\Exception(
                 __("Entity `%s` id field is not defined!", $entity)

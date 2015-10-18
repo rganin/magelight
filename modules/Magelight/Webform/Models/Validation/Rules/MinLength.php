@@ -35,7 +35,7 @@ class MinLength extends AbstractRule
      *
      * @var string
      */
-    protected $_frontValidatorRule = 'minlength';
+    protected $frontValidatorRule = 'minlength';
 
     /**
      * Check value with rule
@@ -48,7 +48,7 @@ class MinLength extends AbstractRule
      */
     public function check($value)
     {
-        return (strlen(trim($value)) >= $this->_arguments[0]);
+        return (strlen(trim($value)) >= $this->arguments[0]);
     }
 
     /**
@@ -58,7 +58,7 @@ class MinLength extends AbstractRule
      */
     public function getFrontValidationParams()
     {
-        return $this->_arguments[0];
+        return $this->arguments[0];
     }
 
     /**
@@ -68,8 +68,8 @@ class MinLength extends AbstractRule
      */
     public function getError()
     {
-        if (!empty($this->_error)) {
-            return $this->_error;
+        if (!empty($this->error)) {
+            return $this->error;
         }
         return __('Field %s must contain at least %s characters', $this->getErrorArguments());
     }

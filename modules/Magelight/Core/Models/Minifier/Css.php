@@ -27,7 +27,7 @@ namespace Magelight\Core\Models\Minifier;
  *
  * @package Magelight\Core\Models\Minifier
  */
-class Css implements IMinifierInterface
+class Css implements MinifierInterface
 {
     /**
      * Minify CSS

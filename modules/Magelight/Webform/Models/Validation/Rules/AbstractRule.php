@@ -41,35 +41,35 @@ abstract class AbstractRule
      *
      * @var string
      */
-    protected $_error;
+    protected $error;
 
     /**
      * Rule arguments
      *
      * @var array
      */
-    protected $_arguments = [];
+    protected $arguments = [];
 
     /**
      * Field title
      *
      * @var string
      */
-    protected $_fieldTitle = null;
+    protected $fieldTitle = null;
 
     /**
      * Checker backreference for chaining
      *
      * @var \Magelight\Webform\Models\Validation\Checker
      */
-    protected $_checker = null;
+    protected $checker = null;
 
     /**
      * Fron validator (jQueryValidator) rule name
      *
      * @var string
      */
-    protected $_frontValidatorRule = '';
+    protected $frontValidatorRule = '';
 
     /**
      * Forgery constructor
@@ -78,7 +78,7 @@ abstract class AbstractRule
      */
     public function __forge(\Magelight\Webform\Models\Validation\Checker $checker)
     {
-        $this->_checker = $checker;
+        $this->checker = $checker;
     }
 
     /**
@@ -88,7 +88,7 @@ abstract class AbstractRule
      */
     public function checker()
     {
-        return $this->_checker;
+        return $this->checker;
     }
 
     /**
@@ -111,7 +111,7 @@ abstract class AbstractRule
      */
     public function setFieldTitle($fieldName)
     {
-        $this->_fieldTitle = $fieldName;
+        $this->fieldTitle = $fieldName;
         return $this;
     }
 
@@ -123,7 +123,7 @@ abstract class AbstractRule
      */
     public function setArguments($arguments = [])
     {
-        $this->_arguments = $arguments;
+        $this->arguments = $arguments;
         return $this;
     }
 
@@ -135,7 +135,7 @@ abstract class AbstractRule
      */
     public function setCustomError($errorText)
     {
-        $this->_error = $errorText;
+        $this->error = $errorText;
         return $this;
     }
 
@@ -146,8 +146,8 @@ abstract class AbstractRule
      */
     protected function getErrorArguments()
     {
-        $args = $this->_arguments;
-        array_unshift($args, $this->_fieldTitle);
+        $args = $this->arguments;
+        array_unshift($args, $this->fieldTitle);
         return $args;
     }
 
@@ -158,8 +158,8 @@ abstract class AbstractRule
      */
     public function getError()
     {
-        if (!empty($this->_error)) {
-            return $this->_error;
+        if (!empty($this->error)) {
+            return $this->error;
         }
         return __('Common validation error');
     }
@@ -192,6 +192,6 @@ abstract class AbstractRule
      */
     public function getFrontValidationRuleName()
     {
-        return $this->_frontValidatorRule;
+        return $this->frontValidatorRule;
     }
 }

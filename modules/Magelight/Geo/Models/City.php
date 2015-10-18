@@ -30,8 +30,18 @@ namespace Magelight\Geo\Models;
  */
 class City extends \Magelight\Model
 {
+    /**
+     * @var string
+     */
     protected static $tableName = 'geo_cities';
 
+    /**
+     * Get city ID by city name
+     *
+     * @param string $name
+     * @param array $langs
+     * @return mixed
+     */
     public function getCityIdByName($name, $langs = ['en', 'ru', 'ua'])
     {
         $orm = self::orm()->selectFields([self::$idField]);

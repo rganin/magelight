@@ -44,7 +44,7 @@ class ForgotPassword extends \Magelight\Block
      *
      * @return \Magelight\Webform\Blocks\Form
      */
-    public function _getForgotPasswordForm()
+    public function getForgotPasswordForm()
     {
         $form = Form::forge()->setHorizontal()->setConfigs(
             'remindpass-form',

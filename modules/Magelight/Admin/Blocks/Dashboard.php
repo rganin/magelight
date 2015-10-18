@@ -25,5 +25,8 @@ namespace Magelight\Admin\Blocks;
 
 class Dashboard extends \Magelight\Block
 {
+    /**
+     * @var string
+     */
     protected $template = 'Magelight/Admin/templates/dashboard.phtml';
 }

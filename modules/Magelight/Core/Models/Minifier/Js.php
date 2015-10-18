@@ -28,7 +28,7 @@ namespace Magelight\Core\Models\Minifier;
  *
  * @package Magelight\Core\Models\Minifier
  */
-class Js implements IMinifierInterface
+class Js implements MinifierInterface
 {
     /**
      * Minify javascript

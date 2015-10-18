@@ -33,7 +33,7 @@ class Textarea extends Abstraction\Field
      *
      * @var string
      */
-    protected $_tag = 'textarea';
+    protected $tag = 'textarea';
 
     /**
      * Forgery
@@ -61,7 +61,7 @@ class Textarea extends Abstraction\Field
      */
     public function getValue()
     {
-        return isset($this->_content[0]) ? $this->_content[0] : '';
+        return isset($this->content[0]) ? $this->content[0] : '';
     }
 
     /**

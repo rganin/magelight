@@ -26,6 +26,8 @@ class Forms extends \Magelight\Block
     }
 
     /**
+     * Get sample form
+     *
      * @return Form
      */
     public function getSampleForm()

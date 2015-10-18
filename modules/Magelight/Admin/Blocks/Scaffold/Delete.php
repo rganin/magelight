@@ -31,12 +31,15 @@ namespace Magelight\Admin\Blocks\Scaffold;
  */
 class Delete extends \Magelight\Block
 {
+    /**
+     * @var string
+     */
     protected $template = 'Magelight/Admin/templates/scaffold/delete.phtml';
 
     /**
      * @var \Magelight\Webform\Blocks\Form
      */
-    protected $_deleteForm;
+    protected $deleteForm;
 
     /**
      * Forgery constructor
@@ -59,8 +62,8 @@ class Delete extends \Magelight\Block
      */
     public function getDeleteForm()
     {
-        if (!$this->_deleteForm instanceof \Magelight\Webform\Blocks\Form) {
-            $this->_deleteForm = \Magelight\Webform\Blocks\Form::forge()->setConfigs(
+        if (!$this->deleteForm instanceof \Magelight\Webform\Blocks\Form) {
+            $this->deleteForm = \Magelight\Webform\Blocks\Form::forge()->setConfigs(
                 'delete-form',
                 $this->url('admin/scaffold/{entity}/delete/{id}',
                     [
@@ -74,15 +77,15 @@ class Delete extends \Magelight\Block
                 ->setAttribute('href', $this->url('admin/scaffold/{entity}', ['entity' => $this->entity]))
                 ->setContent(__('Cancel'));
 
-            $this->_deleteForm->addContent(\Magelight\Webform\Blocks\Elements\InputHidden::forge()->setName('id')
+            $this->deleteForm->addContent(\Magelight\Webform\Blocks\Elements\InputHidden::forge()->setName('id')
                 ->setValue($this->id));
 
-            $this->_deleteForm->addButtonsRow([
+            $this->deleteForm->addButtonsRow([
                 \Magelight\Webform\Blocks\Elements\Button::forge()
                     ->setContent(__('Delete'))->setType('submit')->addClass('btn-warning'),
                 $cancelBtn
             ]);
         }
-        return $this->_deleteForm;
+        return $this->deleteForm;
     }
 }

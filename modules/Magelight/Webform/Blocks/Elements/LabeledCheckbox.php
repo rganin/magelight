@@ -33,24 +33,24 @@ class LabeledCheckbox extends Checkbox
      *
      * @var Checkbox
      */
-    protected $_checkbox = null;
+    protected $checkbox = null;
 
     /**
      * Label object
      *
      * @var Label
      */
-    protected $_label = null;
+    protected $label = null;
 
     /**
      * Forgery constructor
      */
     public function __forge()
     {
-        $this->_checkbox = Checkbox::forge();
-        $this->_label = Label::forge()->removeClass('control-label');
-        $this->_label->addContent($this->_checkbox);
-        $this->_label->addClass('checkbox');
+        $this->checkbox = Checkbox::forge();
+        $this->label = Label::forge()->removeClass('control-label');
+        $this->label->addContent($this->checkbox);
+        $this->label->addClass('checkbox');
     }
 
     /**
@@ -60,7 +60,7 @@ class LabeledCheckbox extends Checkbox
      */
     public function toHtml()
     {
-        return $this->_label->toHtml();
+        return $this->label->toHtml();
     }
 
     /**
@@ -71,7 +71,7 @@ class LabeledCheckbox extends Checkbox
      */
     public function addContent($content)
     {
-        $this->_label->addContent($content);
+        $this->label->addContent($content);
         return $this;
     }
 
@@ -83,8 +83,8 @@ class LabeledCheckbox extends Checkbox
      */
     public function setName($name)
     {
-        $this->_checkbox->setName($name);
-        $this->_label->setFor($this->_checkbox->getId());
+        $this->checkbox->setName($name);
+        $this->label->setFor($this->checkbox->getId());
         return $this;
     }
 
@@ -95,7 +95,7 @@ class LabeledCheckbox extends Checkbox
      */
     public function getId()
     {
-        return $this->_checkbox->getId();
+        return $this->checkbox->getId();
     }
 
     /**
@@ -105,7 +105,7 @@ class LabeledCheckbox extends Checkbox
      */
     public function setChecked()
     {
-        $this->_checkbox->setChecked();
+        $this->checkbox->setChecked();
         return $this;
     }
 
@@ -116,7 +116,7 @@ class LabeledCheckbox extends Checkbox
      */
     public function getCheckboxObject()
     {
-        return $this->_checkbox;
+        return $this->checkbox;
     }
 
     /**
@@ -127,8 +127,8 @@ class LabeledCheckbox extends Checkbox
      */
     public function setCheckboxId($id)
     {
-        $this->_checkbox->setId($id);
-        $this->_label->setFor($this->_checkbox->getId());
+        $this->checkbox->setId($id);
+        $this->label->setFor($this->checkbox->getId());
         return $this;
     }
 
@@ -140,7 +140,7 @@ class LabeledCheckbox extends Checkbox
      */
     public function setCheckboxValue($value)
     {
-        $this->_checkbox->setValue($value);
+        $this->checkbox->setValue($value);
         return $this;
     }
 
@@ -152,7 +152,7 @@ class LabeledCheckbox extends Checkbox
      */
     public function setCheckboxClass($class)
     {
-        $this->_checkbox->setClass($class);
+        $this->checkbox->setClass($class);
         return $this;
     }
 
@@ -164,7 +164,7 @@ class LabeledCheckbox extends Checkbox
      */
     public function addCheckboxClass($class)
     {
-        $this->_checkbox->addClass($class);
+        $this->checkbox->addClass($class);
         return $this;
     }
 
@@ -176,7 +176,7 @@ class LabeledCheckbox extends Checkbox
      */
     public function removeCheckboxClass($class)
     {
-        $this->_checkbox->removeClass($class);
+        $this->checkbox->removeClass($class);
         return $this;
     }
 
@@ -188,8 +188,8 @@ class LabeledCheckbox extends Checkbox
      */
     public function setFieldValueFromRequest($value)
     {
-        $this->_checkbox->setChecked();
-        $this->_checkbox->setFieldValueFromRequest($value);
+        $this->checkbox->setChecked();
+        $this->checkbox->setFieldValueFromRequest($value);
         return $this;
     }
 
@@ -201,7 +201,7 @@ class LabeledCheckbox extends Checkbox
      */
     public function bindForm(\Magelight\Webform\Blocks\Form $form = null)
     {
-        $this->_checkbox->bindForm($form);
+        $this->checkbox->bindForm($form);
         return $this;
     }
 }
