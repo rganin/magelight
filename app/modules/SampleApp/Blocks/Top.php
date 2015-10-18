@@ -17,12 +17,16 @@
  *
  * @version 1.0
  * @author Roman Ganin
- * @copyright Copyright (c) 2012 rganin (rganin@gmail.com)
+ * @copyright Copyright (c) 2012-2015 rganin (rganin@gmail.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
 namespace SampleApp\Blocks;
 
+/**
+ * Class Top
+ * @package SampleApp\Blocks
+ */
 class Top extends \Magelight\Block
 {
     /**

@@ -23,6 +23,10 @@
 
 namespace Magelight\Helpers;
 
+/**
+ * Class TranslitHelper
+ * @package Magelight\Helpers
+ */
 class TranslitHelper
 {
     use \Magelight\Traits\TForgery;

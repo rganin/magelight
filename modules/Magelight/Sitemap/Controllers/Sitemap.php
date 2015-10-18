@@ -23,6 +23,10 @@
 
 namespace Magelight\Sitemap\Controllers;
 
+/**
+ * Class Sitemap
+ * @package Magelight\Sitemap\Controllers
+ */
 class Sitemap extends \Magelight\Admin\Controllers\Base
 {
     /**

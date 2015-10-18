@@ -23,6 +23,10 @@
 
 namespace Magelight\Admin\Blocks;
 
+/**
+ * Class Dashboard
+ * @package Magelight\Admin\Blocks
+ */
 class Dashboard extends \Magelight\Block
 {
     /**

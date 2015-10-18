@@ -17,12 +17,16 @@
  *
  * @version 1.0
  * @author Roman Ganin
- * @copyright Copyright (c) 2012 rganin (rganin@gmail.com)
+ * @copyright Copyright (c) 2012-2015 rganin (rganin@gmail.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
 namespace UnitTests;
 
+/**
+ * Class TestBlock
+ * @package UnitTests
+ */
 class TestBlock extends \Magelight\Block
 {
 
@@ -30,6 +34,10 @@ class TestBlock extends \Magelight\Block
 
 namespace Magelight;
 
+/**
+ * Class BlockTest
+ * @package Magelight
+ */
 class BlockTest extends \Magelight\TestCase
 {
     public function testGeneric()

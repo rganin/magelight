@@ -1,7 +1,32 @@
 <?php
+/**
+ * Magelight
+ *
+ * NOTICE OF LICENSE
+ *
+ * This file is open source and it`s distribution is based on
+ * Open Software License (OSL 3.0). You can obtain license text at
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * For any non license implied issues please contact rganin@gmail.com
+ *
+ * DISCLAIMER
+ *
+ * This file is a part of a framework. Please, do not modify it unless you discard
+ * further updates.
+ *
+ * @version 1.0
+ * @author Roman Ganin
+ * @copyright Copyright (c) 2012-2015 rganin (rganin@gmail.com)
+ * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ */
 
 namespace Magelight;
 
+/**
+ * Class ModelTest
+ * @package Magelight
+ */
 class ModelTest extends \Magelight\TestCase
 {
     /**
@@ -24,6 +49,9 @@ class ModelTest extends \Magelight\TestCase
      */
     protected $model;
 
+    /**
+     * {@inheritdoc}
+     */
     public function setUp()
     {
         $this->appMock = $this->getMock(\Magelight\App::class, [], [], '', false);
@@ -153,6 +181,4 @@ class ModelTest extends \Magelight\TestCase
         $ormMock->expects($this->once())->method('whereEq')->with($field, $value)->will($this->returnSelf());
         $this->assertEquals($this->model, Model::find($value));
     }
-
-
 }

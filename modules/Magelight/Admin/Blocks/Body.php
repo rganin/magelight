@@ -23,6 +23,10 @@
 
 namespace Magelight\Admin\Blocks;
 
+/**
+ * Class Body
+ * @package Magelight\Admin\Blocks
+ */
 class Body extends \Magelight\Block
 {
     /**

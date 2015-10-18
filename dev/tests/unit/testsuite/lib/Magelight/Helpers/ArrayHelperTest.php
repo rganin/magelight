@@ -1,33 +1,32 @@
 <?php
 /**
- * Magento
+ * Magelight
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
+ * This file is open source and it`s distribution is based on
+ * Open Software License (OSL 3.0). You can obtain license text at
  * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * For any non license implied issues please contact rganin@gmail.com
  *
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
+ * This file is a part of a framework. Please, do not modify it unless you discard
+ * further updates.
  *
- * @category
- * @package
- * @subpackage
- * @author
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @version 1.0
+ * @author Roman Ganin
+ * @copyright Copyright (c) 2012-2015 rganin (rganin@gmail.com)
+ * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
 namespace Magelight\Helpers;
 
+/**
+ * Class ArrayHelperTest
+ * @package Magelight\Helpers
+ */
 class ArrayHelperTest extends \PHPUnit_Framework_TestCase
 {
 

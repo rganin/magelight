@@ -17,14 +17,21 @@
  *
  * @version 1.0
  * @author Roman Ganin
- * @copyright Copyright (c) 2012 rganin (rganin@gmail.com)
+ * @copyright Copyright (c) 2012-2015 rganin (rganin@gmail.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
 namespace Magelight\Components\Loaders;
 
+/**
+ * Class ConfigTest
+ * @package Magelight\Components\Loaders
+ */
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var string
+     */
     protected $_xml1 =
     '<config>
         <test>
@@ -32,6 +39,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         </test>
     </config>';
 
+    /**
+     * @var string
+     */
     protected $_xml2 =
     '<config>
         <test>

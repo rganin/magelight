@@ -20,6 +20,7 @@
  * @copyright Copyright (c) 2013 rganin (rganin@gmail.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
+
 namespace Magelight\Visitors\Models;
 
 /**

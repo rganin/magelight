@@ -17,7 +17,7 @@
  *
  * @version 1.0
  * @author Roman Ganin
- * @copyright Copyright (c) 2012 rganin (rganin@gmail.com)
+ * @copyright Copyright (c) 2012-2015 rganin (rganin@gmail.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
@@ -35,6 +35,9 @@ class Log
      */
     const DEFAUL_LOG_FILE = 'log.log';
 
+    /**
+     * Default date time format
+     */
     const DATE_TIME_FORMAT = 'd-m-Y H:i:s';
 
     /**
