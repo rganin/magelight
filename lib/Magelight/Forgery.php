@@ -9,14 +9,14 @@ class Forgery
      *
      * @var array
      */
-    protected $_classPreferences = [];
+    protected $classPreferences = [];
 
     /**
      * Interfaces for classes overrides
      *
      * @var array
      */
-    protected $_classOverridesInterfaces = [];
+    protected $classOverridesInterfaces = [];
 
     /**
      * Constructor
@@ -48,7 +48,7 @@ class Forgery
      */
     final public function setPreference($sourceClassName, $preferenceClassName)
     {
-        $this->_classPreferences[$sourceClassName] = $preferenceClassName;
+        $this->classPreferences[$sourceClassName] = $preferenceClassName;
     }
 
     /**
@@ -59,8 +59,8 @@ class Forgery
      */
     final public function getClassName($className)
     {
-        while (!empty($this->_classPreferences[$className])) {
-            $className = $this->_classPreferences[$className];
+        while (!empty($this->classPreferences[$className])) {
+            $className = $this->classPreferences[$className];
         }
         return $className;
     }
@@ -73,10 +73,10 @@ class Forgery
      */
     final public function addClassOverrideInterface($className, $interfaceName)
     {
-        if (!isset($this->_classOverridesInterfaces[$className])) {
-            $this->_classOverridesInterfaces[$className] = [];
+        if (!isset($this->classOverridesInterfaces[$className])) {
+            $this->classOverridesInterfaces[$className] = [];
         }
-        $this->_classOverridesInterfaces[$className][] = $interfaceName;
+        $this->classOverridesInterfaces[$className][] = $interfaceName;
     }
 
     /**
@@ -87,9 +87,9 @@ class Forgery
      */
     final public function getClassInterfaces($className)
     {
-        return !empty($this->_classOverridesInterfaces[$className])
-        && is_array($this->_classOverridesInterfaces[$className])
-            ? $this->_classOverridesInterfaces[$className]
+        return !empty($this->classOverridesInterfaces[$className])
+        && is_array($this->classOverridesInterfaces[$className])
+            ? $this->classOverridesInterfaces[$className]
             : [];
     }
 

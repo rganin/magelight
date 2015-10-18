@@ -44,7 +44,7 @@ class Memcached extends \Magelight\Cache\AdapterAbstract
     public function init()
     {
         $this->memcached = new \Memcache();
-        foreach ((array)$this->_config->xpath('servers/server') as $server) {
+        foreach ((array)$this->config->xpath('servers/server') as $server) {
             $this->memcached->addserver(
                 (string) $server->host,
                 (int) $server->port

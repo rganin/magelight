@@ -38,21 +38,21 @@ class Upload
      *
      * @var array
      */
-    protected $_fileData = [];
+    protected $fileData = [];
 
     /**
      * Allowed upload extensions
      *
      * @var array
      */
-    protected $_allowedExtensions = [];
+    protected $allowedExtensions = [];
 
     /**
      * Restricted upload extensions
      *
      * @var array
      */
-    protected $_restrictedExtensions = [];
+    protected $restrictedExtensions = [];
 
     /**
      * Forgery constructor
@@ -72,7 +72,7 @@ class Upload
      */
     public function setFileData($data = [])
     {
-        $this->_fileData = $data;
+        $this->fileData = $data;
         return $this;
     }
 
@@ -83,7 +83,7 @@ class Upload
      */
     public function getName()
     {
-        return isset($this->_fileData['name']) ? $this->_fileData['name'] : null;
+        return isset($this->fileData['name']) ? $this->fileData['name'] : null;
     }
 
     /**
@@ -93,7 +93,7 @@ class Upload
      */
     public function getTmpName()
     {
-        return isset($this->_fileData['tmp_name']) ? $this->_fileData['tmp_name'] : null;
+        return isset($this->fileData['tmp_name']) ? $this->fileData['tmp_name'] : null;
     }
 
     /**
@@ -103,7 +103,7 @@ class Upload
      */
     public function getSize()
     {
-        return isset($this->_fileData['size']) ? $this->_fileData['size'] : null;
+        return isset($this->fileData['size']) ? $this->fileData['size'] : null;
     }
 
     /**
@@ -113,7 +113,7 @@ class Upload
      */
     public function getError()
     {
-        return isset($this->_fileData['error']) ? $this->_fileData['error'] : null;
+        return isset($this->fileData['error']) ? $this->fileData['error'] : null;
     }
 
     /**
@@ -123,7 +123,7 @@ class Upload
      */
     public function getType()
     {
-        return isset($this->_fileData['type']) ? $this->_fileData['type'] : null;
+        return isset($this->fileData['type']) ? $this->fileData['type'] : null;
     }
 
     /**
@@ -160,7 +160,7 @@ class Upload
     public function hasAllowedExtension(array $allowedExtensions = [])
     {
         if (empty($allowedExtensions)) {
-            $allowedExtensions = $this->_allowedExtensions;
+            $allowedExtensions = $this->allowedExtensions;
         }
         $filename = $this->getName();
         foreach ($allowedExtensions as $ext) {
@@ -180,7 +180,7 @@ class Upload
     public function hasRestrictedExtension(array $restrictedExtensions = [])
     {
         if (empty($restrictedExtensions)) {
-            $restrictedExtensions = $this->_allowedExtensions;
+            $restrictedExtensions = $this->allowedExtensions;
         }
         $filename = $this->getName();
         foreach ($restrictedExtensions as $ext) {
@@ -199,7 +199,7 @@ class Upload
      */
     public function setAllowedExtensions(array $extensions)
     {
-        $this->_allowedExtensions = $extensions;
+        $this->allowedExtensions = $extensions;
         return $this;
     }
 
@@ -211,7 +211,7 @@ class Upload
      */
     public function setRestrictedExtensions(array $extensions)
     {
-        $this->_restrictedExtensions = $extensions;
+        $this->restrictedExtensions = $extensions;
         return $this;
     }
 }

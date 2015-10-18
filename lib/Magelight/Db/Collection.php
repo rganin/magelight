@@ -35,21 +35,21 @@ class Collection
     /**
      * @var Common\Orm
      */
-    protected $_dataSource = null;
+    protected $dataSource = null;
 
     /**
      * Page limit
      *
      * @var int
      */
-    protected $_limit = 10;
+    protected $limit = 10;
 
     /**
      * Dataset offset
      *
      * @var int
      */
-    protected $_offset = 0;
+    protected $offset = 0;
 
     /**
      * Forgery constructor
@@ -71,7 +71,7 @@ class Collection
      */
     public function setDataSource(Common\Orm $dataSourceOrm)
     {
-        $this->_dataSource = $dataSourceOrm;
+        $this->dataSource = $dataSourceOrm;
         return $this;
     }
 
@@ -84,7 +84,7 @@ class Collection
      */
     public function getDataSource($clone = false)
     {
-        return ($clone) ? clone $this->_dataSource : $this->_dataSource;
+        return ($clone) ? clone $this->dataSource : $this->dataSource;
     }
 
     /**
@@ -95,7 +95,7 @@ class Collection
      */
     public function setLimit($limit = 10)
     {
-        $this->_limit = $limit;
+        $this->limit = $limit;
         return $this;
     }
 
@@ -107,7 +107,7 @@ class Collection
      */
     public function setOffset($offset =  0)
     {
-        $this->_offset = $offset;
+        $this->offset = $offset;
         return $this;
     }
 
@@ -119,7 +119,7 @@ class Collection
      */
     public function setPage($page = 0)
     {
-        $this->_offset = $page * $this->_limit;
+        $this->offset = $page * $this->limit;
         return $this;
     }
 
@@ -130,7 +130,7 @@ class Collection
      */
     public function getLimit()
     {
-        return $this->_limit;
+        return $this->limit;
     }
 
     /**
@@ -140,7 +140,7 @@ class Collection
      */
     public function getOffset()
     {
-        return $this->_offset;
+        return $this->offset;
     }
 
     /**
@@ -152,8 +152,8 @@ class Collection
      */
     public function fetchAll($assoc = true, &$affectedRows = 0)
     {
-        $this->proxyCacheTo($this->_dataSource);
-        return $this->_dataSource->limit($this->_limit, $this->_offset)->fetchAll($assoc, $affectedRows);
+        $this->proxyCacheTo($this->dataSource);
+        return $this->dataSource->limit($this->limit, $this->offset)->fetchAll($assoc, $affectedRows);
     }
 
     /**
@@ -164,8 +164,8 @@ class Collection
      */
     public function fetchModels(&$affectedRows = 0)
     {
-        $this->proxyCacheTo($this->_dataSource);
-        return $this->_dataSource->limit($this->_limit, $this->_offset)->fetchModels($affectedRows);
+        $this->proxyCacheTo($this->dataSource);
+        return $this->dataSource->limit($this->limit, $this->offset)->fetchModels($affectedRows);
     }
 
     /**
@@ -175,7 +175,7 @@ class Collection
      */
     public function totalCount()
     {
-        return $this->_dataSource->totalCount();
+        return $this->dataSource->totalCount();
     }
 
     /**

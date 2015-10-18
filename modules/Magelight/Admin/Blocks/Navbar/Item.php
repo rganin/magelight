@@ -3,7 +3,7 @@ namespace Magelight\Admin\Blocks\Navbar;
 
 class Item extends \Magelight\Block
 {
-    protected $_template = 'Magelight/Admin/templates/navbar/item.phtml';
+    protected $template = 'Magelight/Admin/templates/navbar/item.phtml';
 
     public function __forge(\SimpleXMLElement $itemConfig, \Magelight\Admin\Blocks\Navbar\Item $parentItem = null)
     {

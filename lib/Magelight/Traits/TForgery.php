@@ -47,7 +47,7 @@ trait TForgery
     public static function forge()
     {
         $className = self::getForgery()->getClassName(get_called_class());
-        if (!self::_checkInterfaces($className)) {
+        if (!self::checkInterfaces($className)) {
             throw new \Magelight\Exception(
                 "Forgery error: Class {$className} must implement all interfaces described in it`s override container!"
             );
@@ -66,7 +66,7 @@ trait TForgery
      * @param string $className
      * @return bool
      */
-    final static protected function _checkInterfaces($className)
+    final static protected function checkInterfaces($className)
     {
         $requiredInterfaces = self::getForgery()->getClassInterfaces($className);
         $implementedInterfaces = class_implements($className, true);

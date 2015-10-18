@@ -32,7 +32,7 @@ use \Magelight\Webform\Blocks\Elements as Elements;
  */
 class Login extends \Magelight\Block
 {
-    protected $_template = 'Magelight/Auth/templates/user/login.phtml';
+    protected $template = 'Magelight/Auth/templates/user/login.phtml';
 
     /***
      * Init overide

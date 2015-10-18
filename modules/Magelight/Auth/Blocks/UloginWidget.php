@@ -38,7 +38,7 @@ class UloginWidget extends \Magelight\Block
      *
      * @var string
      */
-    protected $_template = 'Magelight/Auth/templates/ulogin-widget.phtml';
+    protected $template = 'Magelight/Auth/templates/ulogin-widget.phtml';
 
     /**
      * Configuration node name

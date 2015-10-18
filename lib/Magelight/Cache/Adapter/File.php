@@ -33,7 +33,7 @@ class File extends \Magelight\Cache\AdapterAbstract
      *
      * @var string
      */
-    protected $_path = '/var/tmp';
+    protected $cachePath = '/var/tmp';
 
     /**
      * Initialize cache
@@ -42,11 +42,11 @@ class File extends \Magelight\Cache\AdapterAbstract
      */
     public function init()
     {
-        $this->_path = isset($this->_config->path)
-            ? \Magelight\App::getInstance()->getAppDir() . DS . trim((string)$this->_config->path, '\\/')
-            : $this->_path;
-        if (!file_exists($this->_path)) {
-            mkdir($this->_path);
+        $this->cachePath = isset($this->config->path)
+            ? \Magelight\App::getInstance()->getAppDir() . DS . trim((string)$this->config->path, '\\/')
+            : $this->cachePath;
+        if (!file_exists($this->cachePath)) {
+            mkdir($this->cachePath);
         }
         return $this;
     }
@@ -61,7 +61,7 @@ class File extends \Magelight\Cache\AdapterAbstract
     public function getFilepath($key)
     {
         $key = $this->prepareKey($key);
-        return $this->_path . DS . $key;
+        return $this->cachePath . DS . $key;
     }
 
     /**
@@ -110,7 +110,7 @@ class File extends \Magelight\Cache\AdapterAbstract
     {
         $key = $this->prepareKey($key);
         $result = true;
-        foreach (glob(trim($this->_path, '\\/') . DS) as $file) {
+        foreach (glob(trim($this->cachePath, '\\/') . DS) as $file) {
             $result &= (bool)@unlink($file);
         }
         return $result;

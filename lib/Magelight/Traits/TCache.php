@@ -37,21 +37,21 @@ trait TCache
      *
      * @var string
      */
-    protected $_cacherTraitCacheIndex = \Magelight\App::DEFAULT_INDEX;
+    protected $cacherTraitCacheIndex = \Magelight\App::DEFAULT_INDEX;
 
     /**
      * Cache key
      *
      * @var bool|string
      */
-    protected $_cacherTraitCacheKey = false;
+    protected $cacherTraitCacheKey = false;
 
     /**
      * Cache expiration time
      *
      * @var int
      */
-    protected $_cacherTraitCacheTtl = 3600;
+    protected $cacherTraitCacheTtl = 3600;
     /**
      * Build cache key with array of params
      *

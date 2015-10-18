@@ -38,7 +38,7 @@ class LoginTopMenu extends \Magelight\Block
      *
      * @var string
      */
-    protected $_template = 'Magelight/Auth/templates/user/login-form.phtml';
+    protected $template = 'Magelight/Auth/templates/user/login-form.phtml';
 
     /**
      * Init override

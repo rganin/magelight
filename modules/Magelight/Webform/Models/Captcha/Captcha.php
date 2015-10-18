@@ -89,7 +89,7 @@ class Captcha
      */
     public function __forge()
     {
-        $this->setGetSetTarget($this->_config);
+        $this->setGetSetTargetArray($this->_config);
         $this->_config = array_merge(
             $this->_config,
             (array)\Magelight\Config::getInstance()->getConfig('global/document/captcha', [])

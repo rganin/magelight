@@ -60,35 +60,35 @@ class Controller
      * 
      * @var Http\Request|null
      */
-    protected $_request = null;
+    protected $request = null;
     
     /**
      * Application
      * 
      * @var App
      */
-    protected $_app = null;
+    protected $app = null;
 
     /**
      * Response object 
      * 
      * @var \Magelight\Http\Response
      */
-    protected $_response = null;
+    protected $response = null;
 
     /**
      * Current route action
      *
      * @var array
      */
-    protected $_routeAction = [];
+    protected $routeAction = [];
     
     /**
      * View object
      * 
      * @var \Magelight\Block
      */
-    protected $_view = null;
+    protected $view = null;
 
     /**
      * Constructor
@@ -98,10 +98,10 @@ class Controller
      */
     public function init(array $routeAction = [])
     {
-        $this->_request = \Magelight\Http\Request::getInstance();
-        $this->_routeAction = $routeAction;
-        $this->_app = \Magelight\App::getInstance();
-        $this->_response = \Magelight\Http\Response::forge();
+        $this->request = \Magelight\Http\Request::getInstance();
+        $this->routeAction = $routeAction;
+        $this->app = \Magelight\App::getInstance();
+        $this->response = \Magelight\Http\Response::forge();
     }
 
     /**
@@ -113,7 +113,7 @@ class Controller
      */
     public function setView($view)
     {
-        $this->_view = $view;
+        $this->view = $view;
         return $this;
     }
         
@@ -124,7 +124,7 @@ class Controller
      */
     public function app()
     {
-        return $this->_app;
+        return $this->app;
     }
     
     /**
@@ -134,7 +134,7 @@ class Controller
      */
     public function request()
     {
-        return $this->_request;
+        return $this->request;
     }
 
     /**
@@ -144,7 +144,7 @@ class Controller
      */
     public function response()
     {
-        return $this->_response;
+        return $this->response;
     }
 
     /**
@@ -154,10 +154,10 @@ class Controller
      */
     public function view()
     {
-        if (!$this->_view instanceof \Magelight\Block && is_string($this->_view)) {
-            $this->_view = call_user_func([$this->_view, 'forge']);
+        if (!$this->view instanceof \Magelight\Block && is_string($this->view)) {
+            $this->view = call_user_func([$this->view, 'forge']);
         }
-        return $this->_view;
+        return $this->view;
     }
 
     /**
@@ -342,7 +342,7 @@ class Controller
      */
     public function lockCurrentAction($ttl = 60)
     {
-        if (\Magelight\Cache\AdapterPool::getInstance()->getAdapter()->setNx($this->_getLockKey(), 1, $ttl)) {
+        if (\Magelight\Cache\AdapterPool::getInstance()->getAdapter()->setNx($this->getLockKey(), 1, $ttl)) {
             return true;
         }
         return false;
@@ -356,7 +356,7 @@ class Controller
     public function unlockCurrentAction()
     {
 
-        if (\Magelight\Cache\AdapterPool::getInstance()->getAdapter()->del($this->_getLockKey())) {
+        if (\Magelight\Cache\AdapterPool::getInstance()->getAdapter()->del($this->getLockKey())) {
             return true;
         }
         return false;
@@ -367,9 +367,9 @@ class Controller
      *
      * @return string
      */
-    protected function _getLockKey()
+    protected function getLockKey()
     {
-        ksort($this->_routeAction);
-        return md5(serialize($this->_routeAction) . '_lock');
+        ksort($this->routeAction);
+        return md5(serialize($this->routeAction) . '_lock');
     }
 }

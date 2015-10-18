@@ -43,21 +43,21 @@ class Router
      * 
      * @var array
      */
-    protected $_routes = [];
+    protected $routes = [];
 
     /**
      * Routes back index
      * 
      * @var array
      */
-    protected $_routesIndex = [];
+    protected $routesIndex = [];
 
     /**
      * Application instance
      *
      * @var \Magelight\App|null
      */
-    protected $_app = null;
+    protected $app = null;
 
     /**
      * Constructor
@@ -66,13 +66,13 @@ class Router
      */
     public function __forge(\Magelight\App $app)
     {
-        $this->_app = $app;
+        $this->app = $app;
         $loader = \Magelight\Components\Loaders\Routes::forge();
         //@todo add routes caching just as cache will be implemented
         $loader->loadRoutes();
 
-        $this->_routes = $loader->getRoutes();
-        $this->_routesIndex = $loader->getRoutesIndex();
+        $this->routes = $loader->getRoutes();
+        $this->routesIndex = $loader->getRoutesIndex();
 
         unset($loader);
     }
@@ -86,7 +86,7 @@ class Router
      */
     public function getAction($requestedRoute, $notFound = self::DEFAULT_NOT_FOUND_ROUTE)
     {
-        foreach ($this->_routes as $match => $route) {
+        foreach ($this->routes as $match => $route) {
             if ($route['regex']) {
                 if (preg_match($match, $requestedRoute, $arguments)) {
                     $keys = array_filter(array_keys($arguments), 'is_string');
@@ -106,7 +106,7 @@ class Router
                 }
             }
         }
-        return $this->_routes[$notFound];
+        return $this->routes[$notFound];
     }
 
     /**
@@ -116,7 +116,7 @@ class Router
      */
     public function getRoutes()
     {
-        return $this->_routes;
+        return $this->routes;
     }
     
     /**
@@ -126,7 +126,7 @@ class Router
      */
     public function getRoutesIndex()
     {
-        return $this->_routesIndex;
+        return $this->routesIndex;
     }
     
     /**
@@ -134,6 +134,6 @@ class Router
      */
     public function __destruct()
     {
-        unset($this->_routes);
+        unset($this->routes);
     }
 }

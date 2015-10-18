@@ -40,7 +40,7 @@ abstract class Observer
      *
      * @var array
      */
-    protected $_arguments = [];
+    protected $arguments = [];
 
     /**
      * Forgery constructor
@@ -49,7 +49,7 @@ abstract class Observer
      */
     public function __forge($arguments = [])
     {
-        $this->_arguments = $arguments;
+        $this->arguments = $arguments;
     }
 
     /**
@@ -67,7 +67,7 @@ abstract class Observer
      */
     public function __set($name, $value)
     {
-        $this->_arguments[$name] = $value;
+        $this->arguments[$name] = $value;
     }
 
     /**
@@ -78,7 +78,7 @@ abstract class Observer
      */
     public function __get($name)
     {
-        return isset($this->_arguments[$name]) ? $this->_arguments[$name] : null;
+        return isset($this->arguments[$name]) ? $this->arguments[$name] : null;
     }
 
     /**
@@ -89,7 +89,7 @@ abstract class Observer
      */
     public function __isset($name)
     {
-        return isset($this->_arguments[$name]);
+        return isset($this->arguments[$name]);
     }
 
     /**
@@ -99,6 +99,6 @@ abstract class Observer
      */
     public function __unset($name)
     {
-        unset($this->_arguments[$name]);
+        unset($this->arguments[$name]);
     }
 }

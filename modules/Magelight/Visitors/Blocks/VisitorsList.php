@@ -37,7 +37,7 @@ class VisitorsList extends \Magelight\Block
      *
      * @var string
      */
-    protected $_template = 'Magelight/Visitors/templates/visitors-list.phtml';
+    protected $template = 'Magelight/Visitors/templates/visitors-list.phtml';
 
     /**
      * Collection object

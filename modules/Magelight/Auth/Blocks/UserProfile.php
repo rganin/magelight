@@ -30,7 +30,7 @@ namespace Magelight\Auth\Blocks;
 
 class UserProfile extends \Magelight\Block
 {
-    protected $_template = 'Magelight/Auth/templates/user-profile.phtml';
+    protected $template = 'Magelight/Auth/templates/user-profile.phtml';
 
     public function __forge()
     {

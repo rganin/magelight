@@ -29,14 +29,6 @@ namespace Magelight\Http;
  *
  * @methos static \Magelight\Http\CookieObject forge($key = null, $value = null)
  *
- * @property int    $ttl
- * @property string $key
- * @property string $value
- * @property string $domain
- * @property string $path
- * @property string $expire - overrides $ttl
- * @property string $secure
- * @property string $httpOnly
  */
 class CookieObject
 {
@@ -52,56 +44,56 @@ class CookieObject
      *
      * @var int
      */
-    private $_ttl = null;
+    private $ttl = null;
     
     /**
      * Cookie name
      *
      * @var string
      */
-    private $_key = null;
+    private $key = null;
     
     /**
      * Cookie value
      *
      * @var string
      */
-    private $_value = null;
+    private $value = null;
     
     /**
      * Cookie domain
      *
      * @var string
      */
-    private $_domain = null;
+    private $domain = null;
     
     /**
      * Cookie path
      *
      * @var string
      */
-    private $_path = null;
+    private $path = null;
     
     /**
      * Cookie expiration timestamp
      *
      * @var int
      */
-    private $_expire = null;
+    private $expire = null;
     
     /**
      * Is cookie secure flag
      *
      * @var bool
      */
-    private $_secure = null;
+    private $secure = null;
     
     /**
      * is cookie for Http only flag
      *
      * @var bool
      */
-    private $_httpOnly = null;
+    private $httpOnly = null;
     
     /**
      * Forgery constructor
@@ -111,9 +103,9 @@ class CookieObject
      */
     public function __forge($key = null, $value = null)
     {
-        $this->_key = $key;
-        $this->_value = $value;
-        $this->_ttl = self::DEFAULT_TTL;
+        $this->key = $key;
+        $this->value = $value;
+        $this->ttl = self::DEFAULT_TTL;
     }
     
     /**
@@ -124,13 +116,13 @@ class CookieObject
     public function commit()
     {
         return setcookie(
-            $this->_key, 
-            $this->_value, 
-            $this->_expire, 
-            $this->_path, 
-            $this->_domain, 
-            $this->_secure, 
-            $this->_httpOnly
+            $this->key,
+            $this->value,
+            $this->expire,
+            $this->path,
+            $this->domain,
+            $this->secure,
+            $this->httpOnly
         );
     }
 

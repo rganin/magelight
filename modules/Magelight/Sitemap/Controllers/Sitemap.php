@@ -30,6 +30,6 @@ class Sitemap extends \Magelight\Admin\Controllers\Base
         set_time_limit(0);
         $sitemap = \Magelight\Sitemap\Models\Sitemap::forge($this->url('/'));
         $sitemap->allowUrls([$this->url('/*')]);
-        $sitemap->generate()->saveAsXml($this->_app->getAppDir() . DS . 'sitemap.xml');
+        $sitemap->generate()->saveAsXml($this->app->getAppDir() . DS . 'sitemap.xml');
     }
 }

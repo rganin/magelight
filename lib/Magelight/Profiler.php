@@ -32,14 +32,14 @@ class Profiler
      *
      * @var array
      */
-    protected static $_instances = [];
+    protected static $instances = [];
 
     /**
      * Profiles array
      *
      * @var array
      */
-    protected $_profiles = [];
+    protected $profiles = [];
 
     /**
      * Get profiler instance
@@ -49,10 +49,10 @@ class Profiler
      */
     public static function getInstance($type)
     {
-        if (!isset(self::$_instances[$type])) {
-            self::$_instances[$type] = new static();
+        if (!isset(self::$instances[$type])) {
+            self::$instances[$type] = new static();
         }
-        return self::$_instances[$type];
+        return self::$instances[$type];
     }
 
     /**
@@ -65,8 +65,8 @@ class Profiler
         $profile = [
             'start' => microtime(true),
         ];
-        $index = count($this->_profiles);
-        $this->_profiles[] = $profile;
+        $index = count($this->profiles);
+        $this->profiles[] = $profile;
         return $index;
     }
 
@@ -78,10 +78,10 @@ class Profiler
      */
     public function finish($threadId, $data = [])
     {
-        $this->_profiles[$threadId]['end'] = microtime(true);
-        $this->_profiles[$threadId]['sec']
-            = $this->_profiles[$threadId]['end'] - $this->_profiles[$threadId]['start'];
-        $this->_profiles[$threadId]['data'] = $data;
+        $this->profiles[$threadId]['end'] = microtime(true);
+        $this->profiles[$threadId]['sec']
+            = $this->profiles[$threadId]['end'] - $this->profiles[$threadId]['start'];
+        $this->profiles[$threadId]['data'] = $data;
     }
 
     /**
@@ -91,6 +91,6 @@ class Profiler
      */
     public function getProfile()
     {
-        return $this->_profiles;
+        return $this->profiles;
     }
 }

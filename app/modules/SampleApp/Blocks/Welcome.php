@@ -25,5 +25,5 @@ namespace SampleApp\Blocks;
 
 class Welcome extends \Magelight\Block
 {
-    protected $_template = 'SampleApp/templates/welcome.phtml';
+    protected $template = 'SampleApp/templates/welcome.phtml';
 }

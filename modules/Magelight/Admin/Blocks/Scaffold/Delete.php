@@ -31,7 +31,7 @@ namespace Magelight\Admin\Blocks\Scaffold;
  */
 class Delete extends \Magelight\Block
 {
-    protected $_template = 'Magelight/Admin/templates/scaffold/delete.phtml';
+    protected $template = 'Magelight/Admin/templates/scaffold/delete.phtml';
 
     /**
      * @var \Magelight\Webform\Blocks\Form

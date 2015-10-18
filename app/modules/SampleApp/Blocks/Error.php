@@ -29,5 +29,5 @@ class Error extends \Magelight\Block
     const TEMPLATE_403 = 'SampleApp/templates/errors/403.phtml';
     const TEMPLATE_401 = 'SampleApp/templates/errors/401.phtml';
 
-    protected $_template = self::TEMPLATE_404;
+    protected $template = self::TEMPLATE_404;
 }

@@ -38,14 +38,14 @@ class ArrayWrapper
      *
      * @var mixed|null
      */
-    protected $_defaultReturnValue = null;
+    protected $defaultReturnValue = null;
 
     /**
      * Array to be wrapped
      *
      * @var array
      */
-    protected $_array = [];
+    protected $array = [];
 
     /**
      * Forgery constructor
@@ -55,8 +55,8 @@ class ArrayWrapper
      */
     public function __forge($array, $defaultReturnValue = null)
     {
-        $this->_array = $array;
-        $this->_defaultReturnValue = $defaultReturnValue;
+        $this->array = $array;
+        $this->defaultReturnValue = $defaultReturnValue;
     }
 
     /**
@@ -67,7 +67,7 @@ class ArrayWrapper
      */
     public function __get($name)
     {
-        return isset($this->_array[$name]) ? $this->_array[$name] : $this->_defaultReturnValue;
+        return isset($this->array[$name]) ? $this->array[$name] : $this->defaultReturnValue;
     }
 
     /**
@@ -78,7 +78,7 @@ class ArrayWrapper
      */
     public function __set($name, $value)
     {
-        $this->_array[$name] = $value;
+        $this->array[$name] = $value;
     }
 
     /**
@@ -90,7 +90,7 @@ class ArrayWrapper
      */
     public function getData($name, $default = null)
     {
-        return isset($this->_array[$name]) ? $this->_array[$name] : $default;
+        return isset($this->array[$name]) ? $this->array[$name] : $default;
     }
 
     /**
@@ -102,7 +102,7 @@ class ArrayWrapper
      */
     public function setData($name, $value)
     {
-        $this->_array[$name] = $value;
+        $this->array[$name] = $value;
         return $this;
     }
 
@@ -114,7 +114,7 @@ class ArrayWrapper
      */
     public function __isset($name)
     {
-        return isset($this->_array[$name]);
+        return isset($this->array[$name]);
     }
 
     /**
@@ -124,7 +124,7 @@ class ArrayWrapper
      */
     public function __unset($name)
     {
-        unset($this->_array[$name]);
+        unset($this->array[$name]);
     }
 
     /**
@@ -143,7 +143,7 @@ class ArrayWrapper
         }
         $result = true;
         foreach ($elements as $index) {
-            $result &= isset($this->_array[$index]);
+            $result &= isset($this->array[$index]);
         }
         return (bool)$result;
     }

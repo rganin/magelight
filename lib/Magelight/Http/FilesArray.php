@@ -39,7 +39,7 @@ class FilesArray extends \ArrayObject
      * @return FilesArray
      */
     public function current() {
-        return $this->_normalize(parent::current());
+        return $this->normalize(parent::current());
     }
 
     /**
@@ -49,7 +49,7 @@ class FilesArray extends \ArrayObject
      * @return FilesArray|mixed
      */
     public function offsetGet($offset) {
-        return $this->_normalize(parent::offsetGet($offset));
+        return $this->normalize(parent::offsetGet($offset));
     }
 
     /**
@@ -58,7 +58,7 @@ class FilesArray extends \ArrayObject
      * @param $entry
      * @return FilesArray
      */
-    protected function _normalize($entry) {
+    protected function normalize($entry) {
         if(isset($entry[self::I_NAME]) && is_array($entry[self::I_NAME])) {
             $files = array();
             foreach($entry[self::I_NAME] as $k => $name) {

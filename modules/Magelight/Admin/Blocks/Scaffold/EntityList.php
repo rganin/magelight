@@ -40,7 +40,7 @@ class EntityList extends \Magelight\Block
      */
     protected $_scaffold;
 
-    protected $_template = 'Magelight/Admin/templates/scaffold/entity-list.phtml';
+    protected $template = 'Magelight/Admin/templates/scaffold/entity-list.phtml';
 
     public function __forge($entity, $page)
     {

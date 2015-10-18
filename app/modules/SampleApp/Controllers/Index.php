@@ -40,8 +40,8 @@ class Index extends \Magelight\Controller
      */
     public function beforeExecute()
     {
-        $this->_view = \Magelight\Core\Blocks\Document::getInstance();
-        $this->_view->sectionAppend('body', \SampleApp\Blocks\Body::forge());
+        $this->view = \Magelight\Core\Blocks\Document::getInstance();
+        $this->view->sectionAppend('body', \SampleApp\Blocks\Body::forge());
         return $this;
     }
     /**
@@ -49,8 +49,8 @@ class Index extends \Magelight\Controller
      */
     public function indexAction()
     {
-        $this->_view->set('title', 'Welcome');
-        $this->_view->sectionAppend('content', \SampleApp\Blocks\Welcome::forge());
+        $this->view->set('title', 'Welcome');
+        $this->view->sectionAppend('content', \SampleApp\Blocks\Welcome::forge());
         \Magelight\Core\Blocks\Document::getInstance()->addMeta(['name' => 'description', 'content' => '123']);
         $this->renderView();
     }
@@ -60,13 +60,13 @@ class Index extends \Magelight\Controller
      */
     public function no_routeAction()
     {
-        $this->_view->set('title', 'Page not found');
+        $this->view->set('title', 'Page not found');
 
         /* @var $block \SampleApp\Blocks\Error */
         $block = \SampleApp\Blocks\Error::forge();
 
         $block->setTemplate(\SampleApp\Blocks\Error::TEMPLATE_404);
-        $this->_view->sectionReplace('content', $block);
+        $this->view->sectionReplace('content', $block);
         \Magelight\Log::getInstance()->add('404 - not found ' . $this->request()->getRequestRoute());
         $this->renderView();
     }

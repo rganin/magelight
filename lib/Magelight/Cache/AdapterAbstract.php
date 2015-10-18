@@ -38,21 +38,21 @@ abstract class AdapterAbstract
      *
      * @var array
      */
-    protected static $_adapters = [];
+    protected static $adapters = [];
 
     /**
      * Adapter configuration
      *
      * @var \SimpleXMLElement
      */
-    protected $_config = null;
+    protected $config = null;
 
     /**
      * Cache key prefix
      *
      * @var string
      */
-    protected $_cacheKeyPrefix = null;
+    protected $cacheKeyPrefix = null;
 
     /**
      * Forgery constructor
@@ -62,14 +62,14 @@ abstract class AdapterAbstract
      */
     public function __forge($config)
     {
-        $this->_config = $config;
+        $this->config = $config;
         if (isset($config->cache_key_prefix)) {
-            $this->_cacheKeyPrefix = (string) $config->cache_key_prefix;
+            $this->cacheKeyPrefix = (string) $config->cache_key_prefix;
         } else {
-            $this->_cacheKeyPrefix = (string) \Magelight\Config::getInstance()->getConfig('global/base_domain');
-            if (!$this->_cacheKeyPrefix) {
-                $this->_cacheKeyPrefix = md5(\Magelight\App::getInstance()->getAppDir());
-                if (!$this->_cacheKeyPrefix) {
+            $this->cacheKeyPrefix = (string) \Magelight\Config::getInstance()->getConfig('global/base_domain');
+            if (!$this->cacheKeyPrefix) {
+                $this->cacheKeyPrefix = md5(\Magelight\App::getInstance()->getAppDir());
+                if (!$this->cacheKeyPrefix) {
                     throw new \Magelight\Exception(
                         'Cache key prefix not set, and base domain too. Cache conflicts can appear.'
                     );
@@ -87,7 +87,7 @@ abstract class AdapterAbstract
      */
     public function prepareKey($key)
     {
-        return $this->_cacheKeyPrefix . $key;
+        return $this->cacheKeyPrefix . $key;
     }
 
     /**

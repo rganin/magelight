@@ -33,7 +33,7 @@ class User extends \Magelight\Model
      *
      * @var string
      */
-    protected static $_tableName = 'users';
+    protected static $tableName = 'users';
 
     /**
      * Add user contact

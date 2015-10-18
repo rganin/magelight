@@ -66,7 +66,7 @@ class Routes
      * 
      * @var array
      */
-    private $_routes = [];
+    private $routes = [];
 
     /**
      * Load application routes
@@ -85,7 +85,7 @@ class Routes
                 }
             }
         }
-        $this->_routes = array_reverse($this->_routes, true);
+        $this->routes = array_reverse($this->routes, true);
         return $this;
     }
 
@@ -96,7 +96,7 @@ class Routes
      */
     public function getRoutes()
     {
-        return $this->_routes;
+        return $this->routes;
     }
 
    /**
@@ -132,7 +132,7 @@ class Routes
                 . trim($routeXml->attributes()->match, '\\/');
             $route['module'] =  $moduleName = !empty($routeXml->attributes()->module)
                 ? (string) $routeXml->attributes()->module
-                : (isset($this->_routes[$route['match']]) ? $this->_routes[$route['match']]['module'] : $moduleName);
+                : (isset($this->routes[$route['match']]) ? $this->routes[$route['match']]['module'] : $moduleName);
             if (is_null($route['match'])) {
                 throw new \Magelight\Exception('Route without match in module ' . $moduleName);
             } else {
@@ -159,7 +159,7 @@ class Routes
                 } else {
                     $route['action'] = (string) $routeXml->attributes()->action;
                 }
-                $this->_routes[$routeKey] = $route;
+                $this->routes[$routeKey] = $route;
             }
             
             foreach ($routeXml->children() as $childRouteXml) {
@@ -226,7 +226,7 @@ class Routes
     public function getRoutesIndex()
     {
         $matchIndex = [];
-        foreach ($this->_routes as $route) {
+        foreach ($this->routes as $route) {
             $matchIndex[$route['match']] = $route;
         }
         return $matchIndex;

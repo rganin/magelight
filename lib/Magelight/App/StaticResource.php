@@ -52,7 +52,7 @@ class StaticResource extends \Magelight\App
             }
         } catch (\Exception $e) {
             \Magelight\Log::getInstance()->add($e->getMessage());
-            if ($this->_developerMode) {
+            if ($this->developerMode) {
                 throw $e;
             }
         }

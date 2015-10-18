@@ -33,7 +33,7 @@ class Document extends \Magelight\Block
      *
      * @var string
      */
-    protected $_template = 'Magelight/Core/templates/document.phtml';
+    protected $template = 'Magelight/Core/templates/document.phtml';
 
     /**
      * Constructor

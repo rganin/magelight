@@ -55,63 +55,63 @@ class Block
      *
      * @var string
      */
-    protected $_template = null;
+    protected $template = null;
 
     /**
      * Enable block html caching
      *
      * @var bool
      */
-    protected $_cacheEnabled = false;
+    protected $cacheEnabled = false;
 
     /**
      * Cache Key
      *
      * @var null
      */
-    protected $_cacheKey = null;
+    protected $cacheKey = null;
 
     /**
      * Cache lifetime
      *
      * @var int
      */
-    protected $_cacheTtl = 3600;
+    protected $cacheTtl = 3600;
 
     /**
      * Blocks variables
      *
      * @var array
      */
-    protected $_vars = [];
+    protected $vars = [];
 
     /**
      * Blocks global variables
      *
      * @var array
      */
-    protected static $_globalVars = [];
+    protected static $globalVars = [];
 
     /**
      * Blocks global sections
      *
      * @var array
      */
-    protected static $_sections = [];
+    protected static $sections = [];
 
     /**
      * Are section initialized globally flag
      *
      * @var bool
      */
-    protected static $_sectionsInitialized = false;
+    protected static $sectionsInitialized = false;
 
     /**
-     * Is section initialized flag
+     * Is block initialized flag
      *
      * @var bool
      */
-    protected $_initialized = false;
+    protected $initialized = false;
 
     /**
      * Set Blocks property
@@ -123,7 +123,7 @@ class Block
      */
     public function set($name, $value)
     {
-        $this->_vars[$name] = $value;
+        $this->vars[$name] = $value;
         return $this;
     }
 
@@ -137,7 +137,7 @@ class Block
      */
     public function get($name, $default = null)
     {
-        return isset($this->_vars[$name]) ? $this->_vars[$name] : $default;
+        return isset($this->vars[$name]) ? $this->vars[$name] : $default;
     }
 
     /**
@@ -150,7 +150,7 @@ class Block
      */
     public function setGlobal($name, $value)
     {
-        self::$_globalVars[$name] = $value;
+        self::$globalVars[$name] = $value;
         return $this;
     }
 
@@ -164,7 +164,7 @@ class Block
      */
     public function getGlobal($name, $default = null)
     {
-        return isset(self::$_globalVars[$name]) ? self::$_globalVars[$name] : $default;
+        return isset(self::$globalVars[$name]) ? self::$globalVars[$name] : $default;
     }
 
     /**
@@ -176,7 +176,7 @@ class Block
      */
     public function __set($name, $value)
     {
-        $this->_vars[$name] = $value;
+        $this->vars[$name] = $value;
     }
 
     /**
@@ -188,7 +188,7 @@ class Block
      */
     public function __get($name)
     {
-        return isset($this->_vars[$name]) ? $this->_vars[$name] : null;
+        return isset($this->vars[$name]) ? $this->vars[$name] : null;
     }
 
     /**
@@ -200,7 +200,7 @@ class Block
      */
     public function __isset($name)
     {
-        return isset($this->_vars[$name]);
+        return isset($this->vars[$name]);
     }
 
     /**
@@ -215,10 +215,10 @@ class Block
         if ($block instanceof \Magelight\Block) {
             $block->init();
         }
-        if (!isset(self::$_sections[$name]) || !is_array(self::$_sections[$name])) {
+        if (!isset(self::$sections[$name]) || !is_array(self::$sections[$name])) {
             return $this->sectionReplace($name, $block);
         }
-        self::$_sections[$name][] = $block;
+        self::$sections[$name][] = $block;
         return $this;
     }
 
@@ -234,10 +234,10 @@ class Block
         if ($block instanceof \Magelight\Block) {
             $block->init();
         }
-        if (!isset(self::$_sections[$name]) || !is_array(self::$_sections[$name])) {
+        if (!isset(self::$sections[$name]) || !is_array(self::$sections[$name])) {
             return $this->sectionReplace($name, $block);
         }
-        array_unshift(self::$_sections[$name], $block);
+        array_unshift(self::$sections[$name], $block);
         return $this;
     }
 
@@ -253,10 +253,10 @@ class Block
         if ($block instanceof \Magelight\Block) {
             $block->init();
         }
-        if (!is_array(self::$_sections)) {
-            self::$_sections = [];
+        if (!is_array(self::$sections)) {
+            self::$sections = [];
         }
-        self::$_sections[$name] = [$block];
+        self::$sections[$name] = [$block];
         return $this;
     }
 
@@ -268,7 +268,7 @@ class Block
      */
     public function sectionDelete($name)
     {
-        unset(self::$_sections[$name]);
+        unset(self::$sections[$name]);
         return $this;
     }
 
@@ -285,12 +285,12 @@ class Block
             return $html;
         }
         $class = get_called_class();
-        if (empty($this->_template)) {
+        if (empty($this->template)) {
             throw new \Magelight\Exception("Undeclared template in block '{$class}'");
         }
         $this->beforeToHtml();
         ob_start();
-        include(str_replace(['\\', '/'], DS, $this->_template));
+        include(str_replace(['\\', '/'], DS, $this->template));
         $this->afterToHtml();
         $html = ob_get_clean();
         $this->setToCache($html);
@@ -330,10 +330,10 @@ class Block
     public function section($name)
     {
         $html = '';
-        if (!isset(self::$_sections[$name])) {
+        if (!isset(self::$sections[$name])) {
             throw new \Magelight\Exception("Undefined section call - '{$name}' in " . get_called_class());
-        } elseif (isset(self::$_sections[$name]) && is_array(self::$_sections[$name])) {
-            foreach (self::$_sections[$name] as $sectionBlock) {
+        } elseif (isset(self::$sections[$name]) && is_array(self::$sections[$name])) {
+            foreach (self::$sections[$name] as $sectionBlock) {
                 if ($sectionBlock instanceof Block) {
                     /* @var $sectionBlock \Magelight\Block */
                     $html .= $sectionBlock->toHtml();
@@ -354,7 +354,7 @@ class Block
      */
     public function setTemplate($template)
     {
-        $this->_template = $template;
+        $this->template = $template;
         return $this;
     }
 
@@ -377,9 +377,9 @@ class Block
      */
     public function init()
     {
-        if (!$this->_initialized) {
+        if (!$this->initialized) {
             $this->initBlock();
-            $this->_initialized = true;
+            $this->initialized = true;
         }
         return $this;
     }
@@ -495,7 +495,7 @@ class Block
      */
     public function loadPerspective($perspective = 'global/perspectives/default')
     {
-        return $this->_processPerspective(\Magelight\Config::getInstance()->getConfig($perspective));
+        return $this->processPerspective(\Magelight\Config::getInstance()->getConfig($perspective));
     }
 
     /**
@@ -504,7 +504,7 @@ class Block
      * @param \SimpleXMLElement $perspective
      * @return Block
      */
-    protected function _processPerspective(\SimpleXMLElement $perspective)
+    protected function processPerspective(\SimpleXMLElement $perspective)
     {
         foreach ($perspective->sections->children() as $sectionName => $node)
         {
@@ -513,7 +513,7 @@ class Block
                 $this->sectionAppend($sectionName, call_user_func([$block, 'forge']));
             }
             if (isset($node->sections)) {
-                $this->_processPerspective($node);
+                $this->processPerspective($node);
             }
         }
         return $this;

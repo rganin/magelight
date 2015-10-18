@@ -35,7 +35,7 @@ class VisitorsSummary extends \Magelight\Block
      *
      * @var string
      */
-    protected $_template = 'Magelight/Visitors/templates/visitors-summary.phtml';
+    protected $template = 'Magelight/Visitors/templates/visitors-summary.phtml';
 
     /**
      * Forgery constructor

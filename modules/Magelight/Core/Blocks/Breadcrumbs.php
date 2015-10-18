@@ -31,7 +31,7 @@ class Breadcrumbs extends \Magelight\Block
 {
     const CLASS_ACTIVE = 'active';
 
-    protected $_template = "Magelight/Core/templates/breadcrumbs.phtml";
+    protected $template = "Magelight/Core/templates/breadcrumbs.phtml";
 
     public function __forge()
     {

@@ -3,7 +3,7 @@ namespace Magelight\Admin\Blocks\Sections;
 
 class Item extends \Magelight\Block
 {
-    protected $_template = 'Magelight/Admin/templates/sections/item.phtml';
+    protected $template = 'Magelight/Admin/templates/sections/item.phtml';
 
     public function __forge(\SimpleXMLElement $itemConfig)
     {

@@ -53,7 +53,7 @@ class Config
     /**
      * @var \SimpleXMLElement
      */
-    protected $_config = null;
+    protected $config = null;
 
     /**
      * Load config for application modules
@@ -65,14 +65,14 @@ class Config
         $app = \Magelight\App::getInstance();
         $loader = \Magelight\Components\Loaders\Config::forge();
         $loader->loadConfig($app->getAppDir() . DS . 'etc' . DS . 'config.xml');
-        $this->_config = $loader->getConfig();
+        $this->config = $loader->getConfig();
         $modulesConfigString = $this->getConfigBool('global/app/cache_modules_config', false)
             ? $this->cache()->get($this->buildCacheKey('modules_config'))
             : false;
 
         /* Loading modules config */
         if (!$modulesConfigString) {
-            $loader->setConfig($this->_config);
+            $loader->setConfig($this->config);
             foreach (array_reverse($app->getModuleDirectories()) as $modulesDir) {
                 foreach (\Magelight\Components\Modules::getInstance()->getActiveModules() as $module) {
                     $filename = $loader->getModulesConfigFilePath($modulesDir, $module);
@@ -85,9 +85,9 @@ class Config
             if ($this->getConfigBool('global/app/cache_modules_config', false)) {
                 $this->cache()->set($this->buildCacheKey('modules_config'), $modulesConfig->asXML(), 3600);
             }
-            $this->_config = $modulesConfig;
+            $this->config = $modulesConfig;
         } else {
-            $this->_config = simplexml_load_string($modulesConfigString);
+            $this->config = simplexml_load_string($modulesConfigString);
         }
         unset($loader);
     }
@@ -99,7 +99,7 @@ class Config
      */
     public function getConfigXmlString()
     {
-        return $this->_config->asXML();
+        return $this->config->asXML();
     }
     
     /**
@@ -217,7 +217,7 @@ class Config
     {
         $path = self::CONFIG_PATH_PREFIX . ltrim($path, '\\/ ');
 
-        $conf = $this->_config->xpath($path);
+        $conf = $this->config->xpath($path);
         if ($conf === false || is_array($conf) && empty($conf)) {
             return $default;
         }

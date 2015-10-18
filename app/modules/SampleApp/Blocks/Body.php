@@ -25,7 +25,7 @@ namespace SampleApp\Blocks;
 
 class Body extends \Magelight\Block
 {
-    protected $_template = 'SampleApp/templates/body.phtml';
+    protected $template = 'SampleApp/templates/body.phtml';
 
     public function initBlock()
     {

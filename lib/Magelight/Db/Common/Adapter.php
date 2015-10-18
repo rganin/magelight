@@ -51,42 +51,42 @@ abstract class Adapter
      *
      * @var \PDO|null
      */
-    protected $_db = null;
+    protected $pdo = null;
 
     /**
      * DSN Address
      *
      * @var string
      */
-    protected $_dsn = '';
+    protected $dsn = '';
 
     /**
      * Params
      *
      * @var array
      */
-    protected $_params = [];
+    protected $params = [];
 
     /**
      * Adapter type
      *
      * @var string
      */
-    protected $_type = self::TYPE_MYSQL;
+    protected $type = self::TYPE_MYSQL;
 
     /**
      * Profiling enabled
      *
      * @var bool
      */
-    protected $_profilingEnabled = false;
+    protected $profilingEnabled = false;
 
     /**
      * Initialized flag
      *
      * @var bool
      */
-    protected $_isInitialized = false;
+    protected $isInitialized = false;
 
     /**
      * Initialize DB instance
@@ -103,7 +103,7 @@ abstract class Adapter
      */
     public function isInitialized()
     {
-        return $this->_isInitialized;
+        return $this->isInitialized;
     }
 
     /**
@@ -124,7 +124,7 @@ abstract class Adapter
      */
     public function getType()
     {
-        return $this->_type;
+        return $this->type;
     }
 
     /**
@@ -134,7 +134,7 @@ abstract class Adapter
      */
     public function enableProfilig()
     {
-        $this->_profilingEnabled = true;
+        $this->profilingEnabled = true;
         return $this;
     }
 
@@ -145,7 +145,7 @@ abstract class Adapter
      */
     public function disableProfiling()
     {
-        $this->_profilingEnabled = false;
+        $this->profilingEnabled = false;
         return $this;
     }
 
@@ -157,7 +157,7 @@ abstract class Adapter
      */
     protected function getDsn(array $options)
     {
-        $this->_params = $options;
+        $this->params = $options;
         $dsn = $options['type'] . ':';
         $dsnParams = [];
         foreach (['host', 'port', 'dbname', 'unix_socket', 'charset'] as $index) {
@@ -176,9 +176,9 @@ abstract class Adapter
      */
     public function prepareUniqueTriggerName($name)
     {
-        return isset($this->_params['dbname']) ?
-            ($this->_params['dbname'] . '_' . $name) :
-            (md5(time() . md5($this->_params))) . '_' . $name;
+        return isset($this->params['dbname']) ?
+            ($this->params['dbname'] . '_' . $name) :
+            (md5(time() . md5($this->params))) . '_' . $name;
     }
 
     /**
@@ -192,15 +192,15 @@ abstract class Adapter
     public function execute($query, $params = [])
     {
         /* @var $statement \PDOStatement*/
-        $statement = $this->_db->prepare($query);
-        if ($this->_profilingEnabled) {
+        $statement = $this->pdo->prepare($query);
+        if ($this->profilingEnabled) {
             $profileId = $this->getProfiler()->startNewProfiling();
         }
 
         if (!$statement) {
             $params = var_export($params, true);
             $query = substr($query, 0, 1024) . '...';
-            $dbError = var_export($this->_db->errorInfo(), true);
+            $dbError = var_export($this->pdo->errorInfo(), true);
             throw new \Magelight\Exception(
                 "Error preparing statement:\r\n {$query}\r\n params = {$params}\r\n Database error: {$dbError}"
             );
@@ -214,7 +214,7 @@ abstract class Adapter
                 , E_USER_NOTICE);
         }
 
-        if ($this->_profilingEnabled) {
+        if ($this->profilingEnabled) {
             $data = ['query' => $statement->queryString];
             if (isset($errorInfo)) {
                 $data['error'] = $errorInfo;
@@ -250,7 +250,7 @@ abstract class Adapter
      */
     public function getProfiler()
     {
-        return \Magelight\Profiler::getInstance($this->_dsn);
+        return \Magelight\Profiler::getInstance($this->dsn);
     }
 
     /**
@@ -263,8 +263,8 @@ abstract class Adapter
      */
     public function __call($method, $arguments)
     {
-        if($this->_db instanceof \PDO){
-            return call_user_func_array(array($this->_db, $method), $arguments);
+        if($this->pdo instanceof \PDO){
+            return call_user_func_array(array($this->pdo, $method), $arguments);
         } else {
             throw new \Magelight\Exception('Database adapter PDO object is missing or invalid.');
         }

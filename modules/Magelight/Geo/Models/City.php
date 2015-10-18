@@ -30,11 +30,11 @@ namespace Magelight\Geo\Models;
  */
 class City extends \Magelight\Model
 {
-    protected static $_tableName = 'geo_cities';
+    protected static $tableName = 'geo_cities';
 
     public function getCityIdByName($name, $langs = ['en', 'ru', 'ua'])
     {
-        $orm = self::orm()->selectFields([self::$_idField]);
+        $orm = self::orm()->selectFields([self::$idField]);
         foreach ($langs as $lang) {
             $orm->orWhereLike('city_name_' . $lang, $name);
         }

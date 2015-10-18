@@ -39,14 +39,14 @@ class Translator
      *
      * @var array
      */
-    protected $_translations = [];
+    protected $translations = [];
 
     /**
      * Plural function and count array
      *
      * @var array
      */
-    protected $_plurals;
+    protected $plurals;
 
     /**
      * Load translations
@@ -63,14 +63,14 @@ class Translator
                 $filename = $modulesDir . DS . $module['path'] . DS . 'I18n' . DS . $lang . '.php';
                 if (file_exists($filename)) {
                     $translations = require $filename;
-                    $this->_translations = array_replace_recursive($this->_translations, $translations);
+                    $this->translations = array_replace_recursive($this->translations, $translations);
                 }
             }
         }
         $filename = __DIR__ . DS . 'Preferences' . DS . $lang . '.php';
         if (file_exists($filename)) {
             $plurals = require_once $filename;
-            $this->_plurals = $plurals;
+            $this->plurals = $plurals;
         }
     }
 
@@ -86,24 +86,24 @@ class Translator
     public function translate($string, $arguments, $number, $context)
     {
 
-        if (!isset($this->_translations[$string][$context])) {
+        if (!isset($this->translations[$string][$context])) {
             $context = 'default';
         }
-        if (!isset($this->_translations[$string][$context][$this->_plurals['plural_function']($number)])) {
+        if (!isset($this->translations[$string][$context][$this->plurals['plural_function']($number)])) {
             if (!empty($arguments) && !is_array($arguments)) {
                 $arguments = [$arguments];
             }
-            if (!isset($this->_translations[$string][$context][1])) {
+            if (!isset($this->translations[$string][$context][1])) {
                 return vsprintf($string, $arguments);
             } else {
-                return vsprintf($this->_translations[$string][$context][1], $arguments);
+                return vsprintf($this->translations[$string][$context][1], $arguments);
             }
         } else {
             if (!empty($arguments) && !is_array($arguments)) {
                 $arguments = [$arguments];
             }
             return vsprintf(
-                $this->_translations[$string][$context][$this->_plurals['plural_function']($number)], $arguments
+                $this->translations[$string][$context][$this->plurals['plural_function']($number)], $arguments
             );
         }
     }

@@ -52,107 +52,107 @@ class Message
      *
      * @var string
      */
-    protected $_eol = self::CRLF;
+    protected $eol = self::CRLF;
 
     /**
      * Recepients
      *
      * @var array
      */
-    protected $_to = [];
+    protected $to = [];
 
     /**
      * From address
      *
      * @var string
      */
-    protected $_from = '';
+    protected $from = '';
     
     /**
      * Subject
      *
      * @var string
      */
-    protected $_subject = '';
+    protected $subject = '';
 
     /**
      * Plain text content
      *
      * @var string
      */
-    protected $_textContent = '';
+    protected $textContent = '';
 
     /**
      * HTML message content
      *
      * @var string
      */
-    protected $_htmlContent = '';
+    protected $htmlContent = '';
     
     /**
      * Complete body with mixed content
      *
      * @var string
      */
-    protected $_body = '';
+    protected $body = '';
 
     /**
      * Array of attachments paths
      *
      * @var array
      */
-    protected $_attachments = [];
+    protected $attachments = [];
     
     /**
      * Array of headers
      *
      * @var array
      */
-    protected $_headers = [];
+    protected $headers = [];
 
     /**
      * Compiled headers
      *
      * @var string
      */
-    protected $_headerString = '';
+    protected $headerString = '';
 
     /**
      * Boundary hash
      *
      * @var string
      */
-    protected $_boundaryHash;
+    protected $boundaryHash;
 
     /**
      * Is mail sent flag
      *
      * @var boolean
      */
-    protected $_isSent;
+    protected $isSent;
 
     /**
      * Charset
      *
      * @var string
      */
-    protected $_charset = 'utf-8';
+    protected $charset = 'utf-8';
 
     /**
      * Reply to address
      *
      * @var string
      */
-    protected $_replyTo = '';
+    protected $replyTo = '';
 
     /**
      * Forgery constructor
      */
     public function __forge()
     {
-        $this->_attachments   = [];
-        $this->_headers       = [];
-        $this->_boundaryHash  = md5(date('r', time()));
+        $this->attachments   = [];
+        $this->headers       = [];
+        $this->boundaryHash  = md5(date('r', time()));
     }
 
     /**
@@ -163,7 +163,7 @@ class Message
      */
     public function setSubject($subject = '')
     {
-        $this->_subject = $subject;
+        $this->subject = $subject;
         return $this;
     }
 
@@ -175,7 +175,7 @@ class Message
      */
     public function setFrom($from)
     {
-        $this->_from = $from;
+        $this->from = $from;
         return $this;
     }
 
@@ -188,7 +188,7 @@ class Message
      */
     public function addRecepient($address, $name = null)
     {
-        $this->_to[] = empty($name) ? $address : "{$name} <{$address}>";
+        $this->to[] = empty($name) ? $address : "{$name} <{$address}>";
         return $this;
     }
 
@@ -200,7 +200,7 @@ class Message
      */
     public function setEncoding($encoding = 'utf-8')
     {
-        $this->_charset = $encoding;
+        $this->charset = $encoding;
         return $this;
     }
 
@@ -212,7 +212,7 @@ class Message
      */
     public function setReplyTo($replyToAddress)
     {
-        $this->_replyTo = $replyToAddress;
+        $this->replyTo = $replyToAddress;
         return $this;
     }
 
@@ -227,9 +227,9 @@ class Message
     public function setContent($content, $type = self::TYPE_TEXT)
     {
         if ($type == self::TYPE_HTML) {
-            $this->_htmlContent = $content;
+            $this->htmlContent = $content;
         } else {
-            $this->_textContent = $content;
+            $this->textContent = $content;
         }
         return $this;
     }
@@ -241,15 +241,15 @@ class Message
      */
     public function send()
     {
-        $this->_prepareHeaders();
-        $this->_prepareBody();
+        $this->prepareHeaders();
+        $this->prepareBody();
 
-        if (!empty($this->_attachments)) {
-            $this->_prepareAttachments();
+        if (!empty($this->attachments)) {
+            $this->prepareAttachments();
         }
 
-        $this->_isSent = mail(implode(', ', $this->_to), $this->_subject, $this->_body, $this->_headerString);
-        return $this->_isSent;
+        $this->isSent = mail(implode(', ', $this->to), $this->subject, $this->body, $this->headerString);
+        return $this->isSent;
     }
 
     /**
@@ -259,7 +259,7 @@ class Message
      */
     public function addHeader($header)
     {
-        $this->_headers[] = $header;
+        $this->headers[] = $header;
     }
 
     /**
@@ -270,7 +270,7 @@ class Message
      */
     public function addAttachment($file)
     {
-        $this->_attachments[] = $file;
+        $this->attachments[] = $file;
         return $this;
     }
 
@@ -279,19 +279,19 @@ class Message
      *
      * @return Message
      */
-    protected function _prepareBody()
+    protected function prepareBody()
     {
-        $this->_body .= "--PHP-mixed-{$this->_boundaryHash}" . $this->_eol;
-        $this->_body .= "Content-Type: multipart/alternative; boundary=\"PHP-alt-{$this->_boundaryHash}\""
-            . $this->_eol
-            . $this->_eol;
-        if (!empty($this->_textContent)) {
-            $this->_prepareText();
+        $this->body .= "--PHP-mixed-{$this->boundaryHash}" . $this->eol;
+        $this->body .= "Content-Type: multipart/alternative; boundary=\"PHP-alt-{$this->boundaryHash}\""
+            . $this->eol
+            . $this->eol;
+        if (!empty($this->textContent)) {
+            $this->prepareText();
         }
-        if (!empty($this->_htmlContent)) {
-            $this->_prepareHtml();
+        if (!empty($this->htmlContent)) {
+            $this->prepareHtml();
         }
-        $this->_body .= "--PHP-alt-{$this->_boundaryHash}--" . $this->_eol . $this->_eol;
+        $this->body .= "--PHP-alt-{$this->boundaryHash}--" . $this->eol . $this->eol;
         return $this;
     }
 
@@ -300,10 +300,10 @@ class Message
      *
      * @return Message
      */
-    protected function _prepareHeaders()
+    protected function prepareHeaders()
     {
-        $this->_setDefaultHeaders();
-        $this->_headerString = implode($this->_eol, $this->_headers) . $this->_eol;
+        $this->setDefaultHeaders();
+        $this->headerString = implode($this->eol, $this->headers) . $this->eol;
         return $this;
     }
 
@@ -312,20 +312,20 @@ class Message
      *
      * @return Message
      */
-    protected function _setDefaultHeaders()
+    protected function setDefaultHeaders()
     {
-        $this->_headers[] = 'MIME-Version: 1.0';
-        if (!empty($this->_from) && !empty($this->_replyTo)) {
-            $this->_headers[] = 'Reply-To: ' . $this->_replyTo . $this->_eol;
-            $this->_headers[] = 'Return-Path: ' . $this->_from . $this->_eol;
+        $this->headers[] = 'MIME-Version: 1.0';
+        if (!empty($this->from) && !empty($this->replyTo)) {
+            $this->headers[] = 'Reply-To: ' . $this->replyTo . $this->eol;
+            $this->headers[] = 'Return-Path: ' . $this->from . $this->eol;
         } else {
-            $this->_headers[] = 'From: ' . $this->_from;
+            $this->headers[] = 'From: ' . $this->from;
         }
-        $this->_headers[] = 'To: ' . implode(', ', $this->_to);
-        $this->_headers[] = 'Subject: ' . $this->_subject;
+        $this->headers[] = 'To: ' . implode(', ', $this->to);
+        $this->headers[] = 'Subject: ' . $this->subject;
         // We'll assume a multi-part message so that we can include an HTML and a text version of the email at the
         // very least. If there are attachments, we'll be doing the same thing.
-        $this->_headers[] = "Content-type: multipart/mixed; boundary=\"PHP-mixed-{$this->_boundaryHash}\"";
+        $this->headers[] = "Content-type: multipart/mixed; boundary=\"PHP-mixed-{$this->boundaryHash}\"";
         return $this;
     }
 
@@ -334,21 +334,21 @@ class Message
      *
      * @return Message
      */
-    protected function _prepareAttachments()
+    protected function prepareAttachments()
     {
-        foreach ($this->_attachments as $attachment) {
+        foreach ($this->attachments as $attachment) {
 
             $file_name  = basename($attachment);
-            $this->_body .= "--PHP-mixed-{$this->_boundaryHash}" . $this->_eol;
-            $this->_body .= "Content-Type: application/octet-stream; name=\"{$file_name}\"" . $this->_eol;
-            $this->_body .= 'Content-Transfer-Encoding: base64' . $this->_eol;
-            $this->_body .= 'Content-Disposition: attachment' . $this->_eol;
-            $this->_body .= chunk_split(base64_encode(file_get_contents($attachment)));
-            $this->_body .= $this->_eol . $this->_eol;
+            $this->body .= "--PHP-mixed-{$this->boundaryHash}" . $this->eol;
+            $this->body .= "Content-Type: application/octet-stream; name=\"{$file_name}\"" . $this->eol;
+            $this->body .= 'Content-Transfer-Encoding: base64' . $this->eol;
+            $this->body .= 'Content-Disposition: attachment' . $this->eol;
+            $this->body .= chunk_split(base64_encode(file_get_contents($attachment)));
+            $this->body .= $this->eol . $this->eol;
 
         }
 
-        $this->_body .= "--PHP-mixed-{$this->_boundaryHash}--" . $this->_eol;
+        $this->body .= "--PHP-mixed-{$this->boundaryHash}--" . $this->eol;
         return $this;
     }
 
@@ -357,12 +357,12 @@ class Message
      *
      * @return Message
      */
-    protected function _prepareText()
+    protected function prepareText()
     {
-        $this->_body .= "--PHP-alt-{$this->_boundaryHash}" . $this->_eol;
-        $this->_body .= "Content-Type: text/plain; charset=\"{$this->_charset}\"" . $this->_eol;
-        $this->_body .= 'Content-Transfer-Encoding: 7bit' . $this->_eol;
-        $this->_body .= $this->_textContent . $this->_eol . $this->_eol;
+        $this->body .= "--PHP-alt-{$this->boundaryHash}" . $this->eol;
+        $this->body .= "Content-Type: text/plain; charset=\"{$this->charset}\"" . $this->eol;
+        $this->body .= 'Content-Transfer-Encoding: 7bit' . $this->eol;
+        $this->body .= $this->textContent . $this->eol . $this->eol;
         return $this;
     }
 
@@ -371,12 +371,12 @@ class Message
      *
      * @return Message
      */
-    protected function _prepareHtml()
+    protected function prepareHtml()
     {
-        $this->_body .= "--PHP-alt-{$this->_boundaryHash}" . $this->_eol;
-        $this->_body .= "Content-Type: text/html; charset=\"{$this->_charset}\"" . $this->_eol;
-        $this->_body .= 'Content-Transfer-Encoding: 7bit' . $this->_eol . $this->_eol;
-        $this->_body .= $this->_htmlContent . $this->_eol . $this->_eol;
+        $this->body .= "--PHP-alt-{$this->boundaryHash}" . $this->eol;
+        $this->body .= "Content-Type: text/html; charset=\"{$this->charset}\"" . $this->eol;
+        $this->body .= 'Content-Transfer-Encoding: 7bit' . $this->eol . $this->eol;
+        $this->body .= $this->htmlContent . $this->eol . $this->eol;
         return $this;
     }
 }

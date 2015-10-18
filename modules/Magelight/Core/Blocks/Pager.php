@@ -111,7 +111,7 @@ class Pager extends \Magelight\Block
      *
      * @var string
      */
-    protected $_template = 'Magelight/Core/templates/pager.phtml';
+    protected $template = 'Magelight/Core/templates/pager.phtml';
 
     /**
      * Forgery constructor

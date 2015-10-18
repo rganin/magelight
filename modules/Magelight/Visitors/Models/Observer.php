@@ -36,7 +36,7 @@ class Observer extends \Magelight\Observer
     public function execute()
     {
         /** @var $request \Magelight\Http\Request */
-        $request = $this->_arguments['request'];
+        $request = $this->arguments['request'];
         if ($request instanceof \Magelight\Http\Request) {
             $requestRoute = $request->getRequestRoute();
             Visitor::forge()->encount($requestRoute);

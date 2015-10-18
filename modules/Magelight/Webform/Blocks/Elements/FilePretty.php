@@ -33,7 +33,7 @@ class FilePretty extends Abstraction\Field
      *
      * @var string
      */
-    protected $_template = 'Magelight/Webform/templates/webform/elements/file-pretty.phtml';
+    protected $template = 'Magelight/Webform/templates/webform/elements/file-pretty.phtml';
 
     /**
      * Forgery constructor

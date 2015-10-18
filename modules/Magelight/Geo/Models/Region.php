@@ -35,7 +35,7 @@ class Region extends \Magelight\Model
      *
      * @var string
      */
-    protected static $_tableName = 'geo_regions';
+    protected static $tableName = 'geo_regions';
 
     /**
      * Get region cities

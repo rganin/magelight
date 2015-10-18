@@ -35,7 +35,7 @@ class CollectionFilter
      *
      * @var array
      */
-    protected $_filterData = [];
+    protected $filterData = [];
 
     /**
      * Corgery constructor
@@ -44,7 +44,7 @@ class CollectionFilter
      */
     public function __forge(array $filterData = [])
     {
-        $this->_filterData = $filterData;
+        $this->filterData = $filterData;
     }
 
     /**
@@ -55,7 +55,7 @@ class CollectionFilter
     public function getFilterMethods()
     {
         $methods = [];
-        foreach ($this->_filterData as $statement => $params) {
+        foreach ($this->filterData as $statement => $params) {
             foreach ($params as $field => $value) {
                 $field = preg_replace('/[^a-z0-9\._-]+/i', '', $field);
                 if (Common\Orm::isWhereStatement($statement)) {

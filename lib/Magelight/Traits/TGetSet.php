@@ -33,14 +33,14 @@ trait TGetSet
      *
      * @var array
      */
-    protected $___getSetTarget = [];
+    protected $getSetTargetArray = [];
 
     /**
      * Default return value for getter
      *
      * @var mixed
      */
-    protected $___default = null;
+    protected $defaultReturnValue = null;
 
     /**
      * Set target for getters and setters
@@ -48,9 +48,9 @@ trait TGetSet
      * @param array|Object $target
      * @return TGetSet
      */
-    protected function setGetSetTarget(&$target)
+    protected function setGetSetTargetArray(&$target)
     {
-        $this->___getSetTarget = &$target;
+        $this->getSetTargetArray = &$target;
         return $this;
     }
 
@@ -62,9 +62,9 @@ trait TGetSet
      */
     public function __get($name)
     {
-        return is_object($this->___getSetTarget) ?
-            (isset($this->___getSetTarget->$name) ? $this->___getSetTarget->$name : $this->___default) :
-            (isset($this->___getSetTarget[$name]) ? $this->___getSetTarget[$name] : $this->___default);
+        return is_object($this->getSetTargetArray) ?
+            (isset($this->getSetTargetArray->$name) ? $this->getSetTargetArray->$name : $this->defaultReturnValue) :
+            (isset($this->getSetTargetArray[$name]) ? $this->getSetTargetArray[$name] : $this->defaultReturnValue);
     }
 
     /**
@@ -75,10 +75,10 @@ trait TGetSet
      */
     public function __set($name, $value)
     {
-        if (is_object($this->___getSetTarget)) {
-            $this->___getSetTarget->$name = $value;
+        if (is_object($this->getSetTargetArray)) {
+            $this->getSetTargetArray->$name = $value;
         } else {
-            $this->___getSetTarget[$name] = $value;
+            $this->getSetTargetArray[$name] = $value;
         }
     }
 
@@ -90,10 +90,10 @@ trait TGetSet
      */
     public function __isset($name)
     {
-        if (is_object($this->___getSetTarget)) {
-            return isset($this->___getSetTarget);
+        if (is_object($this->getSetTargetArray)) {
+            return isset($this->getSetTargetArray);
         }
-        return isset($this->___getSetTarget[$name]);
+        return isset($this->getSetTargetArray[$name]);
     }
 
     /**
@@ -103,9 +103,9 @@ trait TGetSet
      */
     public function __unset($name)
     {
-        if (is_object($this->___getSetTarget)) {
-            unset($this->___getSetTarget);
+        if (is_object($this->getSetTargetArray)) {
+            unset($this->getSetTargetArray);
         }
-        unset($this->___getSetTarget[$name]);
+        unset($this->getSetTargetArray[$name]);
     }
 }

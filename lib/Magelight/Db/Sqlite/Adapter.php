@@ -29,7 +29,7 @@ namespace Magelight\Db\Sqlite;
 class Adapter extends \Magelight\Db\Common\Adapter
 {
 
-    protected $_type = self::TYPE_SQLITE;
+    protected $type = self::TYPE_SQLITE;
 
     /**
      * Initialize DB instance
@@ -39,8 +39,8 @@ class Adapter extends \Magelight\Db\Common\Adapter
      */
     public function init(array $options = [])
     {
-        $this->_dsn = isset($options['dsn']) ? $options['dsn'] : $this->getDsn($options);
-        $this->_db = new \PDO($this->_dsn, null, null, $this->preparePdoOptions($options));
+        $this->dsn = isset($options['dsn']) ? $options['dsn'] : $this->getDsn($options);
+        $this->pdo = new \PDO($this->dsn, null, null, $this->preparePdoOptions($options));
         return $this;
     }
 

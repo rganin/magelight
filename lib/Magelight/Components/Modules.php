@@ -38,14 +38,14 @@ class Modules
      * 
      * @var array
      */
-    protected $_modules = [];
+    protected $modules = [];
     
     /**
      * App
      * 
      * @var \Magelight\App
      */
-    protected $_app = null;
+    protected $app = null;
 
     /**
      * Load modules from file
@@ -57,7 +57,7 @@ class Modules
     {
         $xml = simplexml_load_file($modulesXmlFilename);
         $modulesLoader = \Magelight\Components\Loaders\Modules::forge($xml);
-        $this->_modules = $modulesLoader->getActiveModules();
+        $this->modules = $modulesLoader->getActiveModules();
         unset($modulesLoader);
         return $this;
     }
@@ -69,6 +69,6 @@ class Modules
      */
     public function getActiveModules()
     {
-        return $this->_modules;
+        return $this->modules;
     }
 }

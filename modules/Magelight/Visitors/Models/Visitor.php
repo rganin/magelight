@@ -41,7 +41,7 @@ class Visitor extends \Magelight\Model
      *
      * @var string
      */
-    protected static $_tableName = 'visitors';
+    protected static $tableName = 'visitors';
 
     /**
      * Encount visitor
@@ -98,7 +98,7 @@ class Visitor extends \Magelight\Model
      *
      * @return \Magelight\Model|void
      */
-    public function _beforeSave()
+    public function beforeSave()
     {
         if (!is_int($this->time)) {
             $this->time = strtotime($this->time);
@@ -106,6 +106,6 @@ class Visitor extends \Magelight\Model
         if (!is_int($this->ip)) {
             $this->ip = ip2long($this->ip);
         }
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 }

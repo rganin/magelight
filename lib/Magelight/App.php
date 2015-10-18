@@ -53,77 +53,77 @@ abstract class App
      *
      * @var array
      */
-    protected $_currentAction = [];
+    protected $currentAction = [];
 
     /**
      * Array of application code pools
      *
      * @var array
      */
-    protected $_pools = ['public'];
+    protected $pools = ['public'];
 
     /**
      * Modules directories
      *
      * @var string[]
      */
-    protected $_modulesDirectories = [];
+    protected $modulesDirectories = [];
 
     /**
      * Objects registry
      *
      * @var array
      */
-    protected $_registry = [];
+    protected $registry = [];
 
     /**
      * Application directory
      *
      * @var string
      */
-    protected $_appDir = './';
+    protected $appDir = './';
 
     /**
      * Framework directory
      *
      * @var string
      */
-    protected $_frameworkDir = null;
+    protected $frameworkDir = null;
 
     /**
      * Is app in developer mode
      *
      * @var bool
      */
-    protected $_developerMode = false;
+    protected $developerMode = false;
 
     /**
      * Is AOP enabled flag
      *
      * @var bool
      */
-    protected $_aopEnabled = false;
+    protected $aopEnabled = false;
 
     /**
      * Session cookie name
      *
      * @var string
      */
-    protected $_sessionCookieName = self::SESSION_ID_COOKIE_NAME;
+    protected $sessionCookieName = self::SESSION_ID_COOKIE_NAME;
 
     /**
      * Application language ('en', 'ru', etc)
      *
      * @var string
      */
-    protected $_lang;
+    protected $lang;
 
     /**
      * Database objects
      *
      * @var array
      */
-    protected $_dbs = [];
+    protected $dbs = [];
 
     /**
      * Get application directory
@@ -132,7 +132,7 @@ abstract class App
      */
     public function getAppDir()
     {
-        return $this->_appDir;
+        return $this->appDir;
     }
 
     /**
@@ -143,7 +143,7 @@ abstract class App
      */
     public function setDeveloperMode($value = true)
     {
-        $this->_developerMode = (bool)$value;
+        $this->developerMode = (bool)$value;
         return $this;
     }
 
@@ -154,7 +154,7 @@ abstract class App
      */
     public function isInDeveloperMode()
     {
-        return $this->_developerMode;
+        return $this->developerMode;
     }
 
     /**
@@ -165,7 +165,7 @@ abstract class App
      */
     public function setAppDir($directory)
     {
-        $this->_appDir = $directory;
+        $this->appDir = $directory;
         return $this;
     }
 
@@ -177,7 +177,7 @@ abstract class App
      */
     public function setFrameworkDir($directory = FRAMEWORK_DIR)
     {
-        $this->_frameworkDir = $directory;
+        $this->frameworkDir = $directory;
         return $this;
     }
 
@@ -188,7 +188,7 @@ abstract class App
      */
     public function getFrameworkDir()
     {
-        return isset($this->_frameworkDir) ? $this->_frameworkDir : FRAMEWORK_DIR;
+        return isset($this->frameworkDir) ? $this->frameworkDir : FRAMEWORK_DIR;
     }
 
     /**
@@ -199,7 +199,7 @@ abstract class App
      */
     public function setSessionCookieName($name)
     {
-        $this->_sessionCookieName = $name;
+        $this->sessionCookieName = $name;
         return $this;
     }
 
@@ -210,7 +210,7 @@ abstract class App
      */
     public function getSessionCookieName()
     {
-        return $this->_sessionCookieName;
+        return $this->sessionCookieName;
     }
 
     /**
@@ -238,7 +238,7 @@ abstract class App
      */
     public function addModulesDir($directory)
     {
-        $this->_modulesDirectories[] = realpath($directory);
+        $this->modulesDirectories[] = realpath($directory);
         return $this;
     }
 
@@ -249,7 +249,7 @@ abstract class App
      */
     public function getModuleDirectories()
     {
-        return $this->_modulesDirectories;
+        return $this->modulesDirectories;
     }
 
     /**
@@ -303,9 +303,9 @@ abstract class App
      */
     public function setLang($lang)
     {
-        $this->_lang = $lang;
-        if (!empty($this->_lang)) {
-            \Magelight\I18n\Translator::getInstance()->loadTranslations($this->_lang);
+        $this->lang = $lang;
+        if (!empty($this->lang)) {
+            \Magelight\I18n\Translator::getInstance()->loadTranslations($this->lang);
         }
     }
 
@@ -316,7 +316,7 @@ abstract class App
      */
     public function getLang()
     {
-        return $this->_lang;
+        return $this->lang;
     }
 
     /**
@@ -333,7 +333,7 @@ abstract class App
      */
     public function getCurrentAction()
     {
-        return $this->_currentAction;
+        return $this->currentAction;
     }
 
     /**
@@ -346,7 +346,7 @@ abstract class App
      */
     public function dispatchAction(array $action)
     {
-        $this->_currentAction = $action;
+        $this->currentAction = $action;
         $eventManager = \Magelight\Event\Manager::getInstance();
         $request = \Magelight\Http\Request::getInstance();
         $eventManager->dispatchEvent('app_dispatch_action', ['action' => $action, 'request' => $request]);
@@ -407,7 +407,7 @@ abstract class App
      */
     public function db($index = self::DEFAULT_INDEX)
     {
-        if (!isset($this->_dbs[$index])) {
+        if (!isset($this->dbs[$index])) {
             $dbConfig = \Magelight\Config::getInstance()->getConfig('/global/db/' . $index, null);
             if (is_null($dbConfig)) {
                 throw new \Magelight\Exception("Database `{$index}` configuration not found.");
@@ -416,9 +416,9 @@ abstract class App
             $db = call_user_func_array([$adapterClass, 'forge'], []);
             /* @var $db \Magelight\Db\Common\Adapter */
             $db->init((array)$dbConfig);
-            $this->_dbs[$index] = $db;
+            $this->dbs[$index] = $db;
         }
-        return $this->_dbs[$index];
+        return $this->dbs[$index];
     }
 
     /**

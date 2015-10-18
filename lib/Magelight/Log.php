@@ -47,14 +47,14 @@ class Log
      *
      * @var string
      */
-    protected $_file = self::DEFAUL_LOG_FILE;
+    protected $file = self::DEFAUL_LOG_FILE;
 
     /**
      * Is logger initialized
      *
      * @var bool
      */
-    protected $_initialized = false;
+    protected $initialized = false;
 
     /**
      * Log message
@@ -64,7 +64,7 @@ class Log
      */
     public function add($logMessage)
     {
-        if (!$this->_initialized) {
+        if (!$this->initialized) {
             $this->init();
         }
         $time = date(self::DATE_TIME_FORMAT, time());
@@ -81,9 +81,9 @@ class Log
      */
     protected function writeMessage($message)
     {
-        $f = @fopen($this->_file, 'a+');
+        $f = @fopen($this->file, 'a+');
         if (!$f) {
-            trigger_error("Log file or directory {$this->_file} is not writeable!", E_USER_WARNING);
+            trigger_error("Log file or directory {$this->file} is not writeable!", E_USER_WARNING);
         }
         flock($f, LOCK_EX);
         fwrite($f, $message . PHP_EOL);
@@ -96,8 +96,8 @@ class Log
      */
     protected function init()
     {
-        $this->_file = (string)\Magelight\Config::getInstance()->getConfig('global/log/file', self::DEFAUL_LOG_FILE);
-        $this->_initialized = true;
+        $this->file = (string)\Magelight\Config::getInstance()->getConfig('global/log/file', self::DEFAUL_LOG_FILE);
+        $this->initialized = true;
         return $this;
     }
 }

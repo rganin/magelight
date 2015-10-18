@@ -35,5 +35,5 @@ class AdminUser extends \Magelight\Model
      *
      * @var string
      */
-    protected static $_tableName = 'admin_users';
+    protected static $tableName = 'admin_users';
 }

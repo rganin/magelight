@@ -43,35 +43,35 @@ class Model
      *
      * @var string
      */
-    protected static $_dbIndex = \Magelight\App::DEFAULT_INDEX;
+    protected static $dbIndex = \Magelight\App::DEFAULT_INDEX;
 
     /**
      * Table name
      *
      * @var string
      */
-    protected static $_tableName = '';
+    protected static $tableName = '';
 
     /**
      * ID field name
      *
      * @var string
      */
-    protected static $_idField = 'id';
+    protected static $idField = 'id';
 
     /**
      * Default model values
      *
      * @var array
      */
-    protected static $_defaultValues = [];
+    protected static $defaultValues = [];
 
     /**
      * Orm instance
      *
      * @var \Magelight\Db\Mysql\Orm
      */
-    protected $_orm;
+    protected $orm;
 
     /**
      * Forgery constructor
@@ -81,11 +81,11 @@ class Model
      */
     public function __forge($data = [], $forceNew = false)
     {
-        $data = $this->_processDataBeforeCreate($data);
+        $data = $this->processDataBeforeCreate($data);
 
         $this->setOrm(static::callStaticLate('orm'));
         if (is_array($data)) {
-            $this->_orm->create($data, $forceNew);
+            $this->orm->create($data, $forceNew);
         }
     }
 
@@ -95,7 +95,7 @@ class Model
      * @param array $data
      * @return array
      */
-    protected function _processDataBeforeCreate($data)
+    protected function processDataBeforeCreate($data)
     {
         return $data;
     }
@@ -115,7 +115,7 @@ class Model
      *
      * @return Model
      */
-    protected function _beforeSave()
+    protected function beforeSave()
     {
         return $this;
     }
@@ -125,7 +125,7 @@ class Model
      *
      * @return Model
      */
-    protected function _afterSave()
+    protected function afterSave()
     {
         return $this;
     }
@@ -138,7 +138,7 @@ class Model
      */
     public function setOrm(\Magelight\Db\Common\Orm $orm)
     {
-        $this->_orm = $orm;
+        $this->orm = $orm;
         return $this;
     }
 
@@ -165,10 +165,10 @@ class Model
      */
     public function getOrm()
     {
-        if (!$this->_orm instanceof Db\Mysql\Orm) {
+        if (!$this->orm instanceof Db\Mysql\Orm) {
             $this->setOrm(static::callStaticLate('orm'));
         }
-        return $this->_orm;
+        return $this->orm;
     }
 
     /**
@@ -178,7 +178,7 @@ class Model
      */
     public static function getDbIndex()
     {
-        return static::$_dbIndex;
+        return static::$dbIndex;
     }
 
     /**
@@ -188,7 +188,7 @@ class Model
      */
     public static function getTableName()
     {
-        return static::$_tableName;
+        return static::$tableName;
     }
 
     /**
@@ -198,7 +198,7 @@ class Model
      */
     public static function getIdField()
     {
-        return static::$_idField;
+        return static::$idField;
     }
 
     /**
@@ -219,7 +219,7 @@ class Model
      */
     public function __isset($name)
     {
-        return isset($this->_orm->$name);
+        return isset($this->orm->$name);
     }
 
     /**
@@ -230,7 +230,7 @@ class Model
      */
     public function __set($name, $value)
     {
-        $this->_orm->setValue($name, $value);
+        $this->orm->setValue($name, $value);
     }
 
     /**
@@ -241,7 +241,7 @@ class Model
      */
     public function &__get($name)
     {
-        return $this->_orm->getValue($name);
+        return $this->orm->getValue($name);
     }
 
     /**
@@ -252,7 +252,7 @@ class Model
      */
     public function __unset($name)
     {
-        return $this->_orm->unsetValue($name);
+        return $this->orm->unsetValue($name);
     }
 
     /**
@@ -278,12 +278,12 @@ class Model
      */
     public function save($safeMode = false, $ignore = false, $onDuplicateKeyUpdate = false)
     {
-        $this->_beforeSave();
-        if ($this->_orm->isNew()) {
-            $this->_orm->mergeData(static::$_defaultValues);
+        $this->beforeSave();
+        if ($this->orm->isNew()) {
+            $this->orm->mergeData(static::$defaultValues);
         }
-        $result = $this->_orm->save($safeMode, $ignore, $onDuplicateKeyUpdate);
-        $this->_afterSave();
+        $result = $this->orm->save($safeMode, $ignore, $onDuplicateKeyUpdate);
+        $this->afterSave();
         return $result;
     }
 
@@ -296,7 +296,7 @@ class Model
      */
     public function delete($id = null)
     {
-        return $this->_orm->delete($id);
+        return $this->orm->delete($id);
     }
 
     /**
@@ -309,7 +309,7 @@ class Model
      */
     public function deleteBy($field, $value)
     {
-        return $this->_orm->deleteBy($field, $value);
+        return $this->orm->deleteBy($field, $value);
     }
 
     /**
@@ -322,7 +322,7 @@ class Model
     public function asArray($fields = [])
     {
         $fields = !is_array($fields) ? func_get_args() : $fields;
-        return $this->_orm->getData($fields);
+        return $this->orm->getData($fields);
     }
 
     /**
@@ -334,7 +334,7 @@ class Model
      */
     public static function find($id)
     {
-        return static::callStaticLate('findBy', [static::$_idField, $id]);
+        return static::callStaticLate('findBy', [static::$idField, $id]);
     }
 
     /**
@@ -355,7 +355,7 @@ class Model
      *
      * @param array $arrayOfModels
      * @param array $fields
-     * @return array[\Magelight\Model]
+     * @return array
      */
     public static function modelsToArrayRecursive($arrayOfModels = [], $fields = [])
     {
@@ -391,7 +391,7 @@ class Model
      */
     public function mergeData($data = [], $overwrite = false)
     {
-        $this->_orm->mergeData($data, $overwrite);
+        $this->orm->mergeData($data, $overwrite);
         return $this;
     }
 
@@ -400,7 +400,7 @@ class Model
      *
      * @param array $propertiesNamesArray
      */
-    protected function _escapePropertiesHtml($propertiesNamesArray = [])
+    protected function escapePropertiesHtml($propertiesNamesArray = [])
     {
         foreach ($propertiesNamesArray as $property) {
             $this->$property = htmlspecialchars($this->$property);
@@ -412,7 +412,7 @@ class Model
      *
      * @param array $propertiesNamesArray
      */
-    protected function _castPropertiesInt($propertiesNamesArray = [])
+    protected function castPropertiesInt($propertiesNamesArray = [])
     {
         foreach ($propertiesNamesArray as $property) {
             $this->$property = (int)$this->$property;
@@ -424,7 +424,7 @@ class Model
      *
      * @param array $propertiesNamesArray
      */
-    protected function _castPropertiesString($propertiesNamesArray = [])
+    protected function castPropertiesString($propertiesNamesArray = [])
     {
         foreach ($propertiesNamesArray as $property) {
             $this->$property = (string)$this->$property;
@@ -436,7 +436,7 @@ class Model
      *
      * @param array $propertiesNamesArray
      */
-    protected function _castPropertiesFloat($propertiesNamesArray = [])
+    protected function castPropertiesFloat($propertiesNamesArray = [])
     {
         foreach ($propertiesNamesArray as $property) {
             $this->$property = floatval($this->$property);
@@ -448,7 +448,7 @@ class Model
      *
      * @param array $propertiesNamesArray
      */
-    protected function _castPropertiesArray($propertiesNamesArray = [])
+    protected function castPropertiesArray($propertiesNamesArray = [])
     {
         foreach ($propertiesNamesArray as $property) {
             $this->$property = (array)$this->$property;
@@ -460,7 +460,7 @@ class Model
      *
      * @param array $propertiesNamesArray
      */
-    protected function _castPropertiesObject($propertiesNamesArray = [])
+    protected function castPropertiesObject($propertiesNamesArray = [])
     {
         foreach ($propertiesNamesArray as $property) {
             $this->$property = (object)$this->$property;
@@ -476,7 +476,7 @@ class Model
     public function getRandomIds($limit)
     {
         $return = [];
-        $result = $this->_getRandomIdsDataSource($limit)->fetchAll();
+        $result = $this->getRandomIdsDataSource($limit)->fetchAll();
         if ($result) {
             foreach ($result as $resultRow) {
                 $return[] = $resultRow[$this->getIdField()];
@@ -491,12 +491,11 @@ class Model
      * @param int $limit
      * @return Db\Common\Orm
      */
-    protected function _getRandomIdsDataSource($limit)
+    protected function getRandomIdsDataSource($limit)
     {
         return $this->orm()
             ->selectFields([$this->getIdField()])
             ->orderByDesc('RAND()')
             ->limit($limit);
     }
-
 }

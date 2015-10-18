@@ -37,14 +37,14 @@ class Response
      *
      * @var array
      */
-    protected $_headers = [];
+    protected $headers = [];
 
     /**
      * Response content
      *
      * @var null|string
      */
-    protected $_content = null;
+    protected $content = null;
 
     /**
      * Add header to response
@@ -55,7 +55,7 @@ class Response
      */
     public function addHeader($name = null, $value = null)
     {
-        $this->_headers[] = array('name' => $name, 'value' => $value);
+        $this->headers[] = array('name' => $name, 'value' => $value);
         return $this;
     }
 
@@ -67,7 +67,7 @@ class Response
      */
     public function setContent($content = null)
     {
-        $this->_content = $content;
+        $this->content = $content;
         return $this;
     }
 
@@ -76,7 +76,7 @@ class Response
      */
     public function send()
     {
-        foreach ($this->_headers as $header) {
+        foreach ($this->headers as $header) {
             $headerStr = '';
             if (!empty($header['name'])) {
                 $headerStr .= $header['name'];
@@ -86,6 +86,6 @@ class Response
             }
             header($headerStr);
         }
-        echo $this->_content;
+        echo $this->content;
     }
 }

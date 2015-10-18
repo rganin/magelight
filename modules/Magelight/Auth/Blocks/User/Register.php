@@ -37,7 +37,7 @@ class Register extends \Magelight\Block
      *
      * @var string
      */
-    protected $_template = 'Magelight/Auth/templates/user/register.phtml';
+    protected $template = 'Magelight/Auth/templates/user/register.phtml';
 
     /**
      * Forgery constructor

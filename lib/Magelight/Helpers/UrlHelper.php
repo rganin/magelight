@@ -42,7 +42,7 @@ class UrlHelper
      * 
      * @var \Magelight\App
      */
-    protected $_app = null;
+    protected $app = null;
 
     /**
      * Get bike base URL

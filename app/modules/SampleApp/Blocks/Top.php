@@ -25,7 +25,7 @@ namespace SampleApp\Blocks;
 
 class Top extends \Magelight\Block
 {
-    protected $_template = 'SampleApp/templates/top.phtml';
+    protected $template = 'SampleApp/templates/top.phtml';
 
     public function initBlock()
     {

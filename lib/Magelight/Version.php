@@ -32,14 +32,14 @@ class Version
      * Version as string
      * @va string
      */
-    protected $_versionString;
+    protected $versionString;
 
     /**
      * Version as array
      *
      * @var array
      */
-    protected $_versionStruct;
+    protected $versionStruct;
 
     /**
      * Constructor
@@ -48,8 +48,8 @@ class Version
      */
     public function __construct($version)
     {
-        $this->_versionString = $version;
-        $this->_buildStruct($version);
+        $this->versionString = $version;
+        $this->buildStruct($version);
     }
 
     /**
@@ -60,7 +60,7 @@ class Version
      */
     public function __toString()
     {
-        return $this->_versionString;
+        return $this->versionString;
     }
 
     /**
@@ -68,11 +68,11 @@ class Version
      *
      * @param string $version
      */
-    protected function _buildStruct($version)
+    protected function buildStruct($version)
     {
         $version = preg_replace('/[^0-9\.]/', '.', $version);
         $version = preg_replace('/(\.)(?![^\.])/', '', $version);
-        $this->_versionStruct = explode('.', $version);
+        $this->versionStruct = explode('.', $version);
     }
 
     /**
@@ -82,7 +82,7 @@ class Version
      */
     public function getVersionStruct()
     {
-        return $this->_versionStruct;
+        return $this->versionStruct;
     }
 
     /**
@@ -93,8 +93,8 @@ class Version
      */
     public function isEqual($version)
     {
-        $versionStruct = $this->_prepareVersionToCompareStruct($version);
-        foreach ($this->_versionStruct as $key => $versionNum) {
+        $versionStruct = $this->prepareVersionToCompareStruct($version);
+        foreach ($this->versionStruct as $key => $versionNum) {
             if (!isset($versionStruct[$key]) || $versionStruct[$key] !== $versionNum) {
                 return false;
             }
@@ -110,8 +110,8 @@ class Version
      */
     public function isLowerThan($version)
     {
-        $versionStruct = $this->_prepareVersionToCompareStruct($version);
-        foreach ($this->_versionStruct as $key => $versionNum) {
+        $versionStruct = $this->prepareVersionToCompareStruct($version);
+        foreach ($this->versionStruct as $key => $versionNum) {
             if (!isset($versionStruct[$key])) {
                 $versionStruct[$key] = 0;
             }
@@ -130,8 +130,8 @@ class Version
      */
     public function isGreaterThan($version)
     {
-        $versionStruct = $this->_prepareVersionToCompareStruct($version);
-        foreach ($this->_versionStruct as $key => $versionNum) {
+        $versionStruct = $this->prepareVersionToCompareStruct($version);
+        foreach ($this->versionStruct as $key => $versionNum) {
             if (!isset($versionStruct[$key])) {
                 $versionStruct[$key] = 0;
             }
@@ -149,7 +149,7 @@ class Version
      * @return array
      * @throws Exception
      */
-    protected function _prepareVersionToCompareStruct($version)
+    protected function prepareVersionToCompareStruct($version)
     {
         if (!$version instanceof \Magelight\Version) {
             if (!is_string($version)) {

@@ -36,7 +36,7 @@ namespace SampleApp\Blocks;
  */
 class UserProfile extends \Magelight\Block
 {
-    protected $_template = 'SampleApp/templates/user-profile.phtml';
+    protected $template = 'SampleApp/templates/user-profile.phtml';
 
     /**
      * Forgery constructor

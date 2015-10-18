@@ -32,7 +32,7 @@ class TranslitHelper
      *
      * @var array
      */
-    protected $_convertTable = array(
+    protected $convertTable = array(
         '&amp;' => 'and',   '@' => 'at',    '©' => 'c', '®' => 'r', 'À' => 'a',
         'Á' => 'a', 'Â' => 'a', 'Ä' => 'a', 'Å' => 'a', 'Æ' => 'ae','Ç' => 'c',
         'È' => 'e', 'É' => 'e', 'Ë' => 'e', 'Ì' => 'i', 'Í' => 'i', 'Î' => 'i',
@@ -95,6 +95,6 @@ class TranslitHelper
      * @return string
      */
     public function transliterateToAscii($string) {
-        return str_replace(array_keys($this->_convertTable), array_values($this->_convertTable), $string);
+        return str_replace(array_keys($this->convertTable), array_values($this->convertTable), $string);
     }
 }

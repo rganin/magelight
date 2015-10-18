@@ -33,7 +33,7 @@ namespace Magelight\Webform\Blocks\Elements;
  */
 class Captcha extends Abstraction\Field
 {
-    protected $_template = 'Magelight/Webform/templates/webform/elements/captcha.phtml';
+    protected $template = 'Magelight/Webform/templates/webform/elements/captcha.phtml';
 
     protected $_captcha = null;
 

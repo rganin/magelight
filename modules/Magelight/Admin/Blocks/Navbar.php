@@ -4,7 +4,7 @@ namespace Magelight\Admin\Blocks;
 
 class Navbar extends \Magelight\Block
 {
-    protected $_template = 'Magelight/Admin/templates/navbar.phtml';
+    protected $template = 'Magelight/Admin/templates/navbar.phtml';
 
     protected $_items = [];
 

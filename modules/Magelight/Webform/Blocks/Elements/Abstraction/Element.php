@@ -94,7 +94,7 @@ class Element extends \Magelight\Block
      */
     public function toHtml()
     {
-        if (!empty($this->_template)) {
+        if (!empty($this->template)) {
             return parent::toHtml();
         }
         $this->beforeToHtml();

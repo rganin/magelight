@@ -58,8 +58,8 @@ class Auth extends \Magelight\Core\Controllers\BaseController
                 );
             }
         }
-        $this->_view->sectionAppend('content', $contentBlock);
-        $this->_view->sectionReplace('login-user-main-form', $form);
+        $this->view->sectionAppend('content', $contentBlock);
+        $this->view->sectionReplace('login-user-main-form', $form);
         $this->renderView();
     }
 
@@ -68,7 +68,7 @@ class Auth extends \Magelight\Core\Controllers\BaseController
      */
     public function registerAction()
     {
-        $this->_view->setTitle(__('Register new user'));
+        $this->view->setTitle(__('Register new user'));
 
         $content = \Magelight\Auth\Blocks\User\Register::forge();
         $form = $content->_getRegForm();
@@ -90,8 +90,8 @@ class Auth extends \Magelight\Core\Controllers\BaseController
                 }
             }
         }
-        $this->_view->sectionReplace('register-user-form', $form);
-        $this->_view->sectionReplace('content', $content);
+        $this->view->sectionReplace('register-user-form', $form);
+        $this->view->sectionReplace('content', $content);
         $this->renderView();
     }
 
@@ -130,8 +130,8 @@ class Auth extends \Magelight\Core\Controllers\BaseController
                 $form->addResult(__('Your new password is sent to your email'), 'alert-success');
             }
         }
-        $this->_view->sectionReplace('forgot-password-form', $form);
-        $this->_view->sectionReplace('content', $contentBlock);
+        $this->view->sectionReplace('forgot-password-form', $form);
+        $this->view->sectionReplace('content', $contentBlock);
         $this->renderView();
     }
 

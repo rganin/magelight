@@ -50,49 +50,49 @@ class Request
      * 
      * @var string
      */
-    protected $_method = 'GET';
+    protected $method = 'GET';
     
     /**
      * GET params
      * 
      * @var array|null
      */
-    protected $_get;
+    protected $get;
     
     /**
      * POST params
      * 
      * @var array|null
      */
-    protected $_post;
+    protected $post;
 
     /**
      * FILES array
      *
      * @var array|null
      */
-    protected $_files;
+    protected $files;
     
     /**
      * REQUEST params
      * 
      * @var array|null
      */
-    protected $_request;
+    protected $request;
 
     /**
      * Cookies
      *
      * @var array
      */
-    private $_cookies = [];
+    private $cookies = [];
 
     /**
      * Request path
      * 
      * @var string
      */
-    protected $_requestRoute = '/';
+    protected $requestRoute = '/';
 
     /**
      * Forgery constructor
@@ -104,40 +104,40 @@ class Request
     public function __forge($get = [], $post = [], $files = [])
     {
         if (isset($_SERVER['REQUEST_METHOD'])) {
-            $this->_method = $_SERVER['REQUEST_METHOD'];
+            $this->method = $_SERVER['REQUEST_METHOD'];
         }
         
         if (isset($_SERVER['REQUEST_URI'])) {
             $request = explode('?', $_SERVER['REQUEST_URI']);
             if (isset($request[0])) {
-                $this->_requestRoute = $request[0];
+                $this->requestRoute = $request[0];
             }
         }
         
         if (empty($get)) {
-            $this->_get = $_GET;
+            $this->get = $_GET;
         } else {
-            $this->_get = $get;
+            $this->get = $get;
         }
         
         if (empty($post)) {
-            $this->_post = $_POST;
+            $this->post = $_POST;
         } else {
-            $this->_post = $post;
+            $this->post = $post;
         }
 
         if (empty($files)) {
-            $this->_files = $_FILES;
+            $this->files = $_FILES;
         } else {
-            $this->_files = $files;
+            $this->files = $files;
         }
 
-        $this->_cookies = $_COOKIE;
+        $this->cookies = $_COOKIE;
         
         if (empty($get) && empty($post) && ini_get('request_order') === self::DEFAULT_REQUEST_MERGE_ORDER) {
-            $this->_request = $_REQUEST;
+            $this->request = $_REQUEST;
         } else {
-            $this->_request = $this->mergeRequest($get, $post);
+            $this->request = $this->mergeRequest($get, $post);
         }
     }
     
@@ -148,7 +148,7 @@ class Request
      */
     public function getRequestRoute()
     {
-        return $this->_requestRoute;    
+        return $this->requestRoute;
     }
        
     /**
@@ -176,7 +176,7 @@ class Request
      */
     public function getRequest($key, $default = null)
     {
-        return isset($this->_request[$key]) ? $this->_request[$key] : $default;
+        return isset($this->request[$key]) ? $this->request[$key] : $default;
     }
 
     /**
@@ -205,7 +205,7 @@ class Request
      */
     public function getRequestArray()
     {
-        return $this->_request;
+        return $this->request;
     }
 
     /**
@@ -215,7 +215,7 @@ class Request
      */
     public function getPostArray()
     {
-        return $this->_post;
+        return $this->post;
     }
 
     /**
@@ -225,7 +225,7 @@ class Request
      */
     public function getGetArray()
     {
-        return $this->_get;
+        return $this->get;
     }
     
     /**
@@ -237,7 +237,7 @@ class Request
      */
     public function getGet($key, $default = null)
     {
-        return isset($this->_get[$key]) ? $this->_get[$key] : $default;
+        return isset($this->get[$key]) ? $this->get[$key] : $default;
     }
     
     /**
@@ -249,7 +249,7 @@ class Request
      */
     public function getPost($key, $default = null)
     {
-        return isset($this->_post[$key]) ? $this->_post[$key] : $default;
+        return isset($this->post[$key]) ? $this->post[$key] : $default;
     }
     
     /**
@@ -259,8 +259,8 @@ class Request
      */
     public function appendGet($appendArray = [])
     {
-        $this->_get = array_merge($this->_get, $appendArray);
-        $this->_request = array_merge($this->_get, $this->_post);
+        $this->get = array_merge($this->get, $appendArray);
+        $this->request = array_merge($this->get, $this->post);
     }
     
     /**
@@ -270,7 +270,7 @@ class Request
      */
     public function getMethod()
     {
-        return $this->_method;
+        return $this->method;
     }
     
     /**
@@ -278,12 +278,12 @@ class Request
      */
     public function __destruct()
     {
-        $this->_get = null;
-        $this->_post = null;
-        $this->_request = null;
-        unset($this->_get);
-        unset($this->_post);
-        unset($this->_request);
+        $this->get = null;
+        $this->post = null;
+        $this->request = null;
+        unset($this->get);
+        unset($this->post);
+        unset($this->request);
     }
 
     /**
@@ -296,9 +296,9 @@ class Request
     public function getFiles($index = null, $default = [])
     {
         if (empty($index)) {
-            return $this->_files;
+            return $this->files;
         }
-        return isset($this->_files[$index]) ? $this->_files[$index] : $default;
+        return isset($this->files[$index]) ? $this->files[$index] : $default;
     }
 
     /**
@@ -308,7 +308,7 @@ class Request
      */
     public function getFilesArray()
     {
-        return $this->_files;
+        return $this->files;
     }
 
     /**
@@ -363,7 +363,7 @@ class Request
      */
     public function getFilesNormalized($index = null, $default = [])
     {
-        $files = $this->rearrangeFilesArray($this->_files);
+        $files = $this->rearrangeFilesArray($this->files);
         if (empty($index)) {
             return $files;
         }
@@ -377,7 +377,7 @@ class Request
      */
     public function getFilesArrayNormalized()
     {
-        return $this->rearrangeFilesArray($this->_files);
+        return $this->rearrangeFilesArray($this->files);
     }
 
     /**
@@ -390,7 +390,7 @@ class Request
     public function getCookie($key, $default = null)
     {
         if ($this->cookieExists($key)) {
-            return $this->_cookies[$key];
+            return $this->cookies[$key];
         }
         return $default;
     }
@@ -403,7 +403,7 @@ class Request
      */
     public function cookieExists($key)
     {
-        return isset($this->_cookies[$key]);
+        return isset($this->cookies[$key]);
     }
 
     /**

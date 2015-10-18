@@ -37,7 +37,7 @@ class ForgotPassword extends \Magelight\Block
      *
      * @var string
      */
-    protected $_template = 'Magelight/Auth/templates/user/forgot-password.phtml';
+    protected $template = 'Magelight/Auth/templates/user/forgot-password.phtml';
 
     /**
      * Get for for password recovery page

@@ -36,22 +36,22 @@ class Adapter extends \Magelight\Db\Common\Adapter
      */
     public function init(array $options = [])
     {
-        $this->_dsn = isset($options['dsn']) ? $options['dsn'] : $this->getDsn($options);
+        $this->dsn = isset($options['dsn']) ? $options['dsn'] : $this->getDsn($options);
 
         $user = isset($options['user']) ? $options['user'] : null;
         $pass = isset($options['password']) ? $options['password'] : null;
 
-        $this->_db = new \PDO($this->_dsn, $user, $pass, $this->preparePdoOptions($options));
+        $this->pdo = new \PDO($this->dsn, $user, $pass, $this->preparePdoOptions($options));
 
         if (isset($options['use_database'])) {
-            $this->_db->exec('USE ' . $options['database']);
+            $this->pdo->exec('USE ' . $options['database']);
         }
 
         if (isset($options['profiling']) && (bool) $options['profiling']) {
             $this->enableProfilig();
         }
 
-        $this->_isInitialized = true;
+        $this->isInitialized = true;
         return $this;
     }
 

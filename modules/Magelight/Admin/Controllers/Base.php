@@ -17,10 +17,10 @@ class Base extends \Magelight\Controller
 
         if (!\Magelight\Admin\Helpers\Admin::getInstance()->isCurrentUserAdmin()) {
             $this->redirectInternal('no_rights');
-            $this->_app->shutdown();
+            $this->app->shutdown();
         }
-        $this->_view = \Magelight\Core\Blocks\Document::getInstance()->loadPerspective('global/perspectives/admin');
-        $this->_view->setGlobal('user_id', $this->session()->get('user_id'));
+        $this->view = \Magelight\Core\Blocks\Document::getInstance()->loadPerspective('global/perspectives/admin');
+        $this->view->setGlobal('user_id', $this->session()->get('user_id'));
         $this->view()->sectionAppend('breadcrumbs', $this->_breadcrumbsBlock);
         $this->view()->sectionAppend('dashboard-content', '');
     }

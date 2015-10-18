@@ -38,7 +38,7 @@ class Config
      * 
      * @var \SimpleXmlElement
      */
-    protected $_config = null;
+    protected $config = null;
 
     /**
      * Load configuration and merge it
@@ -51,10 +51,10 @@ class Config
     {
         $filename = str_replace(['\\', '/'], DS, $filename);
         $xml = simplexml_load_file($filename, 'SimpleXMLElement');
-        if (!$this->_config instanceof \SimpleXMLElement) {
-            $this->_config = $xml;
+        if (!$this->config instanceof \SimpleXMLElement) {
+            $this->config = $xml;
         } else {
-            self::mergeConfig($this->_config, $xml);
+            self::mergeConfig($this->config, $xml);
         }
         return $this;
     }
@@ -153,7 +153,7 @@ class Config
      */
     public function getConfig()
     {
-        return $this->_config;
+        return $this->config;
     }
 
     /**
@@ -164,7 +164,7 @@ class Config
      */
     public function setConfig(\SimpleXMLElement $config)
     {
-        $this->_config = $config;
+        $this->config = $config;
         return $this;
     }
 
@@ -173,6 +173,6 @@ class Config
      */
     public function __destruct()
     {
-        unset($this->_config);
+        unset($this->config);
     }
 }

@@ -30,7 +30,7 @@ namespace Magelight\Geo\Models;
  */
 class Country extends \Magelight\Model
 {
-    protected static $_tableName = 'geo_countries';
+    protected static $tableName = 'geo_countries';
 
     /**
      * Get counrty regions
@@ -66,7 +66,7 @@ class Country extends \Magelight\Model
      */
     public function getCountryIdByName($name, $langs = ['en', 'ru', 'ua'])
     {
-        $orm = self::orm()->selectFields([self::$_idField]);
+        $orm = self::orm()->selectFields([self::$idField]);
         foreach ($langs as $lang) {
             $orm->orWhereLike('country_name_' . $lang, $name);
         }

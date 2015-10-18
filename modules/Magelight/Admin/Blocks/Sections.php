@@ -4,7 +4,7 @@ namespace Magelight\Admin\Blocks;
 
 class Sections extends \Magelight\Block
 {
-    protected $_template = 'Magelight/Admin/templates/sections.phtml';
+    protected $template = 'Magelight/Admin/templates/sections.phtml';
 
     protected $_items = [];
 

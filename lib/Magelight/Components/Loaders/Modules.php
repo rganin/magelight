@@ -41,14 +41,14 @@ final class Modules
      * 
      * @var array
      */
-    protected $_modules = [];
+    protected $modules = [];
     
     /**
      * Loading queue
      * 
      * @var array
      */
-    protected $_loadQueue = [];
+    protected $loadQueue = [];
     
     /**
      * Constructor. Automatically starts modules loading
@@ -62,8 +62,8 @@ final class Modules
                 $this->enqueue($module);
             }
             
-            while (!empty($this->_loadQueue)) {
-                foreach ($this->_loadQueue as $module) {
+            while (!empty($this->loadQueue)) {
+                foreach ($this->loadQueue as $module) {
                     if ($this->requiredModulesLoaded($module)) {
                         $this->loadModule($module);
                     }
@@ -80,7 +80,7 @@ final class Modules
      */
     private function enqueue(\SimpleXMLElement $moduleXml)
     {
-        $this->_loadQueue[$moduleXml->getName()] = $moduleXml;
+        $this->loadQueue[$moduleXml->getName()] = $moduleXml;
         return $this;
     }
     
@@ -104,8 +104,8 @@ final class Modules
             throw new \Magelight\Exception('Module "' .  $module['name'] . '" does not exist or not readable.');
         }
         
-        $this->_modules[$module['name']] = $module;
-        unset($this->_loadQueue[$module['name']]);
+        $this->modules[$module['name']] = $module;
+        unset($this->loadQueue[$module['name']]);
         return $this;
     }
 
@@ -144,7 +144,7 @@ final class Modules
                 $moduleXml = simplexml_load_file($modulesDir . DS . $path);
                 foreach ($moduleXml->xpath('require') as $require) {
                     $require = (string) $require;
-                    if (!isset($this->_loadQueue[$require]) && !isset($this->_modules[$require])) {
+                    if (!isset($this->loadQueue[$require]) && !isset($this->modules[$require])) {
                         throw new \Magelight\Exception(
                             'Module "'
                             . $require
@@ -153,7 +153,7 @@ final class Modules
                             . '" is not configured for loading.'
                         );
                     }
-                    $result &= isset($this->_modules[$require]);
+                    $result &= isset($this->modules[$require]);
 
                 }
             }
@@ -169,7 +169,7 @@ final class Modules
     public function getActiveModules()
     {
         $modules = [];
-        foreach ($this->_modules as $name => $module) {
+        foreach ($this->modules as $name => $module) {
             $modules[$name] = $module;
         }
         return $modules;
@@ -181,10 +181,10 @@ final class Modules
      */
     public function flushArrays()
     {
-        $this->_modules = null;
-        $this->_loadQueue = null;
-        unset($this->_modules);
-        unset($this->_loadQueue);
+        $this->modules = null;
+        $this->loadQueue = null;
+        unset($this->modules);
+        unset($this->loadQueue);
         return $this;
     }
     

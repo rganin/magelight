@@ -31,7 +31,7 @@ namespace Magelight\Admin\Blocks\Scaffold;
  */
 class Entities extends \Magelight\Block
 {
-    protected $_template = 'Magelight/Admin/templates/scaffold/entities.phtml';
+    protected $template = 'Magelight/Admin/templates/scaffold/entities.phtml';
 
     protected $_scaffold;
 

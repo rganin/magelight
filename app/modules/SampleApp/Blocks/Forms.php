@@ -15,7 +15,7 @@ class Forms extends \Magelight\Block
      *
      * @var string
      */
-    protected $_template = 'SampleApp/templates/forms.phtml';
+    protected $template = 'SampleApp/templates/forms.phtml';
 
     /**
      * Forgery constructor
