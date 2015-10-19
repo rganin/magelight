@@ -36,11 +36,6 @@ class Block
     use Traits\TForgery;
 
     /**
-     * Allow fetching code pool
-     */
-    use \Magelight\Traits\TCodePoolFetcher;
-
-    /**
      * Use caching trait
      */
     use \Magelight\Traits\TCache;
