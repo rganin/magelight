@@ -65,7 +65,7 @@ class Login extends \Magelight\Block
             ->createResultRow(true)
             ->addButtonsRow([
             Elements\Button::forge()->setContent(__('Enter'))->addClass('btn-primary'),
-            Elements\Abstraction\Element::forge()->setTag('a')->setAttribute('href', $this->url('remindpass'))
+            Elements\Abstraction\Element::forge()->setTag('a')->setAttribute('href', $this->url('auth/remindpass'))
                 ->setContent(__('Remind password'))->setClass('btn')
         ])
             ->loadFromRequest(\Magelight\Http\Request::getInstance())->setValidator($this->getLoginFormValidator());

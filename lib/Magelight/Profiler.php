@@ -72,7 +72,7 @@ class Profiler
     }
 
     /**
-     * Finish profling thread
+     * Finish profiling thread
      *
      * @param int $threadId
      * @param array $data

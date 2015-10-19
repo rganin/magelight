@@ -35,13 +35,16 @@ class LogTest extends \Magelight\TestCase
     protected $log;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setUp()
     {
         $this->log = $this->getMockForAbstractClass(\Magelight\Log::class, [], '', false, false, true, ['writeMessage']);
     }
 
+    /**
+     * Test add log message
+     */
     public function testAdd()
     {
         $configMock = $this->getMock(\Magelight\Config::class, [], [], '', false);
