@@ -188,7 +188,7 @@ class Captcha
     {
         if (isset($this->save_path)) {
             if (!is_readable($this->save_path)) {
-                mkdir($this->save_path);
+                mkdir($this->save_path, 0777, true);
             }
             if (!is_writeable($this->save_path)) {
                 trigger_error("Captcha save path {$this->save_path} is not writeable.", E_USER_WARNING);

@@ -61,7 +61,7 @@ class Scaffold extends Base
                 $this->entity, 'admin/scaffold/{entity}/', ['entity' => $this->entity]
             );
         }
-        return parent::beforeExecute();
+        return $this;
     }
 
     /**
