@@ -181,4 +181,106 @@ class ModelTest extends \Magelight\TestCase
         $ormMock->expects($this->once())->method('whereEq')->with($field, $value)->will($this->returnSelf());
         $this->assertEquals($this->model, Model::find($value));
     }
+
+    public function testModelsToArrayRecursive()
+    {
+        $model1 = $this->getMock(\Magelight\Model::class, [], [], '', false);
+        $model2 = $this->getMock(\Magelight\Model::class, [], [], '', false);
+        $model3 = $this->getMock(\Magelight\Model::class, [], [], '', false);
+        $model1->expects($this->once())->method('asArray')->will($this->returnValue([1]));
+        $model2->expects($this->once())->method('asArray')->will($this->returnValue([2]));
+        $model3->expects($this->once())->method('asArray')->will($this->returnValue([3]));
+        $arr = [$model1, $model2, $model3];
+        $expectedArr = [0 => [1], 1 => [2], 2 => [3]];
+        $this->assertEquals($expectedArr, \Magelight\Model::modelsToArrayRecursive($arr));
+    }
+
+    public function testGetFlatCollection()
+    {
+        $collectionMock = $this->getMock(\Magelight\Db\Collection::class, [], [], '', false);
+        \Magelight\Db\Collection::forgeMock($collectionMock);
+        $this->assertEquals($collectionMock, \Magelight\Model::getFlatCollection());
+    }
+
+    public function testMergeData()
+    {
+        $this->ormMock->expects($this->once())->method('mergeData')->with([1], true);
+        $this->assertEquals($this->model, $this->model->mergeData([1], true));
+    }
+
+    public function testGetRandomIds()
+    {
+        $limit = 3;
+        $this->ormMock->expects($this->once())
+            ->method('selectFields')
+            ->with([$this->model->getIdField()])
+            ->will($this->returnSelf());
+        $this->ormMock->expects($this->once())
+            ->method('orderByDesc')
+            ->with('RAND()')
+            ->will($this->returnSelf());
+        $this->ormMock->expects($this->once())
+            ->method('limit')
+            ->with($limit)
+            ->will($this->returnSelf());
+        $this->ormMock->expects($this->once())
+            ->method('fetchAll')
+            ->will($this->returnValue([['id' => 11], ['id' => 13], ['id' => 12]]));
+
+        $this->assertEquals([11, 13, 12], $this->model->getRandomIds($limit));
+    }
+
+    public function testEscapePropertiesHtml()
+    {
+        $property = '<div>property</div>';
+        $expectedProperty = '&lt;div&gt;property&lt;/div&gt;';
+        $this->ormMock->expects($this->once())->method('getValue')->with('property')->will($this->returnValue($property));
+        $this->ormMock->expects($this->once())->method('setValue')->with('property', $expectedProperty);
+        $this->model->escapePropertiesHtml(['property']);
+    }
+
+    public function testCastPropertiesInt()
+    {
+        $property = '123';
+        $expectedProperty = 123;
+        $this->ormMock->expects($this->once())->method('getValue')->with('property')->will($this->returnValue($property));
+        $this->ormMock->expects($this->once())->method('setValue')->with('property', $expectedProperty);
+        $this->model->castPropertiesInt(['property']);
+    }
+
+    public function testCastPropertiesString()
+    {
+        $property = 123;
+        $expectedProperty = '123';
+        $this->ormMock->expects($this->once())->method('getValue')->with('property')->will($this->returnValue($property));
+        $this->ormMock->expects($this->once())->method('setValue')->with('property', $expectedProperty);
+        $this->model->castPropertiesString(['property']);
+    }
+
+    public function testCastPropertiesFloat()
+    {
+        $property = '123.456';
+        $expectedProperty = 123.456;
+        $this->ormMock->expects($this->once())->method('getValue')->with('property')->will($this->returnValue($property));
+        $this->ormMock->expects($this->once())->method('setValue')->with('property', $expectedProperty);
+        $this->model->castPropertiesFloat(['property']);
+    }
+
+    public function testCastPropertiesArray()
+    {
+        $property = 123;
+        $expectedProperty = [123];
+        $this->ormMock->expects($this->once())->method('getValue')->with('property')->will($this->returnValue($property));
+        $this->ormMock->expects($this->once())->method('setValue')->with('property', $expectedProperty);
+        $this->model->castPropertiesArray(['property']);
+    }
+
+    public function testCastPropertiesObject()
+    {
+        $property = 123;
+        $expectedProperty = (object)123;
+        $this->ormMock->expects($this->once())->method('getValue')->with('property')->will($this->returnValue($property));
+        $this->ormMock->expects($this->once())->method('setValue')->with('property', $expectedProperty);
+        $this->model->castPropertiesObject(['property']);
+    }
 }

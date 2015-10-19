@@ -46,7 +46,7 @@ class Profiler
      * Get profiler instance
      *
      * @param string $type
-     * @return mixed
+     * @return $this
      */
     public static function getInstance($type)
     {
@@ -86,12 +86,13 @@ class Profiler
     }
 
     /**
-     * Get profiles
+     * Get profile data
      *
+     * @param int|null $index
      * @return array
      */
-    public function getProfile()
+    public function getProfile($index = null)
     {
-        return $this->profiles;
+        return $index === null ? $this->profiles : $this->profiles[$index];
     }
 }

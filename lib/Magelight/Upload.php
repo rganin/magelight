@@ -135,7 +135,7 @@ class Upload
      * @param int $mode
      * @return bool
      */
-    public function saveTo($path, $filename = null, $createPath = true, $mode = 755)
+    public function saveTo($path, $filename = null, $createPath = true, $mode = 0755)
     {
         if (empty($filename)) {
             $filename = $this->getName();
@@ -180,15 +180,15 @@ class Upload
     public function hasRestrictedExtension(array $restrictedExtensions = [])
     {
         if (empty($restrictedExtensions)) {
-            $restrictedExtensions = $this->allowedExtensions;
+            $restrictedExtensions = $this->restrictedExtensions;
         }
         $filename = $this->getName();
         foreach ($restrictedExtensions as $ext) {
             if (preg_match('/^.*' . $ext . '$/i', $filename)) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     /**

@@ -363,8 +363,6 @@ class Model
         foreach ($arrayOfModels as $item) {
             if ($item instanceof \Magelight\Model) {
                 $ret[] = $item->asArray($fields);
-            } elseif (is_array($item)) {
-                $ret[] = self::modelsToArrayRecursive($item, $fields);
             } else {
                 $ret[] = $item;
             }
@@ -400,7 +398,7 @@ class Model
      *
      * @param array $propertiesNamesArray
      */
-    protected function escapePropertiesHtml($propertiesNamesArray = [])
+    public function escapePropertiesHtml($propertiesNamesArray = [])
     {
         foreach ($propertiesNamesArray as $property) {
             $this->$property = htmlspecialchars($this->$property);
@@ -412,7 +410,7 @@ class Model
      *
      * @param array $propertiesNamesArray
      */
-    protected function castPropertiesInt($propertiesNamesArray = [])
+    public function castPropertiesInt($propertiesNamesArray = [])
     {
         foreach ($propertiesNamesArray as $property) {
             $this->$property = (int)$this->$property;
@@ -424,7 +422,7 @@ class Model
      *
      * @param array $propertiesNamesArray
      */
-    protected function castPropertiesString($propertiesNamesArray = [])
+    public function castPropertiesString($propertiesNamesArray = [])
     {
         foreach ($propertiesNamesArray as $property) {
             $this->$property = (string)$this->$property;
@@ -436,7 +434,7 @@ class Model
      *
      * @param array $propertiesNamesArray
      */
-    protected function castPropertiesFloat($propertiesNamesArray = [])
+    public function castPropertiesFloat($propertiesNamesArray = [])
     {
         foreach ($propertiesNamesArray as $property) {
             $this->$property = floatval($this->$property);
@@ -448,7 +446,7 @@ class Model
      *
      * @param array $propertiesNamesArray
      */
-    protected function castPropertiesArray($propertiesNamesArray = [])
+    public function castPropertiesArray($propertiesNamesArray = [])
     {
         foreach ($propertiesNamesArray as $property) {
             $this->$property = (array)$this->$property;
@@ -460,7 +458,7 @@ class Model
      *
      * @param array $propertiesNamesArray
      */
-    protected function castPropertiesObject($propertiesNamesArray = [])
+    public function castPropertiesObject($propertiesNamesArray = [])
     {
         foreach ($propertiesNamesArray as $property) {
             $this->$property = (object)$this->$property;
