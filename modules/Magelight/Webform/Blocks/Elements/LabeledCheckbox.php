@@ -24,7 +24,7 @@
 namespace Magelight\Webform\Blocks\Elements;
 
 /**
- * @method static \Magelight\Webform\Blocks\Elements\Checkbox forge()
+ * @method static \Magelight\Webform\Blocks\Elements\LabeledCheckbox forge()
  */
 class LabeledCheckbox extends Checkbox
 {
@@ -47,7 +47,7 @@ class LabeledCheckbox extends Checkbox
      */
     public function __forge()
     {
-        $this->checkbox = Checkbox::forge();
+        $this->checkbox = Checkbox::forge()->removeClass('form-control');
         $this->label = Label::forge()->removeClass('control-label');
         $this->label->addContent($this->checkbox);
         $this->label->addClass('checkbox');

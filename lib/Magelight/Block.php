@@ -483,32 +483,32 @@ class Block
     }
 
     /**
-     * Load block perspective from config node
+     * Load block layout from config node
      *
-     * @param string $perspective - path to perspective in config
+     * @param string $layoutIndex - path to perspective in config
      * @return Block
      */
-    public function loadPerspective($perspective = 'global/perspectives/default')
+    public function loadLayout($layoutIndex = 'global/layouts/default')
     {
-        return $this->processPerspective(\Magelight\Config::getInstance()->getConfig($perspective));
+        return $this->processLayout(\Magelight\Config::getInstance()->getConfig($layoutIndex));
     }
 
     /**
-     * Process loaded perspective
+     * Process loaded layout
      *
-     * @param \SimpleXMLElement $perspective
+     * @param \SimpleXMLElement $layout
      * @return Block
      */
-    protected function processPerspective(\SimpleXMLElement $perspective)
+    protected function processLayout(\SimpleXMLElement $layout)
     {
-        foreach ($perspective->sections->children() as $sectionName => $node)
+        foreach ($layout->sections->children() as $sectionName => $node)
         {
             foreach ($node->block as $block) {
                 $block = '\\' . trim((string)$block, '\\/');
                 $this->sectionAppend($sectionName, call_user_func([$block, 'forge']));
             }
             if (isset($node->sections)) {
-                $this->processPerspective($node);
+                $this->processLayout($node);
             }
         }
         return $this;

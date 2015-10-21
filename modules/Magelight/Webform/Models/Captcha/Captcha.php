@@ -201,6 +201,21 @@ class Captcha
         return $this;
     }
 
+    protected function getSessionCodeImageFileName()
+    {
+        return trim($this->save_path, '\\/') . DS . md5($this->code) . 'captcha.jpg';
+    }
+
+    /**
+     * Does session code file captcha exist
+     *
+     * @return bool
+     */
+    public function isSessionCodeCaptchaExists()
+    {
+        return is_readable($this->getSessionCodeImageFileName());
+    }
+
     /**
      * Cleanup images cache
      *
@@ -226,7 +241,7 @@ class Captcha
      */
     public function getSavedFileName()
     {
-        return $this->fileName;
+        return $this->getSessionCodeImageFileName();
     }
 
     /**

@@ -35,7 +35,7 @@
         </navbar>
     </admin>
     <global>
-        <perspectives>
+        <layouts>
             <admin>
                 <sections>
                     <dashboard-content stackable="1">
@@ -43,7 +43,7 @@
                     </dashboard-content>
                 </sections>
             </admin>
-        </perspectives>
+        </layouts>
         <events>
             <app_controller_initialized>
                 <observer>\Magelight\Visitors\Models\Observer</observer>

@@ -382,7 +382,12 @@ abstract class App
      */
     public function shutdown()
     {
-        die();
+        \Magelight\Http\Session::getInstance()->close();
+    }
+
+    public function __destruct()
+    {
+        $this->shutdown();
     }
 
     /**
