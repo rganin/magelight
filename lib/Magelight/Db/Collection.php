@@ -22,6 +22,7 @@
  */
 
 namespace Magelight\Db;
+use Magelight\Db\Common\Expression\ExpressionInterface;
 
 /**
  * @method static \Magelight\Db\Collection forge(\Magelight\Db\Common\Orm $dataSourceOrm = null)
@@ -187,6 +188,15 @@ class Collection
      */
     public function applyFilter(CollectionFilter $filter)
     {
+        $filterExpression = $filter->getFilterExpression();
+        if ($filterExpression instanceof ExpressionInterface && !$filterExpression->isEmpty()) {
+            $this->getDataSource()->whereEx($filterExpression);
+            return $this;
+        }
+        /**
+         * For backward compatibility
+         * @todo remove this and migrate to new expression filter
+         */
         foreach ($filter->getFilterMethods() as $method) {
             $this->getDataSource()->$method['statement']($method['field'], $method['value']);
         }

@@ -111,7 +111,7 @@ class Form extends Elements\Abstraction\Element
      * @param string $method
      * @return Form
      */
-    public function setConfigs($name, $action, $enctype = 'multipart/form-data', $method = 'post')
+    public function setConfigs($name, $action = '', $enctype = 'multipart/form-data', $method = 'post')
     {
         $this->wrapIndex = $name;
         return $this->setAttribute('name', $name)

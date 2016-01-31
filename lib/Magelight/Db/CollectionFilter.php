@@ -24,9 +24,9 @@
 namespace Magelight\Db;
 
 /**
- * @method static \Magelight\Db\CollectionFilter forge(array $FilterData = [])
+ * @method static CollectionFilter forge(array $FilterData = [])
  */
-class CollectionFilter
+class CollectionFilter implements CollectionFilterInterface
 {
     use \Magelight\Traits\TForgery;
 
@@ -38,7 +38,7 @@ class CollectionFilter
     protected $filterData = [];
 
     /**
-     * Corgery constructor
+     * Forgery constructor
      *
      * @param array $filterData
      */
@@ -70,5 +70,13 @@ class CollectionFilter
             }
         }
         return $methods;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFilterExpression()
+    {
+        return null;
     }
 }

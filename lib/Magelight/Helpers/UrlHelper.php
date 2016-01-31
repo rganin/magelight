@@ -85,6 +85,7 @@ class UrlHelper
                 throw new \Magelight\Exception("Passed url params don`t match route mask.", E_USER_NOTICE);
             }
         }
+        $params = $this->flatternParams($params);
         return $this->getBaseUrl($type) . $this->makeRequestUri($match, $params, $addOnlyMaskParams);
     }
 
@@ -176,5 +177,29 @@ class UrlHelper
     {
         return trim(preg_replace('/[^a-zA-Z0-9\_\-]+/i', '-',
             TranslitHelper::forge()->transliterateToAscii($string)), '-');
+    }
+
+    /**
+     * Flattens a multidimensional array into singledimension http request compatible
+     *
+     * @param array $array
+     *
+     * @return array
+     */
+    protected function flatternParams($array) {
+        $continue = true;
+        while ($continue) {
+            $continue = false;
+            foreach ($array as $key => $value) {
+                if (is_array($value)) {
+                    $continue = false;
+                    foreach ($value as $child_key => $child_value) {
+                        $array[$key . '[' . $child_key . ']'] = $child_value;
+                    }
+                    unset($array[$key]);
+                }
+            }
+        }
+        return $array;
     }
 }

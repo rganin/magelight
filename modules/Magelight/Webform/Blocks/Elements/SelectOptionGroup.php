@@ -36,6 +36,11 @@ class SelectOptionGroup extends Abstraction\Field
     protected $tag = 'optgroup';
 
     /**
+     * @var SelectOption[]
+     */
+    protected $options = [];
+
+    /**
      * Set option group title
      *
      * @param null $title
@@ -54,6 +59,7 @@ class SelectOptionGroup extends Abstraction\Field
      */
     public function addOption(SelectOption $option)
     {
+        $this->options[] = $option;
         return $this->addContent($option);
     }
 
@@ -71,6 +77,24 @@ class SelectOptionGroup extends Abstraction\Field
             $title = isset($option['title']) ? $option['title'] : $option['value'];
             $selected = isset($option['selected']) ? true : false;
             $this->addOption(SelectOption::forge()->setOptionParams($value, $title, $selected));
+        }
+        return $this;
+    }
+
+    /**
+     * Set option group options value selected
+     *
+     * @param string $value
+     * @return $this
+     * @throws \Magelight\Exception
+     */
+    public function setValue($value)
+    {
+        foreach ($this->options as $option) {
+            if ($option->getValue() == $value) {
+                $option->setAttribute('selected', 'selected');
+                break;
+            }
         }
         return $this;
     }

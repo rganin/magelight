@@ -22,6 +22,7 @@
  */
 
 namespace Magelight\Db\Common;
+use Magelight\Db\Common\Expression\ExpressionInterface;
 
 /**
  * Abstract Orm
@@ -44,7 +45,8 @@ namespace Magelight\Db\Common;
  * @method \Magelight\Db\Common\Orm     whereLike($expression, $param)
  * @method \Magelight\Db\Common\Orm     whereIn($expression, $param)
  * @method \Magelight\Db\Common\Orm     whereNotIn($expression, $param)
- * @method \Magelight\Db\Common\Orm     whereEx($expression, $params)
+ * @method \Magelight\Db\Common\Orm     whereBetween($expression, $paramsLowAndHigh)
+ * @method \Magelight\Db\Common\Orm     whereEx(ExpressionInterface $expression)
  *
  * @method \Magelight\Db\Common\Orm     orWhereEq($expression, $param)
  * @method \Magelight\Db\Common\Orm     orWhereNeq($expression, $param)
@@ -57,7 +59,8 @@ namespace Magelight\Db\Common;
  * @method \Magelight\Db\Common\Orm     orWhereLike($expression, $param)
  * @method \Magelight\Db\Common\Orm     orWhereIn($expression, $param)
  * @method \Magelight\Db\Common\Orm     orWhereNotIn($expression, $param)
- * @method \Magelight\Db\Common\Orm     orWhereEx($expression, $params)
+ * @method \Magelight\Db\Common\Orm     orWhereBetween($expression, $paramsLowAndHigh)
+ * @method \Magelight\Db\Common\Orm     orWhereEx(ExpressionInterface $expression)
  *
  * @method \Magelight\Db\Common\Orm     andWhereEq($expression, $param)
  * @method \Magelight\Db\Common\Orm     andWhereNeq($expression, $param)
@@ -70,7 +73,8 @@ namespace Magelight\Db\Common;
  * @method \Magelight\Db\Common\Orm     andWhereLike($expression, $param)
  * @method \Magelight\Db\Common\Orm     andWhereIn($expression, $param)
  * @method \Magelight\Db\Common\Orm     andWhereNotIn($expression, $param)
- * @method \Magelight\Db\Common\Orm     andWhereEx($expression, $params)
+ * @method \Magelight\Db\Common\Orm     andWhereBetween($expression, $paramsLowAndHigh)
+ * @method \Magelight\Db\Common\Orm     andWhereEx(ExpressionInterface $expression)
  *
  * @method \Magelight\Db\Common\Orm     andNotWhereEq($expression, $param)
  * @method \Magelight\Db\Common\Orm     andNotWhereNeq($expression, $param)
@@ -83,7 +87,8 @@ namespace Magelight\Db\Common;
  * @method \Magelight\Db\Common\Orm     andNotWhereLike($expression, $param)
  * @method \Magelight\Db\Common\Orm     andNotWhereIn($expression, $param)
  * @method \Magelight\Db\Common\Orm     andNotWhereNotIn($expression, $param)
- * @method \Magelight\Db\Common\Orm     andNotWhereEx($expression, $params)
+ * @method \Magelight\Db\Common\Orm     andNotWhereBetween($expression, $paramsLowAndHigh)
+ * @method \Magelight\Db\Common\Orm     andNotWhereEx(ExpressionInterface $expression)
  *
  * @method \Magelight\Db\Common\Orm     orNotWhereEq($expression, $param)
  * @method \Magelight\Db\Common\Orm     orNotWhereNeq($expression, $param)
@@ -96,7 +101,8 @@ namespace Magelight\Db\Common;
  * @method \Magelight\Db\Common\Orm     orNotWhereLike($expression, $param)
  * @method \Magelight\Db\Common\Orm     orNotWhereIn($expression, $param)
  * @method \Magelight\Db\Common\Orm     orNotWhereNotIn($expression, $param)
- * @method \Magelight\Db\Common\Orm     orNotWhereEx($expression, $params)
+ * @method \Magelight\Db\Common\Orm     orNotWhereBetween($expression, $paramsLowAndHigh)
+ * @method \Magelight\Db\Common\Orm     orNotWhereEx(ExpressionInterface $expression)
  */
 abstract class Orm
 {
@@ -172,6 +178,7 @@ abstract class Orm
         'whereLike'      => ['operator' => 'LIKE',        'argcount' => 1],
         'whereIn'        => ['operator' => 'IN',          'argcount' => 1],
         'whereNotIn'     => ['operator' => 'NOT IN',      'argcount' => 1],
+        'whereBetween'   => ['operator' => 'BETWEEN',     'argcount' => 1],
         'whereEx'        => ['operator' => '',            'argcount' => 1],
     ];
 
@@ -494,6 +501,22 @@ abstract class Orm
     }
 
     /**
+     * Unmark dirty field
+     *
+     * @param string $field
+     * @return $this
+     */
+    protected function unmarkDirty($field)
+    {
+        foreach ($this->dirtyFields as $key => $fieldName) {
+            if ($field === $fieldName) {
+                unset ($this->dirtyFields[$key]);
+            }
+        }
+        return $this;
+    }
+
+    /**
      * Create ORM entity
      *
      * @param array $data
@@ -651,10 +674,14 @@ abstract class Orm
     protected function addWhereStatement($name, $arguments)
     {
         $logic = $this->parseStatementLogic($name);
-        if (!is_null($logic)) {
+        if ($logic !== null) {
             if (isset(self::$renderWhereMap[$logic['method']])) {
                 $expression = isset($arguments[0]) ? $arguments[0] : null;
-                $params = array_key_exists(1, $arguments) ? $arguments[1]  : [];
+                if ($expression instanceof ExpressionInterface) {
+                    $params = $expression->getParams();
+                } else {
+                    $params = array_key_exists(1, $arguments) ? $arguments[1]  : [];
+                }
                 $this->where[] = [
                     self::KEY_OPERATOR => $logic['method'],
                     self::KEY_EXPRESSION => $expression,
@@ -879,13 +906,15 @@ abstract class Orm
             }
             $wherePart = [];
             if (!empty($w[self::KEY_EXPRESSION])) {
-                $wherePart[] = $w[self::KEY_EXPRESSION];
+                $wherePart[] = (string)$w[self::KEY_EXPRESSION];
             }
             if (!empty($w[self::KEY_OPERATOR])) {
                 $wherePart[] = self::$renderWhereMap[$w[self::KEY_OPERATOR]]['operator'];
             }
             if (array_key_exists(self::KEY_PARAMS, $w) && self::$renderWhereMap[$w[self::KEY_OPERATOR]]['argcount']) {
-                $wherePart[] = $this->preparePlaceholders($w[self::KEY_PARAMS]);
+                if (!($w[self::KEY_EXPRESSION] instanceof ExpressionInterface)) {
+                    $wherePart[] = $this->preparePlaceholders($w[self::KEY_PARAMS]);
+                }
                 $this->pushParams($w[self::KEY_PARAMS]);
             }
             $query[] =
@@ -1054,7 +1083,7 @@ abstract class Orm
     }
 
     /**
-     * BUild delete query
+     * Build delete query
      *
      * @return string
      */
@@ -1067,8 +1096,15 @@ abstract class Orm
         return implode(' ', $query);
     }
 
+
     /**
      * Save record
+     *
+     * @param bool|false $safeMode
+     * @param bool|false $ignore
+     * @param bool|false $onDuplicateKeyUpdate
+     * @return bool
+     * @throws \Magelight\Exception
      */
     public function save($safeMode = false, $ignore = false, $onDuplicateKeyUpdate = false)
     {
@@ -1347,6 +1383,7 @@ abstract class Orm
     public function unsetValue($name)
     {
         unset($this->data[$name]);
+        $this->unmarkDirty($name);
         return $this;
     }
 
