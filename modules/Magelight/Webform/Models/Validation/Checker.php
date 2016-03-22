@@ -35,7 +35,7 @@ namespace Magelight\Webform\Models\Validation;
  * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule dateTimeRange($minDate, $maxDate)
  * - Field is in range between two dates
  * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule email() - Field must be a valid email
- * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule float() - Field must be a float value
+ * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule floatValue() - Field must be a float value
  * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule maxLength($max) - Field has max length
  * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule min($min) - Field must be not less than
  * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule minLength($min) - Field must be longer than
