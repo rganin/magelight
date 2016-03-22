@@ -127,6 +127,16 @@ class Upload
     }
 
     /**
+     * Get file name extension
+     *
+     * @return mixed|null
+     */
+    public function getExtension()
+    {
+        return isset($this->fileData['name']) ? pathinfo($this->fileData['name'], PATHINFO_EXTENSION) : null;
+    }
+
+    /**
      * Save upload to file
      *
      * @param string $path

@@ -361,4 +361,44 @@ class Element extends \Magelight\Block
     {
         return $this->form;
     }
+
+    /**
+     * Get element by ID
+     *
+     * @param string $id
+     *
+     * @return \Magelight\Webform\Blocks\Elements\Abstraction\Element|null
+     */
+    public function getElementById($id)
+    {
+        $result = null;
+        foreach ($this->content as $element) {
+            if ($element instanceof \Magelight\Webform\Blocks\Elements\Abstraction\Element) {
+                if ($element->getId() == $id) {
+                    $result = $element;
+                } else {
+                    $result = $element->getElementById($id);
+                }
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Generate element id from name
+     *
+     * @param null $name
+     * @return null|string
+     */
+    public function generateIdFromName($name = null)
+    {
+        if ($name === null) {
+            $name = $this->getAttribute('name', null);
+            if ($name === null) {
+                return null;
+            }
+
+        }
+        return $this->tag . '-' . preg_replace("([^a-z0-9]+)", '', $name);
+    }
 }

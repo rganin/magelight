@@ -47,12 +47,12 @@ class Field extends Element
      * Set element name attribute
      *
      * @param string $name
-     * @return Field
+     * @return $this
      */
     public function setName($name)
     {
         $this->setAttribute('name', $name);
-        $this->setId($this->tag . '-' . preg_replace("([^a-z0-9]+)", '', $name));
+        $this->setId($this->generateIdFromName($name));
         return $this;
     }
 

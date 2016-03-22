@@ -82,7 +82,12 @@ class UrlHelper
                 \Magelight\App::getInstance()->isInDeveloperMode()
                 && !$this->checkParamsWithPlaceholderMask($match, $params)
             ) {
-                throw new \Magelight\Exception("Passed url params don`t match route mask.", E_USER_NOTICE);
+                throw new \Magelight\Exception(
+                    "Passed url params don`t match mask that is set for parameter or default mask: "
+                    . \Magelight\Components\Loaders\Routes::DEFAULT_REGEX
+                    . ". Change the mask for parameter or use concatenation for complex URLs" ,
+                    E_USER_NOTICE
+                );
             }
         }
         $params = $this->flatternParams($params);

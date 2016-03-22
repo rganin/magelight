@@ -184,25 +184,6 @@ class Form extends Elements\Abstraction\Element
     }
 
     /**
-     * Get element or field by ID
-     *
-     * @param string $id
-     *
-     * @return \Magelight\Webform\Blocks\Elements\Abstraction\Element|null
-     */
-    public function getElementById($id)
-    {
-        foreach ($this->content as $element) {
-            if ($element instanceof \Magelight\Webform\Blocks\Elements\Abstraction\Element) {
-                if ($element->getId() == $id) {
-                    return $element;
-                }
-            }
-        }
-        return null;
-    }
-
-    /**
      * Get element by name
      *
      * @param string $name
@@ -610,6 +591,34 @@ class Form extends Elements\Abstraction\Element
             return \Magelight\Upload::forge($array);
         }
         return null;
+    }
+
+    /**
+     * Fetch upload object from form
+     *
+     * @param string $index
+     * @return \Magelight\Upload[]|[]
+     */
+    public function getUploadObjectsArray($index)
+    {
+        $address = $this->queryStringToArray($index);
+        $array = $this->getFieldValueRecursive($address, [], $this->requestUploads);
+        $result = [];
+        if (!is_array($array)) {
+            return $result;
+        }
+        foreach ($array as $key => $uploadData) {
+            if (isset(
+                $uploadData['name'],
+                $uploadData['tmp_name'],
+                $uploadData['error'],
+                $uploadData['size'],
+                $uploadData['type']
+            )) {
+                $result[$key] = \Magelight\Upload::forge($uploadData);
+            }
+        }
+        return $result;
     }
 
     /**

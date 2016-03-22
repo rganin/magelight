@@ -27,7 +27,7 @@ namespace Magelight\Webform\Blocks\Elements;
  * Class LabeledRadio
  * @package Magelight\Webform\Blocks\Elements
  *
- * @method static $this forge()
+ * @method static LabeledRadio forge()
  */
 class LabeledRadio extends LabeledCheckbox
 {

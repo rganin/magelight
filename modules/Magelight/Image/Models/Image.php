@@ -665,7 +665,7 @@ class Image
      *
      * @param string $overlayFile
      * @param string $position
-     * @param int $opacity
+     * @param int $opacity - opacity in percents
      * @param int $x_offset
      * @param int $y_offset
      * @return Image
