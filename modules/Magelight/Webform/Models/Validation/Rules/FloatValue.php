@@ -28,7 +28,7 @@ namespace Magelight\Webform\Models\Validation\Rules;
  *         forge(\Magelight\Webform\Models\Validation\Checker $checker)
  *
  */
-class Float extends AbstractRule
+class FloatValue extends AbstractRule
 {
     /**
      * Fron validator (jQueryValidator) rule name
