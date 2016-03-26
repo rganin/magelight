@@ -71,8 +71,10 @@ class StaticResource extends \Magelight\App
                 . \Magelight\Config::getInstance()->getConfigString('global/view/published_static_dir', 'pub/static')
             );
             foreach (array_reverse($this->getModuleDirectories()) as $modulesPath) {
+                $resource = str_replace('\\/', DS, $resource);
                 $filename = $modulesPath . DS . $resource;
                 $targetFilename = $staticDir . DS . $resource;
+
                 if (file_exists($filename)) {
                     if (!is_dir(dirname($targetFilename))) {
                         mkdir(dirname($targetFilename), 0777, true);

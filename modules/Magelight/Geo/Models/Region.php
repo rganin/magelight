@@ -41,11 +41,12 @@ class Region extends \Magelight\Model
      * Get region cities
      *
      * @param string $langSuffix - language suffix
+     * @param string $nameAlias - field name where city title will be written to
      * @return array
      */
-    public function getCities($langSuffix = 'en')
+    public function getCities($langSuffix = 'en', $nameAlias = 'name')
     {
-        return City::orm()->selectFields(['id', 'city_name_' . $langSuffix])
+        return City::orm()->selectFields(['id', 'city_name_' . $langSuffix . ' AS ' . $nameAlias])
             ->whereEq('region_id', $this->id)->fetchAll(true);
     }
 }

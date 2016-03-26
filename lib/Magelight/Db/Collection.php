@@ -198,7 +198,10 @@ class Collection
          * @todo remove this and migrate to new expression filter
          */
         foreach ($filter->getFilterMethods() as $method) {
-            $this->getDataSource()->$method['statement']($method['field'], $method['value']);
+            $statement = $method['statement'];
+            $field = $method['field'];
+            $value = $method['value'];
+            $this->getDataSource()->$statement($field, $value);
         }
         return $this;
     }

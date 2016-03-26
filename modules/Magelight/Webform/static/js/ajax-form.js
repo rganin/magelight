@@ -7,6 +7,7 @@ function bindFormsValidation()
             rules: rules,
             messages: messages,
             errorClass: 'help-inline text-danger',
+            ignore: false,
             highlight: function(label) {
                 $(label).closest('.form-group').removeClass('has-success').addClass('has-error');
             },

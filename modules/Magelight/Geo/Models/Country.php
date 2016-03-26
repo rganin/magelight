@@ -39,11 +39,12 @@ class Country extends \Magelight\Model
      * Get counrty regions
      *
      * @param string $langSuffix - language
+     * @param string $nameAlias - field name where region title will be written to
      * @return array
      */
-    public function getRegions($langSuffix = 'en')
+    public function getRegions($langSuffix = 'en', $nameAlias = 'name')
     {
-        return Region::orm()->selectFields(['id', 'region_name_' . $langSuffix])
+        return Region::orm()->selectFields(['id', 'region_name_' . $langSuffix . ' AS ' . $nameAlias])
             ->whereEq('country_id', $this->id)->fetchAll(true);
     }
 
@@ -51,11 +52,12 @@ class Country extends \Magelight\Model
      * Get country cities
      *
      * @param string $langSuffix - language suffix
+     * @param string $nameAlias - field name where city title will be written to
      * @return array
      */
-    public function getCities($langSuffix = 'en')
+    public function getCities($langSuffix = 'en', $nameAlias = 'name')
     {
-        return City::orm()->selectFields(['id', 'city_name_' . $langSuffix])
+        return City::orm()->selectFields(['id', 'city_name_' . $langSuffix . ' AS ' . $nameAlias])
             ->whereEq('country_id', $this->id)->fetchAll(true);
     }
 
