@@ -245,7 +245,7 @@ class Element extends \Magelight\Block
      */
     public function getId()
     {
-        return $this->attributes['id']['value'];
+        return isset($this->attributes['id']['value']) ? $this->attributes['id']['value'] : null;
     }
 
     /**

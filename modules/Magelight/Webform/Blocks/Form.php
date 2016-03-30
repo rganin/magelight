@@ -190,7 +190,8 @@ class Form extends Elements\Abstraction\Element
      *
      * @return Elements\Abstraction\Element|null
      */
-    public function getElementByName($name) {
+    public function getElementByName($name)
+    {
         return $this->getElementById($this->getFieldIdByName($name));
     }
 
@@ -287,6 +288,20 @@ class Form extends Elements\Abstraction\Element
         $this->validator = $validator;
         $this->validator->setForm($this);
         return $this;
+    }
+
+    /**
+     * Get validator instance
+     *
+     * @return \Magelight\Webform\Models\Validator|null
+     */
+    public function getValidator()
+    {
+        if (!$this->validator instanceof \Magelight\Webform\Models\Validator) {
+            $validator = \Magelight\Webform\Models\Validator::forge();
+            $this->setValidator($validator);
+        }
+        return $this->validator;
     }
 
     /**

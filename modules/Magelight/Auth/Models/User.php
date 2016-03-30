@@ -76,6 +76,31 @@ class User extends \Magelight\Model
     }
 
     /**
+     * @param $type
+     * @return array
+     */
+    public function getContacts($type)
+    {
+        $contacts = Contact::orm()->whereEq('user_id', $this->id)
+            ->whereEq('type', $type)
+            ->fetchModels();
+        return $contacts;
+    }
+
+    /**
+     * @param $type
+     * @return \Magelight\Model
+     */
+    public function getContactFirst($type)
+    {
+        $contact = Contact::orm()->whereEq('user_id', $this->id)
+            ->whereEq('type', $type)
+            ->limit(1)
+            ->fetchModel();
+        return $contact;
+    }
+
+    /**
      * Authorize user via uLogin service
      *
      * @param string $userData
