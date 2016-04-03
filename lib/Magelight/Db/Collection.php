@@ -193,6 +193,7 @@ class Collection
             $this->getDataSource()->whereEx($filterExpression);
             return $this;
         }
+
         /**
          * For backward compatibility
          * @todo remove this and migrate to new expression filter

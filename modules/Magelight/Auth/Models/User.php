@@ -77,7 +77,7 @@ class User extends \Magelight\Model
 
     /**
      * @param $type
-     * @return array
+     * @return Contact[]
      */
     public function getContacts($type)
     {
@@ -89,7 +89,7 @@ class User extends \Magelight\Model
 
     /**
      * @param $type
-     * @return \Magelight\Model
+     * @return Contact
      */
     public function getContactFirst($type)
     {
