@@ -46,7 +46,7 @@ class File extends \Magelight\Cache\AdapterAbstract
             ? \Magelight\App::getInstance()->getAppDir() . DS . trim((string)$this->config->path, '\\/')
             : $this->cachePath;
         if (!file_exists($this->cachePath)) {
-            mkdir($this->cachePath, 0777, true);
+            @mkdir($this->cachePath, 0777, true);
         }
         return $this;
     }

@@ -157,4 +157,17 @@ class User extends \Magelight\Model
         }
         return null;
     }
+
+    /**
+     * CHeck is user photo an external URL
+     *
+     * @return bool
+     */
+    public function isUserPhotoExternal()
+    {
+        if (preg_match('/^http\:\/\/.*$/', $this->photo)) {
+            return true;
+        }
+        return false;
+    }
 }

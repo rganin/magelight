@@ -54,7 +54,8 @@ class ForgotPassword extends \Magelight\Block
         $fieldset->addRowField(Elements\Input::forge()->setName('email'), __('E-Mail', [], 1, 'default'));
 
         $validator = \Magelight\Webform\Models\Validator::forge();
-        $validator->fieldRules('email')->email()->setCustomError(__("Please enter a valid e-mail!", 1));
+        $validator->fieldRules('email')->required()->setCustomError(__("Please enter a valid e-mail!", 1))->chainRule()
+            ->email()->setCustomError(__("Please enter a valid e-mail!", 1));
 
         return $form->addFieldset($fieldset)
             ->createResultRow(true)
