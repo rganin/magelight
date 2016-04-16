@@ -278,11 +278,16 @@ abstract class App
     public function init()
     {
         $this->addModulesDir($this->getFrameworkDir() . DS . 'modules');
+        $this->addModulesDir($this->getFrameworkDir() . DS . 'modules');
         $this->initIncludePaths();
         \Magelight\Components\Modules::getInstance()->loadModules($this->getAppDir() . DS . 'etc' . DS . 'modules.xml');
         \Magelight\Components\Modules::getInstance()->getActiveModules();
         \Magelight\Config::getInstance()->load();
         $this->setDeveloperMode((string)\Magelight\Config::getInstance()->getConfig('global/app/developer_mode'));
+        if ($this->isInDeveloperMode()) {
+            error_reporting(E_ALL);
+            ini_set('display_errors', '1');
+        }
         \Magelight\Http\Session::getInstance()->setSessionName(self::SESSION_ID_COOKIE_NAME)->start();
         $this->loadPreferences();
         $lang = \Magelight\Http\Session::getInstance()->get('lang');
