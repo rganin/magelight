@@ -188,7 +188,8 @@ class Collection
     public function applyFilter(CollectionFilter $filter)
     {
         foreach ($filter->getFilterMethods() as $method) {
-            $this->getDataSource()->$method['statement']($method['field'], $method['value']);
+            $callMethod = $method['statement'];
+            $this->getDataSource()->$callMethod($method['field'], $method['value']);
         }
         return $this;
     }
