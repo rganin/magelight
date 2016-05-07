@@ -375,10 +375,13 @@ class Element extends \Magelight\Block
         foreach ($this->content as $element) {
             if ($element instanceof \Magelight\Webform\Blocks\Elements\Abstraction\Element) {
                 if ($element->getId() == $id) {
-                    $result = $element;
+                    return $element;
                 } else {
                     $result = $element->getElementById($id);
                 }
+            }
+            if ($result instanceof \Magelight\Webform\Blocks\Elements\Abstraction\Element) {
+                break;
             }
         }
         return $result;
