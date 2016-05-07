@@ -393,6 +393,7 @@ class Form extends Elements\Abstraction\Element
     {
         $address = $this->queryStringToArray($index);
         $this->_setFieldValueRecursive($address, $value, $this->requestFields);
+        $this->setFormValuesFromRequestFields($this->requestFields);
         return $this;
     }
 

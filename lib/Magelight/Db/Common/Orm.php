@@ -22,6 +22,7 @@
  */
 
 namespace Magelight\Db\Common;
+use Magelight\Db\Common\Expression\Expression;
 use Magelight\Db\Common\Expression\ExpressionInterface;
 
 /**
@@ -132,6 +133,12 @@ abstract class Orm
     const LOGIC_OR      = 'OR';
     const LOGIC_AND_NOT = 'AND NOT';
     const LOGIC_OR_NOT  = 'OR NOT';
+
+    /**
+     * Order constants
+     */
+    const ORDER_ASC     = 'ASC';
+    const ORDER_DESC    = 'DESC';
 
     /**
      * PDO instance
@@ -593,9 +600,14 @@ abstract class Orm
     private function getSelectFields()
     {
         $fields = [];
-        foreach ($this->selectFields as $selectField) {
-            $fields[] = isset($this->fieldAliases[$selectField])
-                ? $selectField . ' AS ' . $this->fieldAliases[$selectField]
+        foreach ($this->selectFields as $alias => $selectField) {
+            // preparing select part with fields
+            // if field is an exression fetch parameters from it as further it will be stringified
+            if ($selectField instanceof Expression) {
+                $this->pushParams($selectField->getParams());
+            }
+            $fields[] = is_string($alias)
+                ? $selectField . ' AS ' . $alias
                 : $selectField;
         }
         return $fields;
@@ -847,9 +859,10 @@ abstract class Orm
     public function selectField($expression, $alias = null, $params = [], $distinct = false)
     {
         if (!empty($expression)) {
-            $this->selectFields[] = $expression;
             if (!empty($alias)) {
-                $this->fieldAliases[$expression] = $alias;
+                $this->selectFields[$alias] = $expression;
+            } else {
+                $this->selectFields[] = $expression;
             }
             $this->pushParams($params);
         }
@@ -871,8 +884,13 @@ abstract class Orm
         if (!is_array($fields)) {
             $fields = func_get_args();
         }
-        foreach ($fields as $field) {
-            $this->selectField($field);
+        foreach ($fields as $key => $field) {
+            if ($field instanceof Expression) {
+                $params = $field->getParams();
+            } else {
+                $params = [];
+            }
+            $this->selectField($field, is_string($key) ? $key : null, $params);
         }
         return $this;
     }
@@ -1399,7 +1417,6 @@ abstract class Orm
         $this->where        =
         $this->selectFields =
         $this->params       =
-        $this->fieldAliases =
         $this->groupBy      =
         $this->orderBy      = [];
 
@@ -1414,6 +1431,17 @@ abstract class Orm
     }
 
     /**
+     * Reset sorting order
+     *
+     * @retrun $this
+     */
+    public function resetOrderBy()
+    {
+        $this->orderBy = [];
+        return $this;
+    }
+
+    /**
      * Describe table fields
      *
      * @return array
@@ -1422,7 +1450,7 @@ abstract class Orm
     {
         if (empty($this->tableFields)) {
             $table = $this->describeTable();
-            foreach ($this->describeTable() as $value) {
+            foreach ($table as $value) {
                 $this->tableFields[] = $value[0];
             }
         }

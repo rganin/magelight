@@ -34,6 +34,12 @@ class Collection
     use \Magelight\Traits\TCache;
 
     /**
+     * Sort order
+     */
+    const SORT_ORDER_ASC = Common\Orm::ORDER_ASC;
+    const SORT_ORDER_DESC = Common\Orm::ORDER_DESC;
+
+    /**
      * @var Common\Orm
      */
     protected $dataSource = null;
@@ -106,7 +112,7 @@ class Collection
      * @param int $offset
      * @return Collection
      */
-    public function setOffset($offset =  0)
+    public function setOffset($offset = 0)
     {
         $this->offset = $offset;
         return $this;
@@ -203,6 +209,51 @@ class Collection
             $field = $method['field'];
             $value = $method['value'];
             $this->getDataSource()->$statement($field, $value);
+        }
+        return $this;
+    }
+
+    /**
+     * Reset collection sorting
+     *
+     * @return $this
+     */
+    public function resetSorting()
+    {
+        $this->dataSource->resetOrderBy();
+        return $this;
+    }
+
+    /**
+     * Sort in ascending order
+     *
+     * @param array $fields
+     * @return $this
+     */
+    public function sortAscending($fields = [])
+    {
+        if (!is_array($fields)) {
+            $fields = [$fields];
+        }
+        foreach ($fields as $field) {
+            $this->dataSource->orderByAsc($field);
+        }
+        return $this;
+    }
+
+    /**
+     * Sort in descending order
+     *
+     * @param array $fields
+     * @return $this
+     */
+    public function sortDescending($fields = [])
+    {
+        if (!is_array($fields)) {
+            $fields = [$fields];
+        }
+        foreach ($fields as $field) {
+            $this->dataSource->orderByDesc($field);
         }
         return $this;
     }
