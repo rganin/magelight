@@ -200,6 +200,21 @@ class Document extends \Magelight\Block
     }
 
     /**
+     * Set description meta header
+     *
+     * @param string $description
+     * @return Document
+     */
+    public function setDescription($description)
+    {
+        $this->addMeta([
+            'name'    => 'description',
+            'content' => $description
+        ]);
+        return $this;
+    }
+
+    /**
      * Add meta tag
      *
      * @param array $arrayOfAttributes
