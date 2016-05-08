@@ -97,7 +97,7 @@ class Register extends \Magelight\Block
         $validator->fieldRules('name')
             ->required()->chainRule()
             ->minLength(3)->chainRule()
-            ->maxLength(32)->chainRule()
+            ->maxLength(255)->chainRule()
             ->pregMatch('/[a-z0-9а-я]*/i');
 
         $validator->fieldRules('email')->required()->chainRule()->email();
