@@ -27,6 +27,7 @@ namespace Magelight\Core\Controllers;
  * Class BaseController
  *
  * @package Magelight\Core\Controllers
+ * @method \Magelight\Core\Blocks\Document view()
  */
 class BaseController extends \Magelight\Controller
 {
