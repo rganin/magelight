@@ -22,6 +22,7 @@
  */
 
 namespace Magelight\Auth\Models;
+use Magelight\Helpers\UrlHelper;
 
 /**
  * @method static \Magelight\Auth\Models\User forge($data = [], $forceNew = false)
@@ -169,5 +170,21 @@ class User extends \Magelight\Model
             return true;
         }
         return false;
+    }
+
+    /**
+     * Get user photo URI
+     *
+     * @param string $photoBaseUrl
+     * @return mixed|string
+     * @throws \Magelight\Exception
+     */
+    public function getPhotoUrl($photoBaseUrl = 'var/uploads')
+    {
+        if ($this->isUserPhotoExternal()) {
+            return $this->photo;
+        } else {
+            return UrlHelper::getInstance()->getUrl($photoBaseUrl . '/' . $this->photo);
+        }
     }
 }

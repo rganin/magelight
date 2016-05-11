@@ -55,6 +55,20 @@ class Upload
     protected $restrictedExtensions = [];
 
     /**
+     * Is upload object moved and saved to target path
+     *
+     * @var bool
+     */
+    protected $isSaved = false;
+
+    /**
+     * Path where upload object was saved to
+     *
+     * @var string
+     */
+    protected $savedPath;
+
+    /**
      * Forgery constructor
      *
      * @param array $data
@@ -158,7 +172,32 @@ class Upload
         if (!is_writable($dir)) {
             trigger_error("Moving upload failed. Path {$dir} is not writable.", E_USER_WARNING);
         }
-        return move_uploaded_file($this->getTmpName(), $path);
+        if (move_uploaded_file($this->getTmpName(), $path)) {
+            $this->isSaved = true;
+            $this->savedPath = $path;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Is upload saved and moved to target path
+     *
+     * @return bool
+     */
+    public function isSaved()
+    {
+        return $this->isSaved;
+    }
+
+    /**
+     * Get path where object was saved to
+     *
+     * @return string
+     */
+    public function getSavedPath()
+    {
+        return $this->savedPath;
     }
 
     /**

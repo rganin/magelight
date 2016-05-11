@@ -40,7 +40,7 @@ namespace Magelight\Webform\Models\Validation;
  * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule min($min) - Field must be not less than
  * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule minLength($min) - Field must be longer than
  * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule numeric() - Field must be numeric
- * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule pregMatch() - Field must match regex
+ * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule pregMatch($regex) - Field must match regex
  * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule range($min, $max)
  * - Field must be between two values
  * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule rangeLength($min, $max)

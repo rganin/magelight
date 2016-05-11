@@ -221,6 +221,12 @@ class Validator extends \Magelight\Model
         return $this;
     }
 
+    /**
+     * Set errors limit for displaying
+     *
+     * @param int $limit
+     * @return $this
+     */
     public function setErrorsLimit($limit = 10000)
     {
         $this->errorsLimit = $limit;
@@ -363,6 +369,13 @@ class Validator extends \Magelight\Model
         ];
     }
 
+    /**
+     * Get validation rules with errors in json format
+     *
+     * @param $formName
+     * @param array $ruleset
+     * @return string
+     */
     public function getValidationRulesJson($formName, $ruleset = [])
     {
         if (empty($ruleset)) {
@@ -377,6 +390,13 @@ class Validator extends \Magelight\Model
         return json_encode($rules, JSON_FORCE_OBJECT | JSON_UNESCAPED_SLASHES);
     }
 
+    /**
+     * Get validation messages with errors
+     *
+     * @param $formName
+     * @param array $ruleset
+     * @return string
+     */
     public function getValidationMessagesJson($formName, $ruleset = [])
     {
         if (empty($ruleset)) {
@@ -428,11 +448,5 @@ class Validator extends \Magelight\Model
         } else {
             return $this->getFieldValueRecursive($address, $default, $pointer);
         }
-    }
-
-    public function groupRules(array $fieldsGroup = [])
-    {
-        $index = implode('+', $fieldsGroup);
-
     }
 }

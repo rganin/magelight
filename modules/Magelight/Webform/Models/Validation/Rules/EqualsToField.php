@@ -59,7 +59,7 @@ class EqualsToField extends AbstractRule
      */
     public function getFrontValidationParams()
     {
-        return $this->arguments[0];
+        return '#' . $this->checker()->getValidator()->getForm()->getFieldIdByName($this->arguments[0]);
     }
 
     /**
