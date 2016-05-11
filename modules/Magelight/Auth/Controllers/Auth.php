@@ -75,6 +75,8 @@ class Auth extends \Magelight\Core\Controllers\BaseController
                 } else {
                     $user = \Magelight\Auth\Models\User::forge($form->getRequestFields(), true);
                     $user->password = md5($user->password);
+                    $user->date_register = time();
+                    $user->is_registered = 1;
                     $user->save(true);
                     $this->session()->set('user_id', $user->id);
                     $this->redirect(
