@@ -63,7 +63,7 @@ class EntityForm extends \Magelight\Webform\Blocks\Form
 
         $this->setHorizontal();
 
-        $fieldSet = \Magelight\Webform\Blocks\FieldSet::forge();
+        $fieldSet = \Magelight\Webform\Blocks\Fieldset::forge();
 
         $this->model = $this->scaffold->getEntityModel($this->entity);
 
