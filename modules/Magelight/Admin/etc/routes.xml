@@ -25,9 +25,7 @@
 <routes>
     <route match="admin" controller="index" module="Magelight\Admin">
         <route match="{controller}">
-            <route match="{action}">
-
-            </route>
+            <route match="{action}" />
         </route>
         <route match="scaffold" controller="scaffold">
             <route match="/{entity}" action="entity_list">

@@ -44,8 +44,9 @@ class Base extends \Magelight\Controller
 
 
         if (!\Magelight\Admin\Helpers\Admin::getInstance()->isCurrentUserAdmin()) {
-            $this->redirectInternal('no_rights');
+            $this->redirect($this->url('no_rights'));
             $this->app->shutdown();
+            die();
         }
         $this->view = \Magelight\Core\Blocks\Document::getInstance()->loadLayout('global/layouts/admin');
         $this->view->setGlobal('user_id', $this->session()->get('user_id'));
