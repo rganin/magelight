@@ -225,6 +225,17 @@ class Collection
     }
 
     /**
+     * Reset collection filters
+     *
+     * @return $this
+     */
+    public function resetFilters()
+    {
+        $this->dataSource->resetWhere();
+        return $this;
+    }
+
+    /**
      * Sort in ascending order
      *
      * @param array $fields

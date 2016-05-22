@@ -1442,6 +1442,17 @@ abstract class Orm
     }
 
     /**
+     * Reset where statements
+     *
+     * @retrun $this
+     */
+    public function resetWhere()
+    {
+        $this->where = [];
+        return $this;
+    }
+
+    /**
      * Describe table fields
      *
      * @return array
