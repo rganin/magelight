@@ -55,7 +55,7 @@ class Visitor extends \Magelight\Model
         $time = time();
         $todayStart = $time - ($time % 86400);
         $todayEnd = $todayStart + 86400;
-        $ipLong = ip2long($_SERVER['REMOTE_ADDR']);
+        $ipLong = ip2long(isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 0);
         $current = $this->orm()
             ->whereGt('time', $todayStart)
             ->whereLt('time', $todayEnd)
