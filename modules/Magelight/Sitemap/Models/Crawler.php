@@ -31,6 +31,14 @@ namespace Magelight\Sitemap\Models;
  */
 class Crawler
 {
+
+    /**
+     * Status constants
+     */
+    const STATUS_SUCCESS = 1;
+
+    const STATUS_ERROR = 0;
+
     /**
      * Urls to process
      *
@@ -51,6 +59,21 @@ class Crawler
     protected $sitemap;
 
     /**
+     * @var callable[]
+     */
+    protected $successCallbacks;
+
+    /**
+     * @var callable[]
+     */
+    protected $failureCallbacks;
+
+    /**
+     * @var \Magelight\Sitemap\Models\Logger\AbstractLogger
+     */
+    protected $logger;
+
+    /**
      * Using forgery
      */
     use \Magelight\Traits\TForgery;
@@ -65,6 +88,7 @@ class Crawler
     {
         $this->urls[] = $startUrl;
         $this->sitemap = $sitemapObject;
+        $this->logger = \Magelight\Sitemap\Models\Logger\AbstractLogger::getInstance();
     }
 
     /**
@@ -78,7 +102,11 @@ class Crawler
                 if ($content = $this->loadPage($url)) {
                     $links = @$this->fetchLinksFromContent($content);
                     $this->appendUrls($links);
-                    $this->setUrlProcessed($url);
+                    $this->setUrlProcessed($url, self::STATUS_SUCCESS);
+                    $this->logger->log('SUCCESS: ' . $url . '. Left in stack: ' . count($this->urls));
+                } else {
+                    $this->setUrlProcessed($url, self::STATUS_ERROR);
+                    $this->logger->log('ERROR: ' . $url . '. Left in stack: ' . count($this->urls));
                 }
             }
         }
@@ -108,9 +136,9 @@ class Crawler
      * @param string $url
      * @return $this
      */
-    protected function setUrlProcessed($url)
+    protected function setUrlProcessed($url, $status)
     {
-        $this->processedUrls[$url] = 1;
+        $this->processedUrls[$url] = $status;
         return $this;
     }
 

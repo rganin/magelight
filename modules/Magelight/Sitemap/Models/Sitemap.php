@@ -231,12 +231,14 @@ class Sitemap
     public function generate()
     {
         $this->crawler->crawl();
-        foreach ($this->crawler->getFoundUrls() as $url => $found) {
-            $this->urls[] = [
-                'loc' => $url,
-                'priority' => $this->getUrlPriority($url),
-                'changefreq' => $this->getUrlChangeFrequency($url),
-            ];
+        foreach ($this->crawler->getFoundUrls() as $url => $status) {
+            if ($status == \Magelight\Sitemap\Models\Crawler::STATUS_SUCCESS) {
+                $this->urls[] = [
+                    'loc' => $url,
+                    'priority' => $this->getUrlPriority($url),
+                    'changefreq' => $this->getUrlChangeFrequency($url),
+                ];
+            }
         }
         return $this;
     }
