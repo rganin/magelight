@@ -93,8 +93,10 @@ class Crawler
     protected function appendUrls(array $urls)
     {
         foreach ($urls as $url) {
-            if ($this->canProcessUrl($url)) {
-                $this->urls[] = $url;
+            if (!empty($url) && !$this->isUrlProcessed($url) && $this->canProcessUrl($url)) {
+                if (!in_array($url, $this->urls)) {
+                    $this->urls[] = $url;
+                }
             }
         }
         return $this;
