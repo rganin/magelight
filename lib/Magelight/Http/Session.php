@@ -34,6 +34,26 @@ class Session
     use \Magelight\Traits\TForgery;
 
     /**
+     * Session lifetime
+     *
+     * @var int
+     */
+    protected $lifetime = 1440;
+
+    /**
+     * Set session lifetime
+     *
+     * @param $lifetime
+     *
+     * @return $this
+     */
+    public function setLifetime($lifetime)
+    {
+        $this->lifetime = $lifetime;
+        return $this;
+    }
+
+    /**
      * Getter
      *
      * @param string $name
@@ -102,6 +122,8 @@ class Session
      */
     public function start()
     {
+        ini_set('session.cookie_lifetime', $this->lifetime);
+        ini_set('session.gc_maxlifetime', $this->lifetime);
         session_start();
         return $this;
     }

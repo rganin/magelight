@@ -288,7 +288,10 @@ abstract class App
             error_reporting(E_ALL);
             ini_set('display_errors', '1');
         }
-        \Magelight\Http\Session::getInstance()->setSessionName(self::SESSION_ID_COOKIE_NAME)->start();
+        \Magelight\Http\Session::getInstance()
+            ->setLifetime((int)\Magelight\Config::getInstance()->getConfig('global/app/session_lifetime', 1440))
+            ->setSessionName(self::SESSION_ID_COOKIE_NAME)
+            ->start();
         $this->loadPreferences();
         $lang = \Magelight\Http\Session::getInstance()->get('lang');
         if (empty($lang)) {
