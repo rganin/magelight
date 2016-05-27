@@ -123,6 +123,7 @@ class AppTest extends \Magelight\TestCase
 
     public function testInit()
     {
+        $this->sessionMock->expects($this->once())->method('setLifetime')->will($this->returnSelf());
         $this->sessionMock->expects($this->once())->method('setSessionName')->will($this->returnSelf());
         $this->translatorMock->expects($this->once())->method('loadTranslations');
         $this->app->init();
