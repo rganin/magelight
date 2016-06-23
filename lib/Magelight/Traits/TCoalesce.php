@@ -29,15 +29,13 @@ namespace Magelight\Traits;
 trait TCoalesce
 {
     /**
-     * Returns first not empty argument or last if all are empty
+     * Return first not empty argument
      *
-     * @param mixed $variable1
-     * @param mixed $variable2
+     * @param array ...$arguments
      * @return mixed
      */
-    public function coalesce($variable1, $variable2)
+    public function coalesce(...$arguments)
     {
-        $arguments = func_get_args();
         foreach ($arguments as $arg) {
             if (!empty($arg)) {
                 return $arg;
@@ -47,17 +45,14 @@ trait TCoalesce
     }
 
     /**
-     * Returns first argument that passes callback check
+     * Return first argument that matches by callback
      *
-     * @param callable $callback - must return bool value
-     * @param mixed $variable1
-     * @param mixed $variable2
+     * @param callable $callback
+     * @param array ...$arguments
      * @return mixed
      */
-    public function coalesceCallback(callable $callback, $variable1, $variable2)
+    public function coalesceCallback(callable $callback, ...$arguments)
     {
-        $arguments = func_get_args();
-        array_shift($arguments);
         foreach ($arguments as $arg) {
             if ($callback($arg)) {
                 return $arg;

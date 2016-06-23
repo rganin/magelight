@@ -216,6 +216,7 @@ class Image
         if (!$format) {
             $format = $this->originalInfo['format'];
         }
+        $format = strtolower($format);
         switch( $format ) {
             case 'gif':
                 $result = imagegif($this->image, $filename);
