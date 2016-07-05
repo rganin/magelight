@@ -29,17 +29,70 @@ namespace Magelight\Core\Blocks;
 class Document extends \Magelight\Block
 {
     /**
-     * Document template
+     * @var Element
+     */
+    protected $html;
+
+    /**
+     * @var Element
+     */
+    protected $head;
+
+    /**
+     * @var Element
+     */
+    protected $body;
+
+    /**
+     * Doctype (default = HTML5)
      *
      * @var string
      */
-    protected $template = 'Magelight/Core/templates/document.phtml';
+    protected $doctype = 'html';
 
     /**
      * Constructor
      */
     protected function __construct()
     {
+    }
+
+    /**
+     * Forgery constructor
+     */
+    public function __forge()
+    {
+        $this->html = Element::forge()->setTag('html');
+        $this->head = Element::forge()->setTag('head');
+        $this->body = Element::forge()->setTag('body');
+        $this->html->addContent($this->head);
+        $this->html->addContent($this->body);
+    }
+
+    /**
+     * Get root (HTML) element of HTML document
+     *
+     * @return Element
+     */
+    public function getRootElement()
+    {
+        return $this->html;
+    }
+
+    /**
+     * @return Element
+     */
+    public function getHeadElement()
+    {
+        return $this->head;
+    }
+
+    /**
+     * @return Element
+     */
+    public function getBodyElement()
+    {
+        return $this->body;
     }
 
     /**
@@ -51,9 +104,33 @@ class Document extends \Magelight\Block
     {
         $lang = \Magelight\Config::getInstance()->getConfigString('global/document/default_lang');
         $this->setLang($lang);
+        $this->head->addContent($this->renderTitle());
+        $this->head->addContent($this->renderMeta());
+        $this->head->addContent($this->renderCss());
+        $this->head->addContent($this->renderJs());
+        $this->body->addContent($this->section('body'));
         return $this;
     }
-    
+
+    /**
+     * @return string
+     * @throws \Magelight\Exception
+     */
+    public function toHtml()
+    {
+        if (!empty($this->template)) {
+            return parent::toHtml();
+        }
+        $this->init();
+        $this->beforeToHtml();
+        ob_start();
+        echo '<!DOCTYPE ' . $this->doctype . '>'
+            . $this->getRootElement()->toHtml();
+        $this->afterToHtml();
+        $html = ob_get_clean();
+        return $html;
+    }
+
     /**
      * Add css to head
      * 
@@ -180,7 +257,7 @@ class Document extends \Magelight\Block
      */
     public function setLang($lang)
     {
-        $this->set('lang', $lang);
+        $this->getHeadElement()->setAttribute('lang', $lang);
         return $this;
     }
 

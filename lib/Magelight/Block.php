@@ -279,8 +279,8 @@ class Block
         if ($html = $this->getFromCache(null)) {
             return $html;
         }
-        $class = get_called_class();
         if (empty($this->template)) {
+            $class = get_called_class();
             throw new \Magelight\Exception("Undeclared template in block '{$class}'");
         }
         $this->beforeToHtml();
