@@ -125,7 +125,7 @@ class Pager extends \Magelight\Block
         if ($this->collection instanceof \Magelight\Db\Collection) {
             $this->setTotal($this->collection->totalCount());
             $this->setPerPage($this->collection->getLimit());
-            $this->setCurrentPage(floor($this->collection->getOffset() / $this->perPage));
+            $this->setCurrentPage($this->perPage ? floor($this->collection->getOffset() / $this->perPage) : 1);
         }
         $this->setNextCaption()->setPrevCaption()->setFirstCaption()->setLastCaption();
     }
@@ -135,7 +135,7 @@ class Pager extends \Magelight\Block
      *
      * @param string $attribute
      * @param mixed $value
-     * @return AjaxPager
+     * @return $this
      */
     public function setAttribute($attribute, $value = null)
     {

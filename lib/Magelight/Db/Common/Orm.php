@@ -1448,6 +1448,17 @@ abstract class Orm
     }
 
     /**
+     * Reset group by statements
+     *
+     * @return $this
+     */
+    public function resetGroupBy()
+    {
+        $this->groupBy = [];
+        return $this;
+    }
+
+    /**
      * Reset where statements
      *
      * @retrun $this

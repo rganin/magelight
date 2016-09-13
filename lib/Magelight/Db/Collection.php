@@ -225,6 +225,17 @@ class Collection
     }
 
     /**
+     * Reset collection grouping by GROUP BY statement
+     *
+     * @return $this
+     */
+    public function resetGrouping()
+    {
+        $this->dataSource->resetGroupBy();
+        return $this;
+    }
+
+    /**
      * Reset collection filters
      *
      * @return $this
