@@ -1035,7 +1035,7 @@ abstract class Orm
      *
      * @return string
      */
-    protected function buidSelect()
+    protected function buildSelect()
     {
         $this->params = [];
         $query = $this->buildSelectStart()
@@ -1046,6 +1046,26 @@ abstract class Orm
             . ' ' . $this->buildLimit()
         ;
         return $query;
+    }
+
+    /**
+     * Get select query
+     *
+     * @return string
+     */
+    public function getSelectQuery()
+    {
+        return $this->buildSelect();
+    }
+
+    /**
+     * Get params of query that were collected on query build
+     *
+     * @return array
+     */
+    public function getQueryParams()
+    {
+        return $this->params;
     }
 
     /**
@@ -1212,7 +1232,7 @@ abstract class Orm
                 return $data;
             }
         }
-        $this->statement = $this->db->execute($this->buidSelect(), array_values($this->params));
+        $this->statement = $this->db->execute($this->buildSelect(), array_values($this->params));
         $data = $this->statement->fetch($array ? \PDO::FETCH_ASSOC : \PDO::FETCH_BOTH);
         if (!empty($data)) {
             $this->data = $data;
@@ -1239,7 +1259,7 @@ abstract class Orm
                 return $data;
             }
         }
-        $this->statement = $this->db->execute($this->buidSelect(), array_values($this->params));
+        $this->statement = $this->db->execute($this->buildSelect(), array_values($this->params));
         $data = $this->statement->fetchAll(\PDO::FETCH_COLUMN, $columnIndex);
         if ($this->getCacheKey()) {
             $this->cache()->set(
@@ -1261,7 +1281,7 @@ abstract class Orm
                 return $data;
             }
         }
-        $this->statement = $this->db->execute($this->buidSelect(), array_values($this->params));
+        $this->statement = $this->db->execute($this->buildSelect(), array_values($this->params));
         $data = $this->statement->fetchColumn();
         if ($this->getCacheKey()) {
             $this->cache()->set(
@@ -1285,7 +1305,7 @@ abstract class Orm
                 return $data;
             }
         }
-        $this->statement = $this->db->execute($this->buidSelect(), array_values($this->params));
+        $this->statement = $this->db->execute($this->buildSelect(), array_values($this->params));
         $affectedRows = $this->statement->rowCount();
         $data = $this->statement->fetchAll($array ? \PDO::FETCH_ASSOC : \PDO::FETCH_BOTH);
         if ($this->getCacheKey()) {
@@ -1337,7 +1357,7 @@ abstract class Orm
             }
         }
         $this->limit(null, null);
-        $result = $this->db->execute($this->buidSelect(), array_values($this->params))->rowCount();
+        $result = $this->db->execute($this->buildSelect(), array_values($this->params))->rowCount();
         if ($this->getCacheKey()) {
             $this->cache()->set($this->buildCacheKey([$this->getCacheKey(), 'count']), $result, $this->getCacheTtl());
         }
