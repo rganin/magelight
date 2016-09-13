@@ -20,14 +20,14 @@ Options +FollowSymLinks
 # Turn on the RewriteEngine
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule (.*\.(js|css|png|jpg|jpeg|gif|tiff|mp3|flv|ico|eot|ttf|svg|woff))$ pub/static/$1 [DPI]
+RewriteRule (.*\.(js|css|png|jpg|jpeg|gif|tiff|mp3|flv|ico|eot|ttf|svg|woff|woff2))$ pub/static/$1 [DPI]
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule pub/static/(.*\.(js|css|png|jpg|jpeg|gif|tiff|mp3|flv|ico|eot|ttf|svg|woff))$ static.php?resource=$1 [L]
+RewriteRule pub/static/(.*\.(js|css|png|jpg|jpeg|gif|tiff|mp3|flv|ico|eot|ttf|svg|woff|woff2))$ static.php?resource=$1 [L]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-l
-RewriteCond %{REQUEST_FILENAME} !^.*\.(js|css|png|jpg|jpeg|gif|tiff|mp3|flv|ico|eot|ttf|svg|woff)$
+RewriteCond %{REQUEST_FILENAME} !^.*\.(js|css|png|jpg|jpeg|gif|tiff|mp3|flv|ico|eot|ttf|svg|woff|woff2)$
 RewriteRule . index.php [L,QSA]
 
 # JavaScript
