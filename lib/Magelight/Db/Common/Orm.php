@@ -1073,7 +1073,6 @@ abstract class Orm
         $query[] = $values;
         if (!$ignore && $onDuplicateKeyUpdate) {
             $query[] = 'ON DUPLICATE KEY UPDATE';
-            $query[] = 'SET';
             $query[] = $values;
         }
         return implode(' ', $query);
@@ -1133,6 +1132,13 @@ abstract class Orm
             $values = array_intersect_key($values, array_flip($keys));
         }
         if ($this->isNewRecord) {
+            if ($onDuplicateKeyUpdate) {
+                $duplicatedValues = $values;
+                foreach ($values as $value) {
+                    $duplicatedValues[] = $value;
+                }
+                $values = $duplicatedValues;
+            }
             $query = $this->buildInsert($keys, $ignore, $onDuplicateKeyUpdate);
         } else {
             $query = $this->buildUpdate($keys);

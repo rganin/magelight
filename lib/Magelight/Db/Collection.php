@@ -49,7 +49,7 @@ class Collection
      *
      * @var int
      */
-    protected $limit = 10;
+    protected $limit = 0;
 
     /**
      * Dataset offset
