@@ -577,7 +577,7 @@ class Form extends Elements\Abstraction\Element
                 }
             }
         }
-        return null;
+        return $this->generateIdFromName($name);
     }
 
     /**
