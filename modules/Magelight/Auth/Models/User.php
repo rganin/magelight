@@ -26,6 +26,21 @@ use Magelight\Helpers\UrlHelper;
 
 /**
  * @method static \Magelight\Auth\Models\User forge($data = [], $forceNew = false)
+ * @property int $id
+ * @property int $is_registered
+ * @property int $date_register
+ * @property string $openid_provider
+ * @property string $openid_identity
+ * @property string $openid_uuid
+ * @property string $name
+ * @property string $photo
+ * @property int $city_id
+ * @property int $country_id
+ * @property string $city
+ * @property string $country
+ * @property string $email
+ * @property int $email_verified
+ * @property string $password
  */
 class User extends \Magelight\Model
 {

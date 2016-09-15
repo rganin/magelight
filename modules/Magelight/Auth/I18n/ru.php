@@ -157,7 +157,7 @@ return [
     ],
     'Enter the email you`ve signed up with. The new password will be sent to your e-mail' => [
         'default' => [
-            1 => 'Введите e-mail с которым Вы регистрировались. Новый пароль будетотправлен Вам на почту.',
+            1 => 'Введите e-mail с которым Вы регистрировались. Мы вышлем Вам новый пароль.',
             2 => NULL,
             3 => NULL
         ]
@@ -236,7 +236,7 @@ return [
     ],
     'Please enter a valid e-mail!' => [
         'default' => [
-            1 => 'Введите фалидный e-mail!',
+            1 => 'Введите валидный e-mail!',
             2 => NULL,
             3 => NULL
         ]

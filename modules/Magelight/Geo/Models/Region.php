@@ -27,6 +27,12 @@ namespace Magelight\Geo\Models;
  * @method static \Magelight\Geo\Models\Region find($id)
  * @method static \Magelight\Geo\Models\Region findBy($field, $value)
  * @method static \Magelight\Geo\Models\Region forge($data = [], $forceNew = false)
+ * @property int $id
+ * @property int $country_id
+ * @property int $oid
+ * @property string $region_name_ru
+ * @property string $region_name_en
+ * @property string $region_name_ua
  */
 class Region extends \Magelight\Model
 {

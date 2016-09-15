@@ -35,7 +35,7 @@
                             <display>panel</display>
                             <fields>first_name,email,city,country</fields>
                             <optional>photo,phone</optional>
-                            <providers>vkontakte,facebook,odnoklassniki,twitter,mailru,yandex,google</providers>
+                            <providers>vkontakte,facebook,odnoklassniki,twitter,mailru,yandex,google,instagram</providers>
                             <hidden></hidden>
                             <redirect_route>auth/servicelogin</redirect_route>
                         </options>
@@ -46,7 +46,7 @@
                             <display>panel</display>
                             <fields>first_name,email,city,country</fields>
                             <optional>photo,phone</optional>
-                            <providers>vkontakte,facebook,odnoklassniki,twitter,mailru,yandex,google</providers>
+                            <providers>vkontakte,facebook,odnoklassniki,twitter,mailru,yandex,google,instagram</providers>
                             <hidden></hidden>
                             <redirect_route>auth/servicelogin</redirect_route>
                         </options>

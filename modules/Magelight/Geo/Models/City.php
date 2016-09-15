@@ -27,6 +27,13 @@ namespace Magelight\Geo\Models;
  * @method static \Magelight\Geo\Models\City find($id)
  * @method static \Magelight\Geo\Models\City findBy($field, $value)
  * @method static \Magelight\Geo\Models\City forge($data = [], $forceNew = false)
+ * @property int $id
+ * @property int $region_id
+ * @property int $country_id
+ * @property int $oid
+ * @property string $city_name_ru
+ * @property string $city_name_en
+ * @property string $city_name_ua
  */
 class City extends \Magelight\Model
 {
