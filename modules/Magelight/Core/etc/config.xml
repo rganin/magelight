@@ -32,7 +32,7 @@
             <minify_css>0</minify_css>
             <compress_js>0</compress_js>
             <compress_css>0</compress_css>
-            <public_dir>var/static</public_dir>
+            <public_dir>pub/static</public_dir>
             <check_readability>0</check_readability>
             <cache_ttl_css>10000</cache_ttl_css>
             <cache_ttl_js>10000</cache_ttl_js>

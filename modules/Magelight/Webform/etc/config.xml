@@ -30,7 +30,7 @@
                 <public_key></public_key>
             </re_captcha>
             <captcha>
-                <save_path>var/static/captchas</save_path>
+                <save_path>pub/static/captchas</save_path>
                 <charlist>abcdefghijkLmnopqrstuvwxyz0123456789</charlist>
                 <font_file>Magelight/Webform/static/fonts/comic.ttf</font_file>
                 <font_size>18</font_size>

@@ -279,4 +279,14 @@ class Collection
         }
         return $this;
     }
+
+    /**
+     * Get collection item IDs
+     *
+     * @return null|array
+     */
+    public function fetchIds()
+    {
+       return $this->getDataSource()->selectFields($this->getDataSource()->getIdColumn())->fetchColumn();
+    }
 }
