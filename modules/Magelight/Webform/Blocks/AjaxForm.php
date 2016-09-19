@@ -50,20 +50,18 @@ class AjaxForm extends Form
      *
      * @param string $name
      * @param string $action
-     * @param string $dataType
      * @param string $enctype
      * @param string $method
      *
      * @return Form
      */
     public function setConfigs($name,
-                               $action,
-                               $dataType = self::DATA_TYPE_HTML,
+                               $action = '',
                                $enctype  = 'multipart/form-data',
                                $method   = 'post'
     )
     {
-        $this->setResultDataType($dataType);
+        $this->setResultDataType(self::DATA_TYPE_HTML);
         return parent::setConfigs($name, $action, $enctype, $method);
     }
 

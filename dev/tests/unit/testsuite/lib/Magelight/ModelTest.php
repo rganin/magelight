@@ -61,7 +61,7 @@ class ModelTest extends \Magelight\TestCase
 
         $this->appMock->expects($this->any())
             ->method('db')
-            ->with(APP::DEFAULT_INDEX)
+            ->with(App::DEFAULT_INDEX)
             ->will($this->returnValue($this->dbMock));
 
         $this->dbMock->expects($this->any())
