@@ -28,7 +28,7 @@ namespace Magelight\Db\Common;
  *
  * @method bool beginTransaction()
  * @method bool commit()
- * @method bool rollback()
+ * @method bool rollBack()
  */
 abstract class Adapter
 {

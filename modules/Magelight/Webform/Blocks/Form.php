@@ -221,9 +221,17 @@ class Form extends Elements\Abstraction\Element
      *
      * @return array
      */
-    public function getRequestFields()
+    public function getRequestFields($fields = [])
     {
-        return $this->requestFields;
+        if (empty($fields)) {
+            return $this->requestFields;
+        } else {
+            $data = [];
+            foreach ($fields as $field) {
+                $data[$field] = isset($this->requestFields[$field]) ? $this->requestFields[$field] : null;
+            }
+            return $data;
+        }
     }
 
     /**

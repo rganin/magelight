@@ -257,7 +257,7 @@ class Document extends \Magelight\Block
      */
     public function setLang($lang)
     {
-        $this->getHeadElement()->setAttribute('lang', $lang);
+        $this->getRootElement()->setAttribute('lang', $lang);
         return $this;
     }
 
