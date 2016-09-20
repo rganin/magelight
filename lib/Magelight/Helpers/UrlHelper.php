@@ -74,8 +74,11 @@ class UrlHelper
      * @return string
      * @throws \Magelight\Exception
      */
-    public function getUrl($match, $params = [], $type = self::TYPE_HTTP, $addOnlyMaskParams = false)
+    public function getUrl($match, $params = [], $type = null, $addOnlyMaskParams = false)
     {
+        if (!$type) {
+            $type = \Magelight\Config::getInstance()->getConfigString('global/app/default_url_type', self::TYPE_HTTP);
+        }
         $match = '/' . trim($match, '\\/');
         if (!$addOnlyMaskParams) {
             if (

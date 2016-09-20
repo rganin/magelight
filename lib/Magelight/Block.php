@@ -391,7 +391,7 @@ class Block
     public function url(
         $match,
         $params = [],
-        $type = \Magelight\Helpers\UrlHelper::TYPE_HTTP,
+        $type = null,
         $addOnlyMaskParams = false
     ) {
         return \Magelight\Helpers\UrlHelper::getInstance()->getUrl($match, $params, $type, $addOnlyMaskParams);

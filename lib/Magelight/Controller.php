@@ -229,7 +229,7 @@ class Controller
      * @param string $type - URL type (http|https)
      * @return string
      */
-    public function url($match, $params = [], $type = \Magelight\Helpers\UrlHelper::TYPE_HTTP)
+    public function url($match, $params = [], $type = null)
     {
         return \Magelight\Helpers\UrlHelper::getInstance()->getUrl($match, $params, $type);
     }
