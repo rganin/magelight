@@ -1391,9 +1391,6 @@ abstract class Orm
      */
     public function totalCount()
     {
-        if ($this->totalCount) {
-            return $this->totalCount;
-        }
         $this->limit(null, null);
         $this->totalCount = $this->db->execute($this->buildCountSelect(), array_values($this->params))->fetchColumn();
         return $this->totalCount;
