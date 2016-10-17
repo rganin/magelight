@@ -24,6 +24,7 @@
 namespace Magelight\Db\Common;
 use Magelight\Db\Common\Expression\Expression;
 use Magelight\Db\Common\Expression\ExpressionInterface;
+use Magelight\Exception;
 
 /**
  * Abstract Orm
@@ -918,6 +919,18 @@ abstract class Orm
     }
 
     /**
+     * Build SELECT statement
+     */
+    protected function buildCountSelectStart()
+    {
+        $query[] = 'SELECT';
+        $query[] = 'COUNT(*)';
+        $query[] = 'FROM';
+        $query[] = $this->tableName;
+        return implode(' ', $query);
+    }
+
+    /**
      * Build WHERE statement
      *
      */
@@ -1054,6 +1067,23 @@ abstract class Orm
             . ' ' . $this->buildGroupBy()
             . ' ' . $this->buildOrderBy()
             . ' ' . $this->buildLimit()
+        ;
+        return $query;
+    }
+
+
+    /**
+     * Build select query
+     *
+     * @return string
+     */
+    protected function buildCountSelect()
+    {
+        $this->params = [];
+        $query = $this->buildCountSelectStart()
+            . ' ' . $this->buildJoins()
+            . ' ' . $this->buildWhere()
+            . ' ' . $this->buildGroupBy()
         ;
         return $query;
     }
@@ -1318,9 +1348,6 @@ abstract class Orm
         $this->statement = $this->db->execute($this->buildSelect(), array_values($this->params));
         $affectedRows = $this->statement->rowCount();
         $data = $this->statement->fetchAll($array ? \PDO::FETCH_ASSOC : \PDO::FETCH_BOTH);
-        if ($data) {
-            $this->totalCount = $this->db->execute('SELECT FOUND_ROWS();')->fetchColumn();
-        }
         if ($this->getCacheKey()) {
             $this->cache()->set(
                 $this->buildCacheKey([$this->getCacheKey(), 'all']), $data, $this->getCacheTtl()
@@ -1373,7 +1400,7 @@ abstract class Orm
             }
         }
         $this->limit(null, null);
-        $this->totalCount = $this->db->execute($this->buildSelect(), array_values($this->params))->rowCount();
+        $this->totalCount = $this->db->execute($this->buildCountSelect(), array_values($this->params))->fetchColumn();
         if ($this->getCacheKey()) {
             $this->cache()->set(
                 $this->buildCacheKey([$this->getCacheKey(), 'count']),
