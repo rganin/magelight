@@ -1394,20 +1394,8 @@ abstract class Orm
         if ($this->totalCount) {
             return $this->totalCount;
         }
-        if ($this->getCacheKey()) {
-            if ($this->totalCount = $this->cache()->get($this->buildCacheKey([$this->getCacheKey(), 'count']), false)) {
-                return $this->totalCount;
-            }
-        }
         $this->limit(null, null);
         $this->totalCount = $this->db->execute($this->buildCountSelect(), array_values($this->params))->fetchColumn();
-        if ($this->getCacheKey()) {
-            $this->cache()->set(
-                $this->buildCacheKey([$this->getCacheKey(), 'count']),
-                $this->totalCount,
-                $this->getCacheTtl()
-            );
-        }
         return $this->totalCount;
     }
 
