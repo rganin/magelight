@@ -165,6 +165,9 @@ class Pager extends \Magelight\Block
      */
     public function setPerPage($perPage = 10)
     {
+        if ($this->collection instanceof \Magelight\Db\Collection) {
+            $this->collection->setLimit($perPage);
+        }
         $this->perPage = $perPage;
         return $this;
     }
@@ -189,6 +192,9 @@ class Pager extends \Magelight\Block
      */
     public function setCurrentPage($currentPage = 0)
     {
+        if ($this->collection instanceof \Magelight\Db\Collection) {
+            $this->collection->setPage($currentPage);
+        }
         $this->currentPage = $currentPage;
         return $this;
     }

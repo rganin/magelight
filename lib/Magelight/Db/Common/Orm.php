@@ -315,6 +315,13 @@ abstract class Orm
     protected $offset = null;
 
     /**
+     * Total count of records found in data source
+     *
+     * @var null|int
+     */
+    protected $totalCount = null;
+
+    /**
      * Group by fields
      *
      * @var array
@@ -652,6 +659,7 @@ abstract class Orm
                 'params' => isset($arguments[3]) ? $arguments[3] : [],
             ];
             $this->join[] = $join;
+            $this->totalCount = null;
         }
         return $this;
     }
@@ -700,6 +708,7 @@ abstract class Orm
                     self::KEY_PARAMS => $params,
                     self::KEY_LOGIC => $logic['logic'],
                 ];
+                $this->totalCount = null;
             }
         }
         return $this;
@@ -784,6 +793,7 @@ abstract class Orm
         foreach ($columns as $col) {
             $this->groupBy[] = $col;
         }
+        $this->totalCount = null;
         return $this;
     }
 
@@ -1308,6 +1318,9 @@ abstract class Orm
         $this->statement = $this->db->execute($this->buildSelect(), array_values($this->params));
         $affectedRows = $this->statement->rowCount();
         $data = $this->statement->fetchAll($array ? \PDO::FETCH_ASSOC : \PDO::FETCH_BOTH);
+        if ($data) {
+            $this->totalCount = $this->db->execute('SELECT FOUND_ROWS();')->fetchColumn();
+        }
         if ($this->getCacheKey()) {
             $this->cache()->set(
                 $this->buildCacheKey([$this->getCacheKey(), 'all']), $data, $this->getCacheTtl()
@@ -1351,17 +1364,24 @@ abstract class Orm
      */
     public function totalCount()
     {
+        if ($this->totalCount) {
+            return $this->totalCount;
+        }
         if ($this->getCacheKey()) {
-            if ($result = $this->cache()->get($this->buildCacheKey([$this->getCacheKey(), 'count']), false)) {
-                return $result;
+            if ($this->totalCount = $this->cache()->get($this->buildCacheKey([$this->getCacheKey(), 'count']), false)) {
+                return $this->totalCount;
             }
         }
         $this->limit(null, null);
-        $result = $this->db->execute($this->buildSelect(), array_values($this->params))->rowCount();
+        $this->totalCount = $this->db->execute($this->buildSelect(), array_values($this->params))->rowCount();
         if ($this->getCacheKey()) {
-            $this->cache()->set($this->buildCacheKey([$this->getCacheKey(), 'count']), $result, $this->getCacheTtl());
+            $this->cache()->set(
+                $this->buildCacheKey([$this->getCacheKey(), 'count']),
+                $this->totalCount,
+                $this->getCacheTtl()
+            );
         }
-        return $result;
+        return $this->totalCount;
     }
 
     /**
