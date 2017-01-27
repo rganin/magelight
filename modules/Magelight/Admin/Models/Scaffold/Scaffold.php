@@ -40,7 +40,7 @@ class Scaffold
     /**
      * Default model class
      */
-    const DEFAULT_MODEL_CLASS = "\\Magelight\\Admin\\Models\\Scaffold\\Entity";
+    const DEFAULT_MODEL_CLASS = \Magelight\Admin\Models\Scaffold\Entity::class;
 
     /**
      * Connection name

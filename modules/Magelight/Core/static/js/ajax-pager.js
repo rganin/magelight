@@ -8,7 +8,7 @@
 
 function bindPagers()
 {
-    $('div.pagination.ajax-pager').each(function(){
+    $('.pagination.ajax-pager').each(function(){
         var pager = $(this);
         pager.find('a').unbind('click').bind('click', function (e) {
             e.preventDefault();
