@@ -36,6 +36,9 @@ class Observer extends \Magelight\Observer
      */
     public function execute()
     {
+        if (php_sapi_name() == "cli") {
+            return $this;
+        }
         /** @var $request \Magelight\Http\Request */
         $request = $this->arguments['request'];
         if ($request instanceof \Magelight\Http\Request) {
