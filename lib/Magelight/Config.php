@@ -22,6 +22,7 @@
  */
 
 namespace Magelight;
+use Magelight\Components\Loaders\Config as ConfigLoader;
 use Magelight\Traits\TForgery;
 
 /**
@@ -63,33 +64,42 @@ class Config
     public function load()
     {
         $app = \Magelight\App::getInstance();
-        $loader = \Magelight\Components\Loaders\Config::forge();
-        $loader->loadConfig($app->getAppDir() . DS . 'etc' . DS . 'config.xml');
-        $this->config = $loader->getConfig();
+        /** @var ConfigLoader $loader */
+        $loader = ConfigLoader::getInstance();
+        $this->loadConfigFromFile($app->getAppDir() . DS . 'etc' . DS . 'config.xml');
         $modulesConfigString = $this->getConfigBool('global/app/cache_modules_config', false)
             ? $this->cache()->get($this->buildCacheKey('modules_config'))
             : false;
 
         /* Loading modules config */
         if (!$modulesConfigString) {
-            $loader->setConfig($this->config);
             foreach (array_reverse($app->getModuleDirectories()) as $modulesDir) {
                 foreach (\Magelight\Components\Modules::getInstance()->getActiveModules() as $module) {
                     $filename = $loader->getModulesConfigFilePath($modulesDir, $module);
                     if ($filename) {
-                        $loader->loadConfig($filename);
+                        $this->loadConfigFromFile($filename);
                     }
                 }
             }
-            $modulesConfig = $loader->getConfig();
             if ($this->getConfigBool('global/app/cache_modules_config', false)) {
-                $this->cache()->set($this->buildCacheKey('modules_config'), $modulesConfig->asXML(), 3600);
+                $this->cache()->set($this->buildCacheKey('modules_config'), $this->config->asXML(), 3600);
             }
-            $this->config = $modulesConfig;
         } else {
             $this->config = simplexml_load_string($modulesConfigString);
         }
         unset($loader);
+    }
+
+    /**
+     * Load config from file
+     *
+     * @param string $filename
+     */
+    public function loadConfigFromFile($filename)
+    {
+        $loader = ConfigLoader::getInstance();
+        $loader->loadConfig($filename);
+        $this->config = $loader->getConfig();
     }
 
     /**

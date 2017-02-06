@@ -162,7 +162,7 @@ class Config
      * @param \SimpleXMLElement $config
      * @return $this
      */
-    public function setConfig(\SimpleXMLElement $config)
+    public function setConfig(\SimpleXMLElement $config = null)
     {
         $this->config = $config;
         return $this;
