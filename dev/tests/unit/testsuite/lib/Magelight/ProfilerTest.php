@@ -49,7 +49,7 @@ class ProfilerTest extends \Magelight\TestCase
     {
         $profiler = \Magelight\Profiler::getInstance('test');
         $index = $profiler->startNewProfiling();
-        usleep(200000);
+        usleep(300000);
         $profiler->finish($index);
         $data = $profiler->getProfile($index);
         $this->assertTrue($data['sec'] > floatval('0.2'));

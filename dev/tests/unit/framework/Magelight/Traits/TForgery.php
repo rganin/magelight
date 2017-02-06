@@ -73,6 +73,7 @@ trait TForgery
     public static function forge()
     {
         $className = get_called_class();
+        $className = self::getForgery()->getClassName($className);
         $object = \Magelight\Forgery\MockContainer::getInstance()->getMock($className);
         if ($object instanceof $className) {
             return $object;

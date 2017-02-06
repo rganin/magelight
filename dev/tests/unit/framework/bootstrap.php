@@ -26,5 +26,5 @@ set_include_path(__DIR__ . PS . get_include_path());
 if (!is_readable(__DIR__ . DS . 'vendor/autoload.php')) {
     echo "Run `composer install` in dev/tests/unit/framework directory";
 } else {
-    require_once __DIR__ . DS . 'vendor/autoload.php';
+    require_once 'vendor/autoload.php';
 }
