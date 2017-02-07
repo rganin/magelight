@@ -26,19 +26,12 @@ namespace Magelight;
 /**
  * Installer class
  *
- * @method static \Magelight\Installer forge()
+ * @method static $this forge()
+ * @method static $this getInstance()
  */
 class Installer
 {
     use Traits\TForgery;
-
-    /**
-     * Forgery constructor
-     */
-    public function __forge()
-    {
-        $this->createVersionTableIfNotExists();
-    }
 
     /**
      * Start setup
@@ -48,6 +41,7 @@ class Installer
      */
     public function startSetup()
     {
+        $this->createVersionTableIfNotExists();
         return $this;
     }
 
