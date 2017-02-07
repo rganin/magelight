@@ -167,7 +167,7 @@ class Collection
      * Fetch data as array of models
      *
      * @param int $affectedRows
-     * @return array
+     * @return \Magelight\Model[]
      */
     public function fetchModels(&$affectedRows = 0)
     {

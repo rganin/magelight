@@ -41,7 +41,6 @@ class Installer
      */
     public function startSetup()
     {
-        $this->createVersionTableIfNotExists();
         return $this;
     }
 
@@ -120,6 +119,7 @@ class Installer
      */
     public function upgrade()
     {
+        $this->createVersionTableIfNotExists();
         foreach (\Magelight\Components\Modules::getInstance()->getActiveModules() as $module) {
             $scripts = $this->findInstallScripts($module['path']);
             foreach ($scripts as $script => $filename) {

@@ -24,7 +24,8 @@
 namespace Magelight;
 
 /**
- * @method static \Magelight\Model forge($data = [], $forceNew = false)
+ * @method static $this forge($data = [], $forceNew = false)
+ * @method static $this getInstance()
  */
 class Model
 {
@@ -330,7 +331,7 @@ class Model
      *
      * @param mixed $id
      *
-     * @return Model
+     * @return $this
      */
     public static function find($id)
     {
