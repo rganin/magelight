@@ -1385,14 +1385,14 @@ abstract class Orm
     }
 
     /**
-     * Get count of rows affected by last query
+     * Get count of rows by last query
      *
      * @return int
      */
     public function totalCount()
     {
         $this->limit(null, null);
-        $this->totalCount = $this->db->execute($this->buildCountSelect(), array_values($this->params))->fetchColumn();
+        $this->totalCount = $this->db->execute($this->buildSelect(), array_values($this->params))->rowCount();
         return $this->totalCount;
     }
 
