@@ -69,9 +69,6 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $this->appMock->expects($this->any())->method('db')->will($this->returnValue($this->dbMock));
-        $this->dbMock->expects($this->once())->method('execute')->with(
-            $this->matchesRegularExpression('/CREATE TABLE.*/')
-        );
         \Magelight\Installer::forge();
     }
 
@@ -83,9 +80,6 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
     public function testIsSetupScriptExecuted($rowsCount, $expctedResult)
     {
         $this->appMock->expects($this->any())->method('db')->will($this->returnValue($this->dbMock));
-        $this->dbMock->expects($this->at(0))->method('execute')->with(
-            $this->matchesRegularExpression('/CREATE TABLE.*/')
-        );
         $installer = \Magelight\Installer::forge();
 
         $pdoStatementMock = $this->getMock(\PDOStatement::class, [], [], '', false);
@@ -112,9 +106,6 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
     public function testSetSetupScriptExecuted()
     {
         $this->appMock->expects($this->any())->method('db')->will($this->returnValue($this->dbMock));
-        $this->dbMock->expects($this->at(0))->method('execute')->with(
-            $this->matchesRegularExpression('/CREATE TABLE.*/')
-        );
         $installer = \Magelight\Installer::forge();
         $this->dbMock->expects($this->at(0))->method('execute')->with(
             $this->matches(
