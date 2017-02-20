@@ -24,9 +24,8 @@
 /* @var $this \Magelight\Installer */
 
 $this->getDb()->execute("
-    DROP TABLE IF EXISTS `admin_users`;
     CREATE TABLE `admin_users` (
-        `id` INT(10) NULL AUTO_INCREMENT,
+        `id` INT(10) NOT NULL AUTO_INCREMENT,
         `user_id` INT(10) NULL,
         `rights` VARCHAR(2048) NULL,
         INDEX `user_id` (`user_id`),
