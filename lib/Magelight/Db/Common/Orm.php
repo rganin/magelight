@@ -1177,9 +1177,9 @@ abstract class Orm
     /**
      * Save record
      *
-     * @param bool|false $safeMode
-     * @param bool|false $ignore
-     * @param bool|false $onDuplicateKeyUpdate
+     * @param bool|false $safeMode - put only table fields into insert/update query
+     * @param bool|false $ignore - ignore if entity with same ID exists
+     * @param bool|false $onDuplicateKeyUpdate - save new row or update if row with same primary ID exists
      * @return bool
      * @throws \Magelight\Exception
      */
@@ -1208,8 +1208,10 @@ abstract class Orm
         $this->statement = $this->db->execute($query, array_values($values));
         $ret = $this->statement->rowCount();
         if ($ret > 0) {
-            if ($this->idColumn && $this->isNew()) {
-                $this->setValue($this->idColumn, $this->db->execute('SELECT LAST_INSERT_ID();')->fetchColumn(0));
+            // if record has ID column and it's forced to be new and no ID is set
+            if ($this->idColumn && $this->isNew() && empty($this->getId())) {
+                // set it's ID to last autoincrement
+                $this->setValue($this->idColumn, $this->db->execute("SELECT LAST_INSERT_ID();")->fetchColumn(0));
             }
             $this->dirtyFields = [];
             $this->isNewRecord = false;
