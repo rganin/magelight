@@ -173,6 +173,7 @@ class Upload
             trigger_error("Moving upload failed. Path {$dir} is not writable.", E_USER_WARNING);
         }
         if (move_uploaded_file($this->getTmpName(), $path)) {
+            chmod($path, $mode);
             $this->isSaved = true;
             $this->savedPath = $path;
             return true;
