@@ -121,7 +121,8 @@ class Element extends \Magelight\Core\Blocks\Element
      */
     public function setContent($content)
     {
-        return $this->addContent($content);
+        $this->content = [$content];
+        return $this;
     }
 
     /**

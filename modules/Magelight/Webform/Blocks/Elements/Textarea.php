@@ -51,7 +51,7 @@ class Textarea extends Abstraction\Field
      */
     public function setValue($value)
     {
-        return $this->setContent($value);
+        return $this->content = [$value];
     }
 
     /**
