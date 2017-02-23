@@ -393,11 +393,6 @@ abstract class App
         \Magelight\Http\Session::getInstance()->close();
     }
 
-    public function __destruct()
-    {
-        $this->shutdown();
-    }
-
     /**
      * Load forgery preferences from configuration
      *
