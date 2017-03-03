@@ -104,7 +104,7 @@ class Model
     /**
      * After load handler
      *
-     * @return Model
+     * @return $this
      */
     public function afterLoad()
     {
@@ -114,7 +114,7 @@ class Model
     /**
      * Before save handler
      *
-     * @return Model
+     * @return $this
      */
     protected function beforeSave()
     {
@@ -124,7 +124,7 @@ class Model
     /**
      * After Save handler
      *
-     * @return Model
+     * @return $this
      */
     protected function afterSave()
     {
@@ -135,7 +135,7 @@ class Model
      * Set model ORM
      *
      * @param Db\Common\Orm $orm
-     * @return Model
+     * @return $this
      */
     public function setOrm(\Magelight\Db\Common\Orm $orm)
     {
@@ -343,7 +343,7 @@ class Model
      *
      * @param $field
      * @param $value
-     * @return Model|null
+     * @return $this|null
      */
     public static function findBy($field, $value)
     {
@@ -386,7 +386,7 @@ class Model
      *
      * @param array $data
      * @param bool $overwrite
-     * @return Model
+     * @return $this
      */
     public function mergeData($data = [], $overwrite = false)
     {
