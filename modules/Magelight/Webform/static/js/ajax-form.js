@@ -16,12 +16,14 @@ function bindFormsValidation()
                 $(element).addClass('valid').closest(controlContainerSelector).removeClass('has-error').addClass('has-success');
             },
             errorPlacement: function(error, element) {
-                console.log(element.closest(controlContainerSelector).attr('class'));
+
                 var errorContainer = element.closest(controlContainerSelector).find('.error-container');
                 if (errorContainer.length) {
                     error.appendTo(errorContainer);
+                    console.log('containerxx');
                 } else {
                     error.appendTo(element.closest('.form-group'));
+                    console.log('no container');
                 }
             }
         });

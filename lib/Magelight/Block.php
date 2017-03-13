@@ -398,7 +398,7 @@ class Block
     }
 
     /**
-     * Pasre int to date
+     * Parse int to date
      *
      * @param int $value
      * @return string
@@ -406,6 +406,18 @@ class Block
     public function date($value)
     {
         $dateFormat = \Magelight\Config::getInstance()->getConfig('global/view/date_format', 'Y-m-d');
+        return date($dateFormat, $value);
+    }
+
+    /**
+     * Parse int to time
+     *
+     * @param int $value
+     * @return string
+     */
+    public function time($value)
+    {
+        $dateFormat = \Magelight\Config::getInstance()->getConfig('global/view/time_format', 'H:i');
         return date($dateFormat, $value);
     }
 
