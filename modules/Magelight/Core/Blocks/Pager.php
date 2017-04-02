@@ -25,7 +25,7 @@ namespace Magelight\Core\Blocks;
 use Magelight\Db\Collection;
 
 /**
- * @method static \Magelight\Core\Blocks\Pager forge(\Magelight\Db\Collection $collection = null)
+ * @method static $this forge(\Magelight\Db\Collection $collection = null)
  */
 class Pager extends \Magelight\Block
 {

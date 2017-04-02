@@ -26,7 +26,7 @@ namespace Magelight\Geo\Helpers;
 /**
  * Google locator helper
  *
- * @method static  \Magelight\Geo\Helpers\GoogleLocator forge()
+ * @method static  $this forge()
  */
 class GoogleLocator
 {

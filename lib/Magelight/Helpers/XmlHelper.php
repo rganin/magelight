@@ -26,7 +26,7 @@ namespace Magelight\Helpers;
 /**
  * XML Helper class
  *
- * @method static \Magelight\Helpers\XmlHelper forge()
+ * @method static $this forge()
  */
 class XmlHelper
 {

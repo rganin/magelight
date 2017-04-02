@@ -27,7 +27,7 @@ namespace SampleApp\Blocks;
  * Class UserProfile
  * @package SampleApp\Blocks
  *
- * @method static \SampleApp\Blocks\UserProfile forge()
+ * @method static $this forge()
  */
 class UserProfile extends \Magelight\Block
 {

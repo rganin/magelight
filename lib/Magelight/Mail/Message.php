@@ -26,7 +26,7 @@ namespace Magelight\Mail;
 /**
  * Email message class
  *
- * @method static \Magelight\Mail\Message forge()
+ * @method static $this forge()
  */
 class Message
 {

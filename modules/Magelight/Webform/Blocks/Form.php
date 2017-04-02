@@ -24,7 +24,7 @@
 namespace Magelight\Webform\Blocks;
 
 /**
- * @method static \Magelight\Webform\Blocks\Form forge() forge a webform
+ * @method static $this forge() - forge a webform
  * @method static \Magelight\Webform\Blocks\Fieldset forgeFieldset()
  * @method static \Magelight\Webform\Blocks\Row forgeRow()
  * @method \Magelight\Webform\Blocks\Form addClass($class)

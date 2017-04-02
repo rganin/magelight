@@ -24,9 +24,9 @@
 namespace Magelight\Geo\Models;
 
 /**
- * @method static \Magelight\Geo\Models\Region find($id)
- * @method static \Magelight\Geo\Models\Region findBy($field, $value)
- * @method static \Magelight\Geo\Models\Region forge($data = [], $forceNew = false)
+ * @method static $this find($id)
+ * @method static $this findBy($field, $value)
+ * @method static $this forge($data = [], $forceNew = false)
  * @property int $id
  * @property int $country_id
  * @property int $oid

@@ -26,8 +26,8 @@ namespace Magelight\Http;
 /**
  * Session wrapper
  *
- * @method static \Magelight\Http\Session getInstance()
- * @method static \Magelight\Http\Session forge()
+ * @method static $this getInstance()
+ * @method static $this forge()
  */
 class Session
 {

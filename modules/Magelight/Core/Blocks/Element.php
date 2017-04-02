@@ -65,7 +65,7 @@ class Element extends \Magelight\Block
      * Set element empty flag
      *
      * @param bool $empty
-     * @return Element
+     * @return $this
      */
     public function setEmpty($empty = true)
     {
@@ -123,7 +123,7 @@ class Element extends \Magelight\Block
     /**
      * Before to html handler
      *
-     * @return \Magelight\Block|Element
+     * @return $this
      */
     public function beforeToHtml()
     {
@@ -133,7 +133,7 @@ class Element extends \Magelight\Block
     /**
      * After to html handler
      *
-     * @return \Magelight\Block|Element
+     * @return $this
      */
     public function afterToHtml()
     {
@@ -146,7 +146,7 @@ class Element extends \Magelight\Block
      * @param string $name
      * @param string $value
      * @param string $quotaiton
-     * @return Element
+     * @return $this
      */
     public function setAttribute($name, $value, $quotaiton = self::QUOTATION_DEFAULT)
     {
@@ -158,7 +158,7 @@ class Element extends \Magelight\Block
      * Set element class
      *
      * @param string $class
-     * @return Element
+     * @return $this
      */
     public function setClass($class)
     {
@@ -231,7 +231,7 @@ class Element extends \Magelight\Block
      * Add element content
      *
      * @param string|Element|\Magelight\Block $content
-     * @return Element
+     * @return $this
      */
     public function addContent($content)
     {
@@ -243,18 +243,19 @@ class Element extends \Magelight\Block
      * Set element content
      *
      * @param string $content
-     * @return Element
+     * @return $this
      */
     public function setContent($content)
     {
-        return $this->content = [$content];
+        $this->content = [$content];
+        return $this;
     }
 
     /**
      * Set element tag
      *
      * @param string $tag
-     * @return Element
+     * @return $this
      */
     public function setTag($tag)
     {

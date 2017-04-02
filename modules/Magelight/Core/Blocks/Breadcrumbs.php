@@ -26,7 +26,7 @@ namespace Magelight\Core\Blocks;
 /**
  * Breadcrumbs page block
  *
- * @method static \Magelight\Core\Blocks\Breadcrumbs forge()
+ * @method static $this forge()
  */
 class Breadcrumbs extends \Magelight\Block
 {

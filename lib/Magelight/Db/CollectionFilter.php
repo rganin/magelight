@@ -24,7 +24,7 @@
 namespace Magelight\Db;
 
 /**
- * @method static CollectionFilter forge(array $FilterData = [])
+ * @method static $this forge(array $FilterData = [])
  */
 class CollectionFilter implements CollectionFilterInterface
 {

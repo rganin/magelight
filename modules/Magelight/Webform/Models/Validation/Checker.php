@@ -24,7 +24,7 @@
 namespace Magelight\Webform\Models\Validation;
 
 /**
- * @method static \Magelight\Webform\Models\Validation\Checker forge($fieldName, $fieldAlias = null, \Magelight\Webform\Models\Validator $validator = null) - forgery
+ * @method static $this forge($fieldName, $fieldAlias = null, \Magelight\Webform\Models\Validator $validator = null) - forgery
  * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule equals($value, $displayValue = null)
  * @method \Magelight\Webform\Models\Validation\Rules\AbstractRule equalsToField($fullFieldIndex, $displayFieldName = null)
  * - Must be equal to this value. Display value will be displayed on frontend

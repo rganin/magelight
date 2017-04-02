@@ -25,7 +25,7 @@ namespace Magelight\Db;
 use Magelight\Db\Common\Expression\ExpressionInterface;
 
 /**
- * @method static \Magelight\Db\Collection forge(\Magelight\Db\Common\Orm $dataSourceOrm = null)
+ * @method static $this forge(\Magelight\Db\Common\Orm $dataSourceOrm = null)
  */
 class Collection
 {

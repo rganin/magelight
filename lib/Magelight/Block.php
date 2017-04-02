@@ -26,7 +26,7 @@ namespace Magelight;
 /**
  * Abstract block
  *
- * @method static \Magelight\Block forge()
+ * @method static $this forge()
  */
 class Block
 {

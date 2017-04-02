@@ -23,7 +23,7 @@
 namespace Magelight\Webform\Blocks\Elements;
 
 /**
- * @method static \Magelight\Webform\Blocks\Elements\Checkbox forge()
+ * @method static $this forge()
  */
 class Checkbox extends Input
 {

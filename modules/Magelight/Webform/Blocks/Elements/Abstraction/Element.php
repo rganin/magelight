@@ -48,7 +48,7 @@ class Element extends \Magelight\Core\Blocks\Element
      * @param string $name
      * @param string $value
      * @param string $quotaiton
-     * @return Element
+     * @return $this
      * @throws \Magelight\Exception
      */
     public function setAttribute($name, $value, $quotaiton = self::QUOTATION_DEFAULT)

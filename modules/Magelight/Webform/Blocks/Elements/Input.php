@@ -24,7 +24,7 @@
 namespace Magelight\Webform\Blocks\Elements;
 
 /**
- * @method static \Magelight\Webform\Blocks\Elements\Input forge()
+ * @method static $this forge()
  */
 class Input extends Abstraction\Field
 {

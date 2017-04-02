@@ -24,7 +24,7 @@
 namespace Magelight\Webform\Models\Validation;
 
 /**
- * @method static  \Magelight\Webform\Models\Validation\Result forge($success, $errors = [])
+ * @method static $this forge($success, $errors = [])
  */
 class Result
 {

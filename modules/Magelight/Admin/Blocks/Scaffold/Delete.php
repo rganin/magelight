@@ -27,7 +27,7 @@ namespace Magelight\Admin\Blocks\Scaffold;
  * Class Delete
  * @package Magelight\Admin\Blocks\Scaffold
  *
- * @method static \Magelight\Admin\Blocks\Scaffold\Delete forge($entity, $id)
+ * @method static $this forge($entity, $id)
  */
 class Delete extends \Magelight\Block
 {

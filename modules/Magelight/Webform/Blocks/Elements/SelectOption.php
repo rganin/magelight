@@ -24,7 +24,7 @@
 namespace Magelight\Webform\Blocks\Elements;
 
 /**
- * @method static \Magelight\Webform\Blocks\Elements\SelectOption forge()
+ * @method static $this forge()
  */
 class SelectOption extends Abstraction\Field
 {

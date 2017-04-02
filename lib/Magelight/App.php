@@ -280,11 +280,12 @@ abstract class App
     public function init()
     {
         $this->addModulesDir($this->getFrameworkDir() . DS . 'modules');
-        $this->addModulesDir($this->getFrameworkDir() . DS . 'modules');
         $this->initIncludePaths();
         \Magelight\Components\Modules::getInstance()->loadModules($this->getAppDir() . DS . 'etc' . DS . 'modules.xml');
         \Magelight\Components\Modules::getInstance()->getActiveModules();
         \Magelight\Config::getInstance()->load();
+        $this->loadPreferences();
+        HookFactory::getInstance()->loadHooksConfig();
         $this->setDeveloperMode((string)\Magelight\Config::getInstance()->getConfig('global/app/developer_mode'));
         if ($this->isInDeveloperMode()) {
             error_reporting(E_ALL);
@@ -294,8 +295,6 @@ abstract class App
             ->setLifetime((int)\Magelight\Config::getInstance()->getConfig('global/app/session_lifetime', 1440))
             ->setSessionName(self::SESSION_ID_COOKIE_NAME)
             ->start();
-        $this->loadPreferences();
-        HookFactory::getInstance()->loadHooksConfig();
         $lang = \Magelight\Http\Session::getInstance()->get('lang');
         if (empty($lang)) {
             $lang = (string)\Magelight\Config::getInstance()->getConfig('global/app/default_lang');

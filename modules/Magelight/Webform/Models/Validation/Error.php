@@ -24,7 +24,7 @@
 namespace Magelight\Webform\Models\Validation;
 
 /**
- * @method static \Magelight\Webform\Models\Validation\Error forge($errorString, $highlightId) - forge error
+ * @method static $this forge($errorString, $highlightId) - forge error
  */
 class Error
 {

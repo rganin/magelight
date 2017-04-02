@@ -24,7 +24,7 @@
 namespace Magelight\Webform\Models\Captcha;
 
 /**
- * @method static \Magelight\Webform\Models\Captcha\ReCaptcha forge()
+ * @method static $this forge()
  */
 class ReCaptcha
 {

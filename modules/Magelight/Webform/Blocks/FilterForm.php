@@ -24,7 +24,7 @@
 namespace Magelight\Webform\Blocks;
 
 /**
- * @method static \Magelight\Webform\Blocks\FilterForm forge()
+ * @method static $this forge()
  */
 class FilterForm extends Form
 {

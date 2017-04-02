@@ -24,7 +24,7 @@
 namespace Magelight\Webform\Blocks\Elements;
 
 /**
- * @method static \Magelight\Webform\Blocks\Elements\Hint forge()
+ * @method static $this forge()
  */
 class Hint extends Abstraction\Element
 {

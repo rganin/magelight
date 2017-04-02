@@ -24,7 +24,7 @@
 namespace Magelight\Webform\Blocks\Elements;
 
 /**
- * @method static \Magelight\Webform\Blocks\Elements\File forge()
+ * @method static $this forge()
  */
 class File extends Input
 {

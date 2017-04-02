@@ -24,7 +24,7 @@
 namespace Magelight\Webform\Models;
 
 /**
- * @method static \Magelight\Webform\Models\Validator forge() - forg teh validator
+ * @method static $this forge() - forge the validator
  */
 class Validator extends \Magelight\Model
 {
@@ -115,7 +115,7 @@ class Validator extends \Magelight\Model
      * Validate data
      *
      * @param array $data
-     * @return Validator
+     * @return $this
      */
     public function validate($data)
     {
@@ -129,7 +129,7 @@ class Validator extends \Magelight\Model
      *
      * @param array $data
      * @param array $checkers
-     * @return Validator
+     * @return $this
      */
     protected function validateRecursive(&$data, &$checkers = [])
     {
@@ -165,7 +165,7 @@ class Validator extends \Magelight\Model
      *
      * @param string $data
      * @param Validation\Checker $checker
-     * @return Validator
+     * @return $this
      */
     protected function processValidation($data, Validation\Checker $checker)
     {
@@ -213,7 +213,7 @@ class Validator extends \Magelight\Model
      * Set break on first error flag
      *
      * @param bool $flag
-     * @return Validator
+     * @return $this
      */
     public function breakOnFirst($flag = true)
     {
@@ -259,7 +259,7 @@ class Validator extends \Magelight\Model
      *
      * @param array $fieldAddress
      * @param Validation\Checker $checker
-     * @return Validator
+     * @return $this
      */
     public function setChecker(array $fieldAddress, Validation\Checker $checker)
     {
@@ -290,7 +290,7 @@ class Validator extends \Magelight\Model
      *
      * @param string $flatFieldAddress
      * @param Validation\Checker $checker
-     * @return Validator
+     * @return $this
      */
     public function setFlatChecker($flatFieldAddress, Validation\Checker $checker)
     {

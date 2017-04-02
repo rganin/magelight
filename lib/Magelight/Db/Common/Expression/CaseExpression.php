@@ -6,7 +6,7 @@ namespace Magelight\Db\Common\Expression;
  * Class CaseExpression
  * @package Magelight\Db\Common\Expression
  *
- * @method static CaseExpression forge($expression = '', $params = [])
+ * @method static $this forge($expression = '', $params = [])
  */
 class CaseExpression extends Expression
 {

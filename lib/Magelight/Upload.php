@@ -24,7 +24,7 @@
 namespace Magelight;
 
 /**
- * @method static \Magelight\Upload forge($data = [])
+ * @method static $this forge($data = [])
  */
 class Upload
 {

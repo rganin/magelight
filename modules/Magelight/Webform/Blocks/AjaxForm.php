@@ -24,7 +24,7 @@
 namespace Magelight\Webform\Blocks;
 
 /**
- * @method static \Magelight\Webform\Blocks\AjaxForm forge()
+ * @method static $this forge()
  */
 class AjaxForm extends Form
 {

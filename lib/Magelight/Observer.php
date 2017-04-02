@@ -26,7 +26,7 @@ namespace Magelight;
 /**
  * Observer (application event handler) class
  *
- * @method static \Magelight\Observer forge($arguments = [])
+ * @method static $this forge($arguments = [])
  */
 abstract class Observer
 {

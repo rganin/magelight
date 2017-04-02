@@ -27,7 +27,7 @@ namespace Magelight\Admin\Blocks\Scaffold;
  * Class Entities
  * @package Magelight\Admin\Blocks
  *
- * @method static \Magelight\Admin\Blocks\Scaffold\Entities forge()
+ * @method static $this forge()
  */
 class Entities extends \Magelight\Block
 {

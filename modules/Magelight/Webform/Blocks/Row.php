@@ -24,7 +24,7 @@
 namespace Magelight\Webform\Blocks;
 
 /**
- * @method static \Magelight\Webform\Blocks\Row forge()
+ * @method static $this forge()
  */
 class Row extends Elements\Abstraction\Element
 {

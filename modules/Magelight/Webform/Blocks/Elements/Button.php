@@ -24,7 +24,7 @@
 namespace Magelight\Webform\Blocks\Elements;
 
 /**
- * @method static \Magelight\Webform\Blocks\Elements\Button forge()
+ * @method static $this forge()
  * @method \Magelight\Webform\Blocks\Elements\Button addClass($content)
  */
 class Button extends Abstraction\Element

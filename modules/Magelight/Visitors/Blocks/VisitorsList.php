@@ -28,7 +28,7 @@ namespace Magelight\Visitors\Blocks;
  *
  * @package Magelight\Visitors\Blocks
  *
- * @method static \Magelight\Visitors\Blocks\VisitorsList forge(\Magelight\Db\Collection $visitorsCollection, $currentPage = 0)
+ * @method static $this forge(\Magelight\Db\Collection $visitorsCollection, $currentPage = 0)
  */
 class VisitorsList extends \Magelight\Block
 {

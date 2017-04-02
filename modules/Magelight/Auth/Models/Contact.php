@@ -24,7 +24,7 @@
 namespace Magelight\Auth\Models;
 
 /**
- * @method static \Magelight\Auth\Models\Contact forge($data = [], $forceNew = false)
+ * @method static $this forge($data = [], $forceNew = false)
  * @property int $id
  * @property int $user_id
  * @property string $type

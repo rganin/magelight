@@ -24,7 +24,7 @@
 namespace Magelight\Webform\Blocks\Elements;
 
 /**
- * @method static \Magelight\Webform\Blocks\Elements\LabeledCheckbox forge()
+ * @method static $this forge()
  */
 class LabeledCheckbox extends Checkbox
 {

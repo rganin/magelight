@@ -24,7 +24,7 @@
 namespace Magelight\Helpers;
 
 /**
- * @method static \Magelight\Helpers\ColorHelper forge()
+ * @method static $this forge()
  */
 class ColorHelper
 {

@@ -25,8 +25,8 @@ namespace Magelight\Geo\Models;
 
 /**
  * @method static $this find($id)
- * @method static \Magelight\Geo\Models\City findBy($field, $value)
- * @method static \Magelight\Geo\Models\City forge($data = [], $forceNew = false)
+ * @method static $this findBy($field, $value)
+ * @method static $this forge($data = [], $forceNew = false)
  * @property int $id
  * @property int $region_id
  * @property int $country_id

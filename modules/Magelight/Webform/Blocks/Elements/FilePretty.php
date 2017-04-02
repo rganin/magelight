@@ -24,7 +24,7 @@
 namespace Magelight\Webform\Blocks\Elements;
 
 /**
- * @method static \Magelight\Webform\Blocks\Elements\FilePretty forge($title = null)
+ * @method static $this forge($title = null)
  */
 class FilePretty extends Abstraction\Field
 {

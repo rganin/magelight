@@ -24,7 +24,7 @@
 namespace Magelight\Cache\Adapter;
 
 /**
- * @method static \Magelight\Cache\Adapter\Memcached forge($config)
+ * @method static $this forge($config)
  */
 class Memcached extends \Magelight\Cache\AdapterAbstract
 {

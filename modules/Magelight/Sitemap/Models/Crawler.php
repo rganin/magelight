@@ -27,7 +27,7 @@ namespace Magelight\Sitemap\Models;
  * Class Crawler
  * @package Magelight\Sitemap\Models
  *
- * @method static \Magelight\Sitemap\Models\Crawler forge($startUrl, Sitemap $sitemapObject)
+ * @method static $this forge($startUrl, Sitemap $sitemapObject)
  */
 class Crawler
 {

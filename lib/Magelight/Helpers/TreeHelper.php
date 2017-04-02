@@ -27,7 +27,7 @@ namespace Magelight\Helpers;
  * Class TreeHelper
  * @package Magelight\Helpers
  *
- * @method static \Magelight\Helpers\TreeHelper forge()
+ * @method static $this forge()
  */
 class TreeHelper
 {

@@ -24,7 +24,7 @@
 namespace Magelight\Cache\Adapter;
 
 /**
- * @method static \Magelight\Cache\Adapter\File forge($config)
+ * @method static $this forge($config)
  */
 class File extends \Magelight\Cache\AdapterAbstract
 {

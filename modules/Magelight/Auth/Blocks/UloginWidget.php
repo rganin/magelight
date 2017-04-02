@@ -24,7 +24,7 @@
 namespace Magelight\Auth\Blocks;
 
 /**
- * @method static \Magelight\Auth\Blocks\UloginWidget forge()
+ * @method static $this forge()
  */
 class UloginWidget extends \Magelight\Block
 {

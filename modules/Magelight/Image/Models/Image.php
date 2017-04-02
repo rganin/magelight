@@ -24,7 +24,7 @@
 namespace Magelight\Image\Models;
 
 /**
- * @method static \Magelight\Image\Models\Image forge($filename)
+ * @method static $this forge($filename)
  */
 class Image
 {

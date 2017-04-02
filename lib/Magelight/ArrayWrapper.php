@@ -27,7 +27,7 @@ namespace Magelight;
  * Class ArrayWrapper
  * @package Magelight
  *
- * @method static \Magelight\ArrayWrapper forge($array, $defaultReturnValue = null)
+ * @method static $this forge($array, $defaultReturnValue = null)
  */
 class ArrayWrapper
 {

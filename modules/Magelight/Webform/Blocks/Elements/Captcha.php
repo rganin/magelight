@@ -24,7 +24,7 @@
 namespace Magelight\Webform\Blocks\Elements;
 
 /**
- * @method static \Magelight\Webform\Blocks\Elements\Captcha forge($renderUrl = null)
+ * @method static $this forge($renderUrl = null)
  */
 class Captcha extends Abstraction\Field
 {

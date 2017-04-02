@@ -24,7 +24,7 @@
 namespace Magelight\Webform\Blocks;
 
 /**
- * @method static \Magelight\Webform\Blocks\Result forge()
+ * @method static $this forge()
  */
 class Result extends Elements\Abstraction\Element
 {

@@ -27,7 +27,7 @@ namespace Magelight\Admin\Blocks\Scaffold;
  * Class EntityList
  * @package Magelight\Blocks\Scaffold
  *
- * @method static EntityList forge($entity, $page)
+ * @method static $this forge($entity, $page)
  */
 class EntityList extends \Magelight\Block
 {

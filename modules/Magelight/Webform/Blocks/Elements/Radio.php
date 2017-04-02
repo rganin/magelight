@@ -23,7 +23,7 @@
 
 namespace Magelight\Webform\Blocks\Elements;
 /**
- * @method static \Magelight\Webform\Blocks\Elements\Radio forge()
+ * @method static $this forge()
  */
 class Radio extends Checkbox
 {
@@ -40,7 +40,7 @@ class Radio extends Checkbox
     /**
      * Set element checked
      *
-     * @return Radio
+     * @return $this
      */
     public function setChecked()
     {

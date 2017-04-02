@@ -24,7 +24,7 @@
 namespace Magelight\Core\Blocks;
 
 /**
- * @method static \Magelight\Core\Blocks\AjaxPager forge(\Magelight\Db\Collection $collection)
+ * @method static $this forge(\Magelight\Db\Collection $collection = null)
  */
 class AjaxPager extends Pager
 {

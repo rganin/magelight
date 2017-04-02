@@ -26,7 +26,7 @@ namespace Magelight;
 /**
  * Abstract application controller
  *
- * @method static \Magelight\Controller forge()
+ * @method static $this forge()
  */
 class Controller
 {

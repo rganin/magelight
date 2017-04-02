@@ -24,7 +24,7 @@
 namespace Magelight\Webform\Blocks\Elements;
 
 /**
- * @method static \Magelight\Webform\Blocks\Elements\Label forge()
+ * @method static $this forge()
  */
 class Label extends Abstraction\Element
 {

@@ -28,7 +28,7 @@ use \Magelight\Webform\Blocks\Fieldset as Fieldset;
 use \Magelight\Webform\Blocks\Elements as Elements;
 
 /**
- * @method static \SampleApp\Blocks\Forms forge()
+ * @method static $this forge()
  */
 class Forms extends \Magelight\Block
 {

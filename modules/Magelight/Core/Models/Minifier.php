@@ -24,7 +24,7 @@
 namespace Magelight\Core\Models;
 
 /**
- * @method static \Magelight\Core\Models\Minifier forge()
+ * @method static $this forge()
  */
 class Minifier
 {

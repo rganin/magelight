@@ -11,7 +11,7 @@ namespace Magelight\Db\Common\Expression;
  * Class Expression
  * @package Magelight\Db\Common\ExpressionCombination
  *
- * @method static ExpressionCombination forge($expression = '', $params = [])
+ * @method static $this forge($expression = '', $params = [])
  */
 class ExpressionCombination extends Expression
 {

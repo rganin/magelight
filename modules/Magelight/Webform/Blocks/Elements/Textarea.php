@@ -24,7 +24,7 @@
 namespace Magelight\Webform\Blocks\Elements;
 
 /**
- * @method static \Magelight\Webform\Blocks\Elements\Textarea forge()
+ * @method static $this forge()
  */
 class Textarea extends Abstraction\Field
 {
@@ -47,11 +47,12 @@ class Textarea extends Abstraction\Field
      * Set textarea content
      *
      * @param string $value
-     * @return Textarea
+     * @return $this
      */
     public function setValue($value)
     {
-        return $this->content = [$value];
+        $this->content = [$value];
+        return $this;
     }
 
     /**
@@ -68,7 +69,7 @@ class Textarea extends Abstraction\Field
      * Set maximum length for textarea
      *
      * @param string $maxLength
-     * @return Textarea
+     * @return $this
      */
     public function setMaxLength($maxLength)
     {

@@ -24,8 +24,8 @@
 namespace Magelight\Webform\Blocks\Elements\Abstraction;
 
 /**
- * @method static \Magelight\Webform\Blocks\Elements\Abstraction\Field forge()
- * @method \Magelight\Webform\Blocks\Elements\Abstraction\Field setContent()
+ * @method static $this forge()
+ * @method $this setContent($content)
  */
 class Field extends Element
 {

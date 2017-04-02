@@ -24,9 +24,9 @@
 namespace Magelight\Geo\Models;
 
 /**
- * @method static \Magelight\Geo\Models\Country find($id)
- * @method static \Magelight\Geo\Models\Country findBy($field, $value)
- * @method static \Magelight\Geo\Models\Country forge($data = [], $forceNew = false)
+ * @method static $this find($id)
+ * @method static $this findBy($field, $value)
+ * @method static $this forge($data = [], $forceNew = false)
  * @property int $id
  * @property int $oid
  * @property string $country_name_ru

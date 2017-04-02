@@ -42,7 +42,7 @@ trait TForgery
     /**
      * Forge object
      *
-     * @return mixed
+     * @return $this
      * @throws \Magelight\Exception
      */
     public static function forge()

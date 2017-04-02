@@ -23,7 +23,7 @@
 
 namespace Magelight\Webform\Blocks\Elements;
 /**
- * @method static \Magelight\Webform\Blocks\Elements\Select forge()
+ * @method static $this forge()
  */
 class Select extends Abstraction\Field
 {
@@ -61,7 +61,7 @@ class Select extends Abstraction\Field
      * Add option
      *
      * @param SelectOption $option
-     * @return Select
+     * @return $this
      */
     public function addOption(SelectOption $option)
     {
@@ -73,7 +73,7 @@ class Select extends Abstraction\Field
      * Add options group to element
      *
      * @param SelectOptionGroup $optionGroup
-     * @return Select
+     * @return $this
      */
     public function addGroup(SelectOptionGroup $optionGroup)
     {

@@ -25,7 +25,7 @@ namespace Magelight\Auth\Models;
 use Magelight\Helpers\UrlHelper;
 
 /**
- * @method static \Magelight\Auth\Models\User forge($data = [], $forceNew = false)
+ * @method static $this forge($data = [], $forceNew = false)
  * @property int $id
  * @property int $is_registered
  * @property int $date_register

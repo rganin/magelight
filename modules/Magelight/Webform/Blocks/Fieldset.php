@@ -24,7 +24,7 @@
 namespace Magelight\Webform\Blocks;
 
 /**
- * @method static \Magelight\Webform\Blocks\Fieldset forge()
+ * @method static $this forge()
  */
 class Fieldset extends Row
 {

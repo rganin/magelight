@@ -27,7 +27,7 @@ namespace Magelight\Admin\Blocks\Scaffold;
  * Class EntityForm
  * @package Magelight\Admin\Blocks
  *
- * @method static \Magelight\Admin\Blocks\Scaffold\EntityForm forge($entity, $id = null)
+ * @method static $this forge($entity, $id = null)
  */
 class EntityForm extends \Magelight\Webform\Blocks\Form
 {

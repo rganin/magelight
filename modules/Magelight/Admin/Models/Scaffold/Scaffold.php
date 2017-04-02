@@ -27,8 +27,8 @@ namespace Magelight\Admin\Models\Scaffold;
  * Class Scaffold
  * @package Magelight\Scaffold\Models
  *
- * @method static \Magelight\Admin\Models\Scaffold\Scaffold forge($connectionName = 'default')
- * @method static \Magelight\Admin\Models\Scaffold\Scaffold getInstance($connectionName = 'default')
+ * @method static $this forge($connectionName = 'default')
+ * @method static $this getInstance($connectionName = 'default')
  */
 class Scaffold
 {

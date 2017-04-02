@@ -24,7 +24,7 @@
 namespace Magelight\Webform\Blocks\Elements;
 
 /**
- * @method static \Magelight\Webform\Blocks\Elements\Legend forge()
+ * @method static $this forge()
  */
 class Legend extends Abstraction\Element
 {

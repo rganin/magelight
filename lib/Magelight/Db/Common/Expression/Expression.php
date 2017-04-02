@@ -14,7 +14,7 @@ use Magelight\Traits\TForgery;
  * Class Expression
  * @package Magelight\Db\Common\Expression
  *
- * @method static Expression forge($expression = '', $params = [])
+ * @method static $this forge($expression = '', $params = [])
  */
 class Expression implements ExpressionInterface
 {

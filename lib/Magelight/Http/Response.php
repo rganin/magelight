@@ -26,7 +26,7 @@ namespace Magelight\Http;
 /**
  * Response wrapper
  *
- * @method static \Magelight\Http\Response forge()
+ * @method static $this forge()
  */
 class Response
 {

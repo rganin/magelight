@@ -27,7 +27,7 @@ namespace Magelight\Admin\Models\Scaffold;
  * Class Entity
  * @package Magelight\Scaffold\Models
  *
- * @method static \Magelight\Admin\Models\Scaffold\Entity forge($data = [], $forceNew = false)
+ * @method static $this forge($data = [], $forceNew = false)
  */
 class Entity extends \Magelight\Model
 {

@@ -27,7 +27,7 @@ namespace Magelight\Visitors\Models;
  * Class Visitor
  * @package Magelight\Visitors\Models
  *
- * @method static \Magelight\Visitors\Models\Visitor forge()
+ * @method static $this forge($data = [], $forceNew = false)
  */
 class Visitor extends \Magelight\Model
 {

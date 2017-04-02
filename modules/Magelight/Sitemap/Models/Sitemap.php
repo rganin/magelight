@@ -40,7 +40,7 @@ namespace Magelight\Sitemap\Models;
  * </url>
  * .......
  *
- * @method static \Magelight\Sitemap\Models\Sitemap forge($startUrl)
+ * @method static $this forge($startUrl)
  */
 class Sitemap
 {

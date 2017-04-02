@@ -24,7 +24,7 @@
 namespace Magelight\Webform\Models\Captcha;
 
 /**
- * @method static \Magelight\Webform\Models\Captcha\Captcha forge()
+ * @method static $this forge()
  * @property string $charlist
  * @property string $save_path
  * @property int $code_length

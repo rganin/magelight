@@ -24,7 +24,7 @@
 namespace Magelight\Auth\Blocks\User;
 
 /**
- * @method static \Magelight\Auth\Blocks\User\Register forge()
+ * @method static $this forge()
  */
 class LoginTopMenu extends \Magelight\Block
 {
