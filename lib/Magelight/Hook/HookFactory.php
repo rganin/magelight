@@ -86,17 +86,21 @@ class HookFactory
             list($subjectClass, $subjectMethod) = explode('::', (string)$hook->subject);
             if (!empty($hook->before)) {
                 list ($hookClass, $hookMethod) = explode('::', (string)$hook->before);
-                $this->classHooks[$subjectClass][$subjectMethod]['before'][] = [
+                $this->classHooks[$subjectClass][$subjectMethod]['before'][(string)$hook->before] = [
                     'class' => $hookClass,
                     'method' => $hookMethod
                 ];
             }
             if (!empty($hook->after)) {
                 list ($hookClass, $hookMethod) = explode('::', (string)$hook->after);
-                $this->classHooks[$subjectClass][$subjectMethod]['after'][] = [
+                $this->classHooks[$subjectClass][$subjectMethod]['after'][(string)$hook->after] = [
                     'class' => $hookClass,
                     'method' => $hookMethod
                 ];
+            }
+            if (!empty($hook->mute)) {
+                unset($this->classHooks[$subjectClass][$subjectMethod]['before'][(string)$hook->mute]);
+                unset($this->classHooks[$subjectClass][$subjectMethod]['after'][(string)$hook->mute]);
             }
         }
         $this->classHooks;

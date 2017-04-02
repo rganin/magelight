@@ -239,7 +239,8 @@ abstract class App
      */
     public function addModulesDir($directory)
     {
-        $this->modulesDirectories[realpath($directory)] = realpath($directory);
+        $directory = realpath($directory);
+        $this->modulesDirectories[$directory] = $directory;
         return $this;
     }
 

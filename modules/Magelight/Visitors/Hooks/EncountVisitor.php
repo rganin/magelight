@@ -33,6 +33,11 @@ use Magelight\Visitors\Models\Visitor;
  */
 class EncountVisitor extends AbstractHook
 {
+    /**
+     * Hook for Controller::afterExecute method.
+     *
+     * @return $this
+     */
     public function afterAfterExecute()
     {
         if (php_sapi_name() == "cli") {

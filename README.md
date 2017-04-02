@@ -21,7 +21,7 @@ Magelight Features
 Requirements
 ---------
 
-- PHP 5.4.7+
+- PHP 7+
 
 Installation
 ---------
@@ -63,7 +63,7 @@ Installation with composer
     }
   ],
   "require": {
-    "php": ">=5.3.3",
+    "php": ">=7",
     "rganin/magelight": "*"
   }
 }
