@@ -22,6 +22,7 @@
  */
 
 namespace Magelight;
+use Magelight\Hook\HookFactory;
 use Magelight\Traits\TForgery;
 
 /**
@@ -238,7 +239,7 @@ abstract class App
      */
     public function addModulesDir($directory)
     {
-        $this->modulesDirectories[] = realpath($directory);
+        $this->modulesDirectories[realpath($directory)] = realpath($directory);
         return $this;
     }
 
@@ -293,6 +294,7 @@ abstract class App
             ->setSessionName(self::SESSION_ID_COOKIE_NAME)
             ->start();
         $this->loadPreferences();
+        HookFactory::getInstance()->loadHooksConfig();
         $lang = \Magelight\Http\Session::getInstance()->get('lang');
         if (empty($lang)) {
             $lang = (string)\Magelight\Config::getInstance()->getConfig('global/app/default_lang');

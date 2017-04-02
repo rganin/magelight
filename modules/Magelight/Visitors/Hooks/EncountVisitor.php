@@ -21,26 +21,25 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Magelight\Visitors\Models;
+namespace Magelight\Visitors\Hooks;
+
+use Magelight\Hook\AbstractHook;
+use Magelight\Visitors\Models\Visitor;
 
 /**
- * Class Observer
- * @package Magelight\Visitors\Models
+ * Class EncountVisitor hook
+ *
+ * @package Magelight\Visitors\Hooks
  */
-class Observer extends \Magelight\Observer
+class EncountVisitor extends AbstractHook
 {
-    /**
-     * Execute observer
-     *
-     * @return Observer
-     */
-    public function execute()
+    public function afterAfterExecute()
     {
         if (php_sapi_name() == "cli") {
             return $this;
         }
-        /** @var $request \Magelight\Http\Request */
-        $request = $this->arguments['request'];
+        /** @var \Magelight\Http\Request $request */
+        $request = \Magelight\Http\Request::getInstance();
         if ($request instanceof \Magelight\Http\Request) {
             $requestRoute = $request->getRequestRoute();
             Visitor::forge()->encount($requestRoute);

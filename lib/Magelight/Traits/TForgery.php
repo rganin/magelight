@@ -22,6 +22,7 @@
  */
 
 namespace Magelight\Traits;
+use Magelight\Hook\HookFactory;
 
 /**
  * Forgery trait
@@ -52,7 +53,11 @@ trait TForgery
                 "Forgery error: Class {$className} must implement all interfaces described in it`s override container!"
             );
         }
-        $object = new $className;
+        if (!HookFactory::getInstance()->hasHooks($className)) {
+            $object = new $className;
+        } else {
+            $object = HookFactory::getInstance()->forgeHookedClass($className);
+        }
         if (method_exists($object, '__forge')) {
             $arguments = func_get_args();
             call_user_func_array([$object, '__forge'], $arguments);

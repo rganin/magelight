@@ -2,6 +2,7 @@
 
 namespace Magelight\Core\Blocks;
 
+use Magelight\Block;
 use Magelight\Db\Collection;
 
 /**
@@ -17,21 +18,43 @@ class Grid extends Element
      */
     protected $collection;
 
+    /**
+     * @var Pager
+     */
+    protected $pager;
+
+    /**
+     * Forgery constructor
+     */
     public function __forge()
     {
         $this->setTag('div');
         $this->setClass('grid');
     }
 
+    /**
+     * @param Collection $collection
+     * @return $this
+     */
     public function setDataSource(Collection $collection)
     {
         $this->collection = $collection;
+        $this->pager->setCollection($collection);
         return $this;
     }
 
-    public function setPage($page)
+    /**
+     * @param int $page
+     * @return $this
+     */
+    public function setCurrentPage($page)
     {
-        $this->collection->setPage($page);
+        $this->pager->setCurrentPage($page);
         return $this;
+    }
+
+    public function addColumn($title)
+    {
+
     }
 }

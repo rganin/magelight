@@ -44,10 +44,11 @@
                 </sections>
             </admin>
         </layouts>
-        <events>
-            <app_controller_initialized>
-                <observer>\Magelight\Visitors\Models\Observer</observer>
-            </app_controller_initialized>
-        </events>
+        <hooks>
+            <hook>
+                <subject>Magelight\Controller::afterExecute</subject>
+                <after>Magelight\Visitors\Hooks\EncountVisitor::afterAfterExecute</after>
+            </hook>
+        </hooks>
     </global>
 </config>

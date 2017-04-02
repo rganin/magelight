@@ -22,6 +22,7 @@
  */
 
 namespace Magelight\Core\Blocks;
+use Magelight\Db\Collection;
 
 /**
  * @method static \Magelight\Core\Blocks\Pager forge(\Magelight\Db\Collection $collection = null)
@@ -116,18 +117,40 @@ class Pager extends \Magelight\Block
     /**
      * Forgery constructor
      *
-     * @param \Magelight\Db\Collection $collection - collection to build pager for
+     * @param Collection $collection - collection to build pager for
      */
-    public function __forge(\Magelight\Db\Collection $collection = null)
+    public function __forge(Collection $collection = null)
     {
         $this->collection = $collection;
         $this->addClass('pagination');
-        if ($this->collection instanceof \Magelight\Db\Collection) {
+        $this->initCollection();
+        $this->setNextCaption()->setPrevCaption()->setFirstCaption()->setLastCaption();
+    }
+
+    /**
+     * Set collection instance
+     *
+     * @param Collection $collection
+     * @return $this
+     */
+    public function setCollection(Collection $collection)
+    {
+        $this->collection = $collection;
+        $this->initCollection();
+        return $this;
+    }
+
+    /**
+     * Initialize collection
+     */
+    protected function initCollection()
+    {
+        if ($this->collection instanceof Collection) {
             $this->setTotal($this->collection->totalCount());
             $this->setPerPage($this->collection->getLimit());
             $this->setCurrentPage($this->perPage ? floor($this->collection->getOffset() / $this->perPage) : 1);
         }
-        $this->setNextCaption()->setPrevCaption()->setFirstCaption()->setLastCaption();
+        return $this;
     }
 
     /**
