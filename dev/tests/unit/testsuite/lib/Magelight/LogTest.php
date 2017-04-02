@@ -47,7 +47,7 @@ class LogTest extends \Magelight\TestCase
      */
     public function testAdd()
     {
-        $configMock = $this->getMock(\Magelight\Config::class, [], [], '', false);
+        $configMock = $this->getMockBuilder(\Magelight\Config::class)->disableOriginalConstructor()->getMock();
         \Magelight\Config::forgeMock($configMock);
         $configMock->expects($this->any())
             ->method('getConfig')

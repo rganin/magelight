@@ -54,9 +54,9 @@ class BlockTest extends \Magelight\TestCase
 
     public function testSectionReplaceApendPrepend()
     {
-        $blockMock1 = $this->getMock(\Magelight\Block::class, [], [], '', false);
+        $blockMock1 = $this->getMockBuilder(\Magelight\Block::class)->disableOriginalConstructor()->getMock();
         $blockMock1->expects($this->once())->method('init');
-        $blockMock2 = $this->getMock(\Magelight\Block::class, [], [], '', false);
+        $blockMock2 = $this->getMockBuilder(\Magelight\Block::class)->disableOriginalConstructor()->getMock();
         $blockMock2->expects($this->once())->method('init');
         $blockMock1->expects($this->once())->method('toHtml')->will($this->returnValue('<div>Block1</div>'));
         $blockMock2->expects($this->once())->method('toHtml')->will($this->returnValue('<div>Block2</div>'));
@@ -94,7 +94,9 @@ class BlockTest extends \Magelight\TestCase
 
     public function testToHtmlFromCache()
     {
-        $cacheAdapterPoolMock = $this->getMock(\Magelight\Cache\AdapterPool::class, [], [], '', false);
+        $cacheAdapterPoolMock = $this->getMockBuilder(\Magelight\Cache\AdapterPool::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         \Magelight\Cache\AdapterPool::forgeMock($cacheAdapterPoolMock);
 
         $cacheAdapterMock = $this->getMockForAbstractClass(
@@ -124,7 +126,9 @@ class BlockTest extends \Magelight\TestCase
 
     public function testToHtmlCacheMiss()
     {
-        $cacheAdapterPoolMock = $this->getMock(\Magelight\Cache\AdapterPool::class, [], [], '', false);
+        $cacheAdapterPoolMock = $this->getMockBuilder(\Magelight\Cache\AdapterPool::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         \Magelight\Cache\AdapterPool::forgeMock($cacheAdapterPoolMock);
 
         $cacheAdapterMock = $this->getMockForAbstractClass(
@@ -175,7 +179,9 @@ class BlockTest extends \Magelight\TestCase
         $params = ['xxx' => '1', 'yyy' => '2'];
         $type = \Magelight\Helpers\UrlHelper::TYPE_HTTP;
         $addOnlyMaskParams = false;
-        $urlHelperMock = $this->getMock(\Magelight\Helpers\UrlHelper::class, [], [], '', false);
+        $urlHelperMock = $this->getMockBuilder(\Magelight\Helpers\UrlHelper::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         \Magelight\Helpers\UrlHelper::forgeMock($urlHelperMock);
         $urlHelperMock->expects($this->once())->method('getUrl')->with(
             $match, $params, $type, $addOnlyMaskParams
@@ -190,7 +196,7 @@ class BlockTest extends \Magelight\TestCase
 
     public function testDate()
     {
-        $configMock = $this->getMock(\Magelight\Config::class, [], [], '', false);
+        $configMock = $this->getMockBuilder(\Magelight\Config::class)->disableOriginalConstructor()->getMock();
         $configMock->expects($this->once())
             ->method('getConfig')
             ->with('global/view/date_format', 'Y-m-d')
@@ -203,7 +209,7 @@ class BlockTest extends \Magelight\TestCase
 
     public function testDateTime()
     {
-        $configMock = $this->getMock(\Magelight\Config::class, [], [], '', false);
+        $configMock = $this->getMockBuilder(\Magelight\Config::class)->disableOriginalConstructor()->getMock();
         $configMock->expects($this->once())
             ->method('getConfig')
             ->with('global/view/date_time_format', 'Y-m-d H:i:s')

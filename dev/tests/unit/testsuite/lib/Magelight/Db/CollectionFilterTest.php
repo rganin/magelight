@@ -26,7 +26,7 @@ namespace Magelight\Db;
 /**
  * Filter test class
  */
-class CollectionFilterTest extends \PHPUnit_Framework_TestCase
+class CollectionFilterTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Data provider for filter test

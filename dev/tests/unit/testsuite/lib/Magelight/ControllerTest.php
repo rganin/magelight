@@ -56,16 +56,22 @@ class ControllerTest extends \Magelight\TestCase
 
     public function setUp()
     {
-        $this->requestMock = $this->getMock(\Magelight\Http\Request::class, [], [], '', false);
+        $this->requestMock = $this->getMockBuilder(\Magelight\Http\Request::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         \Magelight\Http\Request::forgeMock($this->requestMock);
 
-        $this->responseMock = $this->getMock(\Magelight\Http\Response::class, [], [], '', false);
+        $this->responseMock = $this->getMockBuilder(\Magelight\Http\Response::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         \Magelight\Http\Response::forgeMock($this->responseMock);
 
-        $this->appMock = $this->getMock(\Magelight\App::class, [], [], '', false);
+        $this->appMock = $this->getMockBuilder(\Magelight\App::class)->disableOriginalConstructor()->getMock();
         \Magelight\App::forgeMock($this->appMock);
 
-        $this->serverMock = $this->getMock(\Magelight\Http\Server::class, [], [], '', false);
+        $this->serverMock = $this->getMockBuilder(\Magelight\Http\Server::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         \Magelight\Http\Server::forgeMock($this->serverMock);
 
         $this->controller = \Magelight\Controller::forge();
@@ -78,14 +84,14 @@ class ControllerTest extends \Magelight\TestCase
 
     public function testSetViewBlock()
     {
-        $blockMock = $this->getMock(\Magelight\Block::class, [], [], '', false);
+        $blockMock = $this->getMockBuilder(\Magelight\Block::class)->disableOriginalConstructor()->getMock();
         $this->controller->setView($blockMock);
         $this->assertEquals($blockMock, $this->controller->view());
     }
 
     public function testSetViewString()
     {
-        $blockMock = $this->getMock(\Magelight\Block::class, [], [], '', false);
+        $blockMock = $this->getMockBuilder(\Magelight\Block::class)->disableOriginalConstructor()->getMock();
         \Magelight\Block::forgeMock($blockMock);
         $this->controller->setView(\Magelight\Block::class);
         $this->assertEquals($blockMock, $this->controller->view());
@@ -122,7 +128,7 @@ class ControllerTest extends \Magelight\TestCase
 
     public function testRenderView()
     {
-        $blockMock = $this->getMock(\Magelight\Block::class, [], [], '', false);
+        $blockMock = $this->getMockBuilder(\Magelight\Block::class)->disableOriginalConstructor()->getMock();
         \Magelight\Block::forgeMock($blockMock);
         $this->controller->setView(\Magelight\Block::class);
 
@@ -171,7 +177,9 @@ class ControllerTest extends \Magelight\TestCase
 
     public function testUrl()
     {
-        $urlHelperMock = $this->getMock(\Magelight\Helpers\UrlHelper::class, [], [], '', false);
+        $urlHelperMock = $this->getMockBuilder(\Magelight\Helpers\UrlHelper::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $urlHelperMock->expects($this->once())
             ->method('getUrl')
             ->with('match', ['param' => 'value'], 'http')
@@ -194,7 +202,9 @@ class ControllerTest extends \Magelight\TestCase
     public function testRedirectInternal()
     {
         $url = 'http://url/match?param=value';
-        $urlHelperMock = $this->getMock(\Magelight\Helpers\UrlHelper::class, [], [], '', false);
+        $urlHelperMock = $this->getMockBuilder(\Magelight\Helpers\UrlHelper::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $urlHelperMock->expects($this->once())
             ->method('getUrl')
             ->with('match', ['param' => 'value'], 'http')
@@ -207,7 +217,9 @@ class ControllerTest extends \Magelight\TestCase
 
     public function testSession()
     {
-        $sessionMock = $this->getMock(\Magelight\Http\Session::class, [], [], '', false);
+        $sessionMock = $this->getMockBuilder(\Magelight\Http\Session::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         \Magelight\Http\Session::forgeMock($sessionMock);
         $this->assertEquals($sessionMock, $this->controller->session());
     }
@@ -235,7 +247,9 @@ class ControllerTest extends \Magelight\TestCase
     public function testToken()
     {
         $this->controller->init();
-        $sessionMock = $this->getMock(\Magelight\Http\Session::class, [], [], '', false);
+        $sessionMock = $this->getMockBuilder(\Magelight\Http\Session::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         \Magelight\Http\Session::forgeMock($sessionMock);
         $sessionMock->expects($this->once())->method('set')->with(
             \Magelight\Controller::DEFAULT_TOKEN_SESSION_INDEX,
@@ -287,7 +301,9 @@ class ControllerTest extends \Magelight\TestCase
             ['setNx']
         );
 
-        $adapterPoolMock = $this->getMock(\Magelight\Cache\AdapterPool::class, [], [], '', false);
+        $adapterPoolMock = $this->getMockBuilder(\Magelight\Cache\AdapterPool::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         \Magelight\Cache\AdapterPool::forgeMock($adapterPoolMock);
 
         $adapterPoolMock->expects($this->any())
@@ -329,7 +345,9 @@ class ControllerTest extends \Magelight\TestCase
             ['del']
         );
 
-        $adapterPoolMock = $this->getMock(\Magelight\Cache\AdapterPool::class, [], [], '', false);
+        $adapterPoolMock = $this->getMockBuilder(\Magelight\Cache\AdapterPool::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         \Magelight\Cache\AdapterPool::forgeMock($adapterPoolMock);
 
         $adapterPoolMock->expects($this->any())

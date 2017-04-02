@@ -27,7 +27,7 @@ namespace Magelight\Components\Loaders;
  * Class ConfigTest
  * @package Magelight\Components\Loaders
  */
-class ConfigTest extends \PHPUnit_Framework_TestCase
+class ConfigTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var string

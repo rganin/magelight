@@ -66,7 +66,7 @@ class PHP_Invoker
      */
     public function callback()
     {
-        throw new PHP_Invoker_TimeoutException(
+        throw new \Exception(
           sprintf(
             'Execution aborted after %s',
             PHP_Timer::secondsToTimeString($this->timeout)

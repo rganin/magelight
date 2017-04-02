@@ -73,9 +73,7 @@ class Config
         /* Loading modules config */
         if (!$modulesConfigString) {
             $loader->setConfig($this->config);
-            $moduleDirs = array_reverse($app->getModuleDirectories());
             foreach (array_reverse($app->getModuleDirectories()) as $modulesDir) {
-                $activeModules = \Magelight\Components\Modules::getInstance()->getActiveModules();
                 foreach (\Magelight\Components\Modules::getInstance()->getActiveModules() as $module) {
                     $filename = $loader->getModulesConfigFilePath($modulesDir, $module);
                     if ($filename) {

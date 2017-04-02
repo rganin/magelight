@@ -27,7 +27,7 @@ namespace Magelight\Helpers;
  * Class ArrayHelperTest
  * @package Magelight\Helpers
  */
-class ArrayHelperTest extends \PHPUnit_Framework_TestCase
+class ArrayHelperTest extends \PHPUnit\Framework\TestCase
 {
 
     public function dataProvider()

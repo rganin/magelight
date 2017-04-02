@@ -66,16 +66,23 @@ class ConfigTest extends \Magelight\TestCase
      */
     public function setUp()
     {
-        $this->appMock = $this->getMock(\Magelight\App::class, [], [], '', false);
+        $this->appMock = $this->getMockBuilder(\Magelight\App::class)->disableOriginalConstructor()->getMock();
         \Magelight\App::forgeMock($this->appMock);
 
-        $this->configLoaderMock = $this->getMock(\Magelight\Components\Loaders\Config::class, ['getConfig', 'loadConfig', 'getModulesConfigFilePath'], [], '', false);
+        $this->configLoaderMock = $this->getMockBuilder(\Magelight\Components\Loaders\Config::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getConfig', 'loadConfig', 'getModulesConfigFilePath'])
+            ->getMock();
         \Magelight\Components\Loaders\Config::forgeMock($this->configLoaderMock);
 
-        $this->modulesMock = $this->getMock(\Magelight\Components\Modules::class, [], [], '', false);
+        $this->modulesMock = $this->getMockBuilder(\Magelight\Components\Modules::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         \Magelight\Components\Modules::forgeMock($this->modulesMock);
 
-        $this->cacheAdapterPoolMock = $this->getMock(\Magelight\Cache\AdapterPool::class, [], [], '', false);
+        $this->cacheAdapterPoolMock = $this->getMockBuilder(\Magelight\Cache\AdapterPool::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         \Magelight\Cache\AdapterPool::forgeMock($this->cacheAdapterPoolMock);
 
         $this->cacheAdapterMock = $this->getMockForAbstractClass(

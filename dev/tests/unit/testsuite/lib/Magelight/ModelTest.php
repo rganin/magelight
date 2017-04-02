@@ -54,10 +54,12 @@ class ModelTest extends \Magelight\TestCase
      */
     public function setUp()
     {
-        $this->appMock = $this->getMock(\Magelight\App::class, [], [], '', false);
+        $this->appMock = $this->getMockBuilder(\Magelight\App::class)->disableOriginalConstructor()->getMock();
         \Magelight\App::forgeMock($this->appMock);
 
-        $this->dbMock = $this->getMock(\Magelight\Db\Common\Adapter::class, [], [], '', false);
+        $this->dbMock = $this->getMockBuilder(\Magelight\Db\Common\Adapter::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $this->appMock->expects($this->any())
             ->method('db')
@@ -68,7 +70,9 @@ class ModelTest extends \Magelight\TestCase
             ->method('getType')
             ->will($this->returnValue(\Magelight\Db\Common\Adapter::TYPE_MYSQL));
 
-        $this->ormMock = $this->getMock(\Magelight\Db\Mysql\Orm::class, [], [], '', false);
+        $this->ormMock = $this->getMockBuilder(\Magelight\Db\Mysql\Orm::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         \Magelight\Db\Mysql\Orm::forgeMock($this->ormMock);
 
         $this->ormMock->expects($this->once())->method('create')->with(['arg1' => 'value1'], false);
@@ -84,7 +88,7 @@ class ModelTest extends \Magelight\TestCase
     public function testSetOrm()
     {
         /** @var \Magelight\Db\Mysql\Orm|\PHPUnit_Framework_MockObject_MockObject $otherOrmMock */
-        $otherOrmMock = $this->getMock(\Magelight\Db\Mysql\Orm::class, [], [], '', false);
+        $otherOrmMock = $this->getMockBuilder(\Magelight\Db\Mysql\Orm::class)->disableOriginalConstructor()->getMock();
         $this->model->setOrm($otherOrmMock);
         $this->assertEquals($otherOrmMock, $this->model->getOrm());
     }
@@ -164,7 +168,11 @@ class ModelTest extends \Magelight\TestCase
     {
         $field = 'id';
         $value = 5;
-        $ormMock = $this->getMock(\Magelight\Db\Mysql\Orm::class, ['whereEq', 'fetchModel'], [], '', false);
+        $ormMock = $this->getMockBuilder(\Magelight\Db\Mysql\Orm::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['whereEq', 'fetchModel'])
+            ->getMock();
+
         \Magelight\Db\Mysql\Orm::forgeMock($ormMock);
         $ormMock->expects($this->once())->method('fetchModel')->will($this->returnValue($this->model));
         $ormMock->expects($this->once())->method('whereEq')->with($field, $value)->will($this->returnSelf());
@@ -175,7 +183,10 @@ class ModelTest extends \Magelight\TestCase
     {
         $field = 'id';
         $value = 5;
-        $ormMock = $this->getMock(\Magelight\Db\Mysql\Orm::class, ['whereEq', 'fetchModel'], [], '', false);
+        $ormMock = $this->getMockBuilder(\Magelight\Db\Mysql\Orm::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['whereEq', 'fetchModel'])
+            ->getMock();
         \Magelight\Db\Mysql\Orm::forgeMock($ormMock);
         $ormMock->expects($this->once())->method('fetchModel')->will($this->returnValue($this->model));
         $ormMock->expects($this->once())->method('whereEq')->with($field, $value)->will($this->returnSelf());
@@ -184,9 +195,9 @@ class ModelTest extends \Magelight\TestCase
 
     public function testModelsToArrayRecursive()
     {
-        $model1 = $this->getMock(\Magelight\Model::class, [], [], '', false);
-        $model2 = $this->getMock(\Magelight\Model::class, [], [], '', false);
-        $model3 = $this->getMock(\Magelight\Model::class, [], [], '', false);
+        $model1 = $this->getMockBuilder(\Magelight\Model::class)->disableOriginalConstructor()->getMock();
+        $model2 = $this->getMockBuilder(\Magelight\Model::class)->disableOriginalConstructor()->getMock();
+        $model3 = $this->getMockBuilder(\Magelight\Model::class)->disableOriginalConstructor()->getMock();
         $model1->expects($this->once())->method('asArray')->will($this->returnValue([1]));
         $model2->expects($this->once())->method('asArray')->will($this->returnValue([2]));
         $model3->expects($this->once())->method('asArray')->will($this->returnValue([3]));
@@ -197,7 +208,9 @@ class ModelTest extends \Magelight\TestCase
 
     public function testGetFlatCollection()
     {
-        $collectionMock = $this->getMock(\Magelight\Db\Collection::class, [], [], '', false);
+        $collectionMock = $this->getMockBuilder(\Magelight\Db\Collection::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         \Magelight\Db\Collection::forgeMock($collectionMock);
         $this->assertEquals($collectionMock, \Magelight\Model::getFlatCollection());
     }

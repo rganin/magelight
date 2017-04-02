@@ -24,10 +24,10 @@
 namespace Magelight\Event;
 
 /**
- * Class EventTest
+ * Class ManagerTest
  * @package Magelight\Event
  */
-class EventTest extends \Magelight\TestCase
+class ManagerTest extends \Magelight\TestCase
 {
 
     /**
@@ -48,10 +48,13 @@ class EventTest extends \Magelight\TestCase
     public function setUp()
     {
         $this->eventManager = \Magelight\Event\Manager::forge();
-        $this->configMock = $this->getMock(\Magelight\Config::class, [], [], 'ConfigMock', false);
+        $this->configMock = $this->getMockBuilder(\Magelight\Config::class)->disableOriginalConstructor()->getMock();
         \Magelight\Config::forgeMock($this->configMock);
     }
 
+    /**
+     * @test
+     */
     public function testDispatchEvent()
     {
         $eventName = 'test_event';
@@ -68,6 +71,7 @@ class EventTest extends \Magelight\TestCase
     }
 
     /**
+     * @test
      * @expectedException \Magelight\Exception
      * @expectedExceptionMessage Observer '\Magelight\Observer' method 'unexistentMethod' does not exist or is not callable!
      */

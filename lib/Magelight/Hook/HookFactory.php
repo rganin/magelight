@@ -24,6 +24,7 @@
 namespace Magelight\Hook;
 
 use Magelight\Config;
+use Magelight\Traits\TForgery;
 
 /**
  * Class HookFactory
@@ -31,6 +32,8 @@ use Magelight\Config;
  */
 class HookFactory
 {
+    use TForgery;
+
     /**
      * @var array
      * [
@@ -56,6 +59,8 @@ class HookFactory
      */
     protected $classParents = [];
 
+    protected static $instance;
+
     /**
      * Get instance of factory
      *
@@ -63,11 +68,20 @@ class HookFactory
      */
     public static function getInstance()
     {
-        static $instance;
-        if (!$instance instanceof static) {
-            $instance = new static();
+        if (!self::$instance instanceof static) {
+            self::$instance = new static();
         }
-        return $instance;
+        return self::$instance;
+    }
+
+    /**
+     * Set hook factory instance
+     *
+     * @param HookFactory $instance
+     */
+    public static function setInstance(HookFactory $instance)
+    {
+        self::$instance = $instance;
     }
 
     /**

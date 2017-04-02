@@ -21,6 +21,7 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 namespace Magelight;
+use Magelight\Hook\HookFactory;
 
 /**
  * Class AppTest
@@ -64,18 +65,41 @@ class AppTest extends \Magelight\TestCase
     protected $eventManagerMock;
 
     /**
+     * @var HookFactory|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $hookFactoryMock;
+
+    /**
      * Set up before test
      */
     public function setUp()
     {
         $this->app = $this->getMockForAbstractClass(App::class, [], '', false, false, true, []);
 
-        $this->modulesMock = $this->getMock(\Magelight\Components\Modules::class, [], [], '', false);
-        $this->configMock = $this->getMock(\Magelight\Config::class, [], [], '', false);
-        $this->routerMock = $this->getMock(\Magelight\Components\Router::class, [], [], '', false);
-        $this->sessionMock = $this->getMock(\Magelight\Http\Session::class, [], [], '', false);
-        $this->translatorMock = $this->getMock(\Magelight\I18n\Translator::class, [], [], '', false);
-        $this->eventManagerMock = $this->getMock(\Magelight\Event\Manager::class, [], [], '', false);
+        $this->modulesMock = $this->getMockBuilder(\Magelight\Components\Modules::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->configMock = $this->getMockBuilder(\Magelight\Config::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->routerMock = $this->getMockBuilder(\Magelight\Components\Router::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->sessionMock = $this->getMockBuilder(\Magelight\Http\Session::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->translatorMock = $this->getMockBuilder(\Magelight\I18n\Translator::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->eventManagerMock = $this->getMockBuilder(\Magelight\Event\Manager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->hookFactoryMock = $this->getMockBuilder(HookFactory::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        HookFactory::setInstance($this->hookFactoryMock);
 
         \Magelight\Components\Modules::forgeMock($this->modulesMock);
         \Magelight\Config::forgeMock($this->configMock);
@@ -139,7 +163,10 @@ class AppTest extends \Magelight\TestCase
             </config>'
         );
         $index = \Magelight\App::DEFAULT_INDEX;
-        $mysqlDbAdapterMock = $this->getMock(\Magelight\Db\Mysql\Adapter::class, ['init'], [], '', false);
+        $mysqlDbAdapterMock = $this->getMockBuilder(\Magelight\Db\Mysql\Adapter::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['init'])
+            ->getMock();
         $mysqlDbAdapterMock->expects($this->once())
             ->method('init')
             ->with((array)$mysqlConfig);
@@ -172,7 +199,7 @@ class AppTest extends \Magelight\TestCase
     public function testDispatchAction()
     {
         $action = ['module' => 'Magelight', 'controller' => 'controller', 'action' => 'index'];
-        $requestMock = $this->getMock(\Magelight\Http\Request::class, [], [], '', false);
+        $requestMock = $this->getMockBuilder(\Magelight\Http\Request::class)->disableOriginalConstructor()->getMock();
         \Magelight\Http\Request::forgeMock($requestMock);
 
         class_alias(\Magelight\Controller::class, '\Magelight\Controllers\Controller');
@@ -247,7 +274,9 @@ class AppTest extends \Magelight\TestCase
             ->method('getConfig')
             ->with('global/cache')
             ->will($this->returnValue($cacheConfig));
-        $adapterPoolMock = $this->getMock(\Magelight\Cache\AdapterPool::class, [], [], '', false);
+        $adapterPoolMock = $this->getMockBuilder(\Magelight\Cache\AdapterPool::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         \Magelight\Cache\AdapterPool::forgeMock($adapterPoolMock);
 
         $adapterMock = $this->getMockForAbstractClass(

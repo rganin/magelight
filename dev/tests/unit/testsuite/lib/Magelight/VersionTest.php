@@ -27,7 +27,7 @@ namespace Magelight;
  * Class VersionTest
  * @package Magelight
  */
-class VersionTest extends \PHPUnit_Framework_TestCase
+class VersionTest extends \PHPUnit\Framework\TestCase
 {
     const RESULT_EQUAL   =  0;
     const RESULT_GREATER =  1;

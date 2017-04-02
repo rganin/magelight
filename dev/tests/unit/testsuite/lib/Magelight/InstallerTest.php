@@ -27,7 +27,7 @@ namespace Magelight;
  * Class InstallerTest
  * @package Magelight
  */
-class InstallerTest extends \PHPUnit_Framework_TestCase
+class InstallerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var \Magelight\App|\PHPUnit_Framework_MockObject_MockObject
@@ -56,9 +56,15 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->modulesMock = $this->getMock(\Magelight\Components\Modules::class, [], [], '', false);
-        $this->configMock = $this->getMock(\Magelight\Config::class, [], [], '', false);
-        $this->dbMock= $this->getMock(\Magelight\Db\Mysql\Adapter::class, [], [], '', false);
+        $this->modulesMock = $this->getMockBuilder(\Magelight\Components\Modules::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->configMock = $this->getMockBuilder(\Magelight\Config::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->dbMock= $this->getMockBuilder(\Magelight\Db\Mysql\Adapter::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->appMock = $this->getMockForAbstractClass(App::class, [], '', false, false, true, ['db']);
         \Magelight\Components\Modules::forgeMock($this->modulesMock);
         \Magelight\Config::forgeMock($this->configMock);
@@ -82,7 +88,9 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
         $this->appMock->expects($this->any())->method('db')->will($this->returnValue($this->dbMock));
         $installer = \Magelight\Installer::forge();
 
-        $pdoStatementMock = $this->getMock(\PDOStatement::class, [], [], '', false);
+        $pdoStatementMock = $this->getMockBuilder(\PDOStatement::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->dbMock->expects($this->at(0))->method('execute')->with(
             $this->matches(
                 "SELECT COUNT(*) FROM "

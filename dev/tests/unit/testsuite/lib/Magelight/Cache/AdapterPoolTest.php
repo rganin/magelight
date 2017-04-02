@@ -45,7 +45,7 @@ class AdapterPoolTest extends \Magelight\TestCase
      */
     public function setUp()
     {
-        $this->configMock = $this->getMock(\Magelight\Config::class, [], [], '', false);
+        $this->configMock = $this->getMockBuilder(\Magelight\Config::class)->disableOriginalConstructor()->getMock();
         \Magelight\Config::forgeMock($this->configMock);
         $this->adapterPool = \Magelight\Cache\AdapterPool::getInstance();
     }
@@ -72,7 +72,9 @@ class AdapterPoolTest extends \Magelight\TestCase
             ->with('global/cache/default')
             ->will($this->returnValue($cacheConfig));
 
-        $fileAdapterMock = $this->getMock(\Magelight\Cache\Adapter\File::class, [], [], '', false);
+        $fileAdapterMock = $this->getMockBuilder(\Magelight\Cache\Adapter\File::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         \Magelight\Cache\Adapter\File::forgeMock($fileAdapterMock);
 
         $this->assertEquals($fileAdapterMock, $this->adapterPool->getAdapter());
