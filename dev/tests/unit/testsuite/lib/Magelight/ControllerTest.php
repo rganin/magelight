@@ -80,6 +80,7 @@ class ControllerTest extends \Magelight\TestCase
     public function testInit()
     {
         $this->controller->init();
+        $this->assertTrue(true);
     }
 
     public function testSetViewBlock()
@@ -286,7 +287,7 @@ class ControllerTest extends \Magelight\TestCase
      * @param $cacheReturnValue
      * @param $expectedResult
      *
-     * @dataProvider testLockActionDataProvider
+     * @dataProvider lockActionDataProvider
      */
     public function testLockAction($cacheReturnValue, $expectedResult)
     {
@@ -319,7 +320,7 @@ class ControllerTest extends \Magelight\TestCase
         $this->assertEquals($expectedResult, $this->controller->lockCurrentAction($ttl));
     }
 
-    public function testLockActionDataProvider()
+    public function lockActionDataProvider()
     {
         return [
             [true, true],
@@ -331,7 +332,7 @@ class ControllerTest extends \Magelight\TestCase
      * @param $cacheReturnValue
      * @param $expectedResult
      *
-     * @dataProvider testUnlockActionDataProvider
+     * @dataProvider unlockActionDataProvider
      */
     public function testUnlockAction($cacheReturnValue, $expectedResult)
     {
@@ -363,7 +364,7 @@ class ControllerTest extends \Magelight\TestCase
         $this->assertEquals($expectedResult, $this->controller->unlockCurrentAction());
     }
 
-    public function testUnlockActionDataProvider()
+    public function unlockActionDataProvider()
     {
         return [
             [true, true],

@@ -76,6 +76,7 @@ class InstallerTest extends \PHPUnit\Framework\TestCase
     {
         $this->appMock->expects($this->any())->method('db')->will($this->returnValue($this->dbMock));
         \Magelight\Installer::forge();
+        $this->assertTrue(true);
     }
 
     /**
