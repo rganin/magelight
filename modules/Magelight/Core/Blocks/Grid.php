@@ -1,4 +1,25 @@
 <?php
+/**
+ * Magelight
+ *
+ * NOTICE OF LICENSE
+ *
+ * This file is open source and it`s distribution is based on
+ * Open Software License (OSL 3.0). You can obtain license text at
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * For any non license implied issues please contact rganin@gmail.com
+ *
+ * DISCLAIMER
+ *
+ * This file is a part of a framework. Please, do not modify it unless you discard
+ * further updates.
+ *
+ * @version 1.0
+ * @author Roman Ganin
+ * @copyright Copyright (c) 2012-2015 rganin (rganin@gmail.com)
+ * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ */
 
 namespace Magelight\Core\Blocks;
 
@@ -59,6 +80,8 @@ class Grid extends Block
     }
 
     /**
+     * Set pager current page
+     *
      * @param int $page
      * @return $this
      */
@@ -69,9 +92,28 @@ class Grid extends Block
         return $this;
     }
 
+    /**
+     * Set items count per page
+     *
+     * @param int $perPage
+     * @return $this
+     */
     public function setPerPage($perPage)
     {
         $this->pager->setPerPage($perPage);
+        return $this;
+    }
+
+    /**
+     * Set pager route
+     *
+     * @param string $match
+     * @param array $routeParams
+     * @return $this
+     */
+    public function setPagerRoute($match, $routeParams = [])
+    {
+        $this->pager->setRoute($match, $routeParams);
         return $this;
     }
 
@@ -98,6 +140,11 @@ class Grid extends Block
         return $this->columns;
     }
 
+    /**
+     * Load grid data
+     *
+     * @return void
+     */
     protected function loadData()
     {
         if (empty($this->rows)) {
@@ -107,10 +154,14 @@ class Grid extends Block
         }
     }
 
+    /**
+     * Get grid rows
+     *
+     * @return Row[]
+     */
     public function getRows()
     {
         $this->loadData();
-        $this->rows;
         return $this->rows;
     }
 
