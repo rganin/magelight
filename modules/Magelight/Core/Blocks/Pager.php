@@ -122,7 +122,9 @@ class Pager extends \Magelight\Block
     public function __forge(Collection $collection = null)
     {
         $this->addClass('pagination');
-        $this->setCollection($collection);
+        if ($collection) {
+            $this->setCollection($collection);
+        }
         $this->setNextCaption()->setPrevCaption()->setFirstCaption()->setLastCaption();
     }
 

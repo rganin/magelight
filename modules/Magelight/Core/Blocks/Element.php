@@ -84,12 +84,15 @@ class Element extends \Magelight\Block
             return parent::toHtml();
         }
         $this->beforeToHtml();
-        $html = '<' . $this->tag . ' ' . $this->renderAttributes();
-        if ($this->empty) {
-            $html .= ' />';
-            return $html;
-        } else {
-            $html .= '>';
+        $html = '';
+        if ($this->tag !== null) {
+            $html = '<' . $this->tag . ' ' . $this->renderAttributes();
+            if ($this->empty) {
+                $html .= ' />';
+                return $html;
+            } else {
+                $html .= '>';
+            }
         }
         foreach ($this->content as $content) {
             if ($content instanceof \Magelight\Block) {
@@ -98,7 +101,9 @@ class Element extends \Magelight\Block
                 $html .= $content;
             }
         }
-        $html .= '</' . $this->tag . '>';
+        if ($this->tag !== null) {
+            $html .= '</' . $this->tag . '>';
+        }
         $this->afterToHtml();
         return $html;
     }

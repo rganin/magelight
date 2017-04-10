@@ -1,0 +1,24 @@
+<?php
+/**
+ * @var \Magelight\Core\Blocks\Grid $this
+ */
+?>
+<table class="<?=$this->class?> table">
+    <thead>
+        <tr>
+            <?php foreach ($this->getColumns() as $key => $column) { ?>
+                <th><?=$this->escapeHtml($column->getTitle())?></th>
+            <?php } ?>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($this->getRows() as $row) { ?>
+        <tr>
+            <?php foreach ($this->getColumns() as $column) { ?>
+                <td><?=$this->renderCellContent($column, $row)?></td>
+            <?php } ?>
+        </tr>
+        <?php } ?>
+    </tbody>
+</table>
+<?=$this->pager->toHtml()?>
