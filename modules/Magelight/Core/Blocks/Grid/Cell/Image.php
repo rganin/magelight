@@ -26,15 +26,15 @@ namespace Magelight\Core\Blocks\Grid\Cell;
 use Magelight\Core\Blocks\Grid\Cell;
 
 /**
- * Class Link
+ * Class Image
  * @package Magelight\Core\Blocks\Grid\Cell
  *
- * @param string $match - a url match
- * @param string $text - link text to be used if not set textField index in row data
+ * @method static $this forge()
+ * @property string $alt
  */
-class Link extends Cell
+class Image extends Cell
 {
-    protected $tag = 'a';
+    protected $tag = 'img';
 
     /**
      * @var null|string
@@ -51,7 +51,7 @@ class Link extends Cell
     /**
      * @var null|string
      */
-    protected $textField = null;
+    protected $altField = null;
 
     /**
      * @var array
@@ -76,10 +76,10 @@ class Link extends Cell
      * @param null|string $field
      * @return $this
      */
-    public function setTextField($field = null)
+    public function setAltField($field = null)
     {
         if ($field) {
-            $this->textField = $field;
+            $this->altField = $field;
         }
         return $this;
     }
@@ -103,12 +103,11 @@ class Link extends Cell
      */
     public function beforeToHtml()
     {
+        $this->addClass('grid-thumb');
         if (isset($this->match)) {
-            $this->setAttribute('href', $this->url($this->match, $this->data, null, $this->matchOnlyMaskParams));
+            $this->setAttribute('src', $this->url($this->match, $this->data, null, $this->matchOnlyMaskParams));
         }
-        if ($this->textField && isset($this->data[$this->textField])) {
-            $this->setContent($this->data[$this->textField]);
-        }
+        $this->setAttribute('alt', $this->altField ? $this->data[$this->altField] : $this->alt);
         return $this;
     }
 }

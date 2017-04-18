@@ -29,6 +29,7 @@ use Magelight\Core\Blocks\Element;
  * Class Cell
  * @package Magelight\Core\Blocks\Grid
  *
+ * @method static $this forge()
  * @property array $data - row data
  */
 abstract class Cell extends Element
@@ -66,20 +67,6 @@ abstract class Cell extends Element
     public function getUseFields()
     {
         return $this->useFields;
-    }
-
-    /**
-     * Render row data in cell by cell config
-     *
-     * @param array $rowData
-     * @return string
-     */
-    public function renderRowData(array $rowData)
-    {
-        foreach ($this->useFields as $alias => $field) {
-            $this->data[is_string($alias) ? $alias : $field] = $rowData[$field];
-        }
-        return $this->toHtml();
     }
 
     /**

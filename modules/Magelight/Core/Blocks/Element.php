@@ -174,7 +174,7 @@ class Element extends \Magelight\Block
      * Add element class
      *
      * @param string $class
-     * @return Element
+     * @return $this
      */
     public function addClass($class)
     {
@@ -188,7 +188,7 @@ class Element extends \Magelight\Block
      * Remove class from element classes
      *
      * @param string $class
-     * @return Element
+     * @return $this
      */
     public function removeClass($class)
     {
@@ -214,7 +214,7 @@ class Element extends \Magelight\Block
      * Set element ID
      *
      * @param string $id
-     * @return Element
+     * @return $this
      */
     public function setId($id)
     {

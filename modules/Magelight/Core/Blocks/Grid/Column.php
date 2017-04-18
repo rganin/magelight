@@ -176,7 +176,7 @@ class Column
      */
     public function getKey()
     {
-        return implode(',', $this->fields);
+        return implode(',', $this->fields) . $this->getTitle();
     }
 
     /**

@@ -172,11 +172,12 @@ class Grid extends Block
      */
     public function renderCellContent(Column $column, Row $row)
     {
+        $columnFields = $column->getFields() ?: [];
         return $column->getCellRenderer()
             ->set(
                 'data',
                 $row->getCellData(
-                    $column->getFields()
+                    $columnFields
                 )
             )->toHtml();
     }
