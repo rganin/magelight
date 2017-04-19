@@ -272,6 +272,7 @@ class Form extends Elements\Abstraction\Element
      */
     public function setHorizontal()
     {
+        $this->addClass('form-horizontal');
         return $this;
     }
 
@@ -490,7 +491,7 @@ class Form extends Elements\Abstraction\Element
      */
     public function addResult($text = '', $class = 'alert-danger')
     {
-        $res = Result::forge()->setContent($text)->setClass('alert')->addClass($class);
+        $res = Result::forge()->setContent($text)->addClass('alert')->addClass($class);
         if (!$this->resultRow instanceof Elements\Abstraction\Element) {
             $this->createResultRow(false);
         }
