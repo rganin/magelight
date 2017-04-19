@@ -23,10 +23,23 @@ class Links extends Cell
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function resetState()
+    {
+        $this->setContent('');
+        return parent::resetState();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function beforeToHtml()
     {
         foreach ($this->links as $link) {
             $this->addContent($link);
+            $this->addContent('&nbsp;');
             $link->data = $this->data;
         }
         return parent::beforeToHtml();

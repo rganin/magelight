@@ -47,6 +47,16 @@ abstract class Cell extends Element
     protected $useFields = [];
 
     /**
+     * Reset renderer state
+     *
+     * @return $this
+     */
+    public function resetState()
+    {
+        return $this;
+    }
+
+    /**
      * Use following fields from row data on render
      *
      * @param array $fields - ['field1', 'alias_2' => 'field_2', 'field_3' ...]

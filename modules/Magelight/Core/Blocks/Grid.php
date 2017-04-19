@@ -66,6 +66,7 @@ class Grid extends Block
     public function __forge()
     {
         $this->pager = Pager::forge();
+        Document::getInstance()->addCss('Magelight/Core/static/css/grid.css');
     }
 
     /**
@@ -174,6 +175,7 @@ class Grid extends Block
     {
         $columnFields = $column->getFields() ?: [];
         return $column->getCellRenderer()
+            ->resetState()
             ->set(
                 'data',
                 $row->getCellData(
