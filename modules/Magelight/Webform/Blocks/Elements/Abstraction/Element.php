@@ -65,7 +65,7 @@ class Element extends \Magelight\Core\Blocks\Element
      * Set element ID
      *
      * @param string $id
-     * @return Element
+     * @return $this
      */
     public function setId($id)
     {
@@ -78,7 +78,7 @@ class Element extends \Magelight\Core\Blocks\Element
      * Register ID globally
      *
      * @param string $id
-     * @return Element
+     * @return $this
      */
     protected function registerId($id)
     {
@@ -117,7 +117,7 @@ class Element extends \Magelight\Core\Blocks\Element
      * Set element content
      *
      * @param string $content
-     * @return Element
+     * @return $this
      */
     public function setContent($content)
     {
@@ -129,7 +129,7 @@ class Element extends \Magelight\Core\Blocks\Element
      * Set form that owns this element
      *
      * @param \Magelight\Webform\Blocks\Form $form
-     * @return Element
+     * @return $this
      */
     public function setForm(\Magelight\Webform\Blocks\Form $form)
     {
@@ -141,7 +141,7 @@ class Element extends \Magelight\Core\Blocks\Element
      * Bind element to form
      *
      * @param \Magelight\Webform\Blocks\Form $form
-     * @return Element
+     * @return $this
      */
     public function bindForm(\Magelight\Webform\Blocks\Form $form = null)
     {

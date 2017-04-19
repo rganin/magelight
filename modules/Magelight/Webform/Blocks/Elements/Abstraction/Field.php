@@ -60,7 +60,7 @@ class Field extends Element
      * Set field value and\or select current option or check the checkbox or radio element
      *
      * @param $value
-     * @return Element
+     * @return $this
      */
     public function setFieldValueFromRequest($value)
     {
@@ -71,7 +71,7 @@ class Field extends Element
      * Set element value attribute
      *
      * @param string $value
-     * @return Element
+     * @return $this
      */
     public function setValue($value)
     {
@@ -102,7 +102,7 @@ class Field extends Element
      * Set element placeholder content
      *
      * @param string $placeholderContent
-     * @return Element
+     * @return $this
      */
     public function setPlaceholder($placeholderContent)
     {
