@@ -75,6 +75,7 @@ class Field extends Element
      */
     public function setValue($value)
     {
+        $value = htmlspecialchars($value);
         return $this->setAttribute('value', $value);
     }
 
