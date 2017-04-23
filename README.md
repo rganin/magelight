@@ -24,16 +24,16 @@ Framework features
 Distributed Modules
 ----------
 
-####Admin:
+#### Admin:
 - Application backend framework with simple customizable scaffolding
 - Admin user management and access control
 
-####Auth:
+#### Auth:
 - User registration and authorization
 - uLogin service support
 - Restore password capability
 
-####Core
+#### Core
 - Main module providing following essentials
     - Document - an HTML document object as basic view
     - Pager - widget for paginations
@@ -41,27 +41,27 @@ Distributed Modules
     - Grid - a basic grid for displaying paginated table data
 - Css and Js assets minification and merging mechanisms
 
-####Geo
+#### Geo
 - City, Region and Country structured data and models
 - Internationalized in EN, RU and UA languages
 
-####Image
+#### Image
 - Image model implementing miscellaneous image transformations
 
-####Sitemap
+#### Sitemap
 - Self-crawling sitemap builder
 
-####Visitors
+#### Visitors
 - Visitors actions logging
 
-####Webform
+#### Webform
 - Forms with bootstrap-based layout that can be either built with form constructor
 or templated in an individual template.
 - Elements and fields with fully-controllable attributes and content
 - Asyncronous csubmit capability, frontend and backend validation
 - Customizable validator and rules
 - Localizable validation errors
-- Support following fields:
+- Generic fields available:
     - Captcha - a simple captcha for registration form or other
     - Checkbox - a checkbox form element
     - File - a single generic file input
@@ -78,6 +78,7 @@ or templated in an individual template.
     - ReCaptcha - a ReCaptcha captcha input with validation
     - Select - generic select box
     - Textarea - generic textarea
+- Support for any custom field with element-based constructor or phtml template
 
 Requirements
 ---------
