@@ -4,16 +4,10 @@
   "type": "library",
   "license": "OSL 3.0",
   "keywords": ["magelight","framework","mvc","php"],
-  "source": {
-    "url": "https://github.com/rganin/magelight",
-    "type": "git",
-    "reference": "master"
-  },
   "require": {
     "php": ">=7"
   },
   "autoload": {
     "files": ["core.php"]
   }
-
 }
