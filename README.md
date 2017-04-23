@@ -3,20 +3,81 @@ Magelight
 
 Magelight is a lightweight MVC framework inspired by [Magento](http://magentocommerce.com) written ground-up in PHP 5.4.
 
-Magelight Features
+Framework features
 ---------
+- MVC architecture with module-based customization mechanisms
+- Query builder and Active-Record models 
+- Extensible controllers
+- Extensible views with redefinable templates
+- Native PHP syntax templating
+- Object forgery with class redefinition
+- Robust module-based customizations:
+    - Module based architecture
+    - Class redefinition and preferences that allow to extend class behavior through all application 
+    - Document layout redefinition
+    - Blocks template redefinition
+    - Runtime method hooks (before, after) that allow to modify method arguments or result
+    - XML-based configuration that can be overriden in modules
+    - XML-based routing that can be overriden in modules same as config
+    - Customizable L10N and I18N support
 
-- Public and private code pools
-- Object forgery with class redefinition mechanism
-- Extended XML configuration
-- Improved Blocks rendering mechanism without layout updates
-- Simple logging and caching
-- Improved routing markdown
-- Query builder
-- Bundled [jQuery](http://jquery.com)
-- Bundled [Twitter Bootstrap](http://twitter.github.com/bootstrap/)
-- Form builder and validator
-- And more...
+Distributed Modules
+----------
+
+####Admin:
+- Application backend framework with simple customizable scaffolding
+- Admin user management and access control
+
+####Auth:
+- User registration and authorization
+- uLogin service support
+- Restore password capability
+
+####Core
+- Main module providing following essentials
+    - Document - an HTML document object as basic view
+    - Pager - widget for paginations
+    - Breadcrumbs - content path widget
+    - Grid - a basic grid for displaying paginated table data
+- Css and Js assets minification and merging mechanisms
+
+####Geo
+- City, Region and Country structured data and models
+- Internationalized in EN, RU and UA languages
+
+####Image
+- Image model implementing miscellaneous image transformations
+
+####Sitemap
+- Self-crawling sitemap builder
+
+####Visitors
+- Visitors actions logging
+
+####Webform
+- Forms with bootstrap-based layout that can be either built with form constructor
+or templated in an individual template.
+- Elements and fields with fully-controllable attributes and content
+- Asyncronous csubmit capability, frontend and backend validation
+- Customizable validator and rules
+- Localizable validation errors
+- Support following fields:
+    - Captcha - a simple captcha for registration form or other
+    - Checkbox - a checkbox form element
+    - File - a single generic file input
+    - FilePretty - prettified file input
+    - Input - generic input
+    - InputAppended - an input with an addon
+    - InputHidden - hidden input
+    - InputMasked - input with configurable mask for email/phone/credit-card data input
+    - InputPrepended - input with addon in the beginning
+    - LabeledCheckbox - a checkbox with label
+    - LabeledRadio - a radio input with label
+    - PasswordInput - a generic input for password
+    - Radio - generic radio input
+    - ReCaptcha - a ReCaptcha captcha input with validation
+    - Select - generic select box
+    - Textarea - generic textarea
 
 Requirements
 ---------
@@ -26,17 +87,9 @@ Requirements
 Installation
 ---------
 
-Installation with clone
-------------------
-
-To deploy the framework and application sample:
-- clone to directory
-- create an apache vhost (or nginx server) pointing to `app` directory
-- add +r rights to `app/var`, `app/pub/static`
-- copy app/etc/config.xml.dist to app/etc/config.xml and set your database preferences and directory options
-- run `php -f upgrade.php` to create database and install schema and data updates
-- you are done
-
+- Checkout code with git.
+- `include 'core.php'`
+- Use Magelight!
 
 Installation with composer
 ------------------
@@ -72,4 +125,3 @@ Installation with composer
 - create modules directory in your project or copy sample application structure `vendor/rganin/magelight/app/*`
   to your project directory
 - do not forget to add your own modules directory by `\Magelight::app()->addModulesDir('modules/directory')` in your project
-- run application with `\Magelight::app()->init()->run()`
