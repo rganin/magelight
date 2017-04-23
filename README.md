@@ -9,7 +9,7 @@ Magelight is a lightweight MVC framework inspired by [Magento](http://magentocom
 License
 ---------
 
-Magelight is distributed under [Open Software License 3.0](http://opensource.org/licenses/osl-3.0.php) (OSL 3.0). Please see LICENSE.txt for the full text of the OSL 3.0 license.
+Magelight is distributed under [Open Software License 3.0](http://opensource.org/licenses/osl-3.0.php) (OSL 3.0).
 
 Framework features
 ---------
