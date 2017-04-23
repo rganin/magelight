@@ -123,7 +123,8 @@ Installation with composer
   }
 }
 ```
+- run `composer install`
 - require `vendor/autoload.php` in your project
 - create modules directory in your project or copy sample application structure `vendor/rganin/magelight/app/*`
   to your project directory
-- do not forget to add your own modules directory by `\Magelight::app()->addModulesDir('modules/directory')` in your project
+- do not forget to add your own modules directory by `\Magelight::app()->addModulesDir('your_app/modules')` in your project
