@@ -1,0 +1,7 @@
+{
+  "name": "rganin/magelight",
+  "description": "A robust MVC framework for PHP application development.",
+  "require": {
+    "php": ">=7.0"
+  }
+}
