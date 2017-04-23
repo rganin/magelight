@@ -4,7 +4,7 @@ Magelight
 Magelight is a lightweight MVC framework inspired by [Magento](http://magentocommerce.com) written ground-up for PHP 7
 
 [![Build status](https://travis-ci.org/rganin/magelight.svg?branch=master)](https://travis-ci.org/rganin/magelight)
-
+[![Triage](https://www.codetriage.com/rganin/magelight/badges/users.svg)](https://www.codetriage.com/rganin/magelight)
 
 License
 ---------
@@ -107,3 +107,10 @@ Installation with composer
 - create modules directory in your project or copy sample application structure `vendor/rganin/magelight/app/*`
   to your project directory
 - do not forget to add your own modules directory by `\Magelight::app()->addModulesDir('your_app/modules')` in your project
+
+Contributing
+----------
+
+Magelight is open to everyone. Feel free to explore, highlight issues and contribute your solutions.
+ 
+See [contribution guidelines](Contributing.md) for more details.
