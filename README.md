@@ -102,7 +102,7 @@ Installation
 
 Installation with composer
 ------------------
-- run `composer require rganin/magelight`
+- run `composer require rganin/magelight @dev`
 - require `vendor/autoload.php` in your project
 - create modules directory in your project or copy sample application structure `vendor/rganin/magelight/app/*`
   to your project directory
