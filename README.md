@@ -97,18 +97,19 @@ Installation with composer
 - Create `composer.json` file in your project root or add Magelight to your existing `composer.json`
 ```
 {
-  "name": "yourname/project",
-  "description": "Your project",
+  "name": "you/your_project",
+  "description": "Your project description",
+  "minimum-stability": "dev",
   "repositories": [
     {
       "type": "package",
       "package": {
         "name": "rganin/magelight",
-        "version" : "0.0.2",
+        "version" : "1.0",
         "source": {
           "url": "https://github.com/rganin/magelight",
           "type": "git",
-          "reference": "0.0.2"
+          "reference": "master"
         },
         "autoload": {
           "files": ["core.php"]
@@ -118,7 +119,7 @@ Installation with composer
   ],
   "require": {
     "php": ">=7",
-    "rganin/magelight": "*"
+    "rganin/magelight": "@dev"
   }
 }
 ```
