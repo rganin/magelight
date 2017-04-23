@@ -10,9 +10,9 @@ Framework features
 - Extensible controllers
 - Extensible views with redefinable templates
 - Native PHP syntax templating
-- Object forgery with class redefinition
+- Object forgery with class redefinition that allows lazy dependency loading
+- PHPUnit-based essentials for unit testing regardless static calls
 - Robust module-based customizations:
-    - Module based architecture
     - Class redefinition and preferences that allow to extend class behavior through all application 
     - Document layout redefinition
     - Blocks template redefinition
