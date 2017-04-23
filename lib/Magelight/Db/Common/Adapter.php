@@ -22,13 +22,10 @@
  */
 
 namespace Magelight\Db\Common;
+use Magelight\Exception;
 
 /**
  * Abstract adapter
- *
- * @method bool beginTransaction()
- * @method bool commit()
- * @method bool rollBack()
  */
 abstract class Adapter
 {
@@ -87,6 +84,13 @@ abstract class Adapter
      * @var bool
      */
     protected $isInitialized = false;
+
+    /**
+     * Level of transaction
+     *
+     * @var int
+     */
+    protected $transactionLevel = 0;
 
     /**
      * Initialize DB instance
@@ -191,6 +195,7 @@ abstract class Adapter
      */
     public function execute($query, $params = [])
     {
+        $profileId = null;
         /* @var $statement \PDOStatement*/
         $statement = $this->pdo->prepare($query);
         if ($this->profilingEnabled) {
@@ -220,7 +225,9 @@ abstract class Adapter
                 $data['error'] = $errorInfo;
 
             }
-            $this->getProfiler()->finish($profileId, $data);
+            if ($this->profilingEnabled) {
+                $this->getProfiler()->finish($profileId, $data);
+            }
         }
         return $statement;
     }
@@ -268,5 +275,68 @@ abstract class Adapter
         } else {
             throw new \Magelight\Exception('Database adapter PDO object is missing or invalid.');
         }
+    }
+
+    /**
+     * Begin transaction or increase level
+     *
+     * @return bool
+     */
+    public function beginTransaction()
+    {
+        // if transaction is not started
+        if ($this->transactionLevel === 0) {
+            // and start was successful
+            if ( $this->pdo->beginTransaction()) {
+                // increase transaction level
+                $this->transactionLevel += 1;
+                return true;
+            } else {
+                return false;
+            }
+        // if transaction was already started
+        } else {
+            // just increase transaction level
+            $this->transactionLevel += 1;
+            return true;
+        }
+    }
+
+    /**
+     * Commit transaction or decrease level
+     *
+     * @return bool
+     *
+     * @throws Exception
+     */
+    public function commitTransaction()
+    {
+        $this->transactionLevel -= 1;
+        if ($this->transactionLevel === 0) {
+            if (!$this->pdo->inTransaction()) {
+                throw new Exception('Asymmetric transaction commit attempt');
+            }
+            return $this->pdo->commit();
+        }
+        return true;
+    }
+
+    /**
+     * Roll back the transaction or decrease level
+     *
+     * @return bool
+     *
+     * @throws Exception
+     */
+    public function rollbackTransaction()
+    {
+        $this->transactionLevel -= 1;
+        if ($this->transactionLevel === 0) {
+            if (!$this->pdo->inTransaction()) {
+                throw new Exception('Asymmetric transaction rollback attempt');
+            }
+            return $this->pdo->rollBack();
+        }
+        return true;
     }
 }

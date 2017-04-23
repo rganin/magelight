@@ -1594,7 +1594,7 @@ abstract class Orm
      */
     public function commitTransaction()
     {
-        $this->db->commit();
+        $this->db->commitTransaction();
         return $this;
     }
 
@@ -1605,7 +1605,7 @@ abstract class Orm
      */
     public function rollbackTransaction()
     {
-        $this->db->rollBack();
+        $this->db->rollbackTransaction();
         return $this;
     }
 

@@ -22,6 +22,7 @@
  */
 
 namespace Magelight;
+use Magelight\Db\Common\Orm;
 
 /**
  * @method static $this forge($data = [], $forceNew = false)
@@ -341,14 +342,43 @@ class Model
     /**
      * Find model by field value
      *
-     * @param $field
-     * @param $value
+     * @param string $field
+     * @param mixed $value
      * @return $this|null
      */
     public static function findBy($field, $value)
     {
         $orm = static::callStaticLate('orm');
         return $orm->whereEq($field, $value)->fetchModel();
+    }
+
+    /**
+     * Find model by field value
+     *
+     * @param array $fieldValueArray - array of fields and values, like ['id' => '2', 'status' => 'open']
+     * @return $this|null
+     */
+    public static function findByFields(array $fieldValueArray)
+    {
+        /** @var Orm $orm */
+        $orm = static::callStaticLate('orm');
+        foreach ($fieldValueArray as $field => $value) {
+            $orm->whereEq($field, $value);
+        }
+        return $orm->fetchModel();
+    }
+
+    /**
+     * Find model by expression
+     *
+     * @param Db\Common\Expression\Expression $expression
+     * @return $this|null
+     */
+    public static function findByExpression(\Magelight\Db\Common\Expression\Expression $expression)
+    {
+        /** @var Orm $orm */
+        $orm = static::callStaticLate('orm');
+        return $orm->whereEx($expression)->fetchModel();
     }
 
     /**
