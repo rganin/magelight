@@ -1,7 +1,7 @@
 Magelight
 =========
 
-Magelight is a lightweight MVC framework inspired by [Magento](http://magentocommerce.com) written ground-up in PHP 5.4.
+Magelight is a lightweight MVC framework inspired by [Magento](http://magentocommerce.com) written ground-up for PHP 7
 
 Framework features
 ---------
