@@ -3,6 +3,8 @@ Magelight
 
 Magelight is a lightweight MVC framework inspired by [Magento](http://magentocommerce.com) written ground-up for PHP 7
 
+[![Build status](https://travis-ci.org/rganin/magelight.svg?branch=master)](https://travis-ci.org/rganin/magelight)
+
 Framework features
 ---------
 - MVC architecture with module-based customization mechanisms
@@ -94,36 +96,7 @@ Installation
 
 Installation with composer
 ------------------
-- Create `composer.json` file in your project root or add Magelight to your existing `composer.json`
-```
-{
-  "name": "you/your_project",
-  "description": "Your project description",
-  "minimum-stability": "dev",
-  "repositories": [
-    {
-      "type": "package",
-      "package": {
-        "name": "rganin/magelight",
-        "version" : "1.0",
-        "source": {
-          "url": "https://github.com/rganin/magelight",
-          "type": "git",
-          "reference": "master"
-        },
-        "autoload": {
-          "files": ["core.php"]
-        }
-      }
-    }
-  ],
-  "require": {
-    "php": ">=7",
-    "rganin/magelight": "@dev"
-  }
-}
-```
-- run `composer install`
+- run `composer require rganin/magelight`
 - require `vendor/autoload.php` in your project
 - create modules directory in your project or copy sample application structure `vendor/rganin/magelight/app/*`
   to your project directory
