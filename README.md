@@ -4,6 +4,7 @@ Magelight
 Magelight is a lightweight MVC framework inspired by [Magento](http://magentocommerce.com) written ground-up for PHP 7
 
 [![Build status](https://travis-ci.org/rganin/magelight.svg?branch=master)](https://travis-ci.org/rganin/magelight)
+[![License](https://github.com/rganin/magelight/blob/master/LICENSE)](https://github.com/rganin/magelight/blob/master/LICENSE)
 
 License
 ---------
