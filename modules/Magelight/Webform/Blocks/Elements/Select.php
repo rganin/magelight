@@ -86,7 +86,7 @@ class Select extends Abstraction\Field
      *
      * @param array $options
      *
-     * @return Select
+     * @return $this
      */
     public function importOptions(array $options = [])
     {

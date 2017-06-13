@@ -67,7 +67,7 @@ class Config
         $loader->loadConfig($app->getAppDir() . DS . 'etc' . DS . 'config.xml');
         $this->config = $loader->getConfig();
         $modulesConfigString = $this->getConfigBool('global/app/cache_modules_config', false)
-            ? $this->cache()->get($this->buildCacheKey('modules_config'))
+            ? $this->cache()->get($this->buildCacheKey(['modules_config']))
             : false;
 
         /* Loading modules config */
@@ -83,7 +83,7 @@ class Config
             }
             $modulesConfig = $loader->getConfig();
             if ($this->getConfigBool('global/app/cache_modules_config', false)) {
-                $this->cache()->set($this->buildCacheKey('modules_config'), $modulesConfig->asXML(), 3600);
+                $this->cache()->set($this->buildCacheKey(['modules_config']), $modulesConfig->asXML(), 3600);
             }
             $this->config = $modulesConfig;
         } else {

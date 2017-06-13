@@ -24,5 +24,17 @@ return [
             1 => NULL,
             2 => NULL
         ]
+    ],
+    'From' => [
+        'filters' => [
+            1 => NULL,
+            2 => NULL
+        ]
+    ],
+    'To' => [
+        'filters' => [
+            1 => NULL,
+            2 => NULL
+        ]
     ]
 ];

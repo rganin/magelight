@@ -38,6 +38,11 @@ class Column
     use TForgery;
 
     /**
+     * @var Grid\Column\Filter\AbstractFilter
+     */
+    protected $filter;
+
+    /**
      * @var Grid
      */
     protected $grid;
@@ -68,6 +73,11 @@ class Column
      * @var Cell
      */
     protected $cellRenderer;
+
+    /**
+     * @var string
+     */
+    protected $sortField;
 
     /**
      * Forgery constructor.
@@ -114,6 +124,29 @@ class Column
     }
 
     /**
+     * Set sort fields to be added to ORDER BY statement of the collection
+     *
+     * @param string $rowFieldName
+     *
+     * @return $this
+     */
+    public function setSortField($rowFieldName)
+    {
+        $this->sortField = $rowFieldName;
+        return $this;
+    }
+
+    /**
+     * Get fields to be used for sorting
+     *
+     * @return string
+     */
+    public function getSortField()
+    {
+        return $this->sortField;
+    }
+
+    /**
      * Set column fields for cell
      *
      * @param array $rowFieldNamesArray - ['alias' => 'field', 'field2', 'alias_2' => 'field_3']
@@ -122,6 +155,9 @@ class Column
     public function setCellFields(array $rowFieldNamesArray)
     {
         $this->fields = $rowFieldNamesArray;
+        if (!$this->getSortField()) {
+            $this->setSortField(array_values($rowFieldNamesArray)[0]);
+        }
         return $this;
     }
 
@@ -147,6 +183,16 @@ class Column
     {
         $this->sortable = (bool)$flag;
         return $this;
+    }
+
+    /**
+     * Is column sortable
+     *
+     * @return bool
+     */
+    public function isSortable()
+    {
+        return $this->sortable && empty($this->sortField);
     }
 
     /**
@@ -189,6 +235,7 @@ class Column
     public function setCellRenderer(Cell $renderer = null)
     {
         $this->cellRenderer = $renderer;
+        $this->cellRenderer->useFields($this->getFields());
         return $this;
     }
 
@@ -203,5 +250,29 @@ class Column
             return Grid\Cell\Plaintext::forge();
         }
         return $this->cellRenderer;
+    }
+
+    /**
+     * Set filter for column
+     *
+     * @param Column\Filter\FilterInterface $filter
+     * @return $this
+     */
+    public function setFilter(Grid\Column\Filter\FilterInterface $filter)
+    {
+        $this->filter = $filter;
+        $this->filter->setFilterField(array_values($this->getFields())[0]);
+        $this->filter->setColumn($this);
+        return $this;
+    }
+
+    /**
+     * Get filter field instance
+     *
+     * @return Column\Filter\FilterInterface
+     */
+    public function getFilter()
+    {
+        return $this->filter;
     }
 }

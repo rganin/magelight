@@ -27,6 +27,8 @@ use Magelight\Block;
 use Magelight\Core\Blocks\Grid\Column;
 use Magelight\Core\Blocks\Grid\Row;
 use Magelight\Db\Collection;
+use Magelight\Profiler;
+use Magelight\Webform\Blocks\Form;
 
 /**
  * Class Grid
@@ -61,12 +63,38 @@ class Grid extends Block
     protected $rows = [];
 
     /**
+     * @var int
+     */
+    protected $profileIndex;
+
+    /**
+     * @var bool
+     */
+    protected $enableRenderProfiling;
+
+    /**
+     * @var Form
+     */
+    protected $filterForm;
+
+    /**
      * Forgery constructor
      */
     public function __forge()
     {
         $this->pager = Pager::forge();
+        $this->filterForm = Form::forge();
         Document::getInstance()->addCss('Magelight/Core/static/css/grid.css');
+    }
+
+    /**
+     * Get grid filter form
+     *
+     * @return Form
+     */
+    public function getFilterForm()
+    {
+        return $this->filterForm;
     }
 
     /**
@@ -128,6 +156,9 @@ class Grid extends Block
     public function addColumn(Column $column)
     {
         $this->columns[$column->getKey()] = $column;
+        if ($column->getFilter()) {
+            $column->getFilter()->setForm($this->getFilterForm());
+        }
         return $this;
     }
 
@@ -182,5 +213,41 @@ class Grid extends Block
                     $columnFields
                 )
             )->toHtml();
+    }
+
+    /**
+     * Enable profiling for rendering
+     *
+     * @param bool $flag
+     * @return $this
+     */
+    public function setEnableRenderProfiling($flag = true)
+    {
+        $this->enableRenderProfiling = $flag;
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function toHtml()
+    {
+        if (!$this->enableRenderProfiling) {
+            return parent::toHtml();
+        }
+        $this->profileIndex = Profiler::getInstance('grid-render')->startNewProfiling();
+        $result = parent::toHtml();
+        Profiler::getInstance('grid-render')->finish($this->profileIndex);
+        return $result;
+    }
+
+    /**
+     * Get result of profiling of grid render
+     *
+     * @return array
+     */
+    public function getProfilingResult()
+    {
+        return Profiler::getInstance('grid-render')->getProfile($this->profileIndex);
     }
 }

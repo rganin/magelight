@@ -34,7 +34,7 @@ class BaseController extends \Magelight\Controller
     /**
      * Before execute handler
      *
-     * @return \Magelight\Controller|void
+     * @return $this
      */
     public function beforeExecute()
     {
