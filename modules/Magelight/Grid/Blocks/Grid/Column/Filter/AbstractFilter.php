@@ -1,14 +1,14 @@
 <?php
 
-namespace Magelight\Core\Blocks\Grid\Column\Filter;
+namespace Magelight\Grid\Blocks\Grid\Column\Filter;
 
-use Magelight\Core\Blocks\Grid\Column;
+use Magelight\Grid\Blocks\Grid\Column;
 use Magelight\Db\Common\Expression\Expression;
 use Magelight\Webform\Blocks\Elements\Abstraction\Field;
 
 /**
  * Class AbstractFilter
- * @package Magelight\Core\Blocks\Grid\Filter
+ * @package Magelight\Grid\Blocks\Grid\Filter
  *
  * @method static $this forge()
  */
@@ -49,5 +49,13 @@ abstract class AbstractFilter extends Field implements FilterInterface
     {
         $this->setName($rowFieldName);
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isEmptyValue()
+    {
+        return $this->getValue() === '' || $this->getValue() === null;
     }
 }

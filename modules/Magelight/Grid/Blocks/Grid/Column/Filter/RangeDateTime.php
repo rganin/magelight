@@ -1,10 +1,8 @@
 <?php
 
-namespace Magelight\Core\Blocks\Grid\Column\Filter;
+namespace Magelight\Grid\Blocks\Grid\Column\Filter;
 
 use Magelight\Core\Blocks\Document;
-use Magelight\Core\Blocks\Element;
-use Magelight\Core\Blocks\Grid\Column;
 use Magelight\Db\Common\Expression\Expression;
 use Magelight\Db\Common\Expression\ExpressionCombination;
 use Magelight\Webform\Blocks\Elements\Input;
@@ -75,8 +73,8 @@ class RangeDateTime extends AbstractFilter
     public function setFilterField($rowFieldName)
     {
         parent::setFilterField($rowFieldName);
-        $this->inputFrom->setName($this->getName() . '_from');
-        $this->inputTo->setName($this->getName() . '_to');
+        $this->inputFrom->setName($this->getName() . '[from]');
+        $this->inputTo->setName($this->getName() . '[to]');
         // has to generate JS after names are set
         $this->addContent(
             "<script type=\"text/javascript\">
@@ -98,5 +96,25 @@ class RangeDateTime extends AbstractFilter
         $this->inputFrom->setForm($form);
         $this->inputTo->setForm($form);
         return parent::setForm($form);
+    }
+
+    public function setValue($value)
+    {
+        if (!empty($value['from'])) {
+            $this->inputFrom->setValue($value['from']);
+        }
+        if (!empty($value['to'])) {
+            $this->inputTo->setValue($value['to']);
+        }
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isEmptyValue()
+    {
+        return ($this->inputFrom->getValue() === '' || $this->inputFrom->getValue() === null)
+            && ($this->inputTo->getValue() === '' || $this->inputTo->getValue() === null);
     }
 }

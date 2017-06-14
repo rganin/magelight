@@ -103,12 +103,21 @@ class Form extends Elements\Abstraction\Element
     protected $formData = [];
 
     /**
+     * Form constructor.
+     */
+    public function __construct()
+    {
+        $this->setMethod()->setEncType();
+    }
+
+    /**
      * Set form configuration
      *
      * @param string $name
      * @param string $action
      * @param string $enctype
      * @param string $method
+     * @deprecated
      * @return Form
      */
     public function setConfigs($name, $action = '', $enctype = 'multipart/form-data', $method = 'post')
@@ -118,6 +127,61 @@ class Form extends Elements\Abstraction\Element
             ->setAttribute('action', $action)
             ->setAttribute('enctype', $enctype)
             ->setAttribute('method', $method);
+    }
+
+    /**
+     * Set form name
+     *
+     * @param string $name
+     * @return $this
+     */
+    public function setName($name)
+    {
+        $this->wrapIndex = $name;
+        return $this->setAttribute('name', $name);
+    }
+
+    /**
+     * Get wrapping index (form name)
+     *
+     * @return string
+     */
+    public function getWrapIndex()
+    {
+        return $this->wrapIndex;
+    }
+
+    /**
+     * Set form action URL (full URL, not route)
+     *
+     * @param string $action
+     * @return $this
+     */
+    public function setAction($action)
+    {
+        return $this->setAttribute('action', $action);
+    }
+
+    /**
+     * Set encoding type
+     *
+     * @param string $encType
+     * @return $this
+     */
+    public function setEncType($encType = 'multipart/form-data')
+    {
+        return $this->setAttribute('enctype', $encType);
+    }
+
+    /**
+     * Set form submit method
+     *
+     * @param string $method
+     * @return $this
+     */
+    public function setMethod($method = 'post')
+    {
+        return $this->setAttribute('method', $method);
     }
 
     /**
@@ -232,6 +296,18 @@ class Form extends Elements\Abstraction\Element
             }
             return $data;
         }
+    }
+
+    /**
+     * Get form fields that are not empty
+     *
+     * @param array $fields
+     * @return array
+     */
+    public function getNonEmptyRequestFields($fields = [])
+    {
+        $fields = $this->getRequestFields($fields);
+        return array_filter($fields, function ($value) {return $value !== null && $value !=='';});
     }
 
     /**

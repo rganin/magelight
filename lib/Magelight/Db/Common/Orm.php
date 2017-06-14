@@ -881,14 +881,38 @@ abstract class Orm
     }
 
     /**
-     * Add select field filter
+     * Set select field filter
      *
      * @param array $fields
-     * @return Orm
+     * @deprecated
+     * @return $this
      */
     public function selectFields($fields = [])
     {
         $this->selectFields = [];
+        $this->addSelectFields($fields);
+        return $this;
+    }
+
+    /**
+     * Set select fields
+     *
+     * @param array $fields
+     * @return $this
+     */
+    public function setSelectFields($fields = [])
+    {
+        return $this->selectFields($fields);
+    }
+
+    /**
+     * Add fields to select query
+     *
+     * @param array $fields
+     * @return $this
+     */
+    public function addSelectFields($fields = [])
+    {
         if (empty($fields)) {
             return $this;
         }

@@ -1,8 +1,8 @@
 <?php
 
-namespace Magelight\Core\Blocks\Grid\Column\Filter;
+namespace Magelight\Grid\Blocks\Grid\Column\Filter;
 
-use Magelight\Core\Blocks\Grid\Column;
+use Magelight\Grid\Blocks\Grid\Column;
 use Magelight\Db\Common\Expression\Expression;
 use Magelight\Webform\Blocks\Form;
 
@@ -42,4 +42,11 @@ interface FilterInterface
      * @return mixed
      */
     public function setForm(Form $form);
+
+    /**
+     * Is filter empty
+     *
+     * @return bool
+     */
+    public function isEmptyValue();
 }

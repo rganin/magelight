@@ -21,13 +21,13 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Magelight\Core\Blocks\Grid;
+namespace Magelight\Grid\Blocks\Grid;
 
 use Magelight\Traits\TForgery;
 
 /**
  * Class Row
- * @package Magelight\Core\Blocks\Grid
+ * @package Magelight\Grid\Blocks\Grid
  *
  * @method static $this forge(array $rowData)
  */

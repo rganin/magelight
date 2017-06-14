@@ -21,26 +21,29 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Magelight\Core\Blocks;
+namespace Magelight\Grid\Blocks;
 
 use Magelight\Block;
-use Magelight\Core\Blocks\Grid\Column;
-use Magelight\Core\Blocks\Grid\Row;
+use Magelight\Core\Blocks\Document;
+use Magelight\Core\Blocks\Pager;
+use Magelight\Db\CollectionFilter;
+use Magelight\Grid\Blocks\Grid\Column;
+use Magelight\Grid\Blocks\Grid\Row;
 use Magelight\Db\Collection;
 use Magelight\Profiler;
 use Magelight\Webform\Blocks\Form;
 
 /**
  * Class Grid
- * @package Magelight\Core\Blocks
+ * @package Magelight\Grid\Blocks
  *
  * @property string $class
  *
- * @method static $this forge()
+ * @method static $this forge($name = 'grid')
  */
 class Grid extends Block
 {
-    protected $template = 'Magelight/Core/templates/grid.phtml';
+    protected $template = 'Magelight/Grid/templates/grid.phtml';
 
     /**
      * @var Collection
@@ -78,13 +81,54 @@ class Grid extends Block
     protected $filterForm;
 
     /**
-     * Forgery constructor
+     * @var string
      */
-    public function __forge()
+    protected $urlMatch;
+
+    /**
+     * Forgery constructor
+     * @param string $urlMatch
+     * @param string $name
+     */
+    public function __forge($urlMatch, $name = 'grid')
     {
-        $this->pager = Pager::forge();
-        $this->filterForm = Form::forge();
+        $this->urlMatch = $urlMatch;
+
+        $this->pager = Pager::forge()
+            ->setRoute($urlMatch);
+
+        $this->filterForm = Form::forge()
+            ->setName($name)
+            ->setAction($this->url($urlMatch))
+            ->setMethod('get')
+            ->loadFromRequest();
+
         Document::getInstance()->addCss('Magelight/Core/static/css/grid.css');
+    }
+
+    /**
+     * Set grid URL match
+     *
+     * @param $urlMatch
+     *
+     * @return $this
+     */
+    public function setUrlMatch($urlMatch)
+    {
+        $this->urlMatch = $urlMatch;
+        $this->pager->setRoute($urlMatch);
+        $this->filterForm->setAction($this->url($urlMatch));
+        return $this;
+    }
+
+    /**
+     * Get grid URL match
+     *
+     * @return string
+     */
+    public function getUrlMatch()
+    {
+        return $this->urlMatch;
     }
 
     /**
@@ -101,11 +145,43 @@ class Grid extends Block
      * @param Collection $collection
      * @return $this
      */
-    public function setDataSource(Collection $collection)
+    public function setCollection(Collection $collection)
     {
         $this->collection = $collection;
         $this->pager->setCollection($collection);
+        $sortFields = (array)$this->filterForm->getFieldValue('sort');
+        $sortDirections = [];
+
+        foreach ($sortFields as $field => $dir) {
+            // direct assignment for usability and security
+            if ($dir == 'ASC') {
+                $sortDirections['ASC'][] = $field;
+            } elseif ($dir == 'DESC') {
+                $sortDirections['DESC'][] = $field;
+            }
+        }
+        if (!empty($sortDirections['ASC'])) {
+            $this->collection->sortAscending($sortDirections['ASC']);
+        }
+        if (!empty($sortDirections['DESC'])) {
+            $this->collection->sortDescending($sortDirections['DESC']);
+        }
+        foreach ($this->columns as $column) {
+            if ($column->getFilter() && !$column->getFilter()->isEmptyValue()) {
+                $this->collection->getDataSource()->whereEx($column->getFilter()->getFilterSqlExpression());
+            }
+        }
         return $this;
+    }
+
+    /**
+     * Get collection bound to grid
+     *
+     * @return Collection
+     */
+    public function getCollection()
+    {
+        return $this->collection;
     }
 
     /**
@@ -158,6 +234,7 @@ class Grid extends Block
         $this->columns[$column->getKey()] = $column;
         if ($column->getFilter()) {
             $column->getFilter()->setForm($this->getFilterForm());
+            $column->getFilter()->setValue($this->getFilterForm()->getFieldValue($column->getFilter()->getName()));
         }
         return $this;
     }

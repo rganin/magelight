@@ -21,23 +21,21 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Magelight\Core\Blocks\Grid\Cell;
+namespace Magelight\Grid\Blocks\Grid\Cell;
 
-use Magelight\Core\Blocks\Grid\Cell;
+use Magelight\Grid\Blocks\Grid\Cell;
 
 /**
- * Class Plaintext
- * @package Magelight\Core\Blocks\Grid\Cell
+ * Class Timestamp
+ * @package Magelight\Grid\Blocks\Grid\Cell
  */
-class Plaintext extends Cell
+class Timestamp extends Cell
 {
     /**
      * {@inheritdoc}
      */
     public function toHtml()
     {
-        // this renderer expects that cell contains only one array element in data that is stored by column key
-        $this->setContent((string)$this->getFirstDataArrayElement());
-        return parent::toHtml();
+        return $this->dateTime($this->getFirstDataArrayElement());
     }
 }

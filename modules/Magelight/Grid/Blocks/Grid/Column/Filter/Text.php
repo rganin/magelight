@@ -1,9 +1,8 @@
 <?php
 
-namespace Magelight\Core\Blocks\Grid\Column\Filter;
+namespace Magelight\Grid\Blocks\Grid\Column\Filter;
 
 use Magelight\Db\Common\Expression\Expression;
-use Magelight\Db\Common\Expression\ExpressionCombination;
 
 class Text extends AbstractFilter
 {

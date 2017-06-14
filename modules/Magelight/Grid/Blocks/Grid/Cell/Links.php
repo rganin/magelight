@@ -1,8 +1,8 @@
 <?php
 
-namespace Magelight\Core\Blocks\Grid\Cell;
+namespace Magelight\Grid\Blocks\Grid\Cell;
 
-use Magelight\Core\Blocks\Grid\Cell;
+use Magelight\Grid\Blocks\Grid\Cell;
 
 class Links extends Cell
 {

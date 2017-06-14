@@ -1,8 +1,8 @@
 <?php
 
-namespace Magelight\Core\Blocks\Grid\Column\Filter;
+namespace Magelight\Grid\Blocks\Grid\Column\Filter;
 
-use Magelight\Core\Blocks\Grid\Column;
+use Magelight\Grid\Blocks\Grid\Column;
 use Magelight\Db\Common\Expression\Expression;
 use Magelight\Webform\Blocks\Elements\Select;
 
@@ -39,7 +39,6 @@ class Dropdown extends Select implements FilterInterface
     public function setColumn(Column $column)
     {
         $this->column = $column;
-        $this->setName(implode($column->getFields()));
         return $this;
     }
 
@@ -54,5 +53,21 @@ class Dropdown extends Select implements FilterInterface
     {
         $this->setName($rowFieldName);
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isEmptyValue()
+    {
+        return $this->getValue() === '' || $this->getValue() === null;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->getForm()->getFieldValue($this->getName());
     }
 }

@@ -21,15 +21,15 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Magelight\Core\Blocks\Grid;
+namespace Magelight\Grid\Blocks\Grid;
 
 use Magelight\Core\Blocks\Element;
-use Magelight\Core\Blocks\Grid;
+use Magelight\Grid\Blocks\Grid;
 use Magelight\Traits\TForgery;
 
 /**
  * Class Column
- * @package Magelight\Core\Blocks\Grid
+ * @package Magelight\Grid\Blocks\Grid
  *
  * @method static $this forge()
  */
@@ -58,9 +58,9 @@ class Column
     protected $visible = true;
 
     /**
-     * @var bool|int
+     * @var bool
      */
-    protected $sortable = true;
+    protected $sortable = false;
 
     /**
      * Field to be passed to renderer
@@ -192,7 +192,7 @@ class Column
      */
     public function isSortable()
     {
-        return $this->sortable && empty($this->sortField);
+        return $this->sortable && !empty($this->sortField);
     }
 
     /**
@@ -261,7 +261,9 @@ class Column
     public function setFilter(Grid\Column\Filter\FilterInterface $filter)
     {
         $this->filter = $filter;
-        $this->filter->setFilterField(array_values($this->getFields())[0]);
+        if (!$filter->getName()) {
+            $this->filter->setFilterField(array_values($this->getFields())[0]);
+        }
         $this->filter->setColumn($this);
         return $this;
     }

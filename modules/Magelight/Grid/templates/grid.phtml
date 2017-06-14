@@ -1,0 +1,75 @@
+<?php
+/**
+ * @var \Magelight\Grid\Blocks\Grid $this
+ */
+?>
+<form <?=$this->getFilterForm()->renderAttributes()?>>
+    <div class="filter-row">
+        <button class="btn btn-xs btn-info"><?=__('Apply filters')?></button>
+        <button class="btn btn-xs"><?=__('Reset filters')?></button>
+    </div>
+    <table class="<?=$this->class?> grid table">
+        <thead>
+            <tr>
+                <?php foreach ($this->getColumns() as $key => $column) { ?>
+                    <th>
+                        <?php if ($column->isSortable()) { ?>
+                            <?php
+                                $currentSortDir = $this->getFilterForm()->getFieldValue('sort[' . $column->getSortField() . ']');
+                                $newSortDir = $currentSortDir == 'ASC'
+                                    ? 'DESC' : ($currentSortDir == 'DESC' ? null : 'ASC');
+                                $requestAppendParam = [
+                                    $column->getSortField() => $newSortDir
+                                ];
+                            ?>
+                            <a href="<?=
+                                $this->url($this->getUrlMatch()
+                                    . '?'
+                                    . http_build_query(
+                                        [
+                                            $this->getFilterForm()->getWrapIndex() => array_replace_recursive(
+                                                $this->getFilterForm()->getNonEmptyRequestFields(),
+                                                ['sort' => $requestAppendParam]
+                                            )
+                                        ]
+                                    )
+                                )?>" data-sort="<?=$column->getSortField()?>">
+                                <?=$this->escapeHtml($column->getTitle())?>
+                                <?php if ($currentSortDir) { ?>
+                                    <i class="glyphicon glyphicon-sort-by-alphabet<?=$currentSortDir == 'DESC' ? '-alt' : ''?>"></i>
+                                <?php } ?>
+                            </a>
+                        <?php } else { ?>
+                            <span><?=$this->escapeHtml($column->getTitle())?></span>
+                        <?php } ?>
+                    </th>
+                <?php } ?>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="filter-row">
+                <?php foreach ($this->getColumns() as $key => $column) { ?>
+                    <td>
+                        <?php if ($column->getFilter()) { ?>
+                            <div>
+                                <?=$column->getFilter()->toHtml()?>
+                            </div>
+                        <?php } ?>
+                    </td>
+                <?php } ?>
+            </tr>
+        </tbody>
+        <tbody>
+            <?php foreach ($this->getRows() as $row) { ?>
+            <tr>
+                <?php foreach ($this->getColumns() as $column) { ?>
+                    <td><?=$this->renderCellContent($column, $row)?></td>
+                <?php } ?>
+            </tr>
+            <?php } ?>
+        </tbody>
+    </table>
+</form>
+<div class="text-center">
+    <?=$this->pager->toHtml()?>
+</div>

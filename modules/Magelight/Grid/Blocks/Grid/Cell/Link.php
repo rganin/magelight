@@ -21,20 +21,20 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace Magelight\Core\Blocks\Grid\Cell;
+namespace Magelight\Grid\Blocks\Grid\Cell;
 
-use Magelight\Core\Blocks\Grid\Cell;
+use Magelight\Grid\Blocks\Grid\Cell;
 
 /**
- * Class Image
- * @package Magelight\Core\Blocks\Grid\Cell
+ * Class Link
+ * @package Magelight\Grid\Blocks\Grid\Cell
  *
- * @method static $this forge()
- * @property string $alt
+ * @param string $match - a url match
+ * @param string $text - link text to be used if not set textField index in row data
  */
-class Image extends Cell
+class Link extends Cell
 {
-    protected $tag = 'img';
+    protected $tag = 'a';
 
     /**
      * @var null|string
@@ -51,7 +51,7 @@ class Image extends Cell
     /**
      * @var null|string
      */
-    protected $altField = null;
+    protected $textField = null;
 
     /**
      * @var array
@@ -76,10 +76,10 @@ class Image extends Cell
      * @param null|string $field
      * @return $this
      */
-    public function setAltField($field = null)
+    public function setTextField($field = null)
     {
         if ($field) {
-            $this->altField = $field;
+            $this->textField = $field;
         }
         return $this;
     }
@@ -103,11 +103,12 @@ class Image extends Cell
      */
     public function beforeToHtml()
     {
-        $this->addClass('grid-thumb');
         if (isset($this->match)) {
-            $this->setAttribute('src', $this->url($this->match, $this->data, null, $this->matchOnlyMaskParams));
+            $this->setAttribute('href', $this->url($this->match, $this->data, null, $this->matchOnlyMaskParams));
         }
-        $this->setAttribute('alt', $this->altField ? $this->data[$this->altField] : $this->alt);
+        if ($this->textField && isset($this->data[$this->textField])) {
+            $this->setContent($this->data[$this->textField]);
+        }
         return $this;
     }
 }
