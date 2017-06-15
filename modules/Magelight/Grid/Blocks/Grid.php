@@ -39,7 +39,7 @@ use Magelight\Webform\Blocks\Form;
  *
  * @property string $class
  *
- * @method static $this forge($name = 'grid')
+ * @method static $this forge($urlMatch, $name = 'grid')
  */
 class Grid extends Block
 {
@@ -103,7 +103,7 @@ class Grid extends Block
             ->setMethod('get')
             ->loadFromRequest();
 
-        Document::getInstance()->addCss('Magelight/Core/static/css/grid.css');
+        Document::getInstance()->addCss('Magelight/Grid/static/css/grid.css');
     }
 
     /**
@@ -148,7 +148,6 @@ class Grid extends Block
     public function setCollection(Collection $collection)
     {
         $this->collection = $collection;
-        $this->pager->setCollection($collection);
         $sortFields = (array)$this->filterForm->getFieldValue('sort');
         $sortDirections = [];
 
@@ -206,6 +205,7 @@ class Grid extends Block
     public function setPerPage($perPage)
     {
         $this->pager->setPerPage($perPage);
+        $this->collection->setLimit($perPage);
         return $this;
     }
 
@@ -257,6 +257,7 @@ class Grid extends Block
     protected function loadData()
     {
         if (empty($this->rows)) {
+            $this->pager->setCollection($this->collection);
             foreach ($this->collection->fetchAll() as $rowData) {
                 $this->rows[] = Row::forge($rowData);
             }
