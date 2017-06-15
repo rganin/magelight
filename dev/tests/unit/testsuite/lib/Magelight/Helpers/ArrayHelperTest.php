@@ -57,4 +57,51 @@ class ArrayHelperTest extends \PHPUnit\Framework\TestCase
         /* @var $helper \Magelight\Helpers\ArrayHelper */
         $this->assertEmpty(array_diff($helper->insertToArray($sourceArray, $after, $insert), $result));
     }
+
+    /**
+     * @dataProvider flatternArrayTestDataSource
+     */
+    public function testFlatternArray($input, $expectedResult)
+    {
+        $helper = new \Magelight\Helpers\ArrayHelper;
+        $this->assertEquals($expectedResult, $helper->flatternArray($input));
+    }
+
+    public function flatternArrayTestDataSource()
+    {
+        return [
+            [
+                'input' => [
+                    'a' => 1,
+                    'b' => [
+                        '1' => 'x',
+                        '2' => 'y'
+                    ]
+                ],
+                'exRes' => [
+                    'a' => 1,
+                    'b[1]' => 'x',
+                    'b[2]' => 'y'
+                ]
+            ],
+            [
+                'input' => [
+                    'a' => 1,
+                    'c' => [
+                        '1' => [
+                            'x' => 'xxx',
+                            'y' => 'yyy'
+                        ],
+                        '2' => 'y'
+                    ]
+                ],
+                'exRes' => [
+                    'a' => 1,
+                    'c[1][x]' => 'xxx',
+                    'c[1][y]' => 'yyy',
+                    'c[2]' => 'y'
+                ]
+            ],
+        ];
+    }
 }

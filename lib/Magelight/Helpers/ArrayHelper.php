@@ -56,4 +56,26 @@ class ArrayHelper
         $array = $tmp;
         return $array;
     }
+
+    /**
+     * Flattern nested array into HTML form-like structure
+     *
+     * @param array $array
+     * @param string $prefix
+     * @return array
+     */
+    public function flatternArray($array, $prefix = '')
+    {
+        $result = [];
+        foreach ($array as $key => $value)
+        {
+            $newKey = $prefix . (empty($prefix) ? $key : '[' . $key . ']');
+            if (is_array($value)) {
+                $result = array_merge($result, $this->flatternArray($value, $newKey));
+            } else {
+                $result[$newKey] = $value;
+            }
+        }
+        return $result;
+    }
 }

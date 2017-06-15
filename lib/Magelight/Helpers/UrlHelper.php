@@ -194,20 +194,8 @@ class UrlHelper
      *
      * @return array
      */
-    protected function flatternParams($array) {
-        $continue = true;
-        while ($continue) {
-            $continue = false;
-            foreach ($array as $key => $value) {
-                if (is_array($value)) {
-                    $continue = false;
-                    foreach ($value as $child_key => $child_value) {
-                        $array[$key . '[' . $child_key . ']'] = $child_value;
-                    }
-                    unset($array[$key]);
-                }
-            }
-        }
-        return $array;
+    protected function flatternParams($array)
+    {
+        return ArrayHelper::getInstance()->flatternArray($array);
     }
 }

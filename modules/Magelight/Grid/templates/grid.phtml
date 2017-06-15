@@ -22,7 +22,7 @@
                                     $column->getSortField() => $newSortDir
                                 ];
                                 $filteringParams = [
-                                    $this->getFilterForm()->getWrapIndex() => array_replace_recursive(
+                                    $this->getFilterForm()->getWrapIndex() => array_merge_recursive(
                                         $this->getFilterForm()->getRequestFields(),
                                         ['sort' => $requestAppendParam]
                                     )
@@ -67,7 +67,12 @@
 </form>
 <div class="text-center">
     <?php
-        $this->setPagerRoute($this->getUrlMatch(), $filteringParams);
+        $this->setPagerRoute(
+            $this->getUrlMatch(),
+            [
+                $this->getFilterForm()->getWrapIndex() => $this->getFilterForm()->getRequestFields()
+            ]
+        );
     ?>
     <?=$this->pager->toHtml()?>
 </div>
