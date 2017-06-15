@@ -21,19 +21,14 @@
                                 $requestAppendParam = [
                                     $column->getSortField() => $newSortDir
                                 ];
-                            ?>
-                            <a href="<?=
-                                $this->url($this->getUrlMatch()
-                                    . '?'
-                                    . http_build_query(
-                                        [
-                                            $this->getFilterForm()->getWrapIndex() => array_replace_recursive(
-                                                $this->getFilterForm()->getNonEmptyRequestFields(),
-                                                ['sort' => $requestAppendParam]
-                                            )
-                                        ]
+                                $filteringParams = [
+                                    $this->getFilterForm()->getWrapIndex() => array_replace_recursive(
+                                        $this->getFilterForm()->getRequestFields(),
+                                        ['sort' => $requestAppendParam]
                                     )
-                                )?>" data-sort="<?=$column->getSortField()?>">
+                                ];
+                            ?>
+                            <a href="<?=$this->url($this->getUrlMatch(), $filteringParams)?>">
                                 <?=$this->escapeHtml($column->getTitle())?>
                                 <?php if ($currentSortDir) { ?>
                                     <i class="glyphicon glyphicon-sort-by-alphabet<?=$currentSortDir == 'DESC' ? '-alt' : ''?>"></i>
@@ -71,5 +66,8 @@
     </table>
 </form>
 <div class="text-center">
+    <?php
+        $this->setPagerRoute($this->getUrlMatch(), $filteringParams);
+    ?>
     <?=$this->pager->toHtml()?>
 </div>

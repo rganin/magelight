@@ -40,7 +40,7 @@ class RangeDateTime extends AbstractFilter
         $this->inputTo->setPlaceholder(__('To', [], 1, 'filters'))->setAttribute('data-bound', 'to');
         $this->addContent($this->inputFrom)
             ->addContent($this->inputTo);
-        Document::getInstance()->addJs('Magelight/Core/static/js/date-range-filter.js');
+        Document::getInstance()->addJs('Magelight/Grid/static/js/date-range-filter.js');
     }
 
     /**
