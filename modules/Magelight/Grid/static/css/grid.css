@@ -10,3 +10,7 @@ img.grid-thumb {
 table.grid.table thead{
     background-color: #f8fafb;
 }
+
+table.grid thead tr th {
+    text-align: center;
+}
