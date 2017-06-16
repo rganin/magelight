@@ -89,6 +89,7 @@ class Config
         } else {
             $this->config = simplexml_load_string($modulesConfigString);
         }
+        Event\Manager::getInstance()->dispatchEvent('after_config_load', ['config' => $this]);
         unset($loader);
     }
 
@@ -100,6 +101,16 @@ class Config
     public function getConfigXmlString()
     {
         return $this->config->asXML();
+    }
+
+    /**
+     * Get config data
+     *
+     * @return \SimpleXMLElement
+     */
+    public function getConfigData()
+    {
+       return $this->config;
     }
 
     /**
