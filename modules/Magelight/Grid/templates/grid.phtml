@@ -22,7 +22,7 @@
                                     $column->getSortField() => $newSortDir
                                 ];
                                 $filteringParams = [
-                                    $this->getFilterForm()->getWrapIndex() => array_merge_recursive(
+                                    $this->getFilterForm()->getWrapIndex() => array_replace_recursive(
                                         $this->getFilterForm()->getRequestFields(),
                                         ['sort' => $requestAppendParam]
                                     )
