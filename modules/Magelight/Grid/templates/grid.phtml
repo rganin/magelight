@@ -5,8 +5,8 @@
 ?>
 <form <?=$this->getFilterForm()->renderAttributes()?>>
     <div class="filter-row">
-        <button class="btn btn-xs btn-info" type="submit"><?=__('Apply filters')?></button>
-        <button class="btn btn-xs" type="reset"><?=__('Reset filters')?></button>
+        <button class="btn btn-xs btn-info" type="submit"><?=__('Apply filters', [], 1, 'filters')?></button>
+        <button class="btn btn-xs" type="reset"><?=__('Reset filters', [], 1, 'filters')?></button>
     </div>
     <table class="<?=$this->class?> grid table">
         <thead>

@@ -19,6 +19,6 @@ class Text extends AbstractFilter
      */
     public function getFilterSqlExpression()
     {
-        return Expression::forge("{$this->getName()} LIKE '%?%'", $this->getValue());
+        return Expression::forge("{$this->getName()} LIKE ?", "%{$this->getValue()}%");
     }
 }
