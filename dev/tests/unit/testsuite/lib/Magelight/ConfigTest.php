@@ -60,6 +60,11 @@ class ConfigTest extends \Magelight\TestCase
     protected $cacheAdapterMock;
 
     /**
+     * @var \Magelight\Event\Manager|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $eventManagerMock;
+
+    /**
      * Set up before test
      *
      * @throws Exception
@@ -84,6 +89,12 @@ class ConfigTest extends \Magelight\TestCase
             ->disableOriginalConstructor()
             ->getMock();
         \Magelight\Cache\AdapterPool::forgeMock($this->cacheAdapterPoolMock);
+
+        $this->eventManagerMock = $this->getMockBuilder(\Magelight\Event\Manager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        \Magelight\Event\Manager::forgeMock($this->eventManagerMock);
 
         $this->cacheAdapterMock = $this->getMockForAbstractClass(
             \Magelight\Cache\AdapterAbstract::class,
@@ -232,7 +243,7 @@ class ConfigTest extends \Magelight\TestCase
 
         $this->cacheAdapterMock->expects($this->once())
             ->method('set')
-            ->with($this->config->buildCacheKey('modules_config'), $expectedConfig->asXML(), 3600);
+            ->with($this->config->buildCacheKey(['modules_config']), $expectedConfig->asXML(), 3600);
 
         $this->config->load();
 
