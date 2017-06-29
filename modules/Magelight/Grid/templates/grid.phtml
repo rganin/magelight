@@ -16,8 +16,12 @@
                         <?php if ($column->isSortable()) { ?>
                             <?php
                                 $currentSortDir = $this->getFilterForm()->getFieldValue('sort[' . $column->getSortField() . ']');
+                                // if sorted by ASC then new link is DESC
+                                // if sorted by DESC then new link is null
+                                // if no sorting then new link is ASC
                                 $newSortDir = $currentSortDir == 'ASC'
                                     ? 'DESC' : ($currentSortDir == 'DESC' ? null : 'ASC');
+
                                 $requestAppendParam = [
                                     $column->getSortField() => $newSortDir
                                 ];

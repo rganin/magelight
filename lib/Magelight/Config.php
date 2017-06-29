@@ -238,4 +238,14 @@ class Config
             return isset($conf[0]->attributes()->$attribute) ? $conf[0]->attributes()->$attribute : $default;
         }
     }
+
+    /**
+     * Get XML object with config
+     *
+     * @return \SimpleXMLElement
+     */
+    public function getConfigXmlObject()
+    {
+        return $this->config;
+    }
 }
