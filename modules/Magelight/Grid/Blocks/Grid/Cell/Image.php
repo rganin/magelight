@@ -23,6 +23,7 @@
 
 namespace Magelight\Grid\Blocks\Grid\Cell;
 
+use Magelight\Core\Blocks\Element;
 use Magelight\Grid\Blocks\Grid\Cell;
 
 /**
@@ -34,7 +35,7 @@ use Magelight\Grid\Blocks\Grid\Cell;
  */
 class Image extends Cell
 {
-    protected $tag = 'img';
+    protected $tag = 'div';
 
     /**
      * @var null|string
@@ -103,11 +104,20 @@ class Image extends Cell
      */
     public function beforeToHtml()
     {
-        $this->addClass('grid-thumb');
+        $this->setContent('');
+        $this->setClass('image-wrapper');
+
+        $container = Element::forge();
+        $container->setClass('image-container');
+
+        $image = Element::forge()->setTag('img')->addClass('grid-thumb');
         if (isset($this->match)) {
-            $this->setAttribute('src', $this->url($this->match, $this->data, null, $this->matchOnlyMaskParams));
+            $image->setAttribute('src', $this->url($this->match, $this->data, null, $this->matchOnlyMaskParams));
         }
-        $this->setAttribute('alt', $this->altField ? $this->data[$this->altField] : $this->alt);
+        $image->setAttribute('alt', $this->altField ? $this->data[$this->altField] : $this->alt);
+
+        $this->addContent($container->addContent($image));
+
         return $this;
     }
 }

@@ -327,7 +327,8 @@ if (!isset($options['p'])) {
     die();
 }
 
-require_once realpath($options['p']) . '/bootstrap.php';
+require_once realpath($options['p']) . '/vendor/autoload.php';
+\Magelight\App::getForgery()->setPreference(\Magelight\App::class, \Magelight\App\Web::class);
 \Magelight\App::getInstance()->setAppDir(realpath($options['p']))->init();
 
 $crawler = new Crawler();
