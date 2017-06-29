@@ -27,7 +27,7 @@ use Magelight\Traits\TForgery;
 /**
  * Config wrapper
  *
- * @method static Config getInstance()
+ * @method static $this getInstance()
  */
 class Config
 {

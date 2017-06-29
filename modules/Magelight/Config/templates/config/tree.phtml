@@ -1,0 +1,19 @@
+<?php
+/**
+ * @var $this \Magelight\Config\Blocks\Config\Tree
+ */
+?>
+<div id="config-tree"></div>
+<script type="text/javascript">
+    $(document).ready(
+        function () {
+            var configMenu = jQuery.parseJSON('<?=json_encode($this->buildMenuTreeArray())?>');
+            $('#config-tree').treeview({
+                data: configMenu,
+                enableLinks: true,
+                highlightSelected: false,
+                levels: 1
+            });
+        }
+    );
+</script>

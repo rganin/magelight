@@ -16,22 +16,13 @@ class Index extends \Magelight\Admin\Controllers\Base
 
     public function indexAction()
     {
-        $config = Config::getInstance()->getConfigData();
-        $array = $this->walkXml($config);
-        $this->view()->sectionReplace('content', 'config content');
+        $this->view()->sectionReplace('content', Config\Blocks\Config\Container::forge());
         $this->renderView();
     }
 
-    protected function walkXml(\SimpleXMLElement $element, $path = '/', &$targetArray = [])
-    {
-        if (empty($element->children())) {
-            $targetArray[$path] = (string)$element;
-        } else {
-            /** @var \SimpleXMLElement $child */
-            foreach ($element->children() as $child) {
-                $this->walkXml($child, $path . '/' . $child->getName(), $targetArray);
-            }
-        }
-        return $targetArray;
-    }
+
+
+
+
+
 }
