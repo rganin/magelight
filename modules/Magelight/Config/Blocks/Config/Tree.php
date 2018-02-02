@@ -42,7 +42,7 @@ class Tree extends Block
                 $path .= '/' . $nodePathPart;
                 $element = \Magelight\Config::getInstance()->getConfig($path);
                 $nodeName = (string)$element->getName();
-                if (!isset($menuTree[$nodeName])) {
+                if (!isset($menu[$nodeName])) {
                     $attributes = $config->getElementAttributes($element);
                     $menu[$nodeName] = [
                         'text' => isset($attributes['title']) ? $attributes['title'] : $nodeName,

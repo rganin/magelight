@@ -27,16 +27,21 @@
         <document>
             <default_lang>ru</default_lang>
         </document>
-        <minifier>
-            <minify_js>0</minify_js>
-            <minify_css>0</minify_css>
-            <compress_js>0</compress_js>
-            <compress_css>0</compress_css>
+        <minifier title="Minifier">
+            <minify_js editable="1" label="Minify JS" hint="Enable JavaScript minification and merging">0</minify_js>
+            <minify_css editable="1" label="Minify CSS" hint="Enable CSS minification and merging">0</minify_css>
+            <compress_js editable="1" label="Compress JS" hint="Enable JavaScript compression">0</compress_js>
+            <compress_css editable="1" label="CompressCSS" hint="Enable CSS compression">0</compress_css>
             <public_dir>pub/static</public_dir>
             <check_readability>0</check_readability>
-            <cache_ttl_css>10000</cache_ttl_css>
-            <cache_ttl_js>10000</cache_ttl_js>
+            <cache_ttl_css editable="1" label="CSS cache ttl" hint="Cache timeout for CSS">10000</cache_ttl_css>
+            <cache_ttl_js editable="1" label="JS cache ttl" hint="JavaScript cache timeout">10000</cache_ttl_js>
         </minifier>
+        <view title="View" visible="true">
+            <date_format title="Date Format" editable="true" visible="true">d-m-Y</date_format>
+            <date_time_format title="Date and Time Format" editable="true" visible="true">d-m-Y H:i:s</date_time_format>
+            <cache_ttl title="Cache TTL" editable="true" visible="true">3600</cache_ttl>
+        </view>
         <uploads>
             <path>var/uploads</path>
         </uploads>

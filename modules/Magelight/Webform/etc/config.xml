@@ -24,19 +24,19 @@
 -->
 <config>
     <global>
-        <document>
-            <re_captcha>
-                <private_key></private_key>
-                <public_key></public_key>
+        <document title="Web">
+            <re_captcha title="ReCaptcha">
+                <private_key editable="1" label="Private key" hint="Private key for ReCaptcha"></private_key>
+                <public_key editable="1" label="Public key" hint="Public key for ReCaptcha"></public_key>
             </re_captcha>
-            <captcha>
+            <captcha title="Captcha">
                 <save_path>pub/static/captchas</save_path>
-                <charlist>abcdefghijkLmnopqrstuvwxyz0123456789</charlist>
-                <font_file>Magelight/Webform/static/fonts/comic.ttf</font_file>
-                <font_size>18</font_size>
-                <font_color>#373800</font_color>
-                <noise_color>#787878</noise_color>
-                <background_color>#eee</background_color>
+                <charlist editable="1" label="Characters list" hint="List of characters to be used in captcha">abcdefghijkLmnopqrstuvwxyz0123456789</charlist>
+                <font_file editable="1" label="Font file" hint="Captcha font file">Magelight/Webform/static/fonts/comic.ttf</font_file>
+                <font_size editable="1" label="Font size" hint="Font size">18</font_size>
+                <font_color editable="1" label="Font color" hint="Color of font">#373800</font_color>
+                <noise_color editable="1" label="Noize color" hint="Color of noize elements on captcha">#787878</noise_color>
+                <background_color editable="1" label="Background color" hint="Background color">#eee</background_color>
             </captcha>
         </document>
     </global>

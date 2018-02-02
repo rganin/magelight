@@ -13,6 +13,14 @@ use Magelight\Traits\TForgery;
 class Config extends \Magelight\Config
 {
 
+    /**
+     * Get nodes from configuration that are marked as editable.
+     *
+     * @param \SimpleXMLElement $element
+     * @param string $path
+     * @param array $targetArray
+     * @return array
+     */
     public function getEditableNodes(\SimpleXMLElement $element, $path = '/', &$targetArray = [])
     {
         $attributes = $this->getElementAttributes($element);
@@ -32,6 +40,12 @@ class Config extends \Magelight\Config
         return $targetArray;
     }
 
+    /**
+     * Get attributes of element.
+     *
+     * @param \SimpleXMLElement $element
+     * @return array
+     */
     public function getElementAttributes(\SimpleXMLElement $element)
     {
         $result = [];

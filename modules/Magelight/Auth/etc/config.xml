@@ -24,29 +24,29 @@
 -->
 <config>
     <global>
-        <auth>
-            <robot_email>admin@example.com</robot_email>
-            <ulogin>
+        <auth title="Authorization">
+            <robot_email editable="1" label="Robot mail" hint="Email address for robot that sends Welcome and password reset emails">admin@example.com</robot_email>
+            <ulogin title="ULogin">
                 <ulogin_script_url>//ulogin.ru/js/ulogin.js</ulogin_script_url>
-                <instances>
-                    <default>
+                <instances title="Instances">
+                    <default title="Default">
                         <html_id>uLogin</html_id>
-                        <options>
+                        <options title="Options">
                             <display>panel</display>
                             <fields>first_name,email,city,country</fields>
                             <optional>photo,phone</optional>
-                            <providers>vkontakte,facebook,odnoklassniki,twitter,mailru,yandex,google,instagram</providers>
+                            <providers editable="1" label="Providers" hint="List of ulogin providers to be enabled">vkontakte,facebook,odnoklassniki,twitter,mailru,yandex,google,instagram</providers>
                             <hidden></hidden>
                             <redirect_route>auth/servicelogin</redirect_route>
                         </options>
                     </default>
-                    <register>
+                    <register title="Register">
                         <html_id>uLogin-register</html_id>
-                        <options>
+                        <options title="Options">
                             <display>panel</display>
                             <fields>first_name,email,city,country</fields>
                             <optional>photo,phone</optional>
-                            <providers>vkontakte,facebook,odnoklassniki,twitter,mailru,yandex,google,instagram</providers>
+                            <providers editable="1" label="Providers" hint="List of ulogin providers to be enabled">vkontakte,facebook,odnoklassniki,twitter,mailru,yandex,google,instagram</providers>
                             <hidden></hidden>
                             <redirect_route>auth/servicelogin</redirect_route>
                         </options>
@@ -66,8 +66,8 @@
                 <forgot_password_url>auth/remindpass</forgot_password_url>
                 <render_captcha_url>auth/render_captcha</render_captcha_url>
             </urls>
-            <avatar>
-                <noavatar_url>/Magelight/Auth/static/img/no-avatar.png</noavatar_url>
+            <avatar title="Avatar">
+                <noavatar_url editable="1" label="No avatar image" hint="Url of image to be used as avatar placeholder">/Magelight/Auth/static/img/no-avatar.png</noavatar_url>
             </avatar>
         </auth>
     </global>

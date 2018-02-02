@@ -29,82 +29,82 @@ use Magelight\Exception;
 /**
  * Abstract Orm
  *
- * @method \Magelight\Db\Common\Orm     joinLeft($table, $alias = null, $onStatement = null, $onParams = [])
- * @method \Magelight\Db\Common\Orm     joinRight($table, $alias = null, $onStatement = null, $onParams = [])
- * @method \Magelight\Db\Common\Orm     joinCross($table, $alias = null, $onStatement = null, $onParams = [])
- * @method \Magelight\Db\Common\Orm     joinInner($table, $alias = null, $onStatement = null, $onParams = [])
- * @method \Magelight\Db\Common\Orm     joinOuterLeft($table, $alias = null, $onStatement = null, $onParams = [])
- * @method \Magelight\Db\Common\Orm     joinOuterRight($table, $alias = null, $onStatement = null, $onParams = [])
+ * @method $this joinLeft($table, $alias = null, $onStatement = null, $onParams = [])
+ * @method $this joinRight($table, $alias = null, $onStatement = null, $onParams = [])
+ * @method $this joinCross($table, $alias = null, $onStatement = null, $onParams = [])
+ * @method $this joinInner($table, $alias = null, $onStatement = null, $onParams = [])
+ * @method $this joinOuterLeft($table, $alias = null, $onStatement = null, $onParams = [])
+ * @method $this joinOuterRight($table, $alias = null, $onStatement = null, $onParams = [])
  *
- * @method \Magelight\Db\Common\Orm     whereEq($expression, $param)
- * @method \Magelight\Db\Common\Orm     whereNeq($expression, $param)
- * @method \Magelight\Db\Common\Orm     whereNull($expression)
- * @method \Magelight\Db\Common\Orm     whereNotNull($expression)
- * @method \Magelight\Db\Common\Orm     whereGt($expression, $param)
- * @method \Magelight\Db\Common\Orm     whereGte($expression, $param)
- * @method \Magelight\Db\Common\Orm     whereLt($expression, $param)
- * @method \Magelight\Db\Common\Orm     whereLte($expression, $param)
- * @method \Magelight\Db\Common\Orm     whereLike($expression, $param)
- * @method \Magelight\Db\Common\Orm     whereIn($expression, $param)
- * @method \Magelight\Db\Common\Orm     whereNotIn($expression, $param)
- * @method \Magelight\Db\Common\Orm     whereBetween($expression, $paramsLowAndHigh)
- * @method \Magelight\Db\Common\Orm     whereEx(ExpressionInterface $expression)
+ * @method $this whereEq($expression, $param)
+ * @method $this whereNeq($expression, $param)
+ * @method $this whereNull($expression)
+ * @method $this whereNotNull($expression)
+ * @method $this whereGt($expression, $param)
+ * @method $this whereGte($expression, $param)
+ * @method $this whereLt($expression, $param)
+ * @method $this whereLte($expression, $param)
+ * @method $this whereLike($expression, $param)
+ * @method $this whereIn($expression, $param)
+ * @method $this whereNotIn($expression, $param)
+ * @method $this whereBetween($expression, $paramsLowAndHigh)
+ * @method $this whereEx(ExpressionInterface $expression)
  *
- * @method \Magelight\Db\Common\Orm     orWhereEq($expression, $param)
- * @method \Magelight\Db\Common\Orm     orWhereNeq($expression, $param)
- * @method \Magelight\Db\Common\Orm     orWhereNull($expression)
- * @method \Magelight\Db\Common\Orm     orWhereNotNull($expression)
- * @method \Magelight\Db\Common\Orm     orWhereGt($expression, $param)
- * @method \Magelight\Db\Common\Orm     orWhereGte($expression, $param)
- * @method \Magelight\Db\Common\Orm     orWhereLt($expression, $param)
- * @method \Magelight\Db\Common\Orm     orWhereLte($expression, $param)
- * @method \Magelight\Db\Common\Orm     orWhereLike($expression, $param)
- * @method \Magelight\Db\Common\Orm     orWhereIn($expression, $param)
- * @method \Magelight\Db\Common\Orm     orWhereNotIn($expression, $param)
- * @method \Magelight\Db\Common\Orm     orWhereBetween($expression, $paramsLowAndHigh)
- * @method \Magelight\Db\Common\Orm     orWhereEx(ExpressionInterface $expression)
+ * @method $this orWhereEq($expression, $param)
+ * @method $this orWhereNeq($expression, $param)
+ * @method $this orWhereNull($expression)
+ * @method $this orWhereNotNull($expression)
+ * @method $this orWhereGt($expression, $param)
+ * @method $this orWhereGte($expression, $param)
+ * @method $this orWhereLt($expression, $param)
+ * @method $this orWhereLte($expression, $param)
+ * @method $this orWhereLike($expression, $param)
+ * @method $this orWhereIn($expression, $param)
+ * @method $this orWhereNotIn($expression, $param)
+ * @method $this orWhereBetween($expression, $paramsLowAndHigh)
+ * @method $this orWhereEx(ExpressionInterface $expression)
  *
- * @method \Magelight\Db\Common\Orm     andWhereEq($expression, $param)
- * @method \Magelight\Db\Common\Orm     andWhereNeq($expression, $param)
- * @method \Magelight\Db\Common\Orm     andWhereNull($expression)
- * @method \Magelight\Db\Common\Orm     andWhereNotNull($expression)
- * @method \Magelight\Db\Common\Orm     andWhereGt($expression, $param)
- * @method \Magelight\Db\Common\Orm     andWhereGte($expression, $param)
- * @method \Magelight\Db\Common\Orm     andWhereLt($expression, $param)
- * @method \Magelight\Db\Common\Orm     andWhereLte($expression, $param)
- * @method \Magelight\Db\Common\Orm     andWhereLike($expression, $param)
- * @method \Magelight\Db\Common\Orm     andWhereIn($expression, $param)
- * @method \Magelight\Db\Common\Orm     andWhereNotIn($expression, $param)
- * @method \Magelight\Db\Common\Orm     andWhereBetween($expression, $paramsLowAndHigh)
- * @method \Magelight\Db\Common\Orm     andWhereEx(ExpressionInterface $expression)
+ * @method $this andWhereEq($expression, $param)
+ * @method $this andWhereNeq($expression, $param)
+ * @method $this andWhereNull($expression)
+ * @method $this andWhereNotNull($expression)
+ * @method $this andWhereGt($expression, $param)
+ * @method $this andWhereGte($expression, $param)
+ * @method $this andWhereLt($expression, $param)
+ * @method $this andWhereLte($expression, $param)
+ * @method $this andWhereLike($expression, $param)
+ * @method $this andWhereIn($expression, $param)
+ * @method $this andWhereNotIn($expression, $param)
+ * @method $this andWhereBetween($expression, $paramsLowAndHigh)
+ * @method $this andWhereEx(ExpressionInterface $expression)
  *
- * @method \Magelight\Db\Common\Orm     andNotWhereEq($expression, $param)
- * @method \Magelight\Db\Common\Orm     andNotWhereNeq($expression, $param)
- * @method \Magelight\Db\Common\Orm     andNotWhereNull($expression)
- * @method \Magelight\Db\Common\Orm     andNotWhereNotNull($expression)
- * @method \Magelight\Db\Common\Orm     andNotWhereGt($expression, $param)
- * @method \Magelight\Db\Common\Orm     andNotWhereGte($expression, $param)
- * @method \Magelight\Db\Common\Orm     andNotWhereLt($expression, $param)
- * @method \Magelight\Db\Common\Orm     andNotWhereLte($expression, $param)
- * @method \Magelight\Db\Common\Orm     andNotWhereLike($expression, $param)
- * @method \Magelight\Db\Common\Orm     andNotWhereIn($expression, $param)
- * @method \Magelight\Db\Common\Orm     andNotWhereNotIn($expression, $param)
- * @method \Magelight\Db\Common\Orm     andNotWhereBetween($expression, $paramsLowAndHigh)
- * @method \Magelight\Db\Common\Orm     andNotWhereEx(ExpressionInterface $expression)
+ * @method $this andNotWhereEq($expression, $param)
+ * @method $this andNotWhereNeq($expression, $param)
+ * @method $this andNotWhereNull($expression)
+ * @method $this andNotWhereNotNull($expression)
+ * @method $this andNotWhereGt($expression, $param)
+ * @method $this andNotWhereGte($expression, $param)
+ * @method $this andNotWhereLt($expression, $param)
+ * @method $this andNotWhereLte($expression, $param)
+ * @method $this andNotWhereLike($expression, $param)
+ * @method $this andNotWhereIn($expression, $param)
+ * @method $this andNotWhereNotIn($expression, $param)
+ * @method $this andNotWhereBetween($expression, $paramsLowAndHigh)
+ * @method $this andNotWhereEx(ExpressionInterface $expression)
  *
- * @method \Magelight\Db\Common\Orm     orNotWhereEq($expression, $param)
- * @method \Magelight\Db\Common\Orm     orNotWhereNeq($expression, $param)
- * @method \Magelight\Db\Common\Orm     orNotWhereNull($expression)
- * @method \Magelight\Db\Common\Orm     orNotWhereNotNull($expression)
- * @method \Magelight\Db\Common\Orm     orNotWhereGt($expression, $param)
- * @method \Magelight\Db\Common\Orm     orNotWhereGte($expression, $param)
- * @method \Magelight\Db\Common\Orm     orNotWhereLt($expression, $param)
- * @method \Magelight\Db\Common\Orm     orNotWhereLte($expression, $param)
- * @method \Magelight\Db\Common\Orm     orNotWhereLike($expression, $param)
- * @method \Magelight\Db\Common\Orm     orNotWhereIn($expression, $param)
- * @method \Magelight\Db\Common\Orm     orNotWhereNotIn($expression, $param)
- * @method \Magelight\Db\Common\Orm     orNotWhereBetween($expression, $paramsLowAndHigh)
- * @method \Magelight\Db\Common\Orm     orNotWhereEx(ExpressionInterface $expression)
+ * @method $this orNotWhereEq($expression, $param)
+ * @method $this orNotWhereNeq($expression, $param)
+ * @method $this orNotWhereNull($expression)
+ * @method $this orNotWhereNotNull($expression)
+ * @method $this orNotWhereGt($expression, $param)
+ * @method $this orNotWhereGte($expression, $param)
+ * @method $this orNotWhereLt($expression, $param)
+ * @method $this orNotWhereLte($expression, $param)
+ * @method $this orNotWhereLike($expression, $param)
+ * @method $this orNotWhereIn($expression, $param)
+ * @method $this orNotWhereNotIn($expression, $param)
+ * @method $this orNotWhereBetween($expression, $paramsLowAndHigh)
+ * @method $this orNotWhereEx(ExpressionInterface $expression)
  */
 abstract class Orm
 {
@@ -859,15 +859,14 @@ abstract class Orm
     }
 
     /**
-     * Add select field
+     * Add select field.
+     * Use Expression as select field to push params for expression.
      *
-     * @param $expression
+     * @param string|ExpressionInterface $expression
      * @param null $alias
-     * @param array $params
-     * @param bool $distinct
      * @return Orm
      */
-    public function selectField($expression, $alias = null, $params = [], $distinct = false)
+    public function selectField($expression, $alias = null)
     {
         if (!empty($expression)) {
             if (!empty($alias)) {
@@ -875,7 +874,6 @@ abstract class Orm
             } else {
                 $this->selectFields[] = $expression;
             }
-            $this->pushParams($params);
         }
         return $this;
     }
@@ -920,12 +918,7 @@ abstract class Orm
             $fields = func_get_args();
         }
         foreach ($fields as $key => $field) {
-            if ($field instanceof Expression) {
-                $params = $field->getParams();
-            } else {
-                $params = [];
-            }
-            $this->selectField($field, is_string($key) ? $key : null, $params);
+            $this->selectField($field, is_string($key) ? $key : null);
         }
         return $this;
     }

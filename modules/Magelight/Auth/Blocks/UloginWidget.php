@@ -61,7 +61,7 @@ class UloginWidget extends \Magelight\Block
      */
     public function getUloginData()
     {
-        $config = (array) \Magelight\Config::getInstance()->getConfig(
+        $config = (array) \Magelight\Config::getInstance()->getConfigArray(
             'global/auth/ulogin/instances/' . $this->index . '/options'
         );
 

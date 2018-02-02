@@ -184,6 +184,7 @@ class Config
     public function getConfigArray($path, $default = [])
     {
         $data = (array)$this->getConfig($path, $default);
+        unset($data['@attributes']);
         return (array)$data;
     }
 
@@ -228,7 +229,7 @@ class Config
     {
         $path = self::CONFIG_PATH_PREFIX . ltrim($path, '\\/ ');
 
-        $conf = $this->config->xpath($path);
+        $conf = $this->config->xpath(rtrim($path, '/'));
         if ($conf === false || is_array($conf) && empty($conf)) {
             return $default;
         }
