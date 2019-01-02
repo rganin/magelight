@@ -162,8 +162,8 @@ class User extends \Magelight\Model
             'photo'           => isset($userData['photo']) ? $userData['photo'] : $defaultAvatar,
             'city'            => isset($userData['city']) ? $userData['city'] : '',
             'country'         => isset($userData['country']) ? $userData['country'] : '',
-            'city_id'         => $cityId,
-            'country_id'      => $countryId,
+            'city_id'         => (int)$cityId,
+            'country_id'      => (int)$countryId,
         ], true);
         if ($user->save(true)) {
             if (isset($userData['phone'])) {

@@ -31,6 +31,11 @@ namespace Magelight\Webform\Models\Validation\Rules;
 class FloatValue extends AbstractRule
 {
     /**
+     * @var string
+     */
+    protected $error = 'Field %s must be a float value';
+
+    /**
      * Fron validator (jQueryValidator) rule name
      *
      * @var string
@@ -49,18 +54,5 @@ class FloatValue extends AbstractRule
     public function check($value)
     {
         return filter_var($value, FILTER_VALIDATE_FLOAT) !== false;
-    }
-
-    /**
-     * Get error
-     *
-     * @return string
-     */
-    public function getError()
-    {
-        if (!empty($this->error)) {
-            return $this->error;
-        }
-        return __('Field %s must be a float value', $this->getErrorArguments());
     }
 }

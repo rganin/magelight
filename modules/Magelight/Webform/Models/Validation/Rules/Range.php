@@ -31,6 +31,11 @@ namespace Magelight\Webform\Models\Validation\Rules;
 class Range extends AbstractRule
 {
     /**
+     * @var string
+     */
+    protected $error = 'Field %s must be between %s and %s';
+
+    /**
      * Fron validator (jQueryValidator) rule name
      *
      * @var string
@@ -59,18 +64,5 @@ class Range extends AbstractRule
     public function getFrontValidationParams()
     {
         return $this->arguments;
-    }
-
-    /**
-     * Get error
-     *
-     * @return string
-     */
-    public function getError()
-    {
-        if (!empty($this->error)) {
-            return $this->error;
-        }
-        return __('Field %s must be between %s and %s', $this->getErrorArguments());
     }
 }

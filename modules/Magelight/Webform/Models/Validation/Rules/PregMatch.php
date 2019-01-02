@@ -31,6 +31,11 @@ namespace Magelight\Webform\Models\Validation\Rules;
 class PregMatch extends AbstractRule
 {
     /**
+     * @var string
+     */
+    protected $error = 'Field %s must match regexp "%s"';
+
+    /**
      * Fron validator (jQueryValidator) rule name
      *
      * @var string
@@ -62,18 +67,5 @@ class PregMatch extends AbstractRule
     public function getFrontValidationParams()
     {
         return true; //return $this->_arguments[0];
-    }
-
-    /**
-     * Get error
-     *
-     * @return string
-     */
-    public function getError()
-    {
-        if (!empty($this->error)) {
-            return $this->error;
-        }
-        return __('Field %s must match regexp "%s"', $this->getErrorArguments());
     }
 }

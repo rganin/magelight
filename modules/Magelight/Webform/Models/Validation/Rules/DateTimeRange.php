@@ -28,8 +28,13 @@ namespace Magelight\Webform\Models\Validation\Rules;
  *         forge(\Magelight\Webform\Models\Validation\Checker $checker)
  *
  */
-class DateRange extends AbstractRule
+class DateTimeRange extends AbstractRule
 {
+    /**
+     * @var string 
+     */
+    protected $error = 'Field %s must be a valid date between %s and %s';
+
     /**
      * Fron validator (jQueryValidator) rule name
      *
@@ -87,18 +92,5 @@ class DateRange extends AbstractRule
     public function getFrontValidationParams()
     {
         return $this->arguments;
-    }
-
-    /**
-     * Get error
-     *
-     * @return string
-     */
-    public function getError()
-    {
-        if (!empty($this->error)) {
-            return $this->error;
-        }
-        return __('Field %s must be a valid date between %s and %s', $this->getErrorArguments());
     }
 }

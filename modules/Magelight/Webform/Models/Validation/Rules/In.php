@@ -30,6 +30,11 @@ namespace Magelight\Webform\Models\Validation\Rules;
 class In extends AbstractRule
 {
     /**
+     * @var string
+     */
+    protected $error = 'Field %s must have a valid value';
+
+    /**
      * Check value with rule
      * Returns:
      *    - true if rule passed.
@@ -41,18 +46,5 @@ class In extends AbstractRule
     public function check($value)
     {
         return is_array($this->arguments[0]) ? in_array($value, $this->arguments[0]) : false;
-    }
-
-    /**
-     * Get error
-     *
-     * @return string
-     */
-    public function getError()
-    {
-        if (!empty($this->error)) {
-            return $this->error;
-        }
-        return __('Field %s must have a valid value', $this->getErrorArguments());
     }
 }

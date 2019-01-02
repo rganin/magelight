@@ -85,7 +85,6 @@ class Translator
      */
     public function translate($string, $arguments, $number, $context)
     {
-
         if (!isset($this->translations[$string][$context])) {
             $context = 'default';
         }
@@ -94,7 +93,11 @@ class Translator
                 $arguments = [$arguments];
             }
             if (!isset($this->translations[$string][$context][1])) {
-                return vsprintf($string, $arguments);
+                if (!empty($arguments)) {
+                    return vsprintf($string, $arguments);
+                } else {
+                    return $string;
+                }
             } else {
                 return vsprintf($this->translations[$string][$context][1], $arguments);
             }

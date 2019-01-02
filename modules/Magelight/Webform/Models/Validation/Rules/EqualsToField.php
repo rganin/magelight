@@ -31,6 +31,11 @@ namespace Magelight\Webform\Models\Validation\Rules;
 class EqualsToField extends AbstractRule
 {
     /**
+     * @var string
+     */
+    protected $error = 'Field %s must be equal to field %3$s';
+
+    /**
      * Fron validator (jQueryValidator) rule name
      *
      * @var string
@@ -60,18 +65,5 @@ class EqualsToField extends AbstractRule
     public function getFrontValidationParams()
     {
         return '#' . $this->checker()->getValidator()->getForm()->getFieldIdByName($this->arguments[0]);
-    }
-
-    /**
-     * Get error
-     *
-     * @return string
-     */
-    public function getError()
-    {
-        if (!empty($this->error)) {
-            return $this->error;
-        }
-        return __('Field %s must be equal to field %3$s', $this->getErrorArguments());
     }
 }

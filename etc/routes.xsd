@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+* Magelight
+*
+* NOTICE OF LICENSE
+*
+* This file is open source and it`s distribution is based on
+* Open Software License (OSL 3.0). You can obtain license text at
+* http://opensource.org/licenses/osl-3.0.php
+*
+* For any non license implied issues please contact rganin@gmail.com
+*
+* DISCLAIMER
+*
+* This file is a part of a framework. Please, do not modify it unless you discard
+* further updates.
+*
+* @version 1.0
+* @author Roman Ganin
+* @copyright Copyright (c) 2012-2015 rganin (rganin@gmail.com)
+* @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+*/
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="routes">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="route" type="routeType" minOccurs="1" maxOccurs="unbounded" />
+            </xs:sequence>
+        </xs:complexType>
+        <xs:unique name="uniqueRouteMatch">
+            <xs:annotation>
+                <xs:documentation>
+                    Route match must be unique
+                </xs:documentation>
+            </xs:annotation>
+            <xs:selector xpath="route"/>
+            <xs:field xpath="@match"/>
+        </xs:unique>
+    </xs:element>
+
+    <xs:complexType name="routeType">
+        <xs:annotation>
+            <xs:documentation>
+                Route declaration.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="route" type="routeType" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="match" type="matchType" use="required" />
+        <xs:attribute name="controller" type="controllerType" use="optional" />
+        <xs:attribute name="action" type="actionType" use="optional" />
+        <xs:attribute name="module" type="moduleNameType" use="optional" />
+    </xs:complexType>
+
+    <xs:simpleType name="matchType">
+        <xs:annotation>
+            <xs:documentation>
+                Match type must be literal, containing params in curly braces.
+                Sample: '/item/view/{url_key}' launches Item/View.php controller with 'url_key'
+                param in GET array containing eveything that matches default regex (a-zA-Z0-9_\-)
+                in place where {url_key} is located.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <!--Regex validated with /item/{url_key:a-z0-9\.}/{asdas}/11 as sample URL on https://regex101.com/ -->
+            <xs:pattern value="[a-zA-Z0-9_/}{:\-.]+" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="controllerType">
+        <xs:annotation>
+            <xs:documentation>
+                Conttroller name. Sample: 'admin'.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[a-zA-Z0-9_]+" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="actionType">
+        <xs:annotation>
+            <xs:documentation>
+                Action name. Sample: 'index'.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[a-zA-Z0-9_]+" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="moduleNameType">
+        <xs:annotation>
+            <xs:documentation>
+                Module name, sample: 'Magelight\Admin'.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[a-zA-Z0-9_\\]+" />
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

@@ -31,6 +31,11 @@ namespace Magelight\Webform\Models\Validation\Rules;
 class Required extends AbstractRule
 {
     /**
+     * @var string
+     */
+    protected $error = 'Field %s is required';
+
+    /**
      * Fron validator (jQueryValidator) rule name
      *
      * @var string
@@ -52,18 +57,5 @@ class Required extends AbstractRule
             !is_null($value)
             && $value !== ''
             && $value !== false;
-    }
-
-    /**
-     * Get error
-     *
-     * @return string
-     */
-    public function getError()
-    {
-        if (!empty($this->error)) {
-            return $this->error;
-        }
-        return __('Field %s is required', $this->getErrorArguments());
     }
 }

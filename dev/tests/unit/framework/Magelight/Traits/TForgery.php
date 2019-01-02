@@ -68,7 +68,6 @@ trait TForgery
      * Forge object
      *
      * @return mixed
-     * @throws \Magelight\Exception
      */
     public static function forge()
     {
@@ -79,8 +78,9 @@ trait TForgery
             return $object;
         }
         if (!self::_checkInterfaces($className)) {
-            throw new \Magelight\Exception(
-                "Forgery error: Class {$className} must implement all interfaces described in it`s override container!"
+            trigger_error(
+                "Forgery error: Class {$className} must implement all interfaces described in it`s override container!",
+                E_USER_ERROR
             );
         }
         $object = new $className;

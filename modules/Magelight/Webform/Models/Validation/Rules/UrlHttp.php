@@ -31,6 +31,11 @@ namespace Magelight\Webform\Models\Validation\Rules;
 class UrlHttp extends AbstractRule
 {
     /**
+     * @var string 
+     */
+    protected $error = 'Field %s must be a valid URL link';
+
+    /**
      * Fron validator (jQueryValidator) rule name
      *
      * @var string
@@ -55,18 +60,5 @@ class UrlHttp extends AbstractRule
             . "(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(\:[0-9]+)*"
             . "(/($|[a-zA-Z0-9\.\,\?\'\\\+&amp;%\$#\=~_\-]+))*$/i";
         return preg_match($regex, trim($value)) > 0;
-    }
-
-    /**
-     * Get error
-     *
-     * @return string
-     */
-    public function getError()
-    {
-        if (!empty($this->error)) {
-            return $this->error;
-        }
-        return __('Field %s must be a valid URL link', $this->getErrorArguments());
     }
 }

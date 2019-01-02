@@ -160,7 +160,7 @@ abstract class AbstractRule
     public function getError()
     {
         if (!empty($this->error)) {
-            return $this->error;
+            return __($this->error, $this->getErrorArguments());
         }
         return __('Common validation error');
     }

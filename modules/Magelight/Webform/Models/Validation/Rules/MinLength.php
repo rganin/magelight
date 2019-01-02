@@ -31,6 +31,11 @@ namespace Magelight\Webform\Models\Validation\Rules;
 class MinLength extends AbstractRule
 {
     /**
+     * @var string
+     */
+    protected $error = 'Field %s must contain at least %s characters';
+
+    /**
      * Fron validator (jQueryValidator) rule name
      *
      * @var string
@@ -59,18 +64,5 @@ class MinLength extends AbstractRule
     public function getFrontValidationParams()
     {
         return $this->arguments[0];
-    }
-
-    /**
-     * Get error
-     *
-     * @return string
-     */
-    public function getError()
-    {
-        if (!empty($this->error)) {
-            return $this->error;
-        }
-        return __('Field %s must contain at least %s characters', $this->getErrorArguments());
     }
 }

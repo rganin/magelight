@@ -96,6 +96,9 @@ class HookFactory
     public function loadHooksConfig()
     {
         $config = Config::getInstance()->getConfig('global/hooks');
+        if (!$config) {
+            return;
+        }
         foreach ($config->hook as $hook) {
             list($subjectClass, $subjectMethod) = explode('::', (string)$hook->subject);
             if (!empty($hook->before)) {

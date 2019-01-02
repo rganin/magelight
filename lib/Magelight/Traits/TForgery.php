@@ -43,14 +43,14 @@ trait TForgery
      * Forge object
      *
      * @return $this
-     * @throws \Magelight\Exception
      */
     public static function forge()
     {
         $className = self::getForgery()->getClassName(get_called_class());
         if (!self::checkInterfaces($className)) {
-            throw new \Magelight\Exception(
-                "Forgery error: Class {$className} must implement all interfaces described in it`s override container!"
+            trigger_error(
+                "Forgery error: Class {$className} must implement all interfaces described in it`s override container!",
+                E_USER_ERROR
             );
         }
         if (!HookFactory::getInstance()->hasHooks($className)) {

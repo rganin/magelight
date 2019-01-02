@@ -30,6 +30,11 @@ namespace Magelight\Webform\Models\Validation\Rules;
 class FileRestrictedExtensions extends AbstractRule
 {
     /**
+     * @var string
+     */
+    protected $error = 'File %s must have valid extension';
+
+    /**
      * Check value with rule
      * Returns:
      *    - true if rule passed.
@@ -49,18 +54,5 @@ class FileRestrictedExtensions extends AbstractRule
             }
         }
         return true;
-    }
-
-    /**
-     * Get error
-     *
-     * @return string
-     */
-    public function getError()
-    {
-        if (!empty($this->error)) {
-            return $this->error;
-        }
-        return __('File %s must have valid extension', $this->getErrorArguments());
     }
 }
